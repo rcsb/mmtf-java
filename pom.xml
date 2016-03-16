@@ -1,18 +1,42 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
 	<modelVersion>4.0.0</modelVersion>
-
-	<groupId>org.rcsb.mmtf</groupId>
-	<artifactId>specification</artifactId>
+	<groupId>org.rcsb</groupId>
+	<artifactId>mmtf</artifactId>
+	<packaging>pom</packaging>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>jar</packaging>
-
-	<name>decoder</name>
-	<url>http://maven.apache.org</url>
-
+	<name>mmtf</name>
+	<description>MMTF is .... 
+    </description>
+	<url>https://github.com/rcsb</url>
+	<organization>
+		<name>RCSB PDB</name>
+		<url>http://www.rcsb.org/</url>
+	</organization>
+	<licenses>
+		<license>
+			<name>Apache 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
 	<properties>
+		<jdk.version>1.8</jdk.version>
+		<maven.enforcer.jdk-version>1.8</maven.enforcer.jdk-version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.build.targetEncoding>UTF-8</project.build.targetEncoding>
+		<maxmem>512M</maxmem>
+		<slf4j.version>1.7.14</slf4j.version>
+		<log4j.version>2.5</log4j.version>
 	</properties>
+	<scm>
+		<connection>scm:git:git://github.com:rcsb/mmtf.git</connection>
+		<developerConnection>scm:git:git@github.com:rcsb/mmtf.git</developerConnection>
+		<url>https://github.com/rcsb/mmtf</url>
+
+		<tag>HEAD</tag>
+	</scm>
 
 	<dependencies>
 		<dependency>
@@ -40,7 +64,29 @@
 			</plugins>
 		</pluginManagement>
 	</build>
-
+	<developers>
+		<developer>
+			<id>andreas</id>
+			<name>Andreas Prlic</name>
+			<email>andreas.prlic@gmail.com</email>
+			<url>http://www.spice-3d.org</url>
+			<organization>University of California, San Diego</organization>
+			<organizationUrl>http://www.rcsb.org</organizationUrl>
+			<timezone>-9</timezone>
+			<properties>
+				<picUrl>http://tinyurl.com/mymsfga</picUrl>
+			</properties>
+		</developer>
+		<developer>
+			<id>anthony</id>
+			<name>Anthony Bradley</name>
+			<email>anthony.richard.bradley@gmail.com</email>
+			<url></url>
+			<organization>University of California, San Diego</organization>
+			<organizationUrl>http://www.rcsb.org</organizationUrl>
+			<timezone>-9</timezone>
+		</developer>
+	</developers>
 	<reporting>
 		<plugins>
 			<plugin>
@@ -62,6 +108,99 @@
 			</plugin>
 		</plugins>
 	</reporting>
+	<profiles>
 
+		<!-- Note: before you can use this build profile you need to set up an 
+			environment that contains correctly signed keys. Configure the keystore properties 
+			and the profile in ~/.m2/settings.xml -->
+		<profile>
+			<id>codesigning</id>
+			<activation>
+				<activeByDefault>false</activeByDefault>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-jarsigner-plugin</artifactId>
+						<version>1.4</version>
+						<executions>
+							<execution>
+								<id>sign</id>
+								<goals>
+									<goal>sign</goal>
+								</goals>
+							</execution>
+						</executions>
+
+						<configuration>
+
+							<verbose>true</verbose>
+							<certs>true</certs>
+							<storetype>${keystore.type}</storetype>
+							<keystore>${keystore.path}</keystore>
+							<alias>${keystore.alias}</alias>
+							<storepass>${keystore.store.password}</storepass>
+							<keypass>${keystore.key.password}</keypass>
+							<signedjar>${project.build.directory}/${project.build.finalName}.jar</signedjar>
+							<verify>true</verify>
+							<verbose>true</verbose>
+							<goal>sign</goal>
+							<arguments>
+								<argument>-tsa</argument>
+								<argument>https://timestamp.geotrust.com/tsa</argument>
+							</arguments>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+
+		<profile>
+			<id>release-sign-artifacts</id>
+			<activation>
+				<property>
+					<name>performRelease</name>
+					<value>true</value>
+				</property>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-gpg-plugin</artifactId>
+						<version>1.6</version>
+						<executions>
+							<execution>
+								<id>sign-artifacts</id>
+								<phase>verify</phase>
+								<goals>
+									<goal>sign</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+
+	</profiles>
+
+	<modules>
+		<module>mmtf-specification</module>
+		<module>mmtf-api</module>
+		<module>mmtf-decoder</module>
+		<module>mmtf-encoder</module>
+	</modules>
+	<inceptionYear>2000</inceptionYear>
+	<issueManagement>
+		<system>Github</system>
+		<url>https://github.com/biojava/biojava/issues</url>
+	</issueManagement>
+	<ciManagement>
+		<system>CruiseControl</system>
+		<url>http://ccpublic.rcsb.org/</url>
+	</ciManagement>
 
 </project>
