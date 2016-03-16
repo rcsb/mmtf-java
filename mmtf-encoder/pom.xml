@@ -6,12 +6,10 @@
         <artifactId>mmtf</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
-    <groupId>org.rcsb</groupId>
 	<artifactId>mmtf-encoder</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<name>biojavaencoder</name>
+	<name>mmtf-encoder</name>
 	<url>http://maven.apache.org</url>
 
 	<properties>
