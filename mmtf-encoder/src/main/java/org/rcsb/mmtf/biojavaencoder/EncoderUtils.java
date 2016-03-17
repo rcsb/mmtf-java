@@ -44,19 +44,19 @@ import com.fasterxml.jackson.core.JsonProcessingException;
  * @author Anthony Bradley
  */
 public class EncoderUtils implements Serializable {
-	
+
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 376413981384858130L;
-	
+
 	/** The class to get the git repo start */
 	private GetRepoState grs = new GetRepoState();
-	
+
 	/** A converter of doubles to ints. */
 	private BioCompressor doublesToInts = new CompressDoubles();
-	
+
 	/** The delta compressor of arrays. */
 	private IntArrayCompressor deltaComp = new FindDeltas();
-	
+
 	/** The run length compressor of arrays. */
 	private IntArrayCompressor runLengthComp = new RunLengthEncode();
 
@@ -116,8 +116,8 @@ public class EncoderUtils implements Serializable {
 		thisDistBeanTot.setAltLabelList(bioBean.get_atom_site_label_alt_id());
 		// Set this experimental data
 		thisDistBeanTot.setResolution(inHeader.getResolution());
-    thisDistBeanTot.setrFree(inHeader.getrFree());
-    thisDistBeanTot.setrWork(inHeader.getrWork());
+		thisDistBeanTot.setrFree(inHeader.getrFree());
+		thisDistBeanTot.setrWork(inHeader.getrWork());
 		// Copy the asym data
 		thisDistBeanTot.setChainIdList(inHeader.getAsymChainList());
 		thisDistBeanTot.setChainsPerModel(inHeader.getAsymChainsPerModel());
@@ -274,7 +274,7 @@ public class EncoderUtils implements Serializable {
 	public CoreSingleStructure compressHadoopStruct(BioDataStruct inputBioDataStruct) {
 
 		CoreSingleStructure outStruct;
-    outStruct = doublesToInts.compresStructure(inputBioDataStruct);
+		outStruct = doublesToInts.compresStructure(inputBioDataStruct);
 		// Get the input structure
 		NoFloatDataStruct inStruct =  (NoFloatDataStruct) outStruct;
 		ArrayList<Integer> cartnX = (ArrayList<Integer>) inStruct.get_atom_site_Cartn_xInt();
@@ -361,7 +361,7 @@ public class EncoderUtils implements Serializable {
 		calphaOut.setGroupNumList(cm.integersToBytes(runLengthComp.compressIntArray(deltaComp.compressIntArray((ArrayList<Integer>) calphaStruct.get_atom_site_auth_seq_id()))));
 		return calphaOut;
 	}
-	
+
 	/**
 	 * Set up the configuration parameters for BioJava.
 	 */
