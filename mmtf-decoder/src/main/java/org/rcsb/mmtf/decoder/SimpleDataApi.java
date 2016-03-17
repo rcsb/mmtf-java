@@ -3,7 +3,6 @@ package org.rcsb.mmtf.decoder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.rcsb.mmtf.api.DataApiInterface;
 import org.rcsb.mmtf.dataholders.BioAssemblyInfoNew;
@@ -45,9 +44,6 @@ public class SimpleDataApi implements DataApiInterface {
 	/** The group list. */
 	private int[] groupList;
 
-	/** The last count. */
-	private int lastAtomCount;
-
 	/** The sequence ids of the groups */
 	private int[] seqResGroupList;
 
@@ -81,21 +77,6 @@ public class SimpleDataApi implements DataApiInterface {
 	/** The chosen list of chain ids */
 	private String[] chainList;
 
-	/** The counter for the models */
-	private int modelCounter;
-
-	/** The counter for the groups (residues) */
-	private int groupCounter;
-
-	/** The counter for the chains */
-	private int chainCounter;
-
-	/** The counter for atoms in a group */
-	private int atomCounter;
-
-	/** A unique set of lists for each model */
-	private Set<String> chainIdSet;
-
 	/** The sequence information. An entry for each chain. In a list.  */
 	private List<String> sequenceInfo;
 
@@ -108,15 +89,9 @@ public class SimpleDataApi implements DataApiInterface {
 	/** A list containing pdb group names for nucleic acids */
 	List<String> nucAcidList = new ArrayList<>();
 
-	/** The pdbx_description of a given chain (entity) */
-	private String[] chainDescription;
+	/** The list of entities in this structure. */
+	private Entity[] entityList;
 
-	/** The type of a given chain (entity) */
-	private String[] chainType;
-
-  /** The list of entities in this structure. */
-  private Entity[] entityList;
-	
 	/** The PDB id	 */
 	private String pdbId;
 
@@ -297,22 +272,6 @@ public class SimpleDataApi implements DataApiInterface {
 	}
 
 	/* (non-Javadoc)
-	 * @see org.rcsb.mmtf.decoder.DataApiInterface#getLastAtomCount()
-	 */
-	@Override
-	public int getLastAtomCount() {
-		return lastAtomCount;
-	}
-
-	/* (non-Javadoc)
-	 * @see org.rcsb.mmtf.decoder.DataApiInterface#setLastAtomCount(int)
-	 */
-	@Override
-	public void setLastAtomCount(int lastAtomCount) {
-		this.lastAtomCount = lastAtomCount;
-	}
-
-	/* (non-Javadoc)
 	 * @see org.rcsb.mmtf.decoder.DataApiInterface#getSeqResGroupList()
 	 */
 	@Override
@@ -489,86 +448,6 @@ public class SimpleDataApi implements DataApiInterface {
 	}
 
 	/* (non-Javadoc)
-	 * @see org.rcsb.mmtf.decoder.DataApiInterface#getModelCounter()
-	 */
-	@Override
-	public int getModelCounter() {
-		return modelCounter;
-	}
-
-	/* (non-Javadoc)
-	 * @see org.rcsb.mmtf.decoder.DataApiInterface#setModelCounter(int)
-	 */
-	@Override
-	public void setModelCounter(int modelCounter) {
-		this.modelCounter = modelCounter;
-	}
-
-	/* (non-Javadoc)
-	 * @see org.rcsb.mmtf.decoder.DataApiInterface#getGroupCounter()
-	 */
-	@Override
-	public int getGroupCounter() {
-		return groupCounter;
-	}
-
-	/* (non-Javadoc)
-	 * @see org.rcsb.mmtf.decoder.DataApiInterface#setGroupCounter(int)
-	 */
-	@Override
-	public void setGroupCounter(int groupCounter) {
-		this.groupCounter = groupCounter;
-	}
-
-	/* (non-Javadoc)
-	 * @see org.rcsb.mmtf.decoder.DataApiInterface#getChainCounter()
-	 */
-	@Override
-	public int getChainCounter() {
-		return chainCounter;
-	}
-
-	/* (non-Javadoc)
-	 * @see org.rcsb.mmtf.decoder.DataApiInterface#setChainCounter(int)
-	 */
-	@Override
-	public void setChainCounter(int chainCounter) {
-		this.chainCounter = chainCounter;
-	}
-
-	/* (non-Javadoc)
-	 * @see org.rcsb.mmtf.decoder.DataApiInterface#getAtomCounter()
-	 */
-	@Override
-	public int getAtomCounter() {
-		return atomCounter;
-	}
-
-	/* (non-Javadoc)
-	 * @see org.rcsb.mmtf.decoder.DataApiInterface#setAtomCounter(int)
-	 */
-	@Override
-	public void setAtomCounter(int atomCounter) {
-		this.atomCounter = atomCounter;
-	}
-
-	/* (non-Javadoc)
-	 * @see org.rcsb.mmtf.decoder.DataApiInterface#getChainIdSet()
-	 */
-	@Override
-	public Set<String> getChainIdSet() {
-		return chainIdSet;
-	}
-
-	/* (non-Javadoc)
-	 * @see org.rcsb.mmtf.decoder.DataApiInterface#setChainIdSet(java.util.Set)
-	 */
-	@Override
-	public void setChainIdSet(Set<String> chainIdSet) {
-		this.chainIdSet = chainIdSet;
-	}
-
-	/* (non-Javadoc)
 	 * @see org.rcsb.mmtf.decoder.DataApiInterface#getSequenceInfo()
 	 */
 	@Override
@@ -616,53 +495,6 @@ public class SimpleDataApi implements DataApiInterface {
 		this.mmtfProducer = mmtfProducer;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.rcsb.mmtf.decoder.DataApiInterface#getNucAcidList()
-	 */
-	@Override
-	public List<String> getNucAcidList() {
-		return nucAcidList;
-	}
-
-	/* (non-Javadoc)
-	 * @see org.rcsb.mmtf.decoder.DataApiInterface#setNucAcidList(java.util.List)
-	 */
-	@Override
-	public void setNucAcidList(List<String> nucAcidList) {
-		this.nucAcidList = nucAcidList;
-	}
-
-	/* (non-Javadoc)
-	 * @see org.rcsb.mmtf.decoder.DataApiInterface#getChainDescription()
-	 */
-	@Override
-	public String[] getChainDescription() {
-		return chainDescription;
-	}
-
-	/* (non-Javadoc)
-	 * @see org.rcsb.mmtf.decoder.DataApiInterface#setChainDescription(java.lang.String[])
-	 */
-	@Override
-	public void setChainDescription(String[] chainDescription) {
-		this.chainDescription = chainDescription;
-	}
-
-	/* (non-Javadoc)
-	 * @see org.rcsb.mmtf.decoder.DataApiInterface#getChainType()
-	 */
-	@Override
-	public String[] getChainType() {
-		return chainType;
-	}
-
-	/* (non-Javadoc)
-	 * @see org.rcsb.mmtf.decoder.DataApiInterface#setChainType(java.lang.String[])
-	 */
-	@Override
-	public void setChainType(String[] chainType) {
-		this.chainType = chainType;
-	}
 
 	/* (non-Javadoc)
 	 * @see org.rcsb.mmtf.decoder.DataApiInterface#getEntityList()
