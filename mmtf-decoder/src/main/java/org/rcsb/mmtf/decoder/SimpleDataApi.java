@@ -47,9 +47,6 @@ public class SimpleDataApi implements DataApiInterface {
 	/** The sequence ids of the groups */
 	private int[] seqResGroupList;
 
-	/** The internal chain ids*/
-	private String[] internalChainIds;
-
 	/** The public facing chain ids*/
 	private String[] publicChainIds;
 
@@ -285,22 +282,6 @@ public class SimpleDataApi implements DataApiInterface {
 	@Override
 	public void setSeqResGroupList(int[] seqResGroupList) {
 		this.seqResGroupList = seqResGroupList;
-	}
-
-	/* (non-Javadoc)
-	 * @see org.rcsb.mmtf.decoder.DataApiInterface#getInternalChainIds()
-	 */
-	@Override
-	public String[] getInternalChainIds() {
-		return internalChainIds;
-	}
-
-	/* (non-Javadoc)
-	 * @see org.rcsb.mmtf.decoder.DataApiInterface#setInternalChainIds(java.lang.String[])
-	 */
-	@Override
-	public void setInternalChainIds(String[] internalChainIds) {
-		this.internalChainIds = internalChainIds;
 	}
 
 	/* (non-Javadoc)
