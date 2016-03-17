@@ -54,7 +54,7 @@ public class CalphaDistBean {
 	
 	/** The group num list. */
 	// Delta and run length
-	private byte[] groupNumList;
+	private byte[] groupIdList;
 	
 	/** The group type list. */
 	private byte[] groupTypeList;
@@ -92,7 +92,7 @@ public class CalphaDistBean {
 	
 	/** The chain list. */
 	// List to store the chainids
-	private byte[] chainList;
+	private byte[] chainIdList;
 	
 	/** The groups per chain. */
 	// List to store the number of groups per chain
@@ -233,8 +233,8 @@ public class CalphaDistBean {
 	 *
 	 * @return the chain list
 	 */
-	public byte[] getChainList() {
-		return chainList;
+	public byte[] getChainIdList() {
+		return chainIdList;
 	}
 	
 	/**
@@ -242,8 +242,8 @@ public class CalphaDistBean {
 	 *
 	 * @param chainList the new chain list
 	 */
-	public void setChainList(byte[] chainList) {
-		this.chainList = chainList;
+	public void setChainIdList(byte[] chainList) {
+		this.chainIdList = chainList;
 	}
 	
 	/**
@@ -287,8 +287,8 @@ public class CalphaDistBean {
 	 *
 	 * @return the group num list
 	 */
-	public byte[] getGroupNumList() {
-		return groupNumList;
+	public byte[] getGroupIdList() {
+		return groupIdList;
 	}
 	
 	/**
@@ -296,8 +296,8 @@ public class CalphaDistBean {
 	 *
 	 * @param _atom_site_auth_seq_id the new group num list
 	 */
-	public void setGroupNumList(byte[] _atom_site_auth_seq_id) {
-		this.groupNumList = _atom_site_auth_seq_id;
+	public void setGroupIdList(byte[] _atom_site_auth_seq_id) {
+		this.groupIdList = _atom_site_auth_seq_id;
 	}
 	
 	/**

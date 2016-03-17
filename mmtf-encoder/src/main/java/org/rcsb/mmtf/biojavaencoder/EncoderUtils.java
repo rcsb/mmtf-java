@@ -335,7 +335,7 @@ public class EncoderUtils implements Serializable {
 		// Set this header info
 		calphaOut.setChainsPerModel(inHeader.getChainsPerModel());
 		calphaOut.setGroupsPerChain(calphaStruct.getGroupsPerChain());
-		calphaOut.setChainList(inHeader.getChainList());
+		calphaOut.setChainIdList(inHeader.getChainList());
 		calphaOut.setNumAtoms(calphaStruct.getNumAtoms());
 		// Write the secondary stucture out
 		calphaOut.setSecStructList(cm.integersToSmallBytes(calphaStruct.getSecStruct()));
@@ -358,7 +358,7 @@ public class EncoderUtils implements Serializable {
 		calphaOut.setzCoordBig(bigAndLittleZ.get(0));
 		calphaOut.setzCoordSmall(bigAndLittleZ.get(1));	
 		// THESE ONES CAN BE RUN LENGTH ON DELTA
-		calphaOut.setGroupNumList(cm.integersToBytes(runLengthComp.compressIntArray(deltaComp.compressIntArray((ArrayList<Integer>) calphaStruct.get_atom_site_auth_seq_id()))));
+		calphaOut.setGroupIdList(cm.integersToBytes(runLengthComp.compressIntArray(deltaComp.compressIntArray((ArrayList<Integer>) calphaStruct.get_atom_site_auth_seq_id()))));
 		return calphaOut;
 	}
 
