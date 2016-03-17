@@ -23,8 +23,8 @@
 			<version>1.8.3</version>
 		</dependency>
 		<dependency>
-			<groupId>org.codec</groupId>
-			<artifactId>decoder</artifactId>
+			<groupId>org.rcsb</groupId>
+			<artifactId>mmtf-decoder</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
