@@ -2,7 +2,6 @@ package org.rcsb.mmtf.api;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.rcsb.mmtf.dataholders.BioAssemblyInfoNew;
 import org.rcsb.mmtf.dataholders.Entity;
