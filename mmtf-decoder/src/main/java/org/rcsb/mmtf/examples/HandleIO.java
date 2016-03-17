@@ -43,7 +43,6 @@ public class HandleIO {
 		try {
 			return getFromUrl(inputCode);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			throw new RuntimeException(e);
 		}
@@ -144,7 +143,7 @@ public class HandleIO {
 			return null;
 		}
 		// Now return it
-		return inputByteArr;
+		return deflateGzip(inputByteArr);
 	}
 
 	/**
