@@ -748,13 +748,13 @@ public class ParseFromBiojava {
         if(matSet.containsKey(currentTransMat)){
           // Get it 
           BioAssemblyTrans bioTransNew = matSet.get(currentTransMat);
-          bioTransNew.getChainId().add(thisChain);
+          bioTransNew.getChainIdList().add(thisChain);
         }
         else{
           // Create a new one
           BioAssemblyTrans bioTransNew = new BioAssemblyTrans();
           bioTransNew.setTransformation(outList);
-          bioTransNew.getChainId().add(thisChain);
+          bioTransNew.getChainIdList().add(thisChain);
           matSet.put(currentTransMat, bioTransNew);
         }
       }

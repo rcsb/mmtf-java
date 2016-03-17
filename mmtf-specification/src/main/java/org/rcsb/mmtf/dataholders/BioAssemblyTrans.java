@@ -28,7 +28,7 @@ Serializable {
 
 
   /** The chain id. */
-  private List<String> chainId = new ArrayList<String>();
+  private List<String> chainIdList = new ArrayList<String>();
 
   /** The transformation. */
   private double[] transformation;
@@ -57,8 +57,8 @@ Serializable {
    *
    * @return the chain id
    */
-  public final List<String> getChainId() {
-    return chainId;
+  public final List<String> getChainIdList() {
+    return chainIdList;
   }
 
   /**
@@ -66,8 +66,8 @@ Serializable {
    *
    * @param inputChainId the new chain id
    */
-  public final void setChainId(final List<String> inputChainId) {
-    this.chainId = inputChainId;
+  public final void setChainIdList(final List<String> inputChainId) {
+    this.chainIdList = inputChainId;
   }
 
 }
