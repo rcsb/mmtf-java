@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.rcsb.mmtf.dataholders.BioAssemblyInfoNew;
+import org.rcsb.mmtf.dataholders.BioAssemblyData;
 
 /**
  * Class to store header information in a bean that can be converted to a messagepack.
@@ -111,7 +111,7 @@ public class HeaderBean {
 	private List<Float> unitCell = new ArrayList<Float>(); 
 	
 	/** The bio assembly. */
-	private Map<Integer, BioAssemblyInfoNew> bioAssembly = new HashMap<Integer, BioAssemblyInfoNew>(); 
+	private Map<Integer, BioAssemblyData> bioAssembly = new HashMap<Integer, BioAssemblyData>(); 
 	  
 	public HeaderBean() {
 	  resolution = (float) -1.0;
@@ -415,7 +415,7 @@ public class HeaderBean {
 	 *
 	 * @return the bio assembly
 	 */
-	public Map<Integer, BioAssemblyInfoNew> getBioAssembly() {
+	public Map<Integer, BioAssemblyData> getBioAssembly() {
 		return bioAssembly;
 	}
 	
@@ -424,7 +424,7 @@ public class HeaderBean {
 	 *
 	 * @param bioAssembly the bio assembly
 	 */
-	public void setBioAssembly(Map<Integer, BioAssemblyInfoNew> bioAssembly) {
+	public void setBioAssembly(Map<Integer, BioAssemblyData> bioAssembly) {
 		this.bioAssembly = bioAssembly;
 	}
 	

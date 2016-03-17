@@ -19,15 +19,13 @@ import java.util.List;
  * @author duarte_j
  * @author Anthony Bradley
  */
-public class BiologicalAssemblyTransformationNew implements Cloneable,
+public class BioAssemblyTrans implements Cloneable,
 Serializable {
 
 
   /** The Constant serialVersionUID. */
   private static final long serialVersionUID = -8109941242652091495L;
 
-  /** The id. */
-  private String id;
 
   /** The chain id. */
   private List<String> chainId = new ArrayList<String>();
@@ -35,23 +33,6 @@ Serializable {
   /** The transformation. */
   private double[] transformation;
 
-  /**
-   * Gets the id.
-   *
-   * @return the id
-   */
-  public final String getId() {
-    return id;
-  }
-
-  /**
-   * Sets the id.
-   *
-   * @param inputId the new id
-   */
-  public final void setId(final String inputId) {
-    this.id = inputId;
-  }
 
   /**
    * Gets the transformation.
@@ -88,4 +69,5 @@ Serializable {
   public final void setChainId(final List<String> inputChainId) {
     this.chainId = inputChainId;
   }
+
 }

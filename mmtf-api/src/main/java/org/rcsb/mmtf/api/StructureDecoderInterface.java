@@ -3,6 +3,8 @@ package org.rcsb.mmtf.api;
 import java.util.List;
 import java.util.Map;
 
+import org.rcsb.mmtf.dataholders.BioAssemblyData;
+
 /**
  * Interface to inflate a given mmtf data source.
  *
@@ -82,11 +84,7 @@ public interface StructureDecoderInterface {
    * @param bioassemblyToTransformationsMap the map of bioassembly
    * to the list of transformations
    */
-  void setBioAssembly(Map<Integer, Integer> keyToIndexMap, Map<Integer,
-      Integer> sizeMap, Map<Integer, List<String>> bioAssemblyToIdsMap,
-      Map<Integer,
-      List<String>> bioassemblyToChainIdsMap, Map<Integer, List<double[]>>
-  bioassemblyToTransformationsMap);
+  void setBioAssembly(Map<Integer, BioAssemblyData> inputBioassemblies);
 
   /**
    * Sets the space group and unit cell information.

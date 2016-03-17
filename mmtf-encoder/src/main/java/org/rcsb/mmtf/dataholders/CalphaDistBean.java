@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.rcsb.mmtf.dataholders.BioAssemblyInfoNew;
+import org.rcsb.mmtf.dataholders.BioAssemblyData;
 import org.rcsb.mmtf.dataholders.PDBGroup;
 
 /**
@@ -46,7 +46,7 @@ public class CalphaDistBean {
 	
 	/** The bio assembly. */
 	// A map of Bioassembly -> new class so serializable
-	private Map<Integer, BioAssemblyInfoNew> bioAssembly = new HashMap<Integer, BioAssemblyInfoNew>(); 
+	private Map<Integer, BioAssemblyData> bioAssembly = new HashMap<Integer, BioAssemblyData>(); 
 	
 	/** The group map. */
 	// The list of sequence information
@@ -179,7 +179,7 @@ public class CalphaDistBean {
 	 *
 	 * @return the bio assembly
 	 */
-	public Map<Integer, BioAssemblyInfoNew> getBioAssembly() {
+	public Map<Integer, BioAssemblyData> getBioAssembly() {
 		return bioAssembly;
 	}
 	
@@ -188,7 +188,7 @@ public class CalphaDistBean {
 	 *
 	 * @param bioAssembly the bio assembly
 	 */
-	public void setBioAssembly(Map<Integer, BioAssemblyInfoNew> bioAssembly) {
+	public void setBioAssembly(Map<Integer, BioAssemblyData> bioAssembly) {
 		this.bioAssembly = bioAssembly;
 	}
 	

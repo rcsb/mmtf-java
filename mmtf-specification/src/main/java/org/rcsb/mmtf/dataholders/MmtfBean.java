@@ -50,7 +50,7 @@ public class MmtfBean {
 	private List<Float> unitCell;
 
 	/** The bio assembly. */
-	private Map<Integer, BioAssemblyInfoNew> bioAssembly;
+	private Map<Integer, BioAssemblyData> bioAssembly;
 
 	/** The bond atom (indices) list. */
 	private byte[] bondAtomList;
@@ -416,7 +416,7 @@ public class MmtfBean {
 	 *
 	 * @return the bio assembly
 	 */
-	public final Map<Integer, BioAssemblyInfoNew> getBioAssembly() {
+	public final Map<Integer, BioAssemblyData> getBioAssembly() {
 		return bioAssembly;
 	}
 
@@ -444,7 +444,7 @@ public class MmtfBean {
 	 * @param inputBioAssembly the bio assembly
 	 */
 	public final void setBioAssembly(final Map<Integer,
-			BioAssemblyInfoNew> inputBioAssembly) {
+			BioAssemblyData> inputBioAssembly) {
 		this.bioAssembly = inputBioAssembly;
 	}
 

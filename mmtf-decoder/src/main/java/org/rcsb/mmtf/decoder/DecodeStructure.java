@@ -3,11 +3,9 @@ package org.rcsb.mmtf.decoder;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 
 import org.apache.commons.beanutils.BeanUtils;
@@ -18,8 +16,7 @@ import org.rcsb.mmtf.arraydecompressors.DeltaDeCompress;
 import org.rcsb.mmtf.arraydecompressors.RunLengthDecodeInt;
 import org.rcsb.mmtf.arraydecompressors.RunLengthDecodeString;
 import org.rcsb.mmtf.arraydecompressors.RunLengthDelta;
-import org.rcsb.mmtf.dataholders.BioAssemblyInfoNew;
-import org.rcsb.mmtf.dataholders.BiologicalAssemblyTransformationNew;
+import org.rcsb.mmtf.dataholders.BioAssemblyData;
 import org.rcsb.mmtf.dataholders.Entity;
 import org.rcsb.mmtf.dataholders.MmtfBean;
 import org.rcsb.mmtf.dataholders.PDBGroup;
@@ -98,7 +95,7 @@ public class DecodeStructure {
 	private List<Float> unitCell;
 
 	/** The bioassembly information for the structure*/
-	private Map<Integer, BioAssemblyInfoNew> bioAssembly;
+	private Map<Integer, BioAssemblyData> bioAssembly;
 
 	/** The bond indices for bonds between groups*/
 	private int[] interGroupBondIndices;
@@ -395,41 +392,7 @@ public class DecodeStructure {
 	 * Parses the bioassembly data and inputs it to the structure inflator
 	 */
 	private void generateBioAssembly() {
-		Map<Integer, BioAssemblyInfoNew> bioAss = bioAssembly;
-		// The maps for storing the bioassembly information
-		Map<Integer, Integer> keyList = new HashMap<>();
-		Map<Integer, Integer> sizeList = new HashMap<>();
-		Map<Integer, List<String>> inputIds = new HashMap<>();
-		Map<Integer, List<String>> inputChainIds = new HashMap<>();
-		Map<Integer, List<double[]>> inputTransformations = new HashMap<>();
-		// Now iterate over the sntries
-		for (Entry<Integer, BioAssemblyInfoNew> entry : bioAss.entrySet()) {
-			// Get the bioassembly info
-			BioAssemblyInfoNew bioAssOld = entry.getValue();
-			int key = entry.getKey();
-			keyList.put(key, bioAssOld.getId());
-			sizeList.put(key, bioAssOld.getMacromolecularSize());
-			List<String> idList = new ArrayList<>();
-			List<String> chainIdList = new ArrayList<>();
-			List<double[]> transformList = new ArrayList<>();
-			for (BiologicalAssemblyTransformationNew
-					bioTrans:bioAssOld.getTransforms()) {
-				double[] trans = bioTrans.getTransformation();
-				String id = bioTrans.getId();
-				for (String chainId: bioTrans.getChainId()) {
-					idList.add(id);
-					chainIdList.add(chainId);
-					transformList.add(trans);
-				}
-			}
-			// Now just add these different transforms
-			inputIds.put(key, idList);
-			inputChainIds.put(key, chainIdList);
-			inputTransformations.put(key, transformList);
-		}
-		// Set the bioassembly information
-		structInflator.setBioAssembly(keyList, sizeList,
-				inputIds, inputChainIds, inputTransformations);    
+		structInflator.setBioAssembly(bioAssembly);    
 	}
 
 
@@ -586,11 +549,11 @@ public class DecodeStructure {
 		this.unitCell = unitCell;
 	}
 
-	public Map<Integer, BioAssemblyInfoNew> getBioAssembly() {
+	public Map<Integer, BioAssemblyData> getBioAssembly() {
 		return bioAssembly;
 	}
 
-	public void setBioAssembly(Map<Integer, BioAssemblyInfoNew> bioAssembly) {
+	public void setBioAssembly(Map<Integer, BioAssemblyData> bioAssembly) {
 		this.bioAssembly = bioAssembly;
 	}
 

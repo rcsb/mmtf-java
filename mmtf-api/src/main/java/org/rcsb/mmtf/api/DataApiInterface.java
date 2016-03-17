@@ -3,7 +3,7 @@ package org.rcsb.mmtf.api;
 import java.util.List;
 import java.util.Map;
 
-import org.rcsb.mmtf.dataholders.BioAssemblyInfoNew;
+import org.rcsb.mmtf.dataholders.BioAssemblyData;
 import org.rcsb.mmtf.dataholders.Entity;
 import org.rcsb.mmtf.dataholders.PDBGroup;
 
@@ -180,9 +180,9 @@ public interface DataApiInterface {
 	 * Returns the bioassmebly information as a map
 	 * @return
 	 */
-	Map<Integer, BioAssemblyInfoNew> getBioAssembly();
+	Map<Integer, BioAssemblyData> getBioAssembly();
 
-	void setBioAssembly(Map<Integer, BioAssemblyInfoNew> bioAssembly);
+	void setBioAssembly(Map<Integer, BioAssemblyData> bioAssembly);
 
 
 	/**

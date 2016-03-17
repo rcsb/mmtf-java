@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.rcsb.mmtf.api.DataApiInterface;
-import org.rcsb.mmtf.dataholders.BioAssemblyInfoNew;
+import org.rcsb.mmtf.dataholders.BioAssemblyData;
 import org.rcsb.mmtf.dataholders.Entity;
 import org.rcsb.mmtf.dataholders.PDBGroup;
 
@@ -63,7 +63,7 @@ public class SimpleDataApi implements DataApiInterface {
 	private List<Float> unitCell;
 
 	/** The bioassembly information for the structure*/
-	private Map<Integer, BioAssemblyInfoNew> bioAssembly;
+	private Map<Integer, BioAssemblyData> bioAssembly;
 
 	/** The bond indices for bonds between groups*/
 	private int[] interGroupBondIndices;
@@ -368,7 +368,7 @@ public class SimpleDataApi implements DataApiInterface {
 	 * @see org.rcsb.mmtf.decoder.DataApiInterface#getBioAssembly()
 	 */
 	@Override
-	public Map<Integer, BioAssemblyInfoNew> getBioAssembly() {
+	public Map<Integer, BioAssemblyData> getBioAssembly() {
 		return bioAssembly;
 	}
 
@@ -376,7 +376,7 @@ public class SimpleDataApi implements DataApiInterface {
 	 * @see org.rcsb.mmtf.decoder.DataApiInterface#setBioAssembly(java.util.Map)
 	 */
 	@Override
-	public void setBioAssembly(Map<Integer, BioAssemblyInfoNew> bioAssembly) {
+	public void setBioAssembly(Map<Integer, BioAssemblyData> bioAssembly) {
 		this.bioAssembly = bioAssembly;
 	}
 

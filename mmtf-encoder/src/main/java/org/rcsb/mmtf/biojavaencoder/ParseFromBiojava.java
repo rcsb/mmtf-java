@@ -33,9 +33,9 @@ import org.biojava.nbio.structure.secstruc.SecStrucCalc;
 import org.biojava.nbio.structure.secstruc.SecStrucState;
 import org.biojava.nbio.structure.xtal.CrystalCell;
 import org.biojava.nbio.structure.xtal.SpaceGroup;
-import org.rcsb.mmtf.dataholders.BioAssemblyInfoNew;
+import org.rcsb.mmtf.dataholders.BioAssemblyData;
 import org.rcsb.mmtf.dataholders.BioDataStruct;
-import org.rcsb.mmtf.dataholders.BiologicalAssemblyTransformationNew;
+import org.rcsb.mmtf.dataholders.BioAssemblyTrans;
 import org.rcsb.mmtf.dataholders.CalphaBean;
 import org.rcsb.mmtf.dataholders.CodeHolders;
 import org.rcsb.mmtf.dataholders.Entity;
@@ -461,7 +461,7 @@ public class ParseFromBiojava {
     }
     // GET THE HEADER INFORMATION
     PDBHeader header = bioJavaStruct.getPDBHeader();
-    Map<Integer, BioAssemblyInfoNew> outMap = generateSerializableBioAssembly(bioJavaStruct, header);
+    Map<Integer, BioAssemblyData> outMap = generateSerializableBioAssembly(bioJavaStruct, header);
     headerStruct.setBioAssembly(outMap);
     headerStruct.setTitle(header.getTitle());
     headerStruct.setDescription(header.getDescription());
@@ -715,27 +715,24 @@ public class ParseFromBiojava {
    * @param header the header
    * @return a map of the bioassembly information that is serializable
    */
-  private Map<Integer, BioAssemblyInfoNew> generateSerializableBioAssembly(Structure bioJavaStruct, PDBHeader header) {
+  private Map<Integer, BioAssemblyData> generateSerializableBioAssembly(Structure bioJavaStruct, PDBHeader header) {
     // Here we need to iterate through and get the chain ids and the matrices
     Map<Integer, BioAssemblyInfo> inputBioAss = header.getBioAssemblies();
-    Map<Integer, BioAssemblyInfoNew> outMap = new HashMap<Integer,BioAssemblyInfoNew>();
+    Map<Integer, BioAssemblyData> outMap = new HashMap<Integer,BioAssemblyData>();
 
 
     for (Map.Entry<Integer, BioAssemblyInfo> entry : inputBioAss.entrySet()) {
-      Map<Matrix4d,BiologicalAssemblyTransformationNew> matSet = new HashMap<Matrix4d,BiologicalAssemblyTransformationNew>();
+      Map<Matrix4d,BioAssemblyTrans> matSet = new HashMap<Matrix4d,BioAssemblyTrans>();
       Integer key = entry.getKey();
       BioAssemblyInfo value = entry.getValue();
       // Make a new one of these
-      BioAssemblyInfoNew newValue = new BioAssemblyInfoNew();
+      BioAssemblyData newValue = new BioAssemblyData();
+      newValue.setMacroMolecularSize(value.getMacromolecularSize());
       outMap.put(key, newValue);
       // Copy across this info
-      newValue.setMacromolecularSize(value.getMacromolecularSize());
-      newValue.setId(value.getId());
-      List<BiologicalAssemblyTransformationNew> outTrans = new ArrayList<BiologicalAssemblyTransformationNew>();
+      List<BioAssemblyTrans> outTrans = new ArrayList<BioAssemblyTrans>();
       for(BiologicalAssemblyTransformation transform: value.getTransforms()){
 
-        // Get the chain and the matrix
-        String thisId = transform.getId();
         // Get's the chain id -> this is the asym id
         String thisChain = transform.getChainId();
         // Get the current matrix 4d
@@ -750,19 +747,18 @@ public class ParseFromBiojava {
         }
         if(matSet.containsKey(currentTransMat)){
           // Get it 
-          BiologicalAssemblyTransformationNew bioTransNew = matSet.get(currentTransMat);
+          BioAssemblyTrans bioTransNew = matSet.get(currentTransMat);
           bioTransNew.getChainId().add(thisChain);
         }
         else{
           // Create a new one
-          BiologicalAssemblyTransformationNew bioTransNew = new BiologicalAssemblyTransformationNew();
+          BioAssemblyTrans bioTransNew = new BioAssemblyTrans();
           bioTransNew.setTransformation(outList);
-          bioTransNew.setId(thisId);
           bioTransNew.getChainId().add(thisChain);
           matSet.put(currentTransMat, bioTransNew);
         }
       }
-      for(BiologicalAssemblyTransformationNew thisTrans: matSet.values()){
+      for(BioAssemblyTrans thisTrans: matSet.values()){
         outTrans.add(thisTrans);
       }
       // Set the transform information
