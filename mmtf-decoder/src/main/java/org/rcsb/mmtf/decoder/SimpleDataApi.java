@@ -509,4 +509,38 @@ public class SimpleDataApi implements DataApiInterface {
 		this.pdbId = pdbId;
 	}
 
+	
+	/* (non-Javadoc)
+	 * @see org.rcsb.mmtf.decoder.DataApiInterface#getNumResiudes()
+	 */
+	@Override
+	public int getNumResiudes() {
+		return this.groupList.length;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.rcsb.mmtf.decoder.DataApiInterface#getNumChains()
+	 */
+	@Override
+	public int getNumChains() {
+		return this.chainList.length;
+	}
+
+	
+	/* (non-Javadoc)
+	 * @see org.rcsb.mmtf.decoder.DataApiInterface#getNumModels()
+	 */
+	@Override
+	public int getNumModels() {	
+		return this.chainsPerModel.length;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.rcsb.mmtf.decoder.DataApiInterface#getNumAtoms()
+	 */
+	@Override
+	public int getNumAtoms() {
+		return this.cartnX.length;
+	}
+
 }

@@ -9,7 +9,6 @@ import org.rcsb.mmtf.dataholders.PDBGroup;
 
 public interface DataApiInterface {
 
-	// TODO Needs a test to ensure that none of the fields are empty using a standard converson
 	/**
 	 * Returns a list of length N atoms of the X coords of the atoms as Integers.
 	 * They must be divided by 1000.0 to be in float form.
@@ -258,5 +257,26 @@ public interface DataApiInterface {
 	String getPdbId();
 
 	void setPdbId(String pdbId);
+	
+	/**
+	 * Returns the number of groups (residues) in the file
+	 */
+	int getNumResiudes();
+	
+	
+	/**
+	 * Returns the number of chains in the total structure
+	 */
+	int getNumChains();
 
+	/**
+	 * Returns the number of models in the total structure
+	 */
+	int getNumModels();
+	
+
+	/**
+	 * Returns the number of atoms in the total structure
+	 */
+	int getNumAtoms();
 }
