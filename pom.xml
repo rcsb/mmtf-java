@@ -650,7 +650,19 @@
 					<!-- END OF GIT COMMIT ID PLUGIN CONFIGURATION -->
 
 					<!-- other plugins -->
-
+				</plugins>
+			</build>
+		</profile>
+		<profile>
+			<id>release-sign-artifacts</id>
+			<activation>
+				<property>
+					<name>performRelease</name>
+					<value>true</value>
+				</property>
+			</activation>
+			<build>
+				<plugins>
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-gpg-plugin</artifactId>
@@ -668,7 +680,6 @@
 				</plugins>
 			</build>
 		</profile>
-
 	</profiles>
 
 	<modules>
