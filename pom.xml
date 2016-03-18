@@ -38,7 +38,6 @@
 		<maxmem>512M</maxmem>
 		<slf4j.version>1.7.14</slf4j.version>
 		<log4j.version>2.5</log4j.version>
-		<maven.javadoc.failOnError>false</maven.javadoc.failOnError>
 	</properties>
 	<scm>
 		<connection>scm:git:git://github.com:rcsb/mmtf.git</connection>
@@ -86,6 +85,10 @@
 							</pluginExecutions>
 						</lifecycleMappingMetadata>
 					</configuration>
+				</plugin>
+				<plugin>
+					<artifactId>maven-scm-plugin</artifactId>
+					<version>1.9.4</version>
 				</plugin>
 				<plugin>
 					<artifactId>maven-compiler-plugin</artifactId>
@@ -143,6 +146,7 @@
 				<artifactId>maven-javadoc-plugin</artifactId>
 				<version>2.10.1</version>
 				<configuration>
+					<additionalparam>-Xdoclint:none</additionalparam>
 					<aggregate>true</aggregate>
 					<breakiterator>true</breakiterator>
 					<quiet>true</quiet>
@@ -203,7 +207,241 @@
 							</arguments>
 						</configuration>
 					</plugin>
+
+					<!-- for deployment on OSS Sonatype -->
+					<plugin>
+						<groupId>org.sonatype.plugins</groupId>
+						<artifactId>nexus-staging-maven-plugin</artifactId>
+						<version>1.6.6</version>
+						<extensions>true</extensions>
+						<configuration>
+							<serverId>ossrh</serverId>
+							<nexusUrl>https://oss.sonatype.org/</nexusUrl>
+							<autoReleaseAfterClose>true</autoReleaseAfterClose>
+						</configuration>
+					</plugin>
+
+					<!-- for digital signing of code -->
+					<!--<plugin> -->
+					<!--<groupId>org.apache.maven.plugins</groupId> -->
+					<!--<artifactId>maven-gpg-plugin</artifactId> -->
+					<!--<version>1.5</version> -->
+					<!--<executions> -->
+					<!--<execution> -->
+					<!--<id>sign-artifacts</id> -->
+					<!--<phase>verify</phase> -->
+					<!--<goals> -->
+					<!--<goal>sign</goal> -->
+					<!--</goals> -->
+					<!--</execution> -->
+					<!--</executions> -->
+					<!--</plugin> -->
+
+					<!-- give more memory for junit tests -->
+					<plugin>
+						<artifactId>maven-surefire-plugin</artifactId>
+						<version>2.19.1</version>
+						<configuration>
+							<argLine>-Xmx1500M</argLine>
+							<reuseForks>false</reuseForks>
+							<forkCount>1</forkCount>
+
+							<excludes>
+								<!-- we exclude by default the long parsing tests, they will only 
+									be executed if explicitly called -->
+								<exclude>**/TestLongPdbVsMmCifParsing.java</exclude>
+								<exclude>**/TestAtomCachePerformance.java</exclude>
+								<exclude>**/EcodInstallationTest.java</exclude>
+							</excludes>
+						</configuration>
+					</plugin>
+
+
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-jar-plugin</artifactId>
+
+						<configuration>
+							<archive>
+								<addMavenDescriptor>false</addMavenDescriptor>
+								<manifest>
+									<addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+									<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+
+								</manifest>
+								<manifestEntries>
+									<Trusted-Library>true</Trusted-Library>
+									<Permissions>all-permissions</Permissions>
+									<Codebase>*</Codebase>
+									<Application-Name>BioJava</Application-Name>
+								</manifestEntries>
+							</archive>
+						</configuration>
+					</plugin>
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>findbugs-maven-plugin</artifactId>
+					</plugin>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-checkstyle-plugin</artifactId>
+						<configuration>
+							<!-- <enableFilesSummary>true</enableFilesSummary> <enableSeveritySummary>true</enableSeveritySummary> -->
+							<enableRulesSummary>false</enableRulesSummary>
+							<!-- <consoleOutput>true</consoleOutput> -->
+						</configuration>
+					</plugin>
+
+					<plugin>
+						<groupId>com.versioneye</groupId>
+						<artifactId>versioneye-maven-plugin</artifactId>
+						<version>3.5.1</version>
+					</plugin>
 				</plugins>
+
+				<pluginManagement>
+					<plugins>
+						<plugin>
+							<artifactId>maven-clean-plugin</artifactId>
+							<version>3.0.0</version>
+						</plugin>
+						<plugin>
+							<artifactId>maven-compiler-plugin</artifactId>
+							<version>3.3</version>
+							<configuration>
+								<source>${jdk.version}</source>
+								<target>${jdk.version}</target>
+							</configuration>
+						</plugin>
+						<plugin>
+							<artifactId>maven-dependency-plugin</artifactId>
+							<version>2.10</version>
+						</plugin>
+						<plugin>
+							<artifactId>maven-jar-plugin</artifactId>
+							<version>2.6</version>
+						</plugin>
+						<plugin>
+							<artifactId>maven-scm-plugin</artifactId>
+							<version>1.9.4</version>
+						</plugin>
+						<plugin>
+							<artifactId>maven-source-plugin</artifactId>
+							<version>2.4</version>
+						</plugin>
+						<plugin>
+							<artifactId>maven-failsafe-plugin</artifactId>
+							<version>2.19.1</version>
+						</plugin>
+						<plugin>
+							<groupId>net.sf</groupId>
+							<artifactId>stat-scm</artifactId>
+							<version>1.2.0</version>
+						</plugin>
+						<plugin>
+							<groupId>org.jvnet.jaxb2.maven2</groupId>
+							<artifactId>maven-jaxb2-plugin</artifactId>
+							<version>0.13.1</version>
+						</plugin>
+						<plugin>
+							<groupId>org.apache.maven.plugins</groupId>
+							<artifactId>maven-release-plugin</artifactId>
+							<version>2.5.3</version>
+							<configuration>
+								<tagBase>svn+ssh://dev.open-bio.org/home/svn-repositories/biojava/biojava-live/tags</tagBase>
+								<remoteTagging>true</remoteTagging>
+								<preparationGoals>clean install</preparationGoals>
+								<autoVersionSubmodules>true</autoVersionSubmodules>
+								<!-- work around for GPG hanging issue http://jira.codehaus.org/browse/MGPG-9 -->
+								<mavenExecutorId>forked-path</mavenExecutorId>
+							</configuration>
+
+						</plugin>
+						<plugin>
+							<groupId>org.apache.maven.plugins</groupId>
+							<artifactId>maven-javadoc-plugin</artifactId>
+							<version>2.10.3</version>
+							<configuration>
+								<maxmemory>256m</maxmemory>
+								<footer>&lt;script
+									src="http://www.google-analytics.com/urchin.js"
+									type="text/javascript"&gt;&lt;/script&gt;&lt;script
+									type="text/javascript"&gt;_uacct =
+									"UA-1326640-1";urchinTracker();&lt;/script&gt;</footer>
+							</configuration>
+
+						</plugin>
+						<plugin>
+							<groupId>org.apache.maven.plugins</groupId>
+							<artifactId>maven-shade-plugin</artifactId>
+							<version>2.4.2</version>
+						</plugin>
+						<plugin>
+							<artifactId>maven-assembly-plugin</artifactId>
+							<version>2.6</version>
+							<configuration>
+								<descriptors>
+									<descriptor>src/main/assembly/assembly.xml</descriptor>
+								</descriptors>
+							</configuration>
+
+							<!-- Attach the creation of the assembly to the package phase. -->
+							<executions>
+								<execution>
+									<id>assemble</id>
+									<phase>package</phase>
+									<goals>
+										<goal>single</goal>
+									</goals>
+								</execution>
+							</executions>
+
+						</plugin>
+						<plugin>
+							<groupId>org.codehaus.mojo</groupId>
+							<artifactId>findbugs-maven-plugin</artifactId>
+							<version>3.0.3</version>
+						</plugin>
+
+						<plugin>
+							<groupId>org.codehaus.mojo</groupId>
+							<artifactId>buildnumber-maven-plugin</artifactId>
+							<version>1.4</version>
+						</plugin>
+
+						<plugin>
+							<groupId>org.apache.maven.plugins</groupId>
+							<artifactId>maven-checkstyle-plugin</artifactId>
+							<version>2.17</version>
+						</plugin>
+
+						<plugin>
+							<groupId>org.apache.maven.plugins</groupId>
+							<artifactId>maven-resources-plugin</artifactId>
+							<version>2.7</version>
+						</plugin>
+
+						<plugin>
+							<artifactId>maven-enforcer-plugin</artifactId>
+							<version>1.4.1</version>
+							<executions>
+								<execution>
+									<id>enforce-java</id>
+									<goals>
+										<goal>enforce</goal>
+									</goals>
+									<configuration>
+										<rules>
+											<requireJavaVersion>
+												<version>${maven.enforcer.jdk-version}</version>
+											</requireJavaVersion>
+										</rules>
+									</configuration>
+								</execution>
+							</executions>
+						</plugin>
+					</plugins>
+				</pluginManagement>
 			</build>
 		</profile>
 
