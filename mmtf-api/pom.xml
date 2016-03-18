@@ -8,7 +8,7 @@
 	<artifactId>mmtf-api</artifactId>
 
 	<!-- This version number does not need to comply with the master project -->
-	<version>0.0.1-alpha2-SNAPSHOT</version>
+	<version>0.1-alpha2-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
 	<name>mmtf-api</name>
