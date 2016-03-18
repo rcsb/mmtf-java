@@ -40,9 +40,9 @@
 		<log4j.version>2.5</log4j.version>
 	</properties>
 	<scm>
-		<connection>scm:git:git://github.com:rcsb/mmtf.git</connection>
-		<developerConnection>scm:git:git@github.com:rcsb/mmtf.git</developerConnection>
-		<url>https://github.com/rcsb/mmtf</url>
+		<connection>scm:git:git://github.com:rcsb/mmtf-java.git</connection>
+		<developerConnection>scm:git:git@github.com:rcsb/mmtf-java.git</developerConnection>
+		<url>https://github.com/rcsb/mmtf-java</url>
 
 		<tag>HEAD</tag>
 	</scm>
