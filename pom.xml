@@ -108,7 +108,6 @@
 					<artifactId>maven-release-plugin</artifactId>
 					<version>2.5.3</version>
 					<configuration>
-						<tagBase>svn+ssh://dev.open-bio.org/home/svn-repositories/biojava/biojava-live/tags</tagBase>
 						<remoteTagging>true</remoteTagging>
 						<preparationGoals>clean install</preparationGoals>
 						<autoVersionSubmodules>true</autoVersionSubmodules>
@@ -273,7 +272,7 @@
 							<Trusted-Library>true</Trusted-Library>
 							<Permissions>all-permissions</Permissions>
 							<Codebase>*</Codebase>
-							<Application-Name>BioJava</Application-Name>
+							<Application-Name>MMTF</Application-Name>
 						</manifestEntries>
 					</archive>
 				</configuration>
@@ -421,7 +420,7 @@
 	<inceptionYear>2000</inceptionYear>
 	<issueManagement>
 		<system>Github</system>
-		<url>https://github.com/biojava/biojava/issues</url>
+		<url>https://github.com/rcsb/mmtf-java/issues</url>
 	</issueManagement>
 	<ciManagement>
 		<system>CruiseControl</system>
