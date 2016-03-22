@@ -1,15 +1,96 @@
 package org.rcsb.mmtf.decoder;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.msgpack.jackson.dataformat.MessagePackFactory;
 import org.rcsb.mmtf.api.DataApiInterface;
+import org.rcsb.mmtf.arraydecompressors.DeltaDeCompress;
+import org.rcsb.mmtf.arraydecompressors.RunLengthDecodeInt;
+import org.rcsb.mmtf.arraydecompressors.RunLengthDecodeString;
+import org.rcsb.mmtf.arraydecompressors.RunLengthDelta;
 import org.rcsb.mmtf.dataholders.BioAssemblyData;
 import org.rcsb.mmtf.dataholders.Entity;
+import org.rcsb.mmtf.dataholders.MmtfBean;
 import org.rcsb.mmtf.dataholders.PDBGroup;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 public class SimpleDataApi implements DataApiInterface {
+	
+	
+	public SimpleDataApi(byte[] inputByteArr) {
+		
+		
+		
+		MmtfBean inputData = null;
+		try {
+			inputData = new ObjectMapper(new MessagePackFactory()).readValue(inputByteArr, MmtfBean.class);
+		} catch (IOException e) {
+			// 
+			System.out.println("Error converting Byte array to message pack. IOError");
+			e.printStackTrace();
+			throw new RuntimeException();
+		}
+		
+		// Get the decompressors to build in the data structure
+		DeltaDeCompress deltaDecompress = new DeltaDeCompress();
+		RunLengthDelta intRunLengthDelta = new RunLengthDelta();
+		RunLengthDecodeInt intRunLength = new RunLengthDecodeInt();
+		RunLengthDecodeString stringRunlength = new RunLengthDecodeString();
+		DecoderUtils decoderUtils = new DecoderUtils();
+		
+		// Get the data
+		try {
+			groupList = decoderUtils.bytesToInts(inputData.getGroupTypeList());
+			// Read the byte arrays as int arrays
+			cartnX = deltaDecompress.decompressByteArray(inputData.getxCoordBig(),
+					inputData.getxCoordSmall());
+			cartnY = deltaDecompress.decompressByteArray(inputData.getyCoordBig(),
+					inputData.getyCoordSmall());
+			cartnZ = deltaDecompress.decompressByteArray(inputData.getzCoordBig(),
+					inputData.getzCoordSmall());
+			bFactor =  deltaDecompress.decompressByteArray(inputData.getbFactorBig(),
+					inputData.getbFactorSmall());
+			occupancyArr = intRunLength.decompressByteArray(inputData.getOccList());
+			atomId = intRunLengthDelta.decompressByteArray(inputData.getAtomIdList());
+			altId = stringRunlength.stringArrayToChar(
+					(ArrayList<String>) inputData.getAltLabelList());
+			// Get the insertion code
+			insertionCodeList = stringRunlength.stringArrayToChar(
+					(ArrayList<String>) inputData.getInsCodeList());
+			// Get the groupNumber
+			groupNum = intRunLengthDelta.decompressByteArray(
+					inputData.getGroupIdList());
+			groupMap = inputData.getGroupMap();
+			// Get the seqRes groups
+			seqResGroupList = intRunLengthDelta.decompressByteArray(inputData.getSeqResIdList());
+			// Get the number of chains per model
+			chainsPerModel = inputData.getChainsPerModel();
+			groupsPerChain = inputData.getGroupsPerChain();
+			// Get the internal and public facing chain ids
+			publicChainIds = decoderUtils.decodeChainList(inputData.getChainNameList());
+			chainList = decoderUtils.decodeChainList(inputData.getChainIdList());
+			spaceGroup = inputData.getSpaceGroup();
+			unitCell = inputData.getUnitCell();
+			bioAssembly  = inputData.getBioAssembly();
+			interGroupBondIndices = decoderUtils.bytesToInts(inputData.getBondAtomList());
+			interGroupBondOrders = decoderUtils.bytesToByteInts(inputData.getBondOrderList());
+			sequenceInfo = inputData.getChainSeqList();
+			mmtfVersion = inputData.getMmtfVersion();
+			mmtfProducer = inputData.getMmtfProducer();
+			entityList = inputData.getEntityList();
+
+		}
+		catch (IOException ioException){
+			System.out.println("Error reading in byte arrays from message pack");
+			ioException.printStackTrace();
+			throw new RuntimeException();
+		}
+	}
+	
 
 	/** The cartn x. */
 	private int[] cartnX;
@@ -33,7 +114,7 @@ public class SimpleDataApi implements DataApiInterface {
 	private char[] altId;
 
 	/** The ins code. */
-	private char[] insCode;
+	private char[] insertionCodeList;
 
 	/** The group num. */
 	private int[] groupNum;
@@ -209,7 +290,7 @@ public class SimpleDataApi implements DataApiInterface {
 	 */
 	@Override
 	public char[] getInsCode() {
-		return insCode;
+		return insertionCodeList;
 	}
 
 	/* (non-Javadoc)
@@ -217,7 +298,7 @@ public class SimpleDataApi implements DataApiInterface {
 	 */
 	@Override
 	public void setInsCode(char[] insCode) {
-		this.insCode = insCode;
+		this.insertionCodeList = insCode;
 	}
 
 	/* (non-Javadoc)
