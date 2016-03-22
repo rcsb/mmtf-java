@@ -58,8 +58,8 @@ public class DecodeStructure {
 	/** The alt id. */
 	private char[] altId;
 
-	/** The ins code. */
-	private char[] insCode;
+	/** A list of chars indicating the insertion code. */
+	private char[] insertionCodeList;
 
 	/** The group num. */
 	private int[] groupNum;
@@ -187,7 +187,7 @@ public class DecodeStructure {
 			altId = stringRunlength.stringArrayToChar(
 					(ArrayList<String>) inputData.getAltLabelList());
 			// Get the insertion code
-			insCode = stringRunlength.stringArrayToChar(
+			insertionCodeList = stringRunlength.stringArrayToChar(
 					(ArrayList<String>) inputData.getInsCodeList());
 			// Get the groupNumber
 			groupNum = intRunLengthDelta.decompressByteArray(
@@ -241,6 +241,8 @@ public class DecodeStructure {
 	public final void getStructFromByteArray(final StructureDecoderInterface inputStructInflator, final ParsingParams parsingParams) {    
 		// Set the inflator
 		structInflator = inputStructInflator;
+		// Do any required preparation
+		inputStructInflator.prepareStructure();
 		// Now get the parsing parameters to do their thing
 		useParseParams(parsingParams);
 		// Now get the group map
@@ -260,6 +262,8 @@ public class DecodeStructure {
 		generateBioAssembly();
 		// Now add the other bonds between groups
 		addInterGroupBonds();
+		// Now do any required cleanup
+		inputStructInflator.cleanUpStructure();
 	}
 
 	/**
@@ -316,9 +320,10 @@ public class DecodeStructure {
 		PDBGroup currentGroup = groupMap.get(g);
 		List<String> atomInfo = currentGroup.getAtomInfo();
 		int atomCount = atomInfo.size() / 2;
-		int thsG = groupNum[thisGroupNum];
-		char thsIns = insCode[lastAtomCount];
-		structInflator.setGroupInfo(currentGroup.getGroupName(), thsG, thsIns, currentGroup.getChemCompType(), atomCount);
+		int currentGroupNumber = groupNum[thisGroupNum];
+		char insertionCode = insertionCodeList[thisGroupNum];
+		structInflator.setGroupInfo(currentGroup.getGroupName(), currentGroupNumber, insertionCode,
+				currentGroup.getChemCompType(), atomCount);
 		// A counter for the atom information
 		atomCounter = 0;
 		// Now read the next atoms
@@ -454,11 +459,11 @@ public class DecodeStructure {
 	}
 
 	public char[] getInsCode() {
-		return insCode;
+		return insertionCodeList;
 	}
 
 	public void setInsCode(char[] insCode) {
-		this.insCode = insCode;
+		this.insertionCodeList = insCode;
 	}
 
 	public int[] getGroupNum() {

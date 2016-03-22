@@ -332,6 +332,16 @@ public class ParseFromBiojava {
           bondCounter+=numBonds;
 
           ResidueNumber residueNum = currentGroup.getResidueNumber();
+          
+          // bioStruct data item corresponds to the PDB insertion code.
+          Character insertionCode = residueNum.getInsCode();
+          if (insertionCode==null){
+            bioStruct.get_atom_site_pdbx_PDB_ins_code().add(null);
+          }
+          else{
+            bioStruct.get_atom_site_pdbx_PDB_ins_code().add(insertionCode.toString());
+          }
+          
           SecStrucState props = (SecStrucState) currentGroup.getProperty("secstruc");
           //
           if(props==null){
@@ -916,14 +926,6 @@ public class ParseFromBiojava {
     Element ele = inputAtom.getElement();
     bioStruct.get_atom_site_symbol().add(ele.toString());
     bioStruct.get_atom_site_asym_id().add(inputChainId);
-    // bioStruct data item corresponds to the PDB insertion code.
-    Character me = residueNumber.getInsCode();
-    if (residueNumber.getInsCode()==null){
-      bioStruct.get_atom_site_pdbx_PDB_ins_code().add(null);
-    }
-    else{
-      bioStruct.get_atom_site_pdbx_PDB_ins_code().add(me.toString());
-    }
     // identify coordinate records (e.g. ATOM or HETATM).
     bioStruct.get_atom_site_group_PDB().add(MY_MAP.get(inputAtom.getGroup().getType().toString()));
     // bioStruct item is a uniquely identifies for each alternative site for

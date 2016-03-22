@@ -112,4 +112,14 @@ public interface StructureDecoderInterface {
    */
   void setInterGroupBonds(int thisBondIndOne,
       int thisBondIndTwo, int thisBondOrder);
+  
+  /**
+   * A generic function to be used at the end of all data addition to do required cleanup on the structure
+   */
+  void cleanUpStructure();
+  
+  /**
+   * A generic function to be used before any additions to do any required pre-processing.
+   */
+  void prepareStructure();
 }
