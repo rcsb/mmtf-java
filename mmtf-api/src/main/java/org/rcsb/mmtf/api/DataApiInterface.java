@@ -258,21 +258,22 @@ public interface DataApiInterface {
 
 	void setPdbId(String pdbId);
 	
-	/**
-	 * Returns the number of groups (residues) in the file
-	 */
-	int getNumResiudes();
-	
-	
-	/**
-	 * Returns the number of chains in the total structure
-	 */
-	int getNumChains();
+
 
 	/**
 	 * Returns the number of models in the total structure
 	 */
 	int getNumModels();
+	
+	/**
+	 * Returns the number of chains in the total structure
+	 */
+	int getNumChains();
+	
+	/**
+	 * Returns the number of groups (residues) in the file
+	 */
+	int getNumResiudes();
 	
 
 	/**
