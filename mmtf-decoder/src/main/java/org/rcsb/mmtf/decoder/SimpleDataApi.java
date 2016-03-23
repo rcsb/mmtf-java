@@ -24,7 +24,6 @@ public class SimpleDataApi implements DataApiInterface {
 	public SimpleDataApi(byte[] inputByteArr) {
 		
 		
-		
 		MmtfBean inputData = null;
 		try {
 			inputData = new ObjectMapper(new MessagePackFactory()).readValue(inputByteArr, MmtfBean.class);
@@ -82,6 +81,7 @@ public class SimpleDataApi implements DataApiInterface {
 			mmtfVersion = inputData.getMmtfVersion();
 			mmtfProducer = inputData.getMmtfProducer();
 			entityList = inputData.getEntityList();
+			pdbId = inputData.getPdbId();
 
 		}
 		catch (IOException ioException){
