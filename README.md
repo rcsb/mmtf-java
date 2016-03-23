@@ -13,3 +13,24 @@ The alpha release is available on Maven central.
 
 
 Or you can clone this repo and install yourself.
+
+
+Quick getting started.
+
+1) Get the data for a PDB structure and print the number of chains:
+```
+HandleIO handleIO = new HandleIO();
+DataApiInterface dataApi = handleIO.getDataApiFromUrlOrFile("4cup");
+System.out.println("PDB Code: "+dataApi.getPdbId()+" has "+dataApi.getNumChains()+" chains");
+```
+
+2) Show the charge information for ZYB:
+```
+PDBGroup pdbGroup = dataApi.getGroupMap().get(1);
+System.out.println("HET group "+pdbGroup.getGroupName()+" has the following atomic charges: "+pdbGroup.getAtomCharges());
+```
+
+3) Show how many bioassemblies it has:
+```
+System.out.println("PDB Code: "+dataApi.getPdbId()+" has "+dataApi.getBioAssembly().size()+" bioassemblies");
+```
