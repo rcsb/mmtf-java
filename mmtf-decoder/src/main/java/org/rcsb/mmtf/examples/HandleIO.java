@@ -12,6 +12,9 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.zip.GZIPInputStream;
 
+import org.rcsb.mmtf.api.DataApiInterface;
+import org.rcsb.mmtf.decoder.SimpleDataApi;
+
 /**
  * Some helper functions and utilit functions to get structures from BioJava.
  * Really just for canary release and testing.
@@ -28,12 +31,12 @@ public class HandleIO {
 	private static final int BYTE_BUFFER_CHUNK_SIZE = 4096;
 
 	/**
-	 * Gets the from url.
+	 * Gets the biojava structure from a url.
 	 *
 	 * @param inputCode the input code
 	 * @return A biojava structure object
 	 */
-	public final byte[] getFromUrlOrFile(final String inputCode) {
+	public final byte[] getByteArrFromUrlOrFile(final String inputCode) {
 		String basePath = getBasePath();
 		boolean isFile = getFile(basePath, inputCode);
 		// If it's a file on the file system - get it
@@ -47,6 +50,29 @@ public class HandleIO {
 			throw new RuntimeException(e);
 		}
 	}
+	
+	
+	/**
+	 * Gets the data API from a url.
+	 * @param inputCode the input code
+	 * @return 
+	 */
+	public final DataApiInterface getDataApiFromUrlOrFile(final String inputCode) {
+		String basePath = getBasePath();
+		boolean isFile = getFile(basePath, inputCode);
+		// If it's a file on the file system - get it
+		if (isFile) {
+			return new SimpleDataApi(getFromFileSystem(basePath, inputCode));
+		}
+		try {
+			return new SimpleDataApi(getFromUrl(inputCode));
+		} catch (IOException e) {
+			e.printStackTrace();
+			throw new RuntimeException(e);
+		}
+	}
+		
+	
 
 	/**
 	 * Get from a cached file on the file system.
