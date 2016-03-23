@@ -343,12 +343,14 @@ public class ParseFromBiojava {
           }
           
           SecStrucState props = (SecStrucState) currentGroup.getProperty("secstruc");
-          //
-          if(props==null){
-            bioStruct.getSecStruct().add(codeHolder.getDsspMap().get("NA"));
-          }
-          else{
-            bioStruct.getSecStruct().add(codeHolder.getDsspMap().get(props.getType().name));
+          // Only assign secondary structure for the first model
+          if(i==0){
+            if(props==null){
+              bioStruct.getSecStruct().add(codeHolder.getDsspMap().get("NA"));
+            }
+            else{
+              bioStruct.getSecStruct().add(codeHolder.getDsspMap().get(props.getType().name));
+            }
           }
           // Now add the residue sequnece number
           bioStruct.get_atom_site_auth_seq_id().add(residueNum.getSeqNum());
