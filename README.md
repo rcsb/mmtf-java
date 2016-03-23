@@ -24,9 +24,9 @@ DataApiInterface dataApi = handleIO.getDataApiFromUrlOrFile("4cup");
 System.out.println("PDB Code: "+dataApi.getPdbId()+" has "+dataApi.getNumChains()+" chains");
 ```
 
-2) Show the charge information for ZYB:
+2) Show the charge information for the first group:
 ```
-PDBGroup pdbGroup = dataApi.getGroupMap().get(1);
+PDBGroup pdbGroup = dataApi.getGroupMap().get(0);
 System.out.println("HET group "+pdbGroup.getGroupName()+" has the following atomic charges: "+pdbGroup.getAtomCharges());
 ```
 
