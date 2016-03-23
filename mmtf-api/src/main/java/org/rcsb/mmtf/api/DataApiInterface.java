@@ -7,6 +7,12 @@ import org.rcsb.mmtf.dataholders.BioAssemblyData;
 import org.rcsb.mmtf.dataholders.Entity;
 import org.rcsb.mmtf.dataholders.PDBGroup;
 
+/**
+ * An interface describing the data API.
+ * One can implement their  own implementation of this interface.
+ * @author Anthony Bradley
+ *
+ */
 public interface DataApiInterface {
 
 	/**

@@ -16,7 +16,7 @@ import org.rcsb.mmtf.api.DataApiInterface;
 import org.rcsb.mmtf.decoder.SimpleDataApi;
 
 /**
- * Some helper functions and utilit functions to get structures from BioJava.
+ * Some helper functions and utility functions to get structures from BioJava.
  * Really just for canary release and testing.
  * @author Anthony Bradley
  *
