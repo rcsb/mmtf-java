@@ -22,14 +22,11 @@ public class CheckServer {
   private FileParsingParameters params;
   private CheckOnBiojava checkEquiv;
 
-  public CheckServer() {
-    // Get the class to parse and get data
-    parseUsingBioJava = new ParseUsingBioJava();
-    handleIo = new HandleIO();
-    checkEquiv = new CheckOnBiojava();
-    EncoderUtils encoderUtils = new EncoderUtils();
-    encoderUtils.setUpBioJava();
+  public static void main(String[] args) throws IOException {
+	  CheckServer checkServer = new CheckServer();
+	  checkServer.basicParsingTest();
   }
+
 
   /**
    * Basic test to go through a series of PDBs and make sure they are the same.
@@ -38,6 +35,13 @@ public class CheckServer {
    */
   @Test
   public void basicParsingTest() throws IOException {
+	  
+	    // Get the class to parse and get data
+	    parseUsingBioJava = new ParseUsingBioJava();
+	    handleIo = new HandleIO();
+	    checkEquiv = new CheckOnBiojava();
+	    EncoderUtils encoderUtils = new EncoderUtils();
+	    encoderUtils.setUpBioJava();
     // Test it for a series of structures
 	  for (String pdbId : IntegrationTestUtils.TEST_CASES) {
 	  testParsing(pdbId);
