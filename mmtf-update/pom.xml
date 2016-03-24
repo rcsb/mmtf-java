@@ -5,7 +5,7 @@
 		<artifactId>mmtf</artifactId>
 		<version>0.0.1-alpha2-SNAPSHOT</version>
 	</parent>
-	<artifactId>update</artifactId>
+	<artifactId>mmtf-update</artifactId>
 	<packaging>jar</packaging>
 
 	<name>mmtf-update</name>
@@ -21,6 +21,11 @@
 			<artifactId>mmtf-api</artifactId>
 			<version>0.1-alpha2-SNAPSHOT</version>
 		</dependency>
+        <dependency>
+            <groupId>org.rcsb</groupId>
+            <artifactId>mmtf-encoder</artifactId>
+            <version>0.0.1-alpha2-SNAPSHOT</version>
+        </dependency>
 		<dependency>
 			<groupId>org.rcsb</groupId>
 			<artifactId>mmtf-specification</artifactId>
@@ -32,6 +37,16 @@
 			<version>4.11</version>
 			<scope>test</scope>
 		</dependency>
+        <dependency>
+            <groupId>org.biojava</groupId>
+            <artifactId>biojava-structure</artifactId>
+            <version>5.0.0-alpha1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.spark</groupId>
+            <artifactId>spark-core_2.11</artifactId>
+            <version>1.6.0</version>
+        </dependency>
 	</dependencies>
 	<build>
 		<plugins>
