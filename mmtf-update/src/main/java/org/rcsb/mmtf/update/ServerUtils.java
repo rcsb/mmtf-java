@@ -14,6 +14,7 @@ public class ServerUtils {
 	 * @return
 	 */
 	public boolean pingServer(String host, int port) {
+		System.out.println("Pinging: "+host+" on port: "+port);
 		try (Socket socket = new Socket()) {
 			socket.connect(new InetSocketAddress(host, port), 100);
 			return true;
