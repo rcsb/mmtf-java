@@ -64,6 +64,39 @@
 					<debug>true</debug>
 				</configuration>
 			</plugin>
+			
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-shade-plugin</artifactId>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>shade</goal>
+						</goals>
+						<configuration>
+	              			<artifactSet>
+	                			<excludes>
+	                			</excludes>
+	              			</artifactSet>
+	              			<filters>
+        						<filter>
+        							<!-- solution to the signature repackaging problem is this filter: exclude the signatures!  -->
+            						<artifact>*:*</artifact>
+            						<excludes>
+                						<exclude>META-INF/*.SF</exclude>
+                						<exclude>META-INF/*.DSA</exclude>
+                						<exclude>META-INF/*.RSA</exclude>
+            						</excludes>
+        						</filter>
+    						</filters>
+           				</configuration>
+					</execution>
+				</executions>
+				<configuration>
+					<finalName>uber-${project.artifactId}-${project.version}</finalName>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
 
