@@ -365,7 +365,7 @@ public class EncoderUtils implements Serializable {
 	/**
 	 * Set up the configuration parameters for BioJava.
 	 */
-	public void setUpBioJava() {
+	public AtomCache setUpBioJava() {
 		// Set up the atom cache etc
 		AtomCache cache = new AtomCache();
 		cache.setUseMmCif(true);
@@ -379,6 +379,7 @@ public class EncoderUtils implements Serializable {
 		cc.checkDoFirstInstall();
 		cache.setFileParsingParams(params);
 		StructureIO.setAtomCache(cache);
+		return cache;
 	}
 
 }

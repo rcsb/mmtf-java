@@ -10,6 +10,7 @@ import org.biojava.nbio.structure.align.util.AtomCache;
 import org.biojava.nbio.structure.io.FileParsingParameters;
 import org.biojava.nbio.structure.io.mmcif.ChemCompGroupFactory;
 import org.biojava.nbio.structure.io.mmcif.DownloadChemCompProvider;
+import org.rcsb.mmtf.biojavaencoder.EncoderUtils;
 import org.rcsb.mmtf.update.TestingUtils;
 import org.rcsb.mmtf.update.WeeklyUpdateUtils;
 
@@ -23,19 +24,10 @@ public class DataConsistencyCheck {
 	public static void main(String[] args) throws IllegalAccessException, InvocationTargetException, IOException, StructureException {
 
 
-		// TODO once https://github.com/rcsb/mmtf-java/issues/2 has been resolved use the encoder utils instead
-		AtomCache cache = new AtomCache();
-		cache.setUseMmCif(true);
-		FileParsingParameters params = cache.getFileParsingParams();
-		params.setCreateAtomBonds(true);
-		params.setAlignSeqRes(true);
-		params.setParseBioAssembly(true);
-		params.setUseInternalChainId(true);
-		DownloadChemCompProvider cc = new DownloadChemCompProvider();
-		ChemCompGroupFactory.setChemCompProvider(cc);
-		cc.checkDoFirstInstall();
-		cache.setFileParsingParams(params);
-		StructureIO.setAtomCache(cache);
+		// Set up the atom cache etc
+	  	EncoderUtils encoderUtils = new EncoderUtils();
+	  	AtomCache cache = encoderUtils.setUpBioJava();
+	  	FileParsingParameters params = cache.getFileParsingParams();
 
 		// Get 
 		WeeklyUpdateUtils weeklyUpdate = new WeeklyUpdateUtils();

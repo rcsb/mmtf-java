@@ -10,6 +10,7 @@ import org.biojava.nbio.structure.io.FileParsingParameters;
 import org.biojava.nbio.structure.io.mmcif.ChemCompGroupFactory;
 import org.biojava.nbio.structure.io.mmcif.DownloadChemCompProvider;
 import org.junit.Test;
+import org.rcsb.mmtf.biojavaencoder.EncoderUtils;
 import org.rcsb.mmtf.update.TestingUtils;
 
 public class TestParseMMCif {
@@ -20,20 +21,9 @@ public class TestParseMMCif {
 
   public TestParseMMCif(){
 		// Set up the atom cache etc
-	  
-	  // TODO once https://github.com/rcsb/mmtf-java/issues/2 has been resolved use the encoder utils instead
-		cache = new AtomCache();
-		cache.setUseMmCif(true);
-		params = cache.getFileParsingParams();
-		params.setCreateAtomBonds(true);
-		params.setAlignSeqRes(true);
-		params.setParseBioAssembly(true);
-		params.setUseInternalChainId(true);
-		DownloadChemCompProvider cc = new DownloadChemCompProvider();
-		ChemCompGroupFactory.setChemCompProvider(cc);
-		cc.checkDoFirstInstall();
-		cache.setFileParsingParams(params);
-		StructureIO.setAtomCache(cache);
+	  	EncoderUtils encoderUtils = new EncoderUtils();
+	  	cache = encoderUtils.setUpBioJava();
+	  	params = cache.getFileParsingParams();
   }
 
 
