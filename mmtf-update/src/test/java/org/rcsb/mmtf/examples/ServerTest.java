@@ -16,7 +16,7 @@ import org.rcsb.mmtf.decoder.ParsingParams;
 import org.rcsb.mmtf.testutils.CheckOnBiojava;
 import org.rcsb.mmtf.testutils.CheckOnRawApi;
 
-public class TestBiojavaDecode {
+public class ServerTest {
 
   private HandleIO handleIo;
   private ParseUsingBioJava parseUsingBioJava;
@@ -24,7 +24,7 @@ public class TestBiojavaDecode {
   private FileParsingParameters params;
   private CheckOnBiojava checkEquiv;
 
-  public TestBiojavaDecode() {
+  public ServerTest() {
     // Get the class to parse anf get data
     parseUsingBioJava = new ParseUsingBioJava();
     handleIo = new HandleIO();
