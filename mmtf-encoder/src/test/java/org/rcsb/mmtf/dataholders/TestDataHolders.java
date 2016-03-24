@@ -18,7 +18,7 @@ import org.biojava.nbio.structure.quaternary.BioAssemblyInfo;
 import org.junit.Test;
 import org.msgpack.jackson.dataformat.MessagePackFactory;
 import org.rcsb.mmtf.biojavaencoder.EncoderUtils;
-import org.rcsb.mmtf.biojavaencoder.ParseFromBiojava;
+import org.rcsb.mmtf.biojavaencoder.GenDataStructFromMmcif;
 import org.unitils.reflectionassert.ReflectionAssert;
 
 import com.fasterxml.jackson.core.JsonParseException;
@@ -151,7 +151,7 @@ public class TestDataHolders {
     // Utility functions for encoding stuff
     EncoderUtils eu = new EncoderUtils();
     // Get the utility class to get the structures
-    ParseFromBiojava parsedDataStruct = new ParseFromBiojava();
+    GenDataStructFromMmcif parsedDataStruct = new GenDataStructFromMmcif();
     Map<Integer, PDBGroup> totMap = new HashMap<Integer, PDBGroup>();
     // Parse the data into the basic data structure
     parsedDataStruct.createFromJavaStruct(pdbId, totMap);
