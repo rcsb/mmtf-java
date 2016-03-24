@@ -5,6 +5,7 @@ import java.io.IOException;
 import org.biojava.nbio.structure.Structure;
 import org.biojava.nbio.structure.StructureException;
 import org.biojava.nbio.structure.StructureIO;
+import org.biojava.nbio.structure.align.util.AtomCache;
 import org.biojava.nbio.structure.io.FileParsingParameters;
 import org.biojava.nbio.structure.io.mmtf.ParseUsingBioJava;
 import org.junit.Test;
@@ -41,7 +42,8 @@ public class CheckServer {
 	    handleIo = new HandleIO();
 	    checkEquiv = new CheckOnBiojava();
 	    EncoderUtils encoderUtils = new EncoderUtils();
-	    encoderUtils.setUpBioJava();
+	    AtomCache cache = encoderUtils.setUpBioJava();
+	    params = cache.getFileParsingParams();
     // Test it for a series of structures
 	  for (String pdbId : IntegrationTestUtils.TEST_CASES) {
 	  testParsing(pdbId);
