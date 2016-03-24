@@ -20,6 +20,7 @@ public class SandboxAccessTest {
 		int port = url.indexOf(':', doubleslash);
 		end = (port > 0 && port < end) ? port : end;
 		String host = url.substring(doubleslash, end);
+		port = Integer.parseInt(url.split(":")[1].split("/")[0]);
 		// Assert that we can reach this server
 		assertTrue(serverUtils.pingServer(host, port));
 	}
