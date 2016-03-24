@@ -8,6 +8,7 @@ import org.biojava.nbio.structure.StructureIO;
 import org.junit.Test;
 import org.rcsb.mmtf.biojavaencoder.EncoderUtils;
 import org.rcsb.mmtf.testutils.CheckBonds;
+import org.rcsb.mmtf.update.IntegrationTestUtils;
 
 public class TestBonds {
 

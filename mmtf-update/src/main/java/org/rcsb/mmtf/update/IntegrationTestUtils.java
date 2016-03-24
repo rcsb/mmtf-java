@@ -1,4 +1,4 @@
-package org.rcsb.mmtf.integrationtest;
+package org.rcsb.mmtf.update;
 
 import java.io.IOException;
 import java.nio.file.Files;

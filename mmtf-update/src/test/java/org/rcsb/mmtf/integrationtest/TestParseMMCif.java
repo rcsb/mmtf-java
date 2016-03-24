@@ -11,6 +11,7 @@ import org.biojava.nbio.structure.io.mmcif.ChemCompGroupFactory;
 import org.biojava.nbio.structure.io.mmcif.DownloadChemCompProvider;
 import org.junit.Test;
 import org.rcsb.mmtf.biojavaencoder.EncoderUtils;
+import org.rcsb.mmtf.update.IntegrationTestUtils;
 import org.rcsb.mmtf.update.TestingUtils;
 
 public class TestParseMMCif {

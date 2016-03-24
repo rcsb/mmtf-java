@@ -1,4 +1,4 @@
-package org.rcsb.mmtf.update;
+package org.rcsb.mmtf.postupdatetests;
 
 import java.io.BufferedWriter;
 import java.io.File;

@@ -23,7 +23,6 @@ import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 
 import org.junit.Test;
-import org.rcsb.mmtf.integrationtest.IntegrationTestUtils;
 import org.rcsb.mmtf.mappers.ByteWriteToByteArr;
 import org.rcsb.mmtf.mappers.StringByteToTextByteWriter;
 

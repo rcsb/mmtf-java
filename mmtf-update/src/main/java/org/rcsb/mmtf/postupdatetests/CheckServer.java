@@ -5,23 +5,20 @@ import java.io.IOException;
 import org.biojava.nbio.structure.Structure;
 import org.biojava.nbio.structure.StructureException;
 import org.biojava.nbio.structure.StructureIO;
-import org.biojava.nbio.structure.align.util.AtomCache;
 import org.biojava.nbio.structure.io.FileParsingParameters;
-import org.biojava.nbio.structure.io.LocalPDBDirectory.FetchBehavior;
-import org.biojava.nbio.structure.io.mmcif.ChemCompGroupFactory;
-import org.biojava.nbio.structure.io.mmcif.DownloadChemCompProvider;
 import org.biojava.nbio.structure.io.mmtf.ParseUsingBioJava;
 import org.junit.Test;
+import org.rcsb.mmtf.biojavaencoder.EncoderUtils;
 import org.rcsb.mmtf.decoder.ParsingParams;
 import org.rcsb.mmtf.examples.HandleIO;
 import org.rcsb.mmtf.testutils.CheckOnBiojava;
 import org.rcsb.mmtf.testutils.CheckOnRawApi;
+import org.rcsb.mmtf.update.IntegrationTestUtils;
 
 public class CheckServer {
 
   private HandleIO handleIo;
   private ParseUsingBioJava parseUsingBioJava;
-  private AtomCache cache;
   private FileParsingParameters params;
   private CheckOnBiojava checkEquiv;
 
@@ -29,21 +26,9 @@ public class CheckServer {
     // Get the class to parse and get data
     parseUsingBioJava = new ParseUsingBioJava();
     handleIo = new HandleIO();
-    // Set the cache and the parameters
-    cache = new AtomCache();
-    cache.setUseMmCif(true);
-    cache.setFetchBehavior(FetchBehavior.FETCH_FILES);
-    params = cache.getFileParsingParams();
-    params.setCreateAtomBonds(true);
-    params.setAlignSeqRes(true);
-    params.setParseBioAssembly(true);
-    DownloadChemCompProvider dcc = new DownloadChemCompProvider();
-    ChemCompGroupFactory.setChemCompProvider(dcc);
-    dcc.setDownloadAll(true);
-    dcc.checkDoFirstInstall();
-    params.setUseInternalChainId(true);
     checkEquiv = new CheckOnBiojava();
-    StructureIO.setAtomCache(cache);
+    EncoderUtils encoderUtils = new EncoderUtils();
+    encoderUtils.setUpBioJava();
   }
 
   /**
@@ -54,7 +39,9 @@ public class CheckServer {
   @Test
   public void basicParsingTest() throws IOException {
     // Test it for a series of structures
-    testParsing("4cup");
+	  for (String pdbId : IntegrationTestUtils.TEST_CASES) {
+	  testParsing(pdbId);
+	  }
    }
 
   /**

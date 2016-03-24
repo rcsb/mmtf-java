@@ -1,7 +1,7 @@
 package org.rcsb.mmtf.examples;
 
 import org.junit.Test;
-import org.rcsb.mmtf.integrationtest.IntegrationTestUtils;
+import org.rcsb.mmtf.update.IntegrationTestUtils;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
