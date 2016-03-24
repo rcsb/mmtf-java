@@ -7,7 +7,9 @@
 	</parent>
 	<artifactId>mmtf-api</artifactId>
 
-	<packaging>jar</packaging>
+	<!-- This version number does not need to comply with the master project -->
+<!-- 	<version>0.0.1-alpha3-SNAPSHOT</version>
+ -->	<packaging>jar</packaging>
 
 	<name>mmtf-api</name>
 	<url>http://maven.apache.org</url>
