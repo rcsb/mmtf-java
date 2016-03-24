@@ -21,6 +21,15 @@ import org.rcsb.mmtf.update.WeeklyUpdateUtils;
  */
 public class DataConsistencyCheck {
 
+	/**
+	 * 1) Argument one is the FTP server for the update lists
+	 * 2) Argumnet two is the server for the mmcif.gz files
+	 * @param args
+	 * @throws IllegalAccessException
+	 * @throws InvocationTargetException
+	 * @throws IOException
+	 * @throws StructureException
+	 */
 	public static void main(String[] args) throws IllegalAccessException, InvocationTargetException, IOException, StructureException {
 
 
@@ -31,11 +40,13 @@ public class DataConsistencyCheck {
 
 		// Get 
 		WeeklyUpdateUtils weeklyUpdate = new WeeklyUpdateUtils();
+		System.out.println("getting data");
 		weeklyUpdate.getDataFromFtpSite(args[0]);
 		List<String> listToAdd = weeklyUpdate.getAddedList();
 		String[] urlList = new String[listToAdd.size()];
 		for (int i =0; i< listToAdd.size(); i++) {
 			urlList[i] = args[1] + listToAdd.get(i);
+			System.out.println(urlList[i]);
 		}
 		TestingUtils testingUtils = new TestingUtils();
 		testingUtils.testAll(urlList, params, cache);
