@@ -1,4 +1,4 @@
-package org.rcsb.mmtf.examples;
+package org.rcsb.mmtf.postupdatetests;
 
 import java.io.IOException;
 
@@ -13,6 +13,7 @@ import org.biojava.nbio.structure.io.mmcif.DownloadChemCompProvider;
 import org.biojava.nbio.structure.io.mmtf.ParseUsingBioJava;
 import org.junit.Test;
 import org.rcsb.mmtf.decoder.ParsingParams;
+import org.rcsb.mmtf.examples.HandleIO;
 import org.rcsb.mmtf.testutils.CheckOnBiojava;
 import org.rcsb.mmtf.testutils.CheckOnRawApi;
 
@@ -25,7 +26,7 @@ public class CheckServer {
   private CheckOnBiojava checkEquiv;
 
   public CheckServer() {
-    // Get the class to parse anf get data
+    // Get the class to parse and get data
     parseUsingBioJava = new ParseUsingBioJava();
     handleIo = new HandleIO();
     // Set the cache and the parameters
