@@ -433,6 +433,7 @@
 		<module>mmtf-api</module>
 		<module>mmtf-decoder</module>
 		<module>mmtf-encoder</module>
+		<module>mmtf-update</module>
 	</modules>
 	<inceptionYear>2015</inceptionYear>
 	<issueManagement>
