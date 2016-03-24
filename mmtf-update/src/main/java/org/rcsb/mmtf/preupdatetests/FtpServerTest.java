@@ -15,25 +15,14 @@ public class FtpServerTest {
 	 * Can we get to the ftp site and download the data
 	 * @throws MalformedURLException 
 	 */
-	public static void main(String[] args) {
+	public static void main(String[] args) throws MalformedURLException {
 		String url = args[0];
 		ServerUtils serverUtils = new ServerUtils();
 		FtpServerTest ftpServerTest = new FtpServerTest();
 		PullFtpData pullFtpData = new PullFtpData(url);
 		// Get the host and port
-		int doubleslash = url.indexOf("//");
-		if(doubleslash == -1)
-			doubleslash = 0;
-		else
-			doubleslash += 2;
-		int end = url.indexOf('/', doubleslash);
-		end = end >= 0 ? end : url.length();
-		int port = url.indexOf(':', doubleslash);
-		end = (port > 0 && port < end) ? port : end;
-		String host = url.substring(doubleslash, end);
-
 		// First check we can ping the server
-		assertTrue(serverUtils.pingServer(host, port));
+		assertTrue(serverUtils.pingServer(url));
 		// Check this is not empty
 		String[] currentEntries;
 		currentEntries = pullFtpData.getAllCurrentEntries();

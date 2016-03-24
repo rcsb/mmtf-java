@@ -2,7 +2,9 @@ package org.rcsb.mmtf.update;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
+import java.net.MalformedURLException;
 import java.net.Socket;
+import java.net.URL;
 
 public class ServerUtils {
 
@@ -12,8 +14,12 @@ public class ServerUtils {
 	 * @param host
 	 * @param port
 	 * @return
+	 * @throws MalformedURLException 
 	 */
-	public boolean pingServer(String host, int port) {
+	public boolean pingServer(String urlInput) throws MalformedURLException {
+		URL thisUrl = new URL(urlInput);
+		String host = thisUrl.getHost();
+		int port = thisUrl.getPort();
 		System.out.println("Pinging: "+host+" on port: "+port);
 		try (Socket socket = new Socket()) {
 			socket.connect(new InetSocketAddress(host, port), 100);
