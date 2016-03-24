@@ -5,12 +5,10 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 import org.biojava.nbio.structure.StructureException;
-import org.biojava.nbio.structure.StructureIO;
 import org.biojava.nbio.structure.align.util.AtomCache;
 import org.biojava.nbio.structure.io.FileParsingParameters;
-import org.biojava.nbio.structure.io.mmcif.ChemCompGroupFactory;
-import org.biojava.nbio.structure.io.mmcif.DownloadChemCompProvider;
 import org.rcsb.mmtf.biojavaencoder.EncoderUtils;
+import org.rcsb.mmtf.update.ServerUtils;
 import org.rcsb.mmtf.update.TestingUtils;
 import org.rcsb.mmtf.update.WeeklyUpdateUtils;
 
@@ -35,18 +33,17 @@ public class DataConsistencyCheck {
 
 		// Set up the atom cache etc
 	  	EncoderUtils encoderUtils = new EncoderUtils();
+	  	ServerUtils serverUtils = new ServerUtils();
 	  	AtomCache cache = encoderUtils.setUpBioJava();
 	  	FileParsingParameters params = cache.getFileParsingParams();
 
 		// Get 
 		WeeklyUpdateUtils weeklyUpdate = new WeeklyUpdateUtils();
-		System.out.println("getting data");
 		weeklyUpdate.getDataFromFtpSite(args[0]);
 		List<String> listToAdd = weeklyUpdate.getAddedList();
 		String[] urlList = new String[listToAdd.size()];
 		for (int i =0; i< listToAdd.size(); i++) {
-			urlList[i] = args[1] + listToAdd.get(i);
-			System.out.println(urlList[i]);
+			urlList[i] = args[1] + serverUtils.generateDataExtension(listToAdd.get(i));
 		}
 		TestingUtils testingUtils = new TestingUtils();
 		testingUtils.testAll(urlList, params, cache);

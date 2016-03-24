@@ -22,4 +22,13 @@ public class ServerUtils {
 		}
 
 	}
+	
+	/**
+	 * Build the extension to the url for accessing data.
+	 * @param inputCode
+	 * @return
+	 */
+	public String generateDataExtension(String inputCode) {
+		return inputCode.substring(1,3)+"/"+inputCode+"/"+inputCode+".cif.gz";
+	}
 }
