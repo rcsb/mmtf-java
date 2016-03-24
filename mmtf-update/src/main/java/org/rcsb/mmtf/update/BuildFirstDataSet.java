@@ -20,8 +20,8 @@ import org.biojava.nbio.structure.io.LocalPDBDirectory.FetchBehavior;
 import org.biojava.nbio.structure.io.mmcif.ChemCompGroupFactory;
 import org.biojava.nbio.structure.io.mmcif.DownloadChemCompProvider;
 import org.biojava.nbio.structure.rcsb.GetRepresentatives;
-import org.rcsb.mmtf.mappers.CBSToBytes;
-import org.rcsb.mmtf.mappers.PDBCodeToCBS;
+import org.rcsb.mmtf.mappers.DataStructToByteArrs;
+import org.rcsb.mmtf.mappers.PdbIdToDataStruct;
 import org.rcsb.mmtf.mappers.StringByteToTextByteWriter;
 
 public class BuildFirstDataSet {
@@ -65,8 +65,8 @@ public class BuildFirstDataSet {
 		// Now read this list in
 		JavaPairRDD<Text, BytesWritable> distData =
 				sc.parallelize(pdbCodeList)
-				.mapToPair(new PDBCodeToCBS())
-				.flatMapToPair(new CBSToBytes())
+				.mapToPair(new PdbIdToDataStruct())
+				.flatMapToPair(new DataStructToByteArrs())
 				.mapToPair(new StringByteToTextByteWriter());
 		// Now save this as a Hadoop sequence file
 		String uri = args[1];		

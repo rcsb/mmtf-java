@@ -26,7 +26,6 @@ import org.junit.Test;
 import org.rcsb.mmtf.integrationtest.IntegrationTestUtils;
 import org.rcsb.mmtf.mappers.ByteWriteToByteArr;
 import org.rcsb.mmtf.mappers.StringByteToTextByteWriter;
-import org.rcsb.mmtf.sparkexamples.SparkSDSCHashMapWriter;
 
 import scala.Tuple2;
 /**
@@ -219,7 +218,7 @@ public class TestReadWrite {
 		Map<String, byte[]> dataMap = getDummyData("abc");
 	    Path tmpDir = integrationTestUtils.returnTempDir();
 	    String tmpPathString = tmpDir.toAbsolutePath().toString();
-		SparkSDSCHashMapWriter sparkSDSCHashMapWriter = new SparkSDSCHashMapWriter();
+		WriteHashMap sparkSDSCHashMapWriter = new WriteHashMap();
 		// Write it out
 		sparkSDSCHashMapWriter.writeHashMapToFile(dataMap, tmpPathString+"mainMap.map");
 	}

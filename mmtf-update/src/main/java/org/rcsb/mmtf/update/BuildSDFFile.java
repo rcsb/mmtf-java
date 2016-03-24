@@ -12,12 +12,10 @@ import org.apache.hadoop.io.Text;
 import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaSparkContext;
-import org.rcsb.mmtf.filters.IsLigand;
 import org.rcsb.mmtf.mappers.ByteArrayToBioJavaStructMapper;
 import org.rcsb.mmtf.mappers.ByteWriteToByteArr;
 import org.rcsb.mmtf.mappers.GroupToSDF;
-import org.rcsb.mmtf.mappers.StructToPDBGroup;
-import org.rcsb.mmtf.sparkexamples.SparkServerRead;
+import org.rcsb.mmtf.mappers.BiojavaStructureToBiojavaGroups;
 
 public class BuildSDFFile implements Serializable{
 
@@ -32,7 +30,7 @@ public class BuildSDFFile implements Serializable{
 		String path = "/home/ubuntu/data/Total.hadoop.maindata.tested.bzip2";
 		// This is the default 2 line structure for Spark applications
 		SparkConf conf = new SparkConf().setMaster("local[*]")
-				.setAppName(SparkServerRead.class.getSimpleName());
+				.setAppName(BuildSDFFile.class.getSimpleName());
 		// Set the config
 		JavaSparkContext sc = new JavaSparkContext(conf);
 		// Time the proccess
@@ -43,8 +41,8 @@ public class BuildSDFFile implements Serializable{
 				// Now get the structure
 				.mapToPair(new ByteWriteToByteArr())
 				.mapToPair(new ByteArrayToBioJavaStructMapper())
-				.flatMapToPair(new StructToPDBGroup())
-				.filter(new IsLigand())
+				.flatMapToPair(new BiojavaStructureToBiojavaGroups())
+//				.filter(new IsLigand())
 				.mapToPair(new GroupToSDF());
 		
 		File sdfFile = new File("/home/ubuntu/data/Total.sdf");

@@ -18,7 +18,6 @@ import org.apache.spark.api.java.JavaSparkContext;
 import org.biojava.nbio.structure.Structure;
 import org.rcsb.mmtf.mappers.ByteArrayToBioJavaStructMapper;
 import org.rcsb.mmtf.mappers.ByteWriteToByteArr;
-import org.rcsb.mmtf.sparkexamples.SparkRead;
 
 
 public class CheckHadoopFile  implements Serializable {    
@@ -33,7 +32,7 @@ public class CheckHadoopFile  implements Serializable {
 		String outPath = "/home/ubuntu/data/Total.hadoop.maindata.tested.bzip2";
 		// This is the default 2 line structure for Spark applications
 		SparkConf conf = new SparkConf().setMaster("local[*]")
-				.setAppName(SparkRead.class.getSimpleName());
+				.setAppName(CheckHadoopFile.class.getSimpleName());
 		// Set the config for the spark context
 		JavaSparkContext sc = new JavaSparkContext(conf);
 		JavaPairRDD<String, Structure> jprdd = sc

@@ -16,7 +16,6 @@ import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.api.java.function.Function;
 import org.rcsb.mmtf.mappers.ByteWriteToByteArr;
 import org.rcsb.mmtf.mappers.StringByteToTextByteWriter;
-import org.rcsb.mmtf.sparkexamples.SparkSDSCHashMapWriter;
 
 import scala.Tuple2;
 
@@ -31,7 +30,7 @@ public class ProcessHadoopFile implements Serializable {
 
 
 		// Helper classes for writing files
-		SparkSDSCHashMapWriter sparkHadoopHashMapWriter = new SparkSDSCHashMapWriter();
+		WriteHashMap sparkHadoopHashMapWriter = new WriteHashMap();
 		// The path of the hadoop file
 		String uri =  prefix+"Total.hadoop.update.bzip2";
 		// This is the default 2 line structure for Spark applications
