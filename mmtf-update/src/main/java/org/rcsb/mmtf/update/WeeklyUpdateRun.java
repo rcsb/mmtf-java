@@ -1,5 +1,8 @@
 package org.rcsb.mmtf.update;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.hadoop.io.BytesWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.spark.SparkConf;
@@ -40,7 +43,11 @@ public class WeeklyUpdateRun {
 		JavaSparkContext sparkContext = new JavaSparkContext(conf);
 		// Read in and filter - these three things need unit tests
 		JavaPairRDD<Text, BytesWritable> totalDataset = weeklyUpdate.filterElements(sparkContext, inputUri);
-		JavaPairRDD<Text, BytesWritable> distData = mapperUtils.generateRDD(sparkContext, weeklyUpdate.getAddedList());
+		List<String> urlPdbList = new ArrayList<>();
+		for (String pdbId : weeklyUpdate.getAddedList()) {
+			urlPdbList.add(mmcifDataUrl+"/"+pdbId+".cif.gz");
+		}
+		JavaPairRDD<Text, BytesWritable> distData = mapperUtils.generateRDD(sparkContext, urlPdbList);
 		// Now join them
 		weeklyUpdate.joinDataSet(joinedUri, totalDataset, distData);
 		sparkContext.close();
