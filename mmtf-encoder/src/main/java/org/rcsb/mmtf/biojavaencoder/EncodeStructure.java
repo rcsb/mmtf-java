@@ -18,7 +18,7 @@ public class EncodeStructure {
    */
 	public byte[] getCompressedMessagePackFromPdbId(String pdbId) {
 		// Get the utility class to get the strucutes
-		GenDataStructFromMmcif parsedDataStruct = new GenDataStructFromMmcif();
+		ParseFromBiojava parsedDataStruct = new ParseFromBiojava();
 		Map<Integer, PDBGroup> totMap = new HashMap<Integer, PDBGroup>();
 		// Parse the data into the basic data structure
 		parsedDataStruct.createFromJavaStruct(pdbId, totMap);
@@ -33,7 +33,7 @@ public class EncodeStructure {
 	 */
 	public byte[] encodeFromBiojava(Structure bioJavaStruct){
     // Get the utility class to get the strucutes
-		GenDataStructFromMmcif parsedDataStruct = new GenDataStructFromMmcif();
+		ParseFromBiojava parsedDataStruct = new ParseFromBiojava();
 		Map<Integer, PDBGroup> totMap = new HashMap<Integer, PDBGroup>();
 		// Parse the data into the basic data structure
 		parsedDataStruct.generateDataStructuresFromBioJavaStructure(bioJavaStruct, totMap);
@@ -45,7 +45,7 @@ public class EncodeStructure {
 	 * @param parsedDataStruct
 	 * @return a byte array of compressed data
 	 */
-	private byte[] buildFromDataStructure(GenDataStructFromMmcif parsedDataStruct) {
+	private byte[] buildFromDataStructure(ParseFromBiojava parsedDataStruct) {
 	   EncoderUtils eu = new EncoderUtils();
 	   // Compress the data and get it back out
     try {
@@ -67,7 +67,7 @@ public class EncodeStructure {
 	public byte[] encodeBackBoneFromPdbId(String pdbId){
 		// Get the two utility classes
 		EncoderUtils eu = new EncoderUtils();
-		GenDataStructFromMmcif cbs = new GenDataStructFromMmcif();
+		ParseFromBiojava cbs = new ParseFromBiojava();
 		Map<Integer, PDBGroup> totMap = new HashMap<Integer, PDBGroup>();
 		// Parse the data into the basic data structure
 		cbs.createFromJavaStruct(pdbId, totMap);

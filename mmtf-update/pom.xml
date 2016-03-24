@@ -3,7 +3,7 @@
 	<parent>
 		<groupId>org.rcsb</groupId>
 		<artifactId>mmtf</artifactId>
-		<version>0.0.1-alpha2-SNAPSHOT</version>
+		<version>0.0.1-alpha3-SNAPSHOT</version>
 	</parent>
 	<artifactId>mmtf-update</artifactId>
 	<packaging>jar</packaging>
@@ -19,17 +19,17 @@
 		<dependency>
 			<groupId>org.rcsb</groupId>
 			<artifactId>mmtf-api</artifactId>
-			<version>0.1-alpha2-SNAPSHOT</version>
+			<version>0.0.1-alpha2</version>
 		</dependency>
         <dependency>
             <groupId>org.rcsb</groupId>
             <artifactId>mmtf-encoder</artifactId>
-            <version>0.0.1-alpha2-SNAPSHOT</version>
+            <version>0.0.1-alpha2</version>
         </dependency>
 		<dependency>
 			<groupId>org.rcsb</groupId>
 			<artifactId>mmtf-specification</artifactId>
-			<version>0.0.1-alpha2-SNAPSHOT</version>
+			<version>0.0.1-alpha2</version>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
@@ -40,7 +40,7 @@
         <dependency>
             <groupId>org.biojava</groupId>
             <artifactId>biojava-structure</artifactId>
-            <version>5.0.0-alpha1</version>
+            <version>5.0.0-alpha2</version>
         </dependency>
         <dependency>
             <groupId>org.apache.spark</groupId>

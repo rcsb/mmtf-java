@@ -46,7 +46,7 @@ import org.rcsb.mmtf.dataholders.PDBGroup;
 /**
  * A class to use biojava to parse MMCIF data and produce a data structure that can be fed into the MMTF.
  */
-public class GenDataStructFromMmcif {
+public class ParseFromBiojava {
 
   /**
    * The multiplication factor for coordinate information
