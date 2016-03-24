@@ -1,10 +1,7 @@
 package org.rcsb.mmtf.update;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.InetSocketAddress;
-import java.net.Socket;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
@@ -26,21 +23,17 @@ import java.util.List;
 
 public class PullFtpData {
 
-	private static final String PROTOCOL = "http";
-	private static final String HOST = "sandboxwest.rcsb.org";
-	private static final int PORT = 10601;
-	private static final String BASE_URL = PROTOCOL+"://"+HOST+":"+PORT+"/ftp-v3-support/update-lists/";
-
-
-	public boolean pingServer() {
-		try (Socket socket = new Socket()) {
-			socket.connect(new InetSocketAddress(HOST, PORT), 100);
-			return true;
-		} catch (IOException e) {
-			return false; // Either timeout or unreachable or failed DNS lookup.
-		}
-
+	
+	private String baseUrl;
+	
+	/**
+	 * Constructor takes the url.
+	 * @param inputUrl
+	 */
+	public PullFtpData(String inputUrl) {
+		this.setBaseUrl(inputUrl);
 	}
+	
 	/**
 	 * 
 	 * @return A list of all the current PDB ids of PDB and NMR models (before the update)
@@ -218,7 +211,8 @@ public class PullFtpData {
 	 */
 	private String[] readFile(String fileIn){
 		List<String> outList = new ArrayList<String>();
-		String urlIn = BASE_URL+fileIn;
+		// Check it's been set
+		String urlIn = baseUrl+fileIn;
 		try
 		{
 			// create a url object
@@ -245,6 +239,20 @@ public class PullFtpData {
 		}
 
 		return outList.toArray(new String[0]);
+	}
+
+	/**
+	 * @return the baseUrl
+	 */
+	public String getBaseUrl() {
+		return baseUrl;
+	}
+
+	/**
+	 * @param baseUrl the baseUrl to set
+	 */
+	public void setBaseUrl(String baseUrl) {
+		this.baseUrl = baseUrl;
 	}
 
 }

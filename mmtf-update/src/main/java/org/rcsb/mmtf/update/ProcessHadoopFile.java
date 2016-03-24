@@ -21,18 +21,24 @@ import scala.Tuple2;
 
 public class ProcessHadoopFile implements Serializable {
 
-	private static final String prefix = "/home/anthony/src/codec-devel/data/";	
-
 	
 	private static final long serialVersionUID = 1L;
 
-	public static void main(String[] args) throws Exception {
+	/**
+	 * First argument is the base path in the file system
+	 * Second argument is the version of MMTF being used
+	 * @param args
+	 * @throws IOException 
+	 */
+	public static void main(String[] args) throws IOException{
 
+		String basePath = args[0];
+		
 
 		// Helper classes for writing files
 		WriteHashMap sparkHadoopHashMapWriter = new WriteHashMap();
 		// The path of the hadoop file
-		String uri =  prefix+"Total.hadoop.update.bzip2";
+		String uri = basePath+"updated";
 		// This is the default 2 line structure for Spark applications
 		SparkConf conf = new SparkConf().setMaster("local[*]")
 				.setAppName(ProcessHadoopFile.class.getSimpleName());
@@ -84,19 +90,19 @@ public class ProcessHadoopFile implements Serializable {
 		// Now write the hadoop sequence file as the whole pdb
 		// Now collect these as maps
 
-		sparkHadoopHashMapWriter.writeHashMapToFile(headerMap.collectAsMap(), prefix+"headerMap.map");
-		sparkHadoopHashMapWriter.writeHashMapToFile(calphaMap.collectAsMap(), prefix+"calphaMap.map");
+		sparkHadoopHashMapWriter.writeHashMapToFile(headerMap.collectAsMap(), basePath+"headerMap.map");
+		sparkHadoopHashMapWriter.writeHashMapToFile(calphaMap.collectAsMap(), basePath+"calphaMap.map");
 		// Now do the main map
 		//		 Now write this out as a hash map
-		sparkHadoopHashMapWriter.writeHashMapToFile(mainMap.collectAsMap(), prefix+"mainMap.map");
+		sparkHadoopHashMapWriter.writeHashMapToFile(mainMap.collectAsMap(), basePath+"mainMap.map");
 
 		List<Partition> parted = mainMap.partitions();
 		for(int i=0; i<parted.size();i++){
 			int[] thisArr = new int[1];
 			thisArr[0] = i;
 			List<Tuple2<String, byte[]>> ans = mainMap.collectPartitions(thisArr)[0];
-			// Now 
-			writeToFile(ans);
+			// Now write the files to the file system
+			writeToFile(ans, basePath);
 		}
 
 
@@ -118,17 +124,21 @@ public class ProcessHadoopFile implements Serializable {
 			}
 		}).mapToPair(new RemoveSuffix());
 
-		//THIS SHOULD BE IT'S OWN FUNCTION ->>>> NONE-GZIP COMPRESSED DATA
 		JavaPairRDD<Text, BytesWritable> mainDataset = mainMapNoGzip.mapToPair(new StringByteToTextByteWriter());
-		String outURI = prefix+"Total.hadoop.maindata.bzip2";		
+		String outURI = basePath+"hadoopFullData";		
 		mainDataset.saveAsHadoopFile(outURI, Text.class, BytesWritable.class, SequenceFileOutputFormat.class, org.apache.hadoop.io.compress.BZip2Codec.class);
 		sc.close();
 	}
 
-	private static void writeToFile(List<Tuple2<String, byte[]>> ans) throws IOException {
+	/**
+	 * Function to write all the structure files to the file system.
+	 * @param inputListOfFiles
+	 * @throws IOException
+	 */
+	private static void writeToFile(List<Tuple2<String, byte[]>> inputListOfFiles, String basePath) throws IOException {
 
-		String basePath = prefix+"structures";
-		for(Tuple2<String, byte[]> v1: ans){
+		basePath = basePath+"/structures";
+		for(Tuple2<String, byte[]> v1: inputListOfFiles){
 			// Get the key value pairs
 			String pdbCode = v1._1.toLowerCase();
 			byte[] byteArr = v1._2;

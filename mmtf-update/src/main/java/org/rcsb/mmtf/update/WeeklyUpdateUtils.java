@@ -58,9 +58,9 @@ public class WeeklyUpdateUtils {
 	/**
 	 * Retrieve the data from the FTP site and populate the added and remove lists.
 	 */
-	public void getDataFromFtpSite(){
+	public void getDataFromFtpSite(String inputUrl){
 		// Get the class of functions here
-		PullFtpData pullFtpData = new PullFtpData();
+		PullFtpData pullFtpData = new PullFtpData(inputUrl);
 		// **** DO THIS
 		String[] obsolete = pullFtpData.getObsoleteUpdate();
 		String[] modified = pullFtpData.getModifiedUpdate();

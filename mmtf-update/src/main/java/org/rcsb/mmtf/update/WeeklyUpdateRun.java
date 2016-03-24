@@ -1,7 +1,4 @@
-	package org.rcsb.mmtf.update;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
+package org.rcsb.mmtf.update;
 
 import org.apache.hadoop.io.BytesWritable;
 import org.apache.hadoop.io.Text;
@@ -12,30 +9,37 @@ import org.rcsb.mmtf.mappers.MapperUtils;
 
 public class WeeklyUpdateRun {
 
-
+	/**
+	 * First argument is the path in the file system
+	 * Second argument is the URL to the FTP site
+	 * Third argument is the URL for the MMCifdata
+	 * @param args
+	 */
 	public static void main(String args[]) {
 		
 		WeeklyUpdateUtils weeklyUpdate = new WeeklyUpdateUtils();
 		MapperUtils mapperUtils = new MapperUtils();
-		// Call this rsync function
-		// Get the ones that need updating
-		weeklyUpdate.getDataFromFtpSite();
-		// TODO Check if there is actually any work to do.
 		
+		String fileName = args[0];
+		String ftpSiteUrl = args[1];
+		String mmcifDataUrl = args[2];
+		
+		// Call this rsync function
+		// Get the ones that need updating - first argument is the url to look at.
+		weeklyUpdate.getDataFromFtpSite(ftpSiteUrl);
+		// TODO Check if there is actually any work to do.
 		// Go through the current list
 		// The path of the hadoop file
 		// Specify the path of the input file
-		String uri = args[0];
-		// The basic URI - to which we add  a timestamp
-		String timeStamp = new SimpleDateFormat("yyyyMMddhhmm'.txt'").format(new Date());
-		String joinedUri = args[1]+timeStamp;
+		String inputUri = fileName;
+		String joinedUri = fileName+"updated";
 		// This is the default 2 line structure for Spark applications
 		SparkConf conf = new SparkConf().setMaster("local[*]")
 				.setAppName(WeeklyUpdateRun.class.getSimpleName());
 		// Set the config
 		JavaSparkContext sparkContext = new JavaSparkContext(conf);
 		// Read in and filter - these three things need unit tests
-		JavaPairRDD<Text, BytesWritable> totalDataset = weeklyUpdate.filterElements(sparkContext, uri);
+		JavaPairRDD<Text, BytesWritable> totalDataset = weeklyUpdate.filterElements(sparkContext, inputUri);
 		JavaPairRDD<Text, BytesWritable> distData = mapperUtils.generateRDD(sparkContext, weeklyUpdate.getAddedList());
 		// Now join them
 		weeklyUpdate.joinDataSet(joinedUri, totalDataset, distData);
