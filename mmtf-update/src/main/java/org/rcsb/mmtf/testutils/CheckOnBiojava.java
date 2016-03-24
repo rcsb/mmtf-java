@@ -94,12 +94,19 @@ public class CheckOnBiojava {
             Atom atomOne = atomsOne.get(l);
             Atom atomTwo = atomsTwo.get(l);
             if(atomOne.toPDB().equals(atomTwo.toPDB())){
-
+            	
             }
             else{
+            	// If any of the coords is exactly zero - this is a +-0.0 issue
+            	if (atomOne.getX()*atomOne.getY()*atomOne.getZ()==0.0){
+            		
+            	}
+            	else{
               System.out.println("MINE"+atomOne.toPDB());
               System.out.println("BIOJAVA"+atomTwo.toPDB());
               return false;
+              }
+            	
             }
             if(i==0){
               if(atomOne.getBonds()==null){
