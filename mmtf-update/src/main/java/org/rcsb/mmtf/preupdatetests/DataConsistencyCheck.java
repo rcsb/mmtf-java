@@ -1,4 +1,4 @@
-package org.rcsb.mmtf.update;
+package org.rcsb.mmtf.preupdatetests;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -10,6 +10,8 @@ import org.biojava.nbio.structure.align.util.AtomCache;
 import org.biojava.nbio.structure.io.FileParsingParameters;
 import org.biojava.nbio.structure.io.mmcif.ChemCompGroupFactory;
 import org.biojava.nbio.structure.io.mmcif.DownloadChemCompProvider;
+import org.rcsb.mmtf.update.TestingUtils;
+import org.rcsb.mmtf.update.WeeklyUpdateUtils;
 
 /**
  * Is the data to be added on the FTP site available, parseable and consistent when roundtripped.

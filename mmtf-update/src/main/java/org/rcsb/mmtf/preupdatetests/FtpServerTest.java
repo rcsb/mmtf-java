@@ -1,10 +1,12 @@
-package org.rcsb.mmtf.update;
+package org.rcsb.mmtf.preupdatetests;
 
 import static org.junit.Assert.*;
 
 import java.net.MalformedURLException;
 
 import org.apache.commons.lang.StringUtils;
+import org.rcsb.mmtf.update.PullFtpData;
+import org.rcsb.mmtf.update.ServerUtils;
 
 
 public class FtpServerTest {

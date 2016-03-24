@@ -1,6 +1,8 @@
-package org.rcsb.mmtf.update;
+package org.rcsb.mmtf.preupdatetests;
 
 import static org.junit.Assert.*;
+
+import org.rcsb.mmtf.update.ServerUtils;
 
 
 public class SandboxAccessTest {
