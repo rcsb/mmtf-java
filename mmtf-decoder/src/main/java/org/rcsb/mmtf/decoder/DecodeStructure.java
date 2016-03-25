@@ -61,7 +61,7 @@ public class DecodeStructure {
 		// Set the inflator
 		structInflator = inputStructInflator;
 		// Do any required preparation
-		inputStructInflator.prepareStructure(dataApi.getNumAtoms(), dataApi.getNumResiudes(),
+		inputStructInflator.prepareStructure(dataApi.getNumAtoms(), dataApi.getNumResidues(),
 				dataApi.getNumChains(), dataApi.getNumModels());
 		// Now get the parsing parameters to do their thing
 		useParseParams(parsingParams);

@@ -595,7 +595,7 @@ public class SimpleDataApi implements DataApiInterface {
 	 * @see org.rcsb.mmtf.decoder.DataApiInterface#getNumResiudes()
 	 */
 	@Override
-	public int getNumResiudes() {
+	public int getNumResidues() {
 		return this.groupList.length;
 	}
 
