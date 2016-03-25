@@ -32,13 +32,14 @@ public class ProcessHadoopFile implements Serializable {
 	 */
 	public static void main(String[] args) throws IOException{
 
-		String basePath = args[0];
+		String inputUri = args[0];
+		String basePath = args[1];
+		String outPutFile = args[2];
 		
 
 		// Helper classes for writing files
 		WriteHashMap sparkHadoopHashMapWriter = new WriteHashMap();
 		// The path of the hadoop file
-		String uri = basePath+"updated";
 		// This is the default 2 line structure for Spark applications
 		SparkConf conf = new SparkConf().setMaster("local[*]")
 				.setAppName(ProcessHadoopFile.class.getSimpleName());
@@ -47,7 +48,7 @@ public class ProcessHadoopFile implements Serializable {
 		JavaSparkContext sc = new JavaSparkContext(conf);
 		// Read in with spark
 		JavaPairRDD<String, byte[]> totalDataset = sc
-				.sequenceFile(uri, Text.class, BytesWritable.class, 24 * 3)
+				.sequenceFile(inputUri, Text.class, BytesWritable.class, 24 * 3)
 				.mapToPair(new ByteWriteToByteArr());
 		// GET THE TOTAL MAP
 		JavaPairRDD<String, byte[]> mainMap = totalDataset.filter(t -> t._1.endsWith("_total"))
@@ -128,6 +129,10 @@ public class ProcessHadoopFile implements Serializable {
 		String outURI = basePath+"hadoopFullData";		
 		mainDataset.saveAsHadoopFile(outURI, Text.class, BytesWritable.class, SequenceFileOutputFormat.class, org.apache.hadoop.io.compress.BZip2Codec.class);
 		sc.close();
+		File f = new File(outPutFile);
+		f.getParentFile().mkdirs(); 
+		f.createNewFile();
+		
 	}
 
 	/**

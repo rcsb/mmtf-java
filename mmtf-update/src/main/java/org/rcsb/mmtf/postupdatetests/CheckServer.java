@@ -1,5 +1,6 @@
 package org.rcsb.mmtf.postupdatetests;
 
+import java.io.File;
 import java.io.IOException;
 
 import org.biojava.nbio.structure.Structure;
@@ -24,8 +25,12 @@ public class CheckServer {
   private CheckOnBiojava checkEquiv;
 
   public static void main(String[] args) throws IOException {
+	  String outPutFile = args[0];
 	  CheckServer checkServer = new CheckServer();
 	  checkServer.basicParsingTest();
+		File f = new File(outPutFile);
+		f.getParentFile().mkdirs(); 
+		f.createNewFile();
   }
 
 
@@ -56,7 +61,7 @@ public class CheckServer {
    * @param inputPdb
  * @throws IOException 
    */
-  private void testParsing(String inputPdb) throws IOException { 
+  private void testParsing(String inputPdb) throws IOException {
     System.out.println("TESTING: "+inputPdb);
     byte[] inputByteArr = handleIo.getFromUrl(inputPdb);
     ParsingParams parsingParms = new ParsingParams();
