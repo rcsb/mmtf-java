@@ -2,7 +2,8 @@ package org.rcsb.mmtf.preupdatetests;
 
 import static org.junit.Assert.*;
 
-import java.net.MalformedURLException;
+import java.io.File;
+import java.io.IOException;
 
 import org.apache.commons.lang.StringUtils;
 import org.rcsb.mmtf.update.PullFtpData;
@@ -13,10 +14,13 @@ public class FtpServerTest {
 
 	/**
 	 * Can we get to the ftp site and download the data
-	 * @throws MalformedURLException 
+	 * First argument is the URL
+	 * Second argument is the file to write out
+	 * @throws IOException 
 	 */
-	public static void main(String[] args) throws MalformedURLException {
+	public static void main(String[] args) throws IOException {
 		String url = args[0];
+		String outPutFile = args[1];
 		ServerUtils serverUtils = new ServerUtils();
 		FtpServerTest ftpServerTest = new FtpServerTest();
 		PullFtpData pullFtpData = new PullFtpData(url);
@@ -45,6 +49,9 @@ public class FtpServerTest {
 		assertNotEquals(currentEntries, null);
 		currentEntries = pullFtpData.getAdded();
 		assertNotEquals(currentEntries.length, 0);
+		File f = new File(outPutFile);
+		f.getParentFile().mkdirs(); 
+		f.createNewFile();
 	}
 
 

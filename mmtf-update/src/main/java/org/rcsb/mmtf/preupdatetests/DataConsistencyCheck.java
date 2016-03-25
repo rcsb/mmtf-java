@@ -1,5 +1,6 @@
 package org.rcsb.mmtf.preupdatetests;
 
+import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
@@ -22,6 +23,7 @@ public class DataConsistencyCheck {
 	/**
 	 * 1) Argument one is the FTP server for the update lists
 	 * 2) Argumnet two is the server for the mmcif.gz files
+	 * 3) Argument three is the file to write at the end
 	 * @param args
 	 * @throws IllegalAccessException
 	 * @throws InvocationTargetException
@@ -45,8 +47,13 @@ public class DataConsistencyCheck {
 		for (int i =0; i< listToAdd.size(); i++) {
 			urlList[i] = args[1] + serverUtils.generateDataExtension(listToAdd.get(i));
 		}
+		String outPutFile = args[2];
 		TestingUtils testingUtils = new TestingUtils();
 		testingUtils.testAll(urlList, params, cache);
+		
+		File f = new File(outPutFile);
+		f.getParentFile().mkdirs(); 
+		f.createNewFile();
 	}
 
 
