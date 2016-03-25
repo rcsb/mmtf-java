@@ -1,5 +1,6 @@
 package org.rcsb.mmtf.update;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -12,7 +13,7 @@ import org.apache.spark.api.java.JavaSparkContext;
 import org.rcsb.mmtf.mappers.ByteWriteToByteArr;
 import org.rcsb.mmtf.mappers.StringByteToTextByteWriter;
 
-public class WeeklyUpdateUtils {
+public class WeeklyUpdateUtils implements Serializable {
 
 	
 	private List<String> removeList;
