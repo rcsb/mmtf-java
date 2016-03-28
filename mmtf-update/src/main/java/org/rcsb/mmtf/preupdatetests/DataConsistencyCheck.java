@@ -37,7 +37,7 @@ public class DataConsistencyCheck {
 		// Set up the atom cache etc
 	  	EncoderUtils encoderUtils = new EncoderUtils();
 	  	ServerUtils serverUtils = new ServerUtils();
-	  	AtomCache cache = encoderUtils.setUpBioJava(args[4]);
+	  	AtomCache cache = encoderUtils.setUpBioJava(args[3]);
 	  	FileParsingParameters params = cache.getFileParsingParams();	  	
 	  	
 		// Get the data
