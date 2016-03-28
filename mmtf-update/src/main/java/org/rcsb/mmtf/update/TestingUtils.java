@@ -26,15 +26,29 @@ public class TestingUtils {
 	   * @throws StructureException
 	   */
 	  public void testAll(String[] inputList, FileParsingParameters params, AtomCache cache) throws IllegalAccessException, InvocationTargetException, IOException, StructureException{
-
-	    ParsingParams pp = new ParsingParams();
-	    pp.setParseInternal(params.isUseInternalChainId());
-	    StructureIO.setAtomCache(cache);
-	    for (String pdbId : inputList){
-	      CheckOnBiojava checkEquiv = new CheckOnBiojava();
-	      checkEquiv.checkIfStructuresSame(StructureIO.getStructure(pdbId),roundTripStruct(pdbId, pp, params, cache));
-	    }
+		    ParsingParams mmtfParams = new ParsingParams();
+		    mmtfParams.setParseInternal(params.isUseInternalChainId());
+		    StructureIO.setAtomCache(cache);
+		    for (String pdbId : inputList){
+		    	testOne(pdbId, params, cache, mmtfParams);
+		    }
 	    
+	  }
+	  
+	  /**
+	   * Function just to test one structure.
+	   * @param pdbId
+	   * @param params
+	   * @param cache
+	   * @param mmtfParams
+	   * @throws IllegalAccessException
+	   * @throws InvocationTargetException
+	   * @throws IOException
+	   * @throws StructureException
+	   */
+	  public void testOne(String pdbId, FileParsingParameters params, AtomCache cache, ParsingParams mmtfParams) throws IllegalAccessException, InvocationTargetException, IOException, StructureException {
+	      CheckOnBiojava checkEquiv = new CheckOnBiojava();
+	      checkEquiv.checkIfStructuresSame(StructureIO.getStructure(pdbId),roundTripStruct(pdbId, mmtfParams, params, cache));
 	  }
 
 	  /**
@@ -45,7 +59,7 @@ public class TestingUtils {
 	   * @throws InvocationTargetException 
 	   * @throws IllegalAccessException 
 	   */
-	  private Structure roundTripStruct(String pdbId, ParsingParams pp, FileParsingParameters params, AtomCache cache) throws IOException, IllegalAccessException, InvocationTargetException, StructureException{
+	  public Structure roundTripStruct(String pdbId, ParsingParams pp, FileParsingParameters params, AtomCache cache) throws IOException, IllegalAccessException, InvocationTargetException, StructureException{
 	    // We need to set the parsing params to this
 	    boolean oldValue = params.isUseInternalChainId();
 	    params.setUseInternalChainId(true);

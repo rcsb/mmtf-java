@@ -17,6 +17,7 @@ public class WeeklyUpdateRun {
 	 * Second argument is the URL to the FTP site
 	 * Third argument is the URL for the MMCifdata
 	 * Fourth argument the output file
+	 * Fifth+ pdb ids to ignore
 	 * @param args
 	 */
 	public static void main(String args[]) {
@@ -29,9 +30,15 @@ public class WeeklyUpdateRun {
 		String mmcifDataUrl = args[2];
 		String outputUri = args[3];
 		String inputCcdUrl = args[4];
+		
+	  	// Now get the list of PDB ids to ignore
+	  	List<String> ignoreList = new ArrayList<>();
+	  	for (int i=5; i<args.length; i++) {
+	  		ignoreList.add(args[i]);
+	  	}
 		// Call this rsync function
 		// Get the ones that need updating - first argument is the url to look at.
-		weeklyUpdate.getDataFromFtpSite(ftpSiteUrl);
+		weeklyUpdate.getDataFromFtpSite(ftpSiteUrl, ignoreList);
 		// This is the default 2 line structure for Spark applications
 		SparkConf conf = new SparkConf().setMaster("local[*]")
 				.setAppName(WeeklyUpdateRun.class.getSimpleName());

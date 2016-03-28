@@ -3,6 +3,7 @@ package org.rcsb.mmtf.preupdatetests;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.biojava.nbio.structure.StructureException;
@@ -25,6 +26,7 @@ public class DataConsistencyCheck {
 	 * 2) Argumnet two is the server for the mmcif.gz files
 	 * 3) Argument three is the file to write at the end
 	 * 4) The URL for the CCD data
+	 * 5+ The pdbs to ignore
 	 * @param args
 	 * @throws IllegalAccessException
 	 * @throws InvocationTargetException
@@ -38,11 +40,17 @@ public class DataConsistencyCheck {
 	  	EncoderUtils encoderUtils = new EncoderUtils();
 	  	ServerUtils serverUtils = new ServerUtils();
 	  	AtomCache cache = encoderUtils.setUpBioJava(args[3]);
+	  	// Now get the list of PDB ids to ignore
+	  	List<String> ignoreList = new ArrayList<>();
+	  	for (int i=4; i<args.length; i++) {
+	  		ignoreList.add(args[i]);
+	  	}
+	  	
 	  	FileParsingParameters params = cache.getFileParsingParams();	  	
 	  	
 		// Get the data
 		WeeklyUpdateUtils weeklyUpdate = new WeeklyUpdateUtils();
-		weeklyUpdate.getDataFromFtpSite(args[0]);
+		weeklyUpdate.getDataFromFtpSite(args[0], ignoreList);
 		List<String> listToAdd = weeklyUpdate.getAddedList();
 		String[] urlList = new String[listToAdd.size()];
 		for (int i =0; i< listToAdd.size(); i++) {

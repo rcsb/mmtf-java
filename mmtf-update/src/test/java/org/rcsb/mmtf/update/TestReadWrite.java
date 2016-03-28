@@ -271,7 +271,7 @@ public class TestReadWrite {
 	private WeeklyUpdateUtils getLists() {
 		WeeklyUpdateUtils weeklyUpdate = new WeeklyUpdateUtils();
 		// Now get these lists
-		weeklyUpdate.getUpdateLists(OBSOLETE, MODIFIED, RELOADED, ADDED);
+		weeklyUpdate.getUpdateLists(OBSOLETE, MODIFIED, RELOADED, ADDED, new ArrayList<String>());
 		return weeklyUpdate;
 	}
 

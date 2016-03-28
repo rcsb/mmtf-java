@@ -3,6 +3,8 @@ package org.rcsb.mmtf.testutils;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -34,7 +36,7 @@ public class CheckOnBiojava {
     // Now check the sequence
     int numModels = structOne.nrModels();
     if(numModels!=structTwo.nrModels()){
-      System.out.println("ERROR - diff number models");
+      System.out.println("Error - diff number models: "+structOne.getPDBCode());
       return false;
     }
     for(int i=0;i<numModels;i++){
@@ -42,7 +44,7 @@ public class CheckOnBiojava {
       List<Chain> chainsTwo = structTwo.getChains(i);
 
       if(chainsOne.size()!=chainsTwo.size()){
-        System.out.println("ERROR - diff number chains");
+        System.out.println("Error - diff number chains: "+structOne.getPDBCode());
         return false;
       }
       // Now loop over
@@ -54,7 +56,7 @@ public class CheckOnBiojava {
         List<Group> groupsOne = chainOne.getAtomGroups();
         List<Group> groupsTwo = chainTwo.getAtomGroups();
         if(groupsOne.size()!=groupsTwo.size()){
-          System.out.println("ERROR - diff number groups");
+          System.out.println("Error - diff number groups: "+structOne.getPDBCode());
           return false;
         }
         for(int k=0; k<groupsOne.size();k++){
@@ -62,17 +64,19 @@ public class CheckOnBiojava {
           Group groupTwo = groupsTwo.get(k);
           // Check if the groups are of the same type
           if(groupOne.getType().equals(groupTwo.getType())==false){
-            System.out.println(groupOne.getPDBName());
-            System.out.println(groupTwo.getPDBName());
+            System.out.println("Error - diff group type: "+structOne.getPDBCode());
+            System.out.println(groupOne.getPDBName() + " and type: "+groupOne.getType());
+            System.out.println(groupTwo.getPDBName() + " and type: "+groupTwo.getType());;
           }
           assertEquals(groupOne.getType(), groupTwo.getType());
           // Get the first conf
-          List<Atom> atomsOne = groupOne.getAtoms();
-          List<Atom> atomsTwo = groupTwo.getAtoms();
+          List<Atom> atomsOne = new ArrayList<>(groupOne.getAtoms());
+          List<Atom> atomsTwo = new ArrayList<>(groupTwo.getAtoms());
           if(groupOne.getAltLocs().size()!=0){
             if(groupTwo.getAltLocs().size()!=groupOne.getAltLocs().size()){
-              System.out.println("ERROR - diff number alt locs");
+              System.out.println("Error - diff number alt locs: "+structOne.getPDBCode());
             }
+            // Now go over the alt locs
             for(Group altLocOne: groupOne.getAltLocs()){
               for(Atom atomAltLocOne: altLocOne.getAtoms()){
                 atomsOne.add(atomAltLocOne);
@@ -85,11 +89,42 @@ public class CheckOnBiojava {
             }
           }
           if(atomsOne.size()!=atomsTwo.size()){
-            System.out.println("ERROR - diff number atoms");
+            System.out.println("Error - diff number atoms: "+structOne.getPDBCode());
             System.out.println(groupOne.getPDBName()+" vs "+groupTwo.getPDBName());
             System.out.println(atomsOne.size()+" vs "+atomsTwo.size());
             return false;           
           }
+          // Now sort the atoms 
+			atomsOne.sort(new Comparator<Atom>() {
+
+				@Override
+				public int compare(Atom o1, Atom o2) {
+					//  
+					if (o1.getPDBserial()<o2.getPDBserial()){
+						return -1;
+					}
+					else{
+						return 1;
+					}
+				}
+
+
+			});
+			atomsTwo.sort(new Comparator<Atom>() {
+
+				@Override
+				public int compare(Atom o1, Atom o2) {
+					//  
+					if (o1.getPDBserial()<o2.getPDBserial()){
+						return -1;
+					}
+					else{
+						return 1;
+					}
+				}
+
+
+			});         
           for(int l=0;l<atomsOne.size();l++){
             Atom atomOne = atomsOne.get(l);
             Atom atomTwo = atomsTwo.get(l);
@@ -97,13 +132,14 @@ public class CheckOnBiojava {
             	
             }
             else{
-            	// If any of the coords is exactly zero - this is a +-0.0 issue
+            	// If any of the coords is exactly zero - this is (almost certainly) a +-0.0 issue
             	if (atomOne.getX()*atomOne.getY()*atomOne.getZ()==0.0){
             		
             	}
             	else{
-              System.out.println("MINE"+atomOne.toPDB());
-              System.out.println("BIOJAVA"+atomTwo.toPDB());
+              System.out.println("Error - atoms different: "+structOne.getPDBCode());
+              System.out.println("mmtf -> "+atomOne.toPDB());
+              System.out.println("mmcif -> "+atomTwo.toPDB());
               return false;
               }
             	
@@ -118,9 +154,11 @@ public class CheckOnBiojava {
                 return false;
               }
               else if(atomOne.getBonds().size()!=atomTwo.getBonds().size()){
-                System.out.println("DIFFERENT NUMBER OF BONDS: "+atomOne.getBonds().size()+" VS "+atomTwo.getBonds().size());
+                System.out.println("Error different number of bonds: "+structOne.getPDBCode());
+                System.out.println(atomOne.getBonds().size()+" vs. "+atomTwo.getBonds().size());
                 System.out.println(atomOne);
                 System.out.println(atomTwo);
+                
                 return false;
               }
             }

@@ -49,18 +49,24 @@ public class WeeklyUpdateUtils implements Serializable {
 	/**
 	 * Get the update lists from the FTP server. Join them into remove lists and added lists.
 	 * Updated items are in both lists.
+	 * @param ignoreList 
 	 */
-	public void getUpdateLists(String[] obsolete, String[] modified, String[] reloaded, String[] added) {
+	public void getUpdateLists(String[] obsolete, String[] modified, String[] reloaded, String[] added, List<String> ignoreList) {
 		// Now make the added and removed list
 		removeList = joinLists(reloaded,modified,obsolete);
-		setAddedList(joinLists(added,reloaded,modified));		
+		List<String> inputAddedList = joinLists(added,reloaded,modified);
+		for (String ignoreId : ignoreList) {
+			inputAddedList.remove(ignoreId.toLowerCase());
+			inputAddedList.remove(ignoreId.toUpperCase());
+		}
+		setAddedList(inputAddedList);		
 	}
 	
 	
 	/**
 	 * Retrieve the data from the FTP site and populate the added and remove lists.
 	 */
-	public void getDataFromFtpSite(String inputUrl){
+	public void getDataFromFtpSite(String inputUrl, List<String> ignoreList){
 		// Get the class of functions here
 		PullFtpData pullFtpData = new PullFtpData(inputUrl);
 		// **** DO THIS
@@ -69,7 +75,7 @@ public class WeeklyUpdateUtils implements Serializable {
 		String[] reloaded = pullFtpData.getReloadedUpdate();
 		String[] added = pullFtpData.getAdded();
 		// Now get these lists from the other lists
-		getUpdateLists(obsolete, modified, reloaded, added);
+		getUpdateLists(obsolete, modified, reloaded, added, ignoreList);
 	}
 
 	/**
