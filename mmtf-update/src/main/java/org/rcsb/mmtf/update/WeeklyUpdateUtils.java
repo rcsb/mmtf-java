@@ -15,6 +15,7 @@ import org.rcsb.mmtf.mappers.StringByteToTextByteWriter;
 
 public class WeeklyUpdateUtils implements Serializable {
 
+
 	private static final long serialVersionUID = 4909752674491325131L;
 	private List<String> removeList;
 	private List<String> addedList;
