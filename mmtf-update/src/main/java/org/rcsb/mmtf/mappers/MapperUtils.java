@@ -54,10 +54,10 @@ public class MapperUtils implements Serializable{
 	 * @param sparkContext
 	 * @return
 	 */
-	public JavaPairRDD<Text, BytesWritable> generateRDD(JavaSparkContext sparkContext, List<String> inputList) {
+	public JavaPairRDD<Text, BytesWritable> generateRDD(JavaSparkContext sparkContext, List<String> inputList, String inputUrl) {
 		// Set up Biojava appropriateyl
 		EncoderUtils encoderUtils = new EncoderUtils();
-		encoderUtils.setUpBioJava();
+		encoderUtils.setUpBioJava(inputUrl);
 		return sparkContext.parallelize(inputList)
 		.mapToPair(new PdbIdToDataStruct())
 		.flatMapToPair(new DataStructToByteArrs())

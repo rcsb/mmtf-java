@@ -16,7 +16,6 @@ import org.biojava.nbio.structure.StructureIO;
 import org.biojava.nbio.structure.align.util.AtomCache;
 import org.biojava.nbio.structure.io.FileParsingParameters;
 import org.biojava.nbio.structure.io.mmcif.ChemCompGroupFactory;
-import org.biojava.nbio.structure.io.mmcif.DownloadChemCompProvider;
 import org.msgpack.jackson.dataformat.MessagePackFactory;
 import org.rcsb.mmtf.arraycompressors.FindDeltas;
 import org.rcsb.mmtf.arraycompressors.IntArrayCompressor;
@@ -374,12 +373,33 @@ public class EncoderUtils implements Serializable {
 		params.setAlignSeqRes(true);
 		params.setParseBioAssembly(true);
 		params.setUseInternalChainId(true);
-		DownloadChemCompProvider cc = new DownloadChemCompProvider();
+		CustomChemCompProvider cc = new CustomChemCompProvider();
 		ChemCompGroupFactory.setChemCompProvider(cc);
 		cc.checkDoFirstInstall();
 		cache.setFileParsingParams(params);
 		StructureIO.setAtomCache(cache);
 		return cache;
 	}
+	
+	/**
+	 * Set up the configuration parameters for BioJava. - with an extra URL
+	 */
+	public AtomCache setUpBioJava(String extraUrl) {
+		// Set up the atom cache etc
+		AtomCache cache = new AtomCache();
+		cache.setUseMmCif(true);
+		FileParsingParameters params = cache.getFileParsingParams();
+		params.setCreateAtomBonds(true);
+		params.setAlignSeqRes(true);
+		params.setParseBioAssembly(true);
+		params.setUseInternalChainId(true);
+		CustomChemCompProvider cc = new CustomChemCompProvider(extraUrl);
+		ChemCompGroupFactory.setChemCompProvider(cc);
+		cc.checkDoFirstInstall();
+		cache.setFileParsingParams(params);
+		StructureIO.setAtomCache(cache);
+		return cache;
+	}
+	
 
 }

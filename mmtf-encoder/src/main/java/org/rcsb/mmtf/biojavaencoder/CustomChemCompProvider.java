@@ -70,9 +70,16 @@ public class CustomChemCompProvider implements ChemCompProvider {
 	 *
 	 */
 	boolean downloadAll = false;
-
 	public CustomChemCompProvider(){
 		logger.debug("Initialising DownloadChemCompProvider");
+		extraServerLocation = null;
+
+		// note that path is static, so this is just to make sure that all non-static methods will have path initialised
+		initPath();
+	}
+	public CustomChemCompProvider(String extraUrl){
+		logger.debug("Initialising DownloadChemCompProvider");
+		extraServerLocation = extraUrl;
 
 		// note that path is static, so this is just to make sure that all non-static methods will have path initialised
 		initPath();
@@ -327,7 +334,7 @@ public class CustomChemCompProvider implements ChemCompProvider {
 	 * @return true if successful download
 	 */
 	private static boolean downloadChemCompRecord(String recordName) {
-
+		
 		String localName = getLocalFileName(recordName);
 		File newFile;
 		try{
@@ -335,6 +342,10 @@ public class CustomChemCompProvider implements ChemCompProvider {
 		}
 		catch(IOException e){
 			logger.error("Could not write to temp directory {} to create the chemical component download temp file", System.getProperty("java.io.tmpdir"));
+			return false;
+		}
+		// If there is no input server - just leave 
+		if (extraServerLocation == null) {
 			return false;
 		}
 		String inputUrl = extraServerLocation + recordName.charAt(0) + "/" + recordName + "/" + recordName + ".cif";

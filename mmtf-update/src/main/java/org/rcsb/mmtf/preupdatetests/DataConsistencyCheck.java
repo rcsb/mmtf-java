@@ -24,6 +24,7 @@ public class DataConsistencyCheck {
 	 * 1) Argument one is the FTP server for the update lists
 	 * 2) Argumnet two is the server for the mmcif.gz files
 	 * 3) Argument three is the file to write at the end
+	 * 4) The URL for the CCD data
 	 * @param args
 	 * @throws IllegalAccessException
 	 * @throws InvocationTargetException
@@ -36,7 +37,7 @@ public class DataConsistencyCheck {
 		// Set up the atom cache etc
 	  	EncoderUtils encoderUtils = new EncoderUtils();
 	  	ServerUtils serverUtils = new ServerUtils();
-	  	AtomCache cache = encoderUtils.setUpBioJava();
+	  	AtomCache cache = encoderUtils.setUpBioJava(args[4]);
 	  	FileParsingParameters params = cache.getFileParsingParams();	  	
 	  	
 		// Get the data
@@ -50,7 +51,6 @@ public class DataConsistencyCheck {
 		String outPutFile = args[2];
 		TestingUtils testingUtils = new TestingUtils();
 		testingUtils.testAll(urlList, params, cache);
-		
 		File f = new File(outPutFile);
 		f.getParentFile().mkdirs(); 
 		f.createNewFile();

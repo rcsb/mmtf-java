@@ -28,14 +28,10 @@ public class WeeklyUpdateRun {
 		String ftpSiteUrl = args[1];
 		String mmcifDataUrl = args[2];
 		String outputUri = args[3];
-		
+		String inputCcdUrl = args[4];
 		// Call this rsync function
 		// Get the ones that need updating - first argument is the url to look at.
 		weeklyUpdate.getDataFromFtpSite(ftpSiteUrl);
-		// TODO Check if there is actually any work to do.
-		// Go through the current list
-		// The path of the hadoop file
-		// Specify the path of the input file
 		// This is the default 2 line structure for Spark applications
 		SparkConf conf = new SparkConf().setMaster("local[*]")
 				.setAppName(WeeklyUpdateRun.class.getSimpleName());
@@ -47,7 +43,7 @@ public class WeeklyUpdateRun {
 		for (String pdbId : weeklyUpdate.getAddedList()) {
 			urlPdbList.add(mmcifDataUrl+"/"+pdbId+".cif.gz");
 		}
-		JavaPairRDD<Text, BytesWritable> distData = mapperUtils.generateRDD(sparkContext, urlPdbList);
+		JavaPairRDD<Text, BytesWritable> distData = mapperUtils.generateRDD(sparkContext, urlPdbList, inputCcdUrl);
 		// Now join them
 		weeklyUpdate.joinDataSet(outputUri, totalDataset, distData);
 		sparkContext.close();
