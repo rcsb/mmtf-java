@@ -37,9 +37,9 @@ public class DataConsistencyCheck {
 	  	EncoderUtils encoderUtils = new EncoderUtils();
 	  	ServerUtils serverUtils = new ServerUtils();
 	  	AtomCache cache = encoderUtils.setUpBioJava();
-	  	FileParsingParameters params = cache.getFileParsingParams();
-
-		// Get 
+	  	FileParsingParameters params = cache.getFileParsingParams();	  	
+	  	
+		// Get the data
 		WeeklyUpdateUtils weeklyUpdate = new WeeklyUpdateUtils();
 		weeklyUpdate.getDataFromFtpSite(args[0]);
 		List<String> listToAdd = weeklyUpdate.getAddedList();
