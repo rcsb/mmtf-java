@@ -88,22 +88,22 @@ public interface StructureDecoderInterface {
   void setXtalInfo(String spaceGroup, List<Float> list);
 
   /**
-   * Sets the intra-group bonds.
+   * Sets an intra-group bond.
    *
    * @param thisBondIndOne the atom index of the first partner in the bond
    * @param thisBondIndTwo the atom index of the second partner in the bond
    * @param thisBondOrder the bond order
    */
-  void setGroupBonds(int thisBondIndOne, int thisBondIndTwo, int thisBondOrder);
+  void setGroupBond(int thisBondIndOne, int thisBondIndTwo, int thisBondOrder);
 
   /**
-   * Sets the inter-group bonds.
+   * Sets an inter-group bond.
    *
    * @param thisBondIndOne the atom index of the first partner in the bond
    * @param thisBondIndTwo the atom index of the second partner in the bond
    * @param thisBondOrder the bond order
    */
-  void setInterGroupBonds(int thisBondIndOne, int thisBondIndTwo, int thisBondOrder);
+  void setInterGroupBond(int thisBondIndOne, int thisBondIndTwo, int thisBondOrder);
   
   
   /**

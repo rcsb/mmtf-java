@@ -191,7 +191,7 @@ public class DecodeStructure {
 			int thisBondOrder = bondOrders.get(thisBond);
 			int thisBondIndOne = bondInds.get(thisBond * 2);
 			int thisBondIndTwo = bondInds.get(thisBond * 2 + 1);
-			structInflator.setGroupBonds(thisBondIndOne, thisBondIndTwo,
+			structInflator.setGroupBond(thisBondIndOne, thisBondIndTwo,
 					thisBondOrder);
 		}    
 	}
@@ -201,7 +201,7 @@ public class DecodeStructure {
 	 */
 	private void addInterGroupBonds() {
 		for (int i = 0; i < dataApi.getInterGroupBondOrders().length; i++) {
-			structInflator.setInterGroupBonds(dataApi.getInterGroupBondIndices()[i * 2],
+			structInflator.setInterGroupBond(dataApi.getInterGroupBondIndices()[i * 2],
 					dataApi.getInterGroupBondIndices()[i * 2 + 1], dataApi.getInterGroupBondOrders()[i]);
 		}    
 	}
