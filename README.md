@@ -6,11 +6,16 @@ This repository holds the Java API, encoding and decoding libraries. Along with 
 The alpha release is available on Maven central.
 
 ```<groupId>org.rcsb</groupId>
-<artifactId>mmtf</artifactId>
+<artifactId>mmtf-decoder</artifactId>
 <packaging>pom</packaging>
 <version>0.0.1-alpha1</version>
 ```
 
+```<groupId>org.rcsb</groupId>
+<artifactId>mmtf-api</artifactId>
+<packaging>pom</packaging>
+<version>0.0.1-alpha1</version>
+```
 
 Or you can clone this repo and install yourself.
 
