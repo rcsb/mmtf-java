@@ -13,6 +13,8 @@ import org.apache.spark.api.java.JavaSparkContext;
 import org.rcsb.mmtf.mappers.ByteWriteToByteArr;
 import org.rcsb.mmtf.mappers.StringByteToTextByteWriter;
 
+import scala.Tuple2;
+
 public class WeeklyUpdateUtils implements Serializable {
 
 

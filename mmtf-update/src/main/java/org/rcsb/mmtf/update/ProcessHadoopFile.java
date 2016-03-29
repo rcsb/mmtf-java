@@ -97,16 +97,15 @@ public class ProcessHadoopFile implements Serializable {
 		//		 Now write this out as a hash map
 		sparkHadoopHashMapWriter.writeHashMapToFile(mainMap.collectAsMap(), basePath+"mainMap.map");
 
-		List<Partition> parted = mainMap.partitions();
-		for(int i=0; i<parted.size();i++){
-			int[] thisArr = new int[1];
-			thisArr[0] = i;
-			List<Tuple2<String, byte[]>> ans = mainMap.collectPartitions(thisArr)[0];
-			// Now write the files to the file system
-			writeToFile(ans, basePath);
-		}
-
-
+		// Don't write the structures out as fat files
+//		List<Partition> parted = mainMap.partitions();
+//		for(int i=0; i<parted.size();i++){
+//			int[] thisArr = new int[1];
+//			thisArr[0] = i;
+//			List<Tuple2<String, byte[]>> ans = mainMap.collectPartitions(thisArr)[0];
+//			// Now write the files to the file system
+//			writeToFile(ans, basePath);
+//		}
 
 		// Now get the total dataset - without gzip and write to a hadoop sequence file
 		JavaPairRDD<String, byte[]> mainMapNoGzip = totalDataset.filter(new Function<Tuple2<String,byte[]>, Boolean>() {
