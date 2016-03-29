@@ -12,6 +12,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.zip.GZIPOutputStream;
 
+import org.biojava.nbio.structure.Chain;
+import org.biojava.nbio.structure.Group;
+import org.biojava.nbio.structure.Structure;
 import org.biojava.nbio.structure.StructureIO;
 import org.biojava.nbio.structure.align.util.AtomCache;
 import org.biojava.nbio.structure.io.FileParsingParameters;
@@ -400,6 +403,39 @@ public class EncoderUtils implements Serializable {
 		StructureIO.setAtomCache(cache);
 		return cache;
 	}
+	
+	
+	  /**
+	   * This sets all microheterogeneous groups (previously alternate location groups) as separate groups.
+	   * @param bioJavaStruct
+	   */
+	  public void fixMicroheterogenity(Structure bioJavaStruct) {
+		    // Loop through the models
+		    for (int i=0; i<bioJavaStruct.nrModels(); i++){
+		      List<Chain> chains = bioJavaStruct.getModel(i);
+		      for (Chain c : chains) {
+		    	List<Group> outGroups = new ArrayList<>();
+		        for (Group g : c.getAtomGroups()) {
+		        	List<Group> removeList = new ArrayList<>();
+		          for (Group altLoc : g.getAltLocs()) {	  
+		        	  // Check if they are not equal -> microheterogenity
+		        	  if(! altLoc.getPDBName().equals(g.getPDBName())) {
+		        		  // Now add this group to the main list
+		        		  outGroups.add(altLoc);
+		        		  removeList.add(altLoc);
+		        		    System.out.println(altLoc);
+		        	  }
+		          }
+		          outGroups.add(g);
+		          if(! removeList.isEmpty()){
+		            System.out.println(removeList);
+		          }
+		          g.getAltLocs().removeAll(removeList);
+		        }
+		          c.setAtomGroups(outGroups);
+		      }
+		    }
+	  }
 	
 
 }

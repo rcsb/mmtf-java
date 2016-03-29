@@ -191,6 +191,9 @@ public class ParseFromBiojava {
    * input so that a consistent map can be held across several structures
    */
   public void generateDataStructuresFromBioJavaStructure(Structure bioJavaStruct, Map<Integer, PDBGroup> bioStructMap) {
+	EncoderUtils encoderUtils = new EncoderUtils();
+	// Reset structure to consider altloc groups with the same residue number but different group names as seperate groups
+	encoderUtils.fixMicroheterogenity(bioJavaStruct);
     // Generate the secondary structure
     genSecStruct(bioJavaStruct);
     // Set the header information
@@ -382,7 +385,8 @@ public class ParseFromBiojava {
     headerStruct.setPdbCode(bioJavaStruct.getPDBCode());
   }
 
-  /**
+
+/**
    * Find and store the entity information in the header structure.
    * @param bioJavaStruct
    */
