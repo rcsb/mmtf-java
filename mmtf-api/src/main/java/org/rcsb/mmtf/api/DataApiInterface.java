@@ -16,7 +16,7 @@ import org.rcsb.mmtf.dataholders.PDBGroup;
 public interface DataApiInterface {
 
 	/**
-	 * Returns a list of length N atoms of the X coords of the atoms as Integers.
+	 * Returns an array of length N atoms of the X coordinates of the atoms as integers.
 	 * They must be divided by 1000.0 to be in float form.
 	 * @return
 	 */
@@ -26,7 +26,7 @@ public interface DataApiInterface {
 
 
 	/**
-	 * Returns a list of length N atoms of the Y coords of the atoms as Integers.
+	 * Returns an array of length N atoms of the Y coordinates of the atoms as integers.
 	 * They must be divided by 1000.0 to be in float form.
 	 * @return
 	 */
@@ -36,7 +36,7 @@ public interface DataApiInterface {
 
 
 	/**
-	 * Returns a list of length N atoms of the Z coords of the atoms as Integers.
+	 * Returns an array of length N atoms of the Z coordinates of the atoms as integers.
 	 * They must be divided by 1000.0 to be in float form.
 	 * @return
 	 */
@@ -46,7 +46,7 @@ public interface DataApiInterface {
 
 
 	/**
-	 * Returns a list of length N atoms of the B-factors of the atoms as Integers.
+	 * Returns an array of length N atoms of the B-factors of the atoms as integers.
 	 * They must be divided by 100.0 to be in float form.
 	 * @return
 	 */
@@ -55,7 +55,7 @@ public interface DataApiInterface {
 	void setbFactor(int[] bFactor);
 
 	/**
-	 * Returns a list of length N atoms of the Occupancy of the atoms as Integers.
+	 * Returns an array of length N atoms of the Occupancy of the atoms as integers.
 	 * They must be divided by 100.0 to be in float form.
 	 * @return
 	 */	
@@ -65,7 +65,7 @@ public interface DataApiInterface {
 
 
 	/**
-	 * Returns a list of length N atoms of the serial ids of the atoms as Integers.
+	 * Returns an array of length N atoms of the serial ids of the atoms as integers.
 	 * @return
 	 */
 	int[] getAtomId();
@@ -74,8 +74,8 @@ public interface DataApiInterface {
 
 
 	/**
-	 * Returns a list of length N atoms of the alternate location ids of the atoms as characters.
-	 * "?" specifies a lack of alt id.
+	 * Returns an array of length N atoms of the alternate location ids of the atoms as characters.
+	 * '?' specifies a lack of alt id.
 	 * @return
 	 */
 	char[] getAltId();
@@ -84,7 +84,7 @@ public interface DataApiInterface {
 
 
 	/**
-	 * Returns a list of length N atoms of the insertion codes of the atoms as characters.
+	 * Returns an array of length N atoms of the insertion codes of the atoms as characters.
 	 * "?" specifies a lack of alt id.
 	 * @return
 	 */	
@@ -113,7 +113,7 @@ public interface DataApiInterface {
 
 
 	/**
-	 * Returns a list of length N groups indicating the index in the group map for each group.
+	 * Returns an array of length N groups indicating the index in the group map for each group.
 	 * @return
 	 */	
 	int[] getGroupList();
@@ -122,7 +122,7 @@ public interface DataApiInterface {
 
 
 	/**
-	 * Returns a list of length N groups indicating the index in the Sequence for each group.
+	 * Returns an array of length N groups indicating the index in the Sequence for each group.
 	 * -1 indicates the group is not present in the sequence. Indices are specified per chain.
 	 * @return
 	 */
@@ -134,7 +134,7 @@ public interface DataApiInterface {
 
 
 	/**
-	 * Returns a list of strings (length number of chains) for the public facing chain ids (auth ids).
+	 * Returns an array of Strings (length number of chains) for the public facing chain ids (auth ids).
 	 * Each string is of length up to 4.
 	 * @return
 	 */	
@@ -144,7 +144,7 @@ public interface DataApiInterface {
 
 
 	/**
-	 * Returns the a list length N models, indicating the number of (internal) chains in each model.
+	 * Returns an array of length N models, indicating the number of (internal) chains in each model.
 	 * @return
 	 */
 	int[] getChainsPerModel();
@@ -153,7 +153,7 @@ public interface DataApiInterface {
 
 
 	/**
-	 * Returns the a list length N chains, indicating the number of groups (residues) in each chain.
+	 * Returns an array of length N chains, indicating the number of groups (residues) in each chain.
 	 * @return
 	 */	
 	int[] getGroupsPerChain();
@@ -191,7 +191,7 @@ public interface DataApiInterface {
 
 
 	/**
-	 * Returns a list of length 2 * intergroup bonds of the bond indices.
+	 * Returns an array of length 2 * intergroup bonds of the bond indices.
 	 * Each index corresponds to a the index of the atom in the total structure.
 	 * @return
 	 */
@@ -201,7 +201,7 @@ public interface DataApiInterface {
 
 
 	/**
-	 * Returns a list of length intergroup bonds of the bond orders (1,2,3) for the bonds between groups as a list of integers.
+	 * Returns an array of length intergroup bonds of the bond orders (1,2,3) for the bonds between groups as a list of integers.
 	 * @return
 	 */
 	int[] getInterGroupBondOrders();
@@ -210,7 +210,7 @@ public interface DataApiInterface {
 
 
 	/**
-	 *Returns a list of strings length N chains for the internal chain ids (asym ids).
+	 * Returns an array of length N chains for the internal chain ids (asym ids).
 	 * Each string is of length up to 4.
 	 * @return
 	 */
@@ -279,7 +279,7 @@ public interface DataApiInterface {
 	/**
 	 * Returns the number of groups (residues) in the file
 	 */
-	int getNumResiudes();
+	int getNumResidues();
 	
 
 	/**
