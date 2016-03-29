@@ -193,9 +193,7 @@ public class MmtfBean {
 	}
 
 
-	/*
-
-  /**
+   /**
 	 * Gets the space group.
 	 *
 	 * @return the space group
@@ -250,18 +248,18 @@ public class MmtfBean {
 	}
 
 	/**
-	 * Gets the x coord big.
+	 * Gets the x coordinate big.
 	 *
-	 * @return the x coord big
+	 * @return the x coordinate big
 	 */
 	public final byte[] getxCoordBig() {
 		return xCoordBig;
 	}
 
 	/**
-	 * Sets the x coord big.
+	 * Sets the x coordinate big.
 	 *
-	 * @param inputXCoordBig the new 4 byte integer x coord array
+	 * @param inputXCoordBig the new 4 byte integer x coordinate array
 	 */
 	public final void setxCoordBig(final byte[] inputXCoordBig) {
 		this.xCoordBig = inputXCoordBig;
@@ -277,81 +275,81 @@ public class MmtfBean {
 	}
 
 	/**
-	 * Sets the y coord big.
+	 * Sets the y coordinate big.
 	 *
-	 * @param inputYCoordBig the new 4 byte integer y coord array
+	 * @param inputYCoordBig the new 4 byte integer y coordinate array
 	 */
 	public final void setyCoordBig(final byte[] inputYCoordBig) {
 		this.yCoordBig = inputYCoordBig;
 	}
 
 	/**
-	 * Gets the z coord big.
+	 * Gets the z coordinate big.
 	 *
-	 * @return the z coord big
+	 * @return the z coordinate big
 	 */
 	public final byte[] getzCoordBig() {
 		return zCoordBig;
 	}
 
 	/**
-	 * Sets the z coord big.
+	 * Sets the z coordinate big.
 	 *
-	 * @param inputZCoordBig the new 4 byte integer z coord array
+	 * @param inputZCoordBig the new 4 byte integer z coordinate array
 	 */
 	public final void setzCoordBig(final byte[] inputZCoordBig) {
 		this.zCoordBig = inputZCoordBig;
 	}
 
 	/**
-	 * Gets the x coord small.
+	 * Gets the x coordinate small.
 	 *
-	 * @return the x coord small
+	 * @return the x coordinate small
 	 */
 	public final byte[] getxCoordSmall() {
 		return xCoordSmall;
 	}
 
 	/**
-	 * Sets the x coord small.
+	 * Sets the x coordinate small.
 	 *
-	 * @param inputXCoordSmall the new 2 byte integer x coord array
+	 * @param inputXCoordSmall the new 2 byte integer x coordinate array
 	 */
 	public final void setxCoordSmall(final byte[] inputXCoordSmall) {
 		this.xCoordSmall = inputXCoordSmall;
 	}
 
 	/**
-	 * Gets the y coord small.
+	 * Gets the y coordinate small.
 	 *
-	 * @return the y coord small
+	 * @return the y coordinate small
 	 */
 	public final byte[] getyCoordSmall() {
 		return yCoordSmall;
 	}
 
 	/**
-	 * Sets the y coord small.
+	 * Sets the y coordinate small.
 	 *
-	 * @param inputYCoordSmall the new 2 byte integer y coord array
+	 * @param inputYCoordSmall the new 2 byte integer y coordinate array
 	 */
 	public final void setyCoordSmall(final byte[] inputYCoordSmall) {
 		this.yCoordSmall = inputYCoordSmall;
 	}
 
 	/**
-	 * Gets the z coord small.
+	 * Gets the z coordinate small.
 	 *
-	 * @return the z coord small
+	 * @return the z coordinate small
 	 */
 	public final byte[] getzCoordSmall() {
 		return zCoordSmall;
 	}
 
 	/**
-	 * Sets the z coord small.
+	 * Sets the z coordinate small.
 	 *
-	 * @param inputZCoordSmall the new 2 byte integer z coord array
+	 * @param inputZCoordSmall the new 2 byte integer z coordinate array
 	 */
 	public final void setzCoordSmall(final byte[] inputZCoordSmall) {
 		this.zCoordSmall = inputZCoordSmall;

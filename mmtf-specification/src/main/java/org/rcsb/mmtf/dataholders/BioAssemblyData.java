@@ -3,18 +3,20 @@ package org.rcsb.mmtf.dataholders;
 import java.util.List;
 
 /**
- * Representation of a Biological Assembly annotation as provided by the PDB.
+ * Data store for the biological assembly annotation as provided by the PDB.
  * Contains all the information required to build the Biological Assembly from
  * the asymmetric unit.
  * Note that the PDB allows for 1 or more Biological Assemblies for a given
- * entry.
- * They are identified by the id field.
- * Modified by Anthony Bradley for message pack.
- * @author duarte_j
+ * entry. They are identified by the id field.
+ * 
  * @author Anthony Bradley
  */
 public class BioAssemblyData {
-	/**  The number of oligmers (parsed from the mmCif file).*/
+	
+	/**  
+	 * The number of macromolecular subunits (protein/nucleotide) 
+	 * in the biological assembly.
+	 */
 	private int macroMolecularSize;
 
 	/**
@@ -43,6 +45,8 @@ public class BioAssemblyData {
 	}
 
 	/**
+	 * Returns the macromolecular size, i.e. the number of macromolecular subunits (protein/nucleotide)
+	 * in the biological assembly.
 	 * @return the macroMolecularSize
 	 */
 	public int getMacroMolecularSize() {
@@ -50,6 +54,8 @@ public class BioAssemblyData {
 	}
 
 	/**
+	 * Sets the macromolecular size, i.e. the number of macromolecular subunits (protein/nucleotide)
+	 * in the biological assembly.
 	 * @param macroMolecularSize the macroMolecularSize to set
 	 */
 	public void setMacroMolecularSize(int macroMolecularSize) {

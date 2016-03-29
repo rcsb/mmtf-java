@@ -20,8 +20,8 @@ public interface StructureDecoderInterface {
 
   /**
    * Sets the number of chains for a given model.
-   * @param modelId Identifier of the model within the structure
-   * @param chainCount Total number of chains within this model
+   * @param modelId identifier of the model within the structure
+   * @param chainCount total number of chains within this model
    */
   void setModelInfo(int modelId, int chainCount);
 
@@ -47,7 +47,7 @@ public interface StructureDecoderInterface {
    * @param groupName 3 letter code name of this group/residue
    * @param groupNumber sequence position of this group
    * @param insertionCode the one letter insertion code
-   * @param polymerType A string indicating the type of group (as found in the chemcomp dictionary. Empty string if none available.
+   * @param polymerType a string indicating the type of group (as found in the chemcomp dictionary. Empty string if none available.
    * @param atomCount the number of atoms in the group
    */
   void setGroupInfo(String groupName, int groupNumber, char insertionCode,
@@ -75,14 +75,7 @@ public interface StructureDecoderInterface {
   /**
    * Sets the Bioassembly information for the structure.
    *
-   * @param keyToIndexMap mapping the id of the bioassembly to its name
-   * @param sizeMap mapping the id of the bioassembly to it's size
-   * @param bioAssemblyToIdsMap maps the bioassembly to the
-   * ids of the transformations
-   * @param bioassemblyToChainIdsMap the map of bioassembly
-   * to the list of chain ids considered
-   * @param bioassemblyToTransformationsMap the map of bioassembly
-   * to the list of transformations
+   * @param inputBioassemblies
    */
   void setBioAssembly(Map<Integer, BioAssemblyData> inputBioassemblies);
 
@@ -95,23 +88,22 @@ public interface StructureDecoderInterface {
   void setXtalInfo(String spaceGroup, List<Float> list);
 
   /**
-   * Sets the intra bonds for groups.
+   * Sets the intra-group bonds.
    *
-   * @param thisBondIndOne the this bond ind one
-   * @param thisBondIndTwo the this bond ind two
-   * @param thisBondOrder the this bond order
+   * @param thisBondIndOne the atom index of the first partner in the bond
+   * @param thisBondIndTwo the atom index of the second partner in the bond
+   * @param thisBondOrder the bond order
    */
   void setGroupBonds(int thisBondIndOne, int thisBondIndTwo, int thisBondOrder);
 
   /**
-   * Sets the inter group bonds between atoms.
+   * Sets the inter-group bonds.
    *
-   * @param thisBondIndOne the this bond ind one
-   * @param thisBondIndTwo the this bond ind two
-   * @param thisBondOrder the this bond order
+   * @param thisBondIndOne the atom index of the first partner in the bond
+   * @param thisBondIndTwo the atom index of the second partner in the bond
+   * @param thisBondOrder the bond order
    */
-  void setInterGroupBonds(int thisBondIndOne,
-      int thisBondIndTwo, int thisBondOrder);
+  void setInterGroupBonds(int thisBondIndOne, int thisBondIndTwo, int thisBondOrder);
   
   
   /**
