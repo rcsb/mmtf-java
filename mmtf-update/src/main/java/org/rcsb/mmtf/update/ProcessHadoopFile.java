@@ -1,15 +1,12 @@
 package org.rcsb.mmtf.update;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.Serializable;
-import java.util.List;
 
 import org.apache.hadoop.io.BytesWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapred.SequenceFileOutputFormat;
-import org.apache.spark.Partition;
 import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaSparkContext;
@@ -97,16 +94,6 @@ public class ProcessHadoopFile implements Serializable {
 		//		 Now write this out as a hash map
 		sparkHadoopHashMapWriter.writeHashMapToFile(mainMap.collectAsMap(), basePath+"mainMap.map");
 
-		// Don't write the structures out as fat files
-//		List<Partition> parted = mainMap.partitions();
-//		for(int i=0; i<parted.size();i++){
-//			int[] thisArr = new int[1];
-//			thisArr[0] = i;
-//			List<Tuple2<String, byte[]>> ans = mainMap.collectPartitions(thisArr)[0];
-//			// Now write the files to the file system
-//			writeToFile(ans, basePath);
-//		}
-
 		// Now get the total dataset - without gzip and write to a hadoop sequence file
 		JavaPairRDD<String, byte[]> mainMapNoGzip = totalDataset.filter(new Function<Tuple2<String,byte[]>, Boolean>() {
 
@@ -134,35 +121,6 @@ public class ProcessHadoopFile implements Serializable {
 		
 	}
 
-	/**
-	 * Function to write all the structure files to the file system.
-	 * @param inputListOfFiles
-	 * @throws IOException
-	 */
-	private static void writeToFile(List<Tuple2<String, byte[]>> inputListOfFiles, String basePath) throws IOException {
-
-		basePath = basePath+"/structures";
-		for(Tuple2<String, byte[]> v1: inputListOfFiles){
-			// Get the key value pairs
-			String pdbCode = v1._1.toLowerCase();
-			byte[] byteArr = v1._2;
-			// Make the new dir 
-			File theDir = new File(basePath+"/"+pdbCode.substring(1, 3));
-			if(theDir.exists() == false){
-				theDir.mkdirs();
-			}
-			// Write the file	
-			FileOutputStream fos = null;
-			// Try and except
-			try{
-				fos = new FileOutputStream(basePath+"/"+pdbCode.substring(1, 3)+"/"+pdbCode);
-				fos.write(byteArr);
-			}
-			finally{
-				fos.close();
-			}
-		}
-	}
 
 }
 
