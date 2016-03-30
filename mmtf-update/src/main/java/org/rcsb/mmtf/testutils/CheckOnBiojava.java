@@ -75,6 +75,9 @@ public class CheckOnBiojava {
           if(groupOne.getAltLocs().size()!=0){
             if(groupTwo.getAltLocs().size()!=groupOne.getAltLocs().size()){
               System.out.println("Error - diff number alt locs: "+structOne.getPDBCode());
+              System.out.println(groupOne.getAltLocs().size());
+              System.out.println(groupTwo.getAltLocs().size());
+
             }
             // Now go over the alt locs
             for(Group altLocOne: groupOne.getAltLocs()){

@@ -30,4 +30,5 @@ public class TestBonds {
 			testUtils.checkIfBondsExist(structure);
 		}
 	}	
+	
 }

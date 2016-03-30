@@ -44,5 +44,4 @@ public class TestParseMMCif {
     testingUtils.testAll(IntegrationTestUtils.TEST_CASES, params, cache);
   }
 
-
 }

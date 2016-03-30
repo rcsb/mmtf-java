@@ -249,7 +249,7 @@ public class ParseFromBiojava {
     // Now let's find the entity infomration
     findEntityInfo(bioJavaStruct);
     // Get all the atoms
-    List<Atom> totAtoms = getAllAtoms(bioJavaStruct);
+    List<Atom> totAtoms = encoderUtils.getAllAtoms(bioJavaStruct);
     for (int i=0; i<numModels; i++){
       // Now let's loop over all the atom site record
       List<Chain> chains = bioJavaStruct.getModel(i);
@@ -295,7 +295,7 @@ public class ParseFromBiojava {
           // Get the pdb id
           String res_id = currentGroup.getPDBName();
           // Get the atoms for this group
-          List<Atom> atomsInThisGroup = getAtomsForGroup(currentGroup);
+          List<Atom> atomsInThisGroup = encoderUtils.getAtomsForGroup(currentGroup);
           // Get any bonds between groups
           getInterGroupBond(atomsInThisGroup, totAtoms, atomCounter);
           // Count the number of bonds
@@ -416,32 +416,6 @@ public class ParseFromBiojava {
 	    headerStruct.setEntityList(entityList);
 }
 
-
-/**
-   * Function to get a list of atoms for a group.
-   *
-   * @param inputGroup the Biojava Group to consider
-   * @return the atoms for the input Biojava Group
-   */
-  private List<Atom> getAtomsForGroup(Group inputGroup) {
-    Set<Atom> uniqueAtoms = new HashSet<Atom>();
-    List<Atom> theseAtoms = new ArrayList<Atom>();
-    for(Atom a: inputGroup.getAtoms()){
-      theseAtoms.add(a);
-      uniqueAtoms.add(a);
-    }
-
-    List<Group> altLocs = inputGroup.getAltLocs();
-    for(Group thisG: altLocs){
-      for(Atom a: thisG.getAtoms()){
-        if(uniqueAtoms.contains(a)){ 
-          continue;
-        }
-        theseAtoms.add(a);
-      }
-    }
-    return theseAtoms;
-  }
 
 
 
@@ -656,29 +630,6 @@ public class ParseFromBiojava {
     }		
   }
 
-
-  /**
-   * Function to get all the atoms in the strucutre as a list.
-   *
-   * @param bioJavaStruct the bio java struct
-   * @return the all atoms
-   */
-  private List<Atom> getAllAtoms(Structure bioJavaStruct) {
-    // Get all the atoms
-    List<Atom> theseAtoms = new ArrayList<Atom>();
-    for (int i=0; i<bioJavaStruct.nrModels(); i++){
-      List<Chain> chains = bioJavaStruct.getModel(i);
-      for (Chain c : chains) {
-        for (Group g : c.getAtomGroups()) {
-          for(Atom a: getAtomsForGroup(g)){
-            theseAtoms.add(a);					
-          }
-        }
-      }
-    }
-
-    return theseAtoms;
-  }
 
   /**
    * Add a new calpha / phosophate / ligand atom.

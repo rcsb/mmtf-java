@@ -38,6 +38,7 @@ public class CheckBonds {
 		encoderUtils.setUpBioJava();
 		for (String testCase : GetRepresentatives.getAll()) {
 			Structure structure = StructureIO.getStructure(testCase);
+			encoderUtils.fixMicroheterogenity(structure);
 			checkIfBondsExist(structure);
 		}
 	}
@@ -260,13 +261,14 @@ public class CheckBonds {
 
 		List<Group> allGroups = new ArrayList<>(inputGroup.getAltLocs());
 		allGroups.add(inputGroup);
-		// Get the CCD 
-		ChemComp inputChemComp = inputGroup.getChemComp();
-		// Get the bonds
-		for (ChemCompBond inputBond : inputChemComp.getBonds()) {
-			String atomNameOne = inputBond.getAtom_id_1();
-			String atomNameTwo = inputBond.getAtom_id_2();
-			for (Group group : allGroups) {
+
+		for (Group group : allGroups) {
+			// Get the CCD 
+			ChemComp inputChemComp = group.getChemComp();
+			// Get the bonds
+			for (ChemCompBond inputBond : inputChemComp.getBonds()) {
+				String atomNameOne = inputBond.getAtom_id_1();
+				String atomNameTwo = inputBond.getAtom_id_2();
 				Atom atomOne = group.getAtom(atomNameOne);
 				Atom atomTwo = group.getAtom(atomNameTwo);
 				if (atomOne != null && atomTwo != null) {
@@ -274,31 +276,41 @@ public class CheckBonds {
 					checkBonded(atomOne, atomTwo, inputBond.getNumericalBondOrder(), true);
 				}
 			}
-
-		}		
-	}
-
-	/**
-	 * Check that two atoms are bonded
-	 * @param atomOne
-	 * @param atomTwo
-	 */
-	private void checkBonded(Atom atomOne, Atom atomTwo, Integer bondOrder, boolean isBonded) {
-		List<Atom> otherAtoms = new ArrayList<>();
-		List<Integer> bondInds = new ArrayList<>();
-		for (Bond groupBond  : atomOne.getBonds()) {
-			otherAtoms.add(groupBond.getOther(atomOne));
-			bondInds.add(groupBond.getBondOrder());
 		}
-		// Assert that it's bonded to the other
-		assertTrue(otherAtoms.contains(atomTwo)==isBonded);
-		// And that's it not bonded to itself
-		assertTrue(!otherAtoms.contains(atomOne));
-		if (isBonded) {
-			// Assert that it's only bonded once to the other
-			assertEquals(otherAtoms.indexOf(atomTwo), otherAtoms.lastIndexOf(atomTwo));
-			// Assert that the bond order is correct
-			assertEquals(bondOrder, bondInds.get(otherAtoms.indexOf(atomTwo)));		
-		}
+
+	}		
+
+/**
+ * Check that two atoms are bonded
+ * @param atomOne
+ * @param atomTwo
+ */
+private void checkBonded(Atom atomOne, Atom atomTwo, Integer bondOrder, boolean isBonded) {
+	List<Atom> otherAtoms = new ArrayList<>();
+	List<Integer> bondInds = new ArrayList<>();
+	for (Bond groupBond  : atomOne.getBonds()) {
+		otherAtoms.add(groupBond.getOther(atomOne));
+		bondInds.add(groupBond.getBondOrder());
 	}
+	// Assert that it's bonded to the other
+	assertTrue(otherAtoms.contains(atomTwo)==isBonded);
+	// And that's it not bonded to itself
+	assertTrue(!otherAtoms.contains(atomOne));
+	if (isBonded) {
+		// Assert that it's only bonded once to the other
+		if(otherAtoms.indexOf(atomTwo)!=otherAtoms.lastIndexOf(atomTwo)){
+			System.out.println("Bonded more than once: "+atomOne.getGroup().getChain().getStructure().getPDBCode());
+			System.out.println(atomOne);
+			System.out.println(atomTwo);
+		}
+		assertEquals(otherAtoms.indexOf(atomTwo), otherAtoms.lastIndexOf(atomTwo));
+		// Assert that the bond order is correct
+		if(bondOrder != bondInds.get(otherAtoms.indexOf(atomTwo))){
+			System.out.println("Wrong bond order: "+atomOne.getGroup().getChain().getStructure().getPDBCode());
+			System.out.println(atomOne);
+			System.out.println(atomTwo);
+		}
+		assertEquals(bondOrder, bondInds.get(otherAtoms.indexOf(atomTwo)));		
+	}
+}
 }

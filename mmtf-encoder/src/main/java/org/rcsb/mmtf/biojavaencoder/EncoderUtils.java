@@ -9,9 +9,12 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.zip.GZIPOutputStream;
 
+import org.biojava.nbio.structure.Atom;
 import org.biojava.nbio.structure.Chain;
 import org.biojava.nbio.structure.Group;
 import org.biojava.nbio.structure.Structure;
@@ -383,7 +386,7 @@ public class EncoderUtils implements Serializable {
 		StructureIO.setAtomCache(cache);
 		return cache;
 	}
-	
+
 	/**
 	 * Set up the configuration parameters for BioJava. - with an extra URL
 	 */
@@ -403,39 +406,86 @@ public class EncoderUtils implements Serializable {
 		StructureIO.setAtomCache(cache);
 		return cache;
 	}
-	
-	
-	  /**
-	   * This sets all microheterogeneous groups (previously alternate location groups) as separate groups.
-	   * @param bioJavaStruct
-	   */
-	  public void fixMicroheterogenity(Structure bioJavaStruct) {
-		    // Loop through the models
-		    for (int i=0; i<bioJavaStruct.nrModels(); i++){
-		      List<Chain> chains = bioJavaStruct.getModel(i);
-		      for (Chain c : chains) {
-		    	List<Group> outGroups = new ArrayList<>();
-		        for (Group g : c.getAtomGroups()) {
-		        	List<Group> removeList = new ArrayList<>();
-		          for (Group altLoc : g.getAltLocs()) {	  
-		        	  // Check if they are not equal -> microheterogenity
-		        	  if(! altLoc.getPDBName().equals(g.getPDBName())) {
-		        		  // Now add this group to the main list
-		        		  outGroups.add(altLoc);
-		        		  removeList.add(altLoc);
-		        		    System.out.println(altLoc);
-		        	  }
-		          }
-		          outGroups.add(g);
-		          if(! removeList.isEmpty()){
-		            System.out.println(removeList);
-		          }
-		          g.getAltLocs().removeAll(removeList);
-		        }
-		          c.setAtomGroups(outGroups);
-		      }
-		    }
-	  }
-	
+
+
+	/**
+	 * This sets all microheterogeneous groups (previously alternate location groups) as separate groups.
+	 * @param bioJavaStruct
+	 */
+	public void fixMicroheterogenity(Structure bioJavaStruct) {
+		// Loop through the models
+		for (int i=0; i<bioJavaStruct.nrModels(); i++){
+			// Then the chains
+			List<Chain> chains = bioJavaStruct.getModel(i);
+			for (Chain c : chains) {
+				// Build a new list of groups
+				List<Group> outGroups = new ArrayList<>();
+				for (Group g : c.getAtomGroups()) {
+					List<Group> removeList = new ArrayList<>();
+					for (Group altLoc : g.getAltLocs()) {	  
+						// Check if they are not equal -> microheterogenity
+						if(! altLoc.getPDBName().equals(g.getPDBName())) {
+							// Now add this group to the main list
+							removeList.add(altLoc);
+						}
+					}
+					// Add this group
+					outGroups.add(g);
+					// Remove any microhet alt locs
+					g.getAltLocs().removeAll(removeList);
+					// Add these microhet alt locs
+					outGroups.addAll(removeList);
+				}
+				c.setAtomGroups(outGroups);
+			}
+		}
+	}
+
+	/**
+	 * Function to get all the atoms in the strucutre as a list.
+	 *
+	 * @param bioJavaStruct the bio java struct
+	 * @return the all atoms
+	 */
+	public List<Atom> getAllAtoms(Structure bioJavaStruct) {
+		// Get all the atoms
+		List<Atom> theseAtoms = new ArrayList<Atom>();
+		for (int i=0; i<bioJavaStruct.nrModels(); i++){
+			List<Chain> chains = bioJavaStruct.getModel(i);
+			for (Chain c : chains) {
+				for (Group g : c.getAtomGroups()) {
+					for(Atom a: getAtomsForGroup(g)){
+						theseAtoms.add(a);					
+					}
+				}
+			}
+		}
+		return theseAtoms;
+	}
+
+	/**
+	 * Function to get a list of atoms for a group.
+	 *
+	 * @param inputGroup the Biojava Group to consider
+	 * @return the atoms for the input Biojava Group
+	 */
+	public List<Atom> getAtomsForGroup(Group inputGroup) {
+		Set<Atom> uniqueAtoms = new HashSet<Atom>();
+		List<Atom> theseAtoms = new ArrayList<Atom>();
+		for(Atom a: inputGroup.getAtoms()){
+			theseAtoms.add(a);
+			uniqueAtoms.add(a);
+		}
+		List<Group> altLocs = inputGroup.getAltLocs();
+		for(Group thisG: altLocs){
+			for(Atom a: thisG.getAtoms()){
+				if(uniqueAtoms.contains(a)){ 
+					continue;
+				}
+				theseAtoms.add(a);
+			}
+		}
+		return theseAtoms;
+	}
 
 }
