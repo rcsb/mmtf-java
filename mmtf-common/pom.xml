@@ -5,7 +5,7 @@
 		<artifactId>mmtf</artifactId>
 		<version>0.0.1-alpha3-SNAPSHOT</version>
 	</parent>
-	<artifactId>mmtf-specification</artifactId>
+	<artifactId>mmtf-common</artifactId>
 	<packaging>jar</packaging>
 
 	<name>mmtf-specification</name>

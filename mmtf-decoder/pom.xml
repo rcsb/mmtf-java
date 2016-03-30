@@ -28,7 +28,7 @@
 		</dependency>
 		<dependency>
 			<groupId>org.rcsb</groupId>
-			<artifactId>mmtf-specification</artifactId>
+			<artifactId>mmtf-common</artifactId>
 			<version>0.0.1-alpha3-SNAPSHOT</version>
 		</dependency>
 		<dependency>

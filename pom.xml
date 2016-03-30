@@ -428,7 +428,7 @@
 	</profiles>
 
 	<modules>
-		<module>mmtf-specification</module>
+		<module>mmtf-common</module>
 		<module>mmtf-api</module>
 		<module>mmtf-decoder</module>
 		<module>mmtf-encoder</module>
