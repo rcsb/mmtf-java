@@ -1,5 +1,6 @@
 package org.rcsb.mmtf.dataholders;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
@@ -11,7 +12,10 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
  * @author anthony
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class MmtfBean {
+public class MmtfBean implements Serializable {
+	
+	/** Serial id for this version of the format. */
+	private static final long serialVersionUID = 384559979573830324L;
 
 	/** The mmtf version. */
 	private String mmtfVersion;

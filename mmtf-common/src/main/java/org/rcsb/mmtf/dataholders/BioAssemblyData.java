@@ -1,5 +1,6 @@
 package org.rcsb.mmtf.dataholders;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -11,7 +12,11 @@ import java.util.List;
  * 
  * @author Anthony Bradley
  */
-public class BioAssemblyData {
+public class BioAssemblyData implements Serializable {
+	
+	/** Serial id for this version of the format. */
+	private static final long serialVersionUID = -8448351152898393978L;
+	
 	
 	/**
 	 * The specific transformations of this bioassembly.
@@ -20,7 +25,7 @@ public class BioAssemblyData {
 
 
 	/**
-	 * Gets the transforms.
+	 * Gets the list of transforms.
 	 *
 	 * @return the transforms
 	 */

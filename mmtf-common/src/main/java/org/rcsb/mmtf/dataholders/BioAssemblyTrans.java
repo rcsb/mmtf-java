@@ -17,7 +17,7 @@ import java.util.List;
 public class BioAssemblyTrans implements Serializable {
 
 
-  /** The Constant serialVersionUID. */
+  /** Serial id for this version of the format. */
   private static final long serialVersionUID = -8109941242652091495L;
 
 
