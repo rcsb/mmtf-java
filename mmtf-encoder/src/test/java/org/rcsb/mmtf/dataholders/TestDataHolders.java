@@ -60,16 +60,12 @@ public class TestDataHolders {
     assertFalse(testClass(BioAssemblyInfo.class));
     // The bean to store calpha data
     assertTrue(testClass(CalphaDistBean.class));
-    // The bean to store the calphaalign data in
-    assertTrue(testClass(CalphaAlignBean.class));
     // Now consider the no float data stucuture class
     assertTrue(testClass(NoFloatDataStruct.class));
     // Now consider the no bio data structure bean
     assertTrue(testClass(BioDataStructBean.class));
     // And the calpha bean
     assertTrue(testClass(CalphaBean.class));
-    // The old matrix data - this should fail
-    assertFalse(testClass(Matrix4d.class));
     // Now test round tripping data
     testDataRoundTrip(MmtfBean.class);
     // Now test if all fields in the mmtf are generated
