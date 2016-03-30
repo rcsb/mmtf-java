@@ -219,17 +219,6 @@ public interface DataApiInterface {
 	void setChainList(String[] chainList);
 
 
-
-	/**
-	 * Returns a list of length N chains indicating the sequences for each chain.
-	 * Sequences are described using standard single letter codes. 
-	 * @return
-	 */
-	List<String> getSequenceInfo();
-
-	void setSequenceInfo(List<String> sequenceInfo);
-
-
 	/**
 	 * Returns the MMTF version number (from the specification).
 	 * @return

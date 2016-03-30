@@ -84,13 +84,22 @@ public class CheckOnRawApi {
       // Get the seqres group list
       int[] decodedSeqResGroupList = dataApi.getSeqResGroupList();
       // Get the string sequences
-      List<String> sequenceStrings = dataApi.getSequenceInfo();
+      Entity[] entityList = dataApi.getEntityList();
       int groupCounter = 0;
       int chainCounter = 0;
       // Get the sequence information - only for the first model
       for(Chain currentChain : biojavaStruct.getChains()){
-        // Get the sequence
-        assertEquals(sequenceStrings.get(chainCounter), currentChain.getSeqResSequence());
+        // Get the entity
+    	Entity currentEntity = null;
+    	for (Entity entity : entityList) {
+    		for (int chainInd : entity.getChainIndexList()) {
+    			if (chainInd==chainCounter) {
+        		currentEntity = entity;
+        		break;
+    			}
+    		}
+    	}
+        assertEquals(currentEntity.getEntitySequence(), currentChain.getSeqResSequence());
         List<Group> thisChainSeqResList = new ArrayList<>();
         for(Group seqResGroup : currentChain.getSeqResGroups()){
           thisChainSeqResList.add(seqResGroup);
