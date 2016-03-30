@@ -74,7 +74,7 @@ public class SimpleDataApi implements DataApiInterface {
 			chainList = decoderUtils.decodeChainList(inputData.getChainIdList());
 			spaceGroup = inputData.getSpaceGroup();
 			unitCell = inputData.getUnitCell();
-			bioAssembly  = inputData.getBioAssembly();
+			bioAssembly  = inputData.getBioAssemblyList();
 			interGroupBondIndices = decoderUtils.bytesToInts(inputData.getBondAtomList());
 			interGroupBondOrders = decoderUtils.bytesToByteInts(inputData.getBondOrderList());
 			sequenceInfo = inputData.getChainSeqList();
@@ -144,7 +144,7 @@ public class SimpleDataApi implements DataApiInterface {
 	private List<Float> unitCell;
 
 	/** The bioassembly information for the structure*/
-	private Map<Integer, BioAssemblyData> bioAssembly;
+	private List<BioAssemblyData> bioAssembly;
 
 	/** The bond indices for bonds between groups*/
 	private int[] interGroupBondIndices;
@@ -449,7 +449,7 @@ public class SimpleDataApi implements DataApiInterface {
 	 * @see org.rcsb.mmtf.decoder.DataApiInterface#getBioAssembly()
 	 */
 	@Override
-	public Map<Integer, BioAssemblyData> getBioAssembly() {
+	public List<BioAssemblyData> getBioAssembly() {
 		return bioAssembly;
 	}
 
@@ -457,7 +457,7 @@ public class SimpleDataApi implements DataApiInterface {
 	 * @see org.rcsb.mmtf.decoder.DataApiInterface#setBioAssembly(java.util.Map)
 	 */
 	@Override
-	public void setBioAssembly(Map<Integer, BioAssemblyData> bioAssembly) {
+	public void setBioAssembly(List<BioAssemblyData> bioAssembly) {
 		this.bioAssembly = bioAssembly;
 	}
 

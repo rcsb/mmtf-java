@@ -111,7 +111,7 @@ public class HeaderBean {
 	private List<Float> unitCell = new ArrayList<Float>(); 
 	
 	/** The bio assembly. */
-	private Map<Integer, BioAssemblyData> bioAssembly = new HashMap<Integer, BioAssemblyData>(); 
+	private List<BioAssemblyData> bioAssembly; 
 	  
 	public HeaderBean() {
 	  resolution = (float) -1.0;
@@ -415,7 +415,7 @@ public class HeaderBean {
 	 *
 	 * @return the bio assembly
 	 */
-	public Map<Integer, BioAssemblyData> getBioAssembly() {
+	public List<BioAssemblyData> getBioAssembly() {
 		return bioAssembly;
 	}
 	
@@ -424,8 +424,8 @@ public class HeaderBean {
 	 *
 	 * @param bioAssembly the bio assembly
 	 */
-	public void setBioAssembly(Map<Integer, BioAssemblyData> bioAssembly) {
-		this.bioAssembly = bioAssembly;
+	public void setBioAssembly(List<BioAssemblyData> inputBioAssembly) {
+		this.bioAssembly = inputBioAssembly;
 	}
 	
 	/**

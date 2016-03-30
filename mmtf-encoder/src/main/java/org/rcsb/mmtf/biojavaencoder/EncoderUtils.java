@@ -144,7 +144,7 @@ public class EncoderUtils implements Serializable {
 		thisDistBeanTot.setSpaceGroup(inHeader.getSpaceGroup());
 		thisDistBeanTot.setGroupMap(inStruct.getGroupMap());
 		thisDistBeanTot.setUnitCell(inHeader.getUnitCell());
-		thisDistBeanTot.setBioAssembly(inHeader.getBioAssembly());
+		thisDistBeanTot.setBioAssemblyList(inHeader.getBioAssembly());
 		// Now set this extra header information
 		thisDistBeanTot.setTitle(inHeader.getTitle());
 		// Now add the byte arrays to the bean

@@ -81,10 +81,9 @@ public interface StructureDecoderInterface {
    * ids of the transformations
    * @param bioassemblyToChainIdsMap the map of bioassembly
    * to the list of chain ids considered
-   * @param bioassemblyToTransformationsMap the map of bioassembly
-   * to the list of transformations
+   * @param bioassemblyToTransformationsMap the list of bioassemblies
    */
-  void setBioAssembly(Map<Integer, BioAssemblyData> inputBioassemblies);
+  void setBioAssembly(List<BioAssemblyData> inputBioAssemblies);
 
   /**
    * Sets the space group and unit cell information.

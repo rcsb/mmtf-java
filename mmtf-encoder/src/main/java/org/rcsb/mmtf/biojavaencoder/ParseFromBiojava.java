@@ -451,7 +451,7 @@ public class ParseFromBiojava {
     }
     // GET THE HEADER INFORMATION
     PDBHeader header = bioJavaStruct.getPDBHeader();
-    Map<Integer, BioAssemblyData> outMap = generateSerializableBioAssembly(bioJavaStruct, header);
+    List<BioAssemblyData> outMap = generateSerializableBioAssembly(bioJavaStruct, header);
     headerStruct.setBioAssembly(outMap);
     headerStruct.setTitle(header.getTitle());
     headerStruct.setDescription(header.getDescription());
@@ -682,19 +682,18 @@ public class ParseFromBiojava {
    * @param header the header
    * @return a map of the bioassembly information that is serializable
    */
-  private Map<Integer, BioAssemblyData> generateSerializableBioAssembly(Structure bioJavaStruct, PDBHeader header) {
+  private List<BioAssemblyData> generateSerializableBioAssembly(Structure bioJavaStruct, PDBHeader header) {
     // Here we need to iterate through and get the chain ids and the matrices
     Map<Integer, BioAssemblyInfo> inputBioAss = header.getBioAssemblies();
-    Map<Integer, BioAssemblyData> outMap = new HashMap<Integer,BioAssemblyData>();
+    List<BioAssemblyData> outMap = new ArrayList<BioAssemblyData>();
 
 
     for (Map.Entry<Integer, BioAssemblyInfo> entry : inputBioAss.entrySet()) {
       Map<Matrix4d,BioAssemblyTrans> matSet = new HashMap<Matrix4d,BioAssemblyTrans>();
-      Integer key = entry.getKey();
       BioAssemblyInfo value = entry.getValue();
       // Make a new one of these
       BioAssemblyData newValue = new BioAssemblyData();
-      outMap.put(key, newValue);
+      outMap.add(newValue);
       // Copy across this info
       List<BioAssemblyTrans> outTrans = new ArrayList<BioAssemblyTrans>();
       for(BiologicalAssemblyTransformation transform: value.getTransforms()){

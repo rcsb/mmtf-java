@@ -46,7 +46,7 @@ public class CalphaDistBean {
 	
 	/** The bio assembly. */
 	// A map of Bioassembly -> new class so serializable
-	private Map<Integer, BioAssemblyData> bioAssembly = new HashMap<Integer, BioAssemblyData>(); 
+	private List<BioAssemblyData> bioAssembly = new ArrayList<BioAssemblyData>(); 
 	
 	/** The group map. */
 	// The list of sequence information
@@ -179,7 +179,7 @@ public class CalphaDistBean {
 	 *
 	 * @return the bio assembly
 	 */
-	public Map<Integer, BioAssemblyData> getBioAssembly() {
+	public List<BioAssemblyData> getBioAssembly() {
 		return bioAssembly;
 	}
 	
@@ -188,7 +188,7 @@ public class CalphaDistBean {
 	 *
 	 * @param bioAssembly the bio assembly
 	 */
-	public void setBioAssembly(Map<Integer, BioAssemblyData> bioAssembly) {
+	public void setBioAssembly(List<BioAssemblyData> bioAssembly) {
 		this.bioAssembly = bioAssembly;
 	}
 	
