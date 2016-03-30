@@ -185,9 +185,9 @@ public interface DataApiInterface {
 	 * Returns the bioassmebly information as a map
 	 * @return
 	 */
-	List<BioAssemblyData> getBioAssembly();
+	List<BioAssemblyData> getBioAssemblyList();
 
-	void setBioAssembly(List<BioAssemblyData> bioAssembly);
+	void setBioAssemblyList(List<BioAssemblyData> bioAssembly);
 
 
 	/**

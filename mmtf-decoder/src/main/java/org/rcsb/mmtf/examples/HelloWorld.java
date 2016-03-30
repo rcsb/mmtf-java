@@ -11,7 +11,7 @@ public class HelloWorld {
 		System.out.println("PDB Code: "+dataApi.getPdbId()+" has "+dataApi.getNumChains()+" chains");
 		PDBGroup pdbGroup = dataApi.getGroupMap().get(0);
 		System.out.println("HET group "+pdbGroup.getGroupName()+" has the following atomic charges: "+pdbGroup.getAtomCharges());
-		System.out.println("PDB Code: "+dataApi.getPdbId()+" has "+dataApi.getBioAssembly().size()+" bioassemblies");
+		System.out.println("PDB Code: "+dataApi.getPdbId()+" has "+dataApi.getBioAssemblyList().size()+" bioassemblies");
 	}
 
 }

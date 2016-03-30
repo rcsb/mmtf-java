@@ -1,7 +1,6 @@
 package org.rcsb.mmtf.api;
 
 import java.util.List;
-import java.util.Map;
 
 import org.rcsb.mmtf.dataholders.BioAssemblyData;
 
@@ -83,7 +82,7 @@ public interface StructureDecoderInterface {
    * to the list of chain ids considered
    * @param bioassemblyToTransformationsMap the list of bioassemblies
    */
-  void setBioAssembly(List<BioAssemblyData> inputBioAssemblies);
+  void setBioAssemblyList(List<BioAssemblyData> inputBioAssemblies);
 
   /**
    * Sets the space group and unit cell information.

@@ -449,7 +449,7 @@ public class SimpleDataApi implements DataApiInterface {
 	 * @see org.rcsb.mmtf.decoder.DataApiInterface#getBioAssembly()
 	 */
 	@Override
-	public List<BioAssemblyData> getBioAssembly() {
+	public List<BioAssemblyData> getBioAssemblyList() {
 		return bioAssembly;
 	}
 
@@ -457,7 +457,7 @@ public class SimpleDataApi implements DataApiInterface {
 	 * @see org.rcsb.mmtf.decoder.DataApiInterface#setBioAssembly(java.util.Map)
 	 */
 	@Override
-	public void setBioAssembly(List<BioAssemblyData> bioAssembly) {
+	public void setBioAssemblyList(List<BioAssemblyData> bioAssembly) {
 		this.bioAssembly = bioAssembly;
 	}
 

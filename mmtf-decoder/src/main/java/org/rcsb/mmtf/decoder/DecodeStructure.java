@@ -217,7 +217,7 @@ public class DecodeStructure {
 	 * Parses the bioassembly data and inputs it to the structure inflator
 	 */
 	private void generateBioAssembly() {
-		structInflator.setBioAssembly(dataApi.getBioAssembly());    
+		structInflator.setBioAssemblyList(dataApi.getBioAssemblyList());    
 	}
 
 
