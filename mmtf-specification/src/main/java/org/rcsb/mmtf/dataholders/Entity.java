@@ -1,5 +1,12 @@
 package org.rcsb.mmtf.dataholders;
 
+/**
+ * Entity level data store.
+ * An Entity is defined as each of the distinct molecules present 
+ * in a PDB structure. It can be of type polymer, non-polymer, macrolide or water.
+ * 
+ * @author Anthony Bradley
+ */
 public class Entity {
 
 	/** The description based on the PDBx model*/
@@ -18,15 +25,23 @@ public class Entity {
 	public void setDescription(String description) {
 		this.description = description;
 	}
+	
+	/**
+	 * The type of this Entity, one of: polymer, non-polymer, macrolide or water.
+	 * @return
+	 */
 	public String getType() {
 		return type;
 	}
+	
 	public void setType(String type) {
 		this.type = type;
 	}
+	
 	public int[] getChainIndexList() {
 		return chainIndexList;
 	}
+	
 	public void setChainIndexList(int[] chainIndexList) {
 		this.chainIndexList = chainIndexList;
 	}

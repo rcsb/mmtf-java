@@ -12,15 +12,9 @@ import java.util.List;
  * transformation (rotation+translation) and the chain identifier to
  * which it should be applied.
  *
- * Modified for message pack
- * @author Peter Rose
- * @author Andreas Prlic
- * @author rickb
- * @author duarte_j
  * @author Anthony Bradley
  */
-public class BioAssemblyTrans implements Cloneable,
-Serializable {
+public class BioAssemblyTrans implements Serializable {
 
 
   /** The Constant serialVersionUID. */
@@ -30,12 +24,14 @@ Serializable {
   /** The chain id. */
   private List<String> chainIdList = new ArrayList<String>();
 
-  /** The transformation. */
+  /** The 4x4 matrix transformation specifying a rotation and a translation. */
   private double[] transformation;
 
 
   /**
-   * Gets the transformation.
+   * Gets the 4x4 matrix transformation specifying a rotation and a translation.
+   * 
+   * FIXME is this row-packed or column-packed?
    *
    * @return the transformation
    */
@@ -44,8 +40,10 @@ Serializable {
   }
 
   /**
-   * Sets the transformation.
+   * Sets the 4x4 matrix transformation specifying a rotation and a translation.
    *
+   * FIXME is this row-packed or column-packed?
+   * 
    * @param inputTransformation the new transformation
    */
   public final void setTransformation(final double[] inputTransformation) {
@@ -53,9 +51,9 @@ Serializable {
   }
 
   /**
-   * Gets the chain id.
+   * Gets the chain id list.
    *
-   * @return the chain id
+   * @return the chain id list
    */
   public final List<String> getChainIdList() {
     return chainIdList;

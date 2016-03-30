@@ -3,18 +3,16 @@ package org.rcsb.mmtf.dataholders;
 import java.util.List;
 
 /**
- * Representation of a Biological Assembly annotation as provided by the PDB.
+ * Data store for the biological assembly annotation as provided by the PDB.
  * Contains all the information required to build the Biological Assembly from
  * the asymmetric unit.
  * Note that the PDB allows for 1 or more Biological Assemblies for a given
- * entry.
- * They are identified by the id field.
- * Modified by Anthony Bradley for message pack.
- * @author duarte_j
+ * entry. They are identified by the id field.
+ * 
  * @author Anthony Bradley
  */
 public class BioAssemblyData {
-
+	
 	/**
 	 * The specific transformations of this bioassembly.
 	 */
@@ -39,6 +37,5 @@ public class BioAssemblyData {
 			List<BioAssemblyTrans> inputTransforms) {
 		this.transforms = inputTransforms;
 	}
-
 }
 
