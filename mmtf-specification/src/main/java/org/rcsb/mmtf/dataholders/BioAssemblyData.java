@@ -14,8 +14,6 @@ import java.util.List;
  * @author Anthony Bradley
  */
 public class BioAssemblyData {
-	/**  The number of oligmers (parsed from the mmCif file).*/
-	private int macroMolecularSize;
 
 	/**
 	 * The specific transformations of this bioassembly.
@@ -42,18 +40,5 @@ public class BioAssemblyData {
 		this.transforms = inputTransforms;
 	}
 
-	/**
-	 * @return the macroMolecularSize
-	 */
-	public int getMacroMolecularSize() {
-		return macroMolecularSize;
-	}
-
-	/**
-	 * @param macroMolecularSize the macroMolecularSize to set
-	 */
-	public void setMacroMolecularSize(int macroMolecularSize) {
-		this.macroMolecularSize = macroMolecularSize;
-	}
 }
 

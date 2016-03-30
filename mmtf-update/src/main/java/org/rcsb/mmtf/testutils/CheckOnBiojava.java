@@ -192,7 +192,6 @@ public class CheckOnBiojava {
       BioAssemblyInfo valueOne = entry.getValue();
       BioAssemblyInfo valueTwo = bioassembliesTwo.get(entry.getKey());
       assertEquals(valueOne.getId(), valueTwo.getId());
-      assertEquals(valueOne.getMacromolecularSize(), valueTwo.getMacromolecularSize());
       // Check there's the same number of transforms
       assertEquals(valueOne.getTransforms().size(), valueTwo.getTransforms().size());
       // Build a map of chain id to matrix 4d

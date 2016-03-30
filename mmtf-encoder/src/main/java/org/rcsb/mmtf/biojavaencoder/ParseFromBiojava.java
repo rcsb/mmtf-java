@@ -694,7 +694,6 @@ public class ParseFromBiojava {
       BioAssemblyInfo value = entry.getValue();
       // Make a new one of these
       BioAssemblyData newValue = new BioAssemblyData();
-      newValue.setMacroMolecularSize(value.getMacromolecularSize());
       outMap.put(key, newValue);
       // Copy across this info
       List<BioAssemblyTrans> outTrans = new ArrayList<BioAssemblyTrans>();
