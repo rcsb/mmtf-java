@@ -31,7 +31,9 @@ public class IntegrationTestUtils {
 			// No ATOM records just HETATM records (in PDB). Opposite true for MMCif. It's a D-Peptide.
 			"1r9v",
 			// Micro heterogenity
-			"4ck4"
+			"4ck4",
+			// Negative residue numbers
+			"5esw",
 			// A weird case with incorrect residue numbers.
 	//		"3th3"
 			};
