@@ -99,7 +99,7 @@ public class CheckOnRawApi {
     			}
     		}
     	}
-        assertEquals(currentEntity.getEntitySequence(), currentChain.getSeqResSequence());
+        assertEquals(currentEntity.getSequence(), currentChain.getSeqResSequence());
         List<Group> thisChainSeqResList = new ArrayList<>();
         for(Group seqResGroup : currentChain.getSeqResGroups()){
           thisChainSeqResList.add(seqResGroup);
