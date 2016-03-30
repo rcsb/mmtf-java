@@ -32,14 +32,6 @@ public interface StructureDecoderInterface {
   void setChainInfo(String chainId, int groupCount);
 
 
-  /**
-   * Updates the information for this chain.
-   *
-   * @param chainId the chain id
-   * @param groupCount the group count
-   */
-  void updateChainInfo(String chainId, int groupCount);
-
 
   /**
    * Sets the information for a given group / residue with atomic data.

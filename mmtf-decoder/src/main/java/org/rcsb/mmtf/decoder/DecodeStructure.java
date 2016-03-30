@@ -111,7 +111,7 @@ public class DecodeStructure {
 		int groupsThisChain = dataApi.getGroupsPerChain()[chainIndex];
 		// If we've already seen this chain -> just update it
 		if (chainIdSet.contains(currentChainId)) {
-			structInflator.updateChainInfo(currentChainId, groupsThisChain);
+			structInflator.setChainInfo(currentChainId, groupsThisChain);
 		} else {
 			structInflator.setChainInfo(currentChainId, groupsThisChain);
 			chainIdSet.add(currentChainId);
