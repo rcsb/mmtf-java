@@ -175,9 +175,9 @@ public interface DataApiInterface {
 	 * Returns the 6 floats that describe the unit cell.
 	 * @return
 	 */
-	List<Float> getUnitCell();
+	float[] getUnitCell();
 
-	void setUnitCell(List<Float> unitCell);
+	void setUnitCell(float[] unitCell);
 
 
 	// TODO CLEAN UP THIS WHOLE THING AND THEN DOCUMENT IT CORRECTLY

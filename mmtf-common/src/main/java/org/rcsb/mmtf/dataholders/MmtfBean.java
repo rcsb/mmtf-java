@@ -51,7 +51,7 @@ public class MmtfBean implements Serializable {
 	private String spaceGroup;
 
 	/** The unit cell. */
-	private List<Float> unitCell;
+	private float[] unitCell;
 
 	/** The bio assembly. */
 	private List<BioAssemblyData> bioAssemblyList;
@@ -222,7 +222,7 @@ public class MmtfBean implements Serializable {
 	 *
 	 * @return the unit cell
 	 */
-	public final List<Float> getUnitCell() {
+	public final float[] getUnitCell() {
 		return unitCell;
 	}
 
@@ -231,7 +231,7 @@ public class MmtfBean implements Serializable {
 	 *
 	 * @param inputUnitCell the new unit cell
 	 */
-	public final void setUnitCell(final List<Float> inputUnitCell) {
+	public final void setUnitCell(final float[] inputUnitCell) {
 		this.unitCell = inputUnitCell;
 	}
 

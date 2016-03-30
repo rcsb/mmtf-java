@@ -23,10 +23,10 @@ public class DecodeStructure {
 
 	/** The struct inflator. */
 	private StructureDecoderInterface structInflator;
-	
+
 	/** The api to the data */
 	private SimpleDataApi dataApi;
-	
+
 	/* 
 	 * Initialise the counters
 	 */
@@ -46,7 +46,7 @@ public class DecodeStructure {
 
 		// Data api
 		dataApi = new SimpleDataApi(inputByteArr);
-		
+
 	}
 
 
@@ -210,7 +210,9 @@ public class DecodeStructure {
 	 * Adds the crystallographic info to the structure
 	 */
 	private void addXtalographicInfo() {
-		structInflator.setXtalInfo(dataApi.getSpaceGroup(), dataApi.getUnitCell());    
+		if(dataApi.getUnitCell()!=null){
+			structInflator.setXtalInfo(dataApi.getSpaceGroup(), dataApi.getUnitCell());    
+		}
 	}
 
 	/**

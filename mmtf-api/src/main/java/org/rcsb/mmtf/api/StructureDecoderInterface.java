@@ -76,7 +76,7 @@ public interface StructureDecoderInterface {
    * @param spaceGroup the space group
    * @param list the list
    */
-  void setXtalInfo(String spaceGroup, List<Float> list);
+  void setXtalInfo(String spaceGroup, float[] list);
 
   /**
    * Sets an intra-group bond.
