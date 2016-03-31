@@ -186,15 +186,14 @@ public class CheckOnBiojava {
 	 * @param structTwo
 	 */
 	private void checkIfEntitiesSame(Structure structOne, Structure structTwo) {
-//		// TODO Fix the entity parsing so this works
-//		List<EntityInfo> entityListOne = structOne.getEntityInformation();
-//		List<EntityInfo> entityListTwo = structTwo.getEntityInformation();
-//		assertEquals(entityListOne.size(), entityListTwo.size());	
-//		for (int i=0; i<entityListOne.size(); i++) {
-//			EntityInfo entityInfoOne = entityListOne.get(i);
-//			EntityInfo entityInfoTwo = entityListTwo.get(i);
-//			assertEquals(entityInfoOne.getDescription(), entityInfoTwo.getDescription());
-//		}
+		List<EntityInfo> entityListOne = structOne.getEntityInformation();
+		List<EntityInfo> entityListTwo = structTwo.getEntityInformation();
+		assertEquals(entityListOne.size(), entityListTwo.size());	
+		for (int i=0; i<entityListOne.size(); i++) {
+			EntityInfo entityInfoOne = entityListOne.get(i);
+			EntityInfo entityInfoTwo = entityListTwo.get(i);
+			assertEquals(entityInfoOne.getDescription(), entityInfoTwo.getDescription());
+		}
 	}
 	/**
 	 * Check that any header fields set by MMTF are the same.

@@ -123,8 +123,9 @@ public interface StructureDecoderInterface {
    * @param totalNumGroups The total number of groups found in the data.
    * @param totalNumChains The total number of chains found in the data.
    * @param totalNumModels The total number of models found in the data.
+   * @param modelCode An identifier for this model (e.g. PDB id).
    */
-  void prepareStructure(int totalNumAtoms, int totalNumGroups, int totalNumChains, int totalNumModels);
+  void prepareStructure(int totalNumAtoms, int totalNumGroups, int totalNumChains, int totalNumModels, String modelCode);
   
   /**
    * A generic function to be used at the end of all data addition to do required cleanup on the structure
