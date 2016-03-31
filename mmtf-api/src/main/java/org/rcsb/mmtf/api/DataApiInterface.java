@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.rcsb.mmtf.dataholders.BioAssemblyData;
 import org.rcsb.mmtf.dataholders.Entity;
+import org.rcsb.mmtf.dataholders.MmtfBean;
 import org.rcsb.mmtf.dataholders.PDBGroup;
 
 /**
@@ -60,7 +61,7 @@ public interface DataApiInterface {
 
 
 	/**
-	 * Returns an array of atom serial ids (as specified in the mmCIF file) of length N atoms.
+	 * Returns an array of atom serial ids (_atom_site.id in mmCIF dictionary) of length N atoms.
 	 * @return
 	 */
 	int[] getAtomIds();
@@ -79,9 +80,9 @@ public interface DataApiInterface {
 
 
 	/**
-	 * Returns an array of the insertion codes of length N residues.
+	 * Returns an array containing the insertion codes (pdbx_PDB_ins_code in mmCIF dictionary) for each residue (group). 
 	 * '?' specifies a lack of insertion code.
-	 * @return
+	 * @return an array with insertion codes, of size {@link #getNumResidues()}
 	 * @see #getResidueNums()
 	 */	
 	char[] getInsCodes();
@@ -90,8 +91,8 @@ public interface DataApiInterface {
 
 
 	/**
-	 * Returns a list of length N groups indicating the residue number (auth_seq_id in mmCIF dictionary) for  each group.
-	 * @return
+	 * Returns an array containing residue numbers (auth_seq_id in mmCIF dictionary) for each residue (group).
+	 * @return an array with with residue numbers, of size {@link #getNumResidues()} 
 	 * @see #getInsCodes()
 	 */
 	int[] getResidueNums();
@@ -182,7 +183,7 @@ public interface DataApiInterface {
 
 	/**
 	 * Returns the 6 floats that describe the unit cell.
-	 * @return
+	 * @return an array of size 6 with the unit cell parameters in order: a, b, c, alpha, beta, gamma
 	 */
 	float[] getUnitCell();
 
@@ -264,49 +265,59 @@ public interface DataApiInterface {
 
 	/**
 	 * Returns the number of models in the structure.
+	 * @return
 	 */
 	int getNumModels();
 	
 	/**
 	 * Returns the number of chains in the structure.
+	 * @return
 	 */
 	int getNumChains();
 	
 	/**
 	 * Returns the number of groups (residues) in the structure.
+	 * @return
 	 */
 	int getNumResidues();
 	
 
 	/**
 	 * Returns the number of atoms in the structure.
+	 * @return
 	 */
 	int getNumAtoms();
 	
 	
 	/**
 	 * Returns the Rfree (if available) of the dataset.
+	 * @return the Rfree value or {@value MmtfBean#UNAVAILABLE_R_VALUE} if unavailable
 	 */
 	float getRfree();
 	
 	/**
-	 * Returns the Resolution (if avaialble) of the dataset.
+	 * Returns the Resolution (if available) of the dataset.
+	 * @return the resolution value in Angstroms or {@value MmtfBean#UNAVAILABLE_R_VALUE} if unavailable
 	 */
 	float getResolution();
 	
 	/**
-	 * Returns the Rfree (if available) of the dataset.
+	 * Returns the Rwork (if available) of the dataset.
+	 * @return the Rwork value or {@value MmtfBean#UNAVAILABLE_R_VALUE} if unavailable
 	 */
 	float getRwork();
 	
 	
 	/**
 	 * Returns the title of the structure.
+	 * @return
 	 */
 	String getTitle();
 	
 	/**
-	 * Returns the list of experimental methods as a list of strings.
+	 * Returns the experimental methods as a list of strings. The experimental method values 
+	 * are described in <a href="http://mmcif.wwpdb.org/dictionaries/mmcif_pdbx_v40.dic/Items/_exptl.method.html">data item <em>_exptl.method</em> of the mmCIF dictionary</a>
+	 * @return
 	 */
 	List<String> getExperimentalMethods();
 }

@@ -5,7 +5,7 @@ import java.util.List;
 import org.rcsb.mmtf.dataholders.BioAssemblyData;
 
 /**
- * Interface to inflate a given mmtf data source.
+ * Interface to inflate a given MMTF data source.
  *
  * @author Anthony Bradley
  */
@@ -65,7 +65,7 @@ public interface StructureDecoderInterface {
    * @param z the z cartesian coordinate
    * @param occupancy the atomic occupancy
    * @param temperatureFactor the B factor (temperature factor)
-   * @param element a 1-3 long string indicating the element of the atom
+   * @param element a 1-3 long string indicating the chemical element of the atom
    * @param charge the atomic charge
    */
   void setAtomInfo(String atomName, int serialNumber, char alternativeLocationId, 
@@ -82,10 +82,10 @@ public interface StructureDecoderInterface {
   /**
    * Sets the space group and unit cell information.
    *
-   * @param spaceGroup the space group
-   * @param list the list
+   * @param spaceGroup the space group name, e.g. "P 21 21 21"
+   * @param unitCell an array of length 6 with the unit cell parameters in order: a, b, c, alpha, beta, gamma
    */
-  void setXtalInfo(String spaceGroup, float[] list);
+  void setXtalInfo(String spaceGroup, float[] unitCell);
 
   /**
    * Sets an intra-group bond.
