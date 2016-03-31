@@ -29,7 +29,7 @@ public class SimpleDataApi implements DataApiInterface {
 			inputData = new ObjectMapper(new MessagePackFactory()).readValue(inputByteArr, MmtfBean.class);
 		} catch (IOException e) {
 			// 
-			System.out.println("Error converting Byte array to message pack. IOError");
+			System.err.println("Error converting Byte array to message pack. IOError");
 			e.printStackTrace();
 			throw new RuntimeException();
 		}
@@ -87,7 +87,7 @@ public class SimpleDataApi implements DataApiInterface {
 
 		}
 		catch (IOException ioException){
-			System.out.println("Error reading in byte arrays from message pack");
+			System.err.println("Error reading in byte arrays from message pack");
 			ioException.printStackTrace();
 			throw new RuntimeException();
 		}
