@@ -193,19 +193,8 @@ public class SimpleDataApi implements DataApiInterface {
 	}
 
 	@Override
-	public void setXcoords(float[] xCoords) {
-		this.cartnX = xCoords;
-	}
-
-	@Override
 	public float[] getYcoords() {
 		return cartnY;
-	}
-
-	@Override
-	public void setYcoords(float[] yCoords) {
-		this.cartnY = yCoords;
-		
 	}
 
 	@Override
@@ -214,20 +203,8 @@ public class SimpleDataApi implements DataApiInterface {
 	}
 
 	@Override
-	public void setZcoords(float[] zCoords) {
-		this.cartnZ = zCoords;
-		
-	}
-
-	@Override
 	public float[] getBfactors() {
 		return bFactor;
-	}
-
-	@Override
-	public void setBfactors(float[] bFactors) {
-		this.bFactor = bFactors;
-		
 	}
 
 	@Override
@@ -236,371 +213,125 @@ public class SimpleDataApi implements DataApiInterface {
 	}
 
 	@Override
-	public void setOccupancies(float[] occupancies) {
-		this.occupancy = occupancies;
-		
-	}
-
-	@Override
 	public String[] getChainList() {
 		return this.chainList;
 	}
 
 	@Override
-	public void setChainList(String[] chainList) {
-		this.chainList = chainList;
-	}
-
-	/* (non-Javadoc)
-	 * @see org.rcsb.mmtf.decoder.DataApiInterface#getAtomId()
-	 */
-	@Override
 	public int[] getAtomIds() {
 		return atomId;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.rcsb.mmtf.decoder.DataApiInterface#setAtomId(int[])
-	 */
-	@Override
-	public void setAtomIds(int[] atomId) {
-		this.atomId = atomId;
-	}
-
-	/* (non-Javadoc)
-	 * @see org.rcsb.mmtf.decoder.DataApiInterface#getAltId()
-	 */
 	@Override
 	public char[] getAltLocIds() {
 		return altId;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.rcsb.mmtf.decoder.DataApiInterface#setAltId(char[])
-	 */
-	@Override
-	public void setAltLocIds(char[] altId) {
-		this.altId = altId;
-	}
-
-	/* (non-Javadoc)
-	 * @see org.rcsb.mmtf.decoder.DataApiInterface#getInsCode()
-	 */
 	@Override
 	public char[] getInsCodes() {
 		return insertionCodeList;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.rcsb.mmtf.decoder.DataApiInterface#setInsCode(char[])
-	 */
-	@Override
-	public void setInsCodes(char[] insCode) {
-		this.insertionCodeList = insCode;
-	}
-
-	/* (non-Javadoc)
-	 * @see org.rcsb.mmtf.decoder.DataApiInterface#getGroupNum()
-	 */
 	@Override
 	public int[] getResidueNums() {
 		return groupNum;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.rcsb.mmtf.decoder.DataApiInterface#setGroupNum(int[])
-	 */
-	@Override
-	public void setResidueNums(int[] groupNum) {
-		this.groupNum = groupNum;
-	}
-
-	/* (non-Javadoc)
-	 * @see org.rcsb.mmtf.decoder.DataApiInterface#getGroupMap()
-	 */
 	@Override
 	public Map<Integer, PDBGroup> getGroupMap() {
 		return groupMap;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.rcsb.mmtf.decoder.DataApiInterface#setGroupMap(java.util.Map)
-	 */
-	@Override
-	public void setGroupMap(Map<Integer, PDBGroup> groupMap) {
-		this.groupMap = groupMap;
-	}
-
-	/* (non-Javadoc)
-	 * @see org.rcsb.mmtf.decoder.DataApiInterface#getGroupList()
-	 */
 	@Override
 	public int[] getGroupIndices() {
 		return groupList;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.rcsb.mmtf.decoder.DataApiInterface#setGroupList(int[])
-	 */
-	@Override
-	public void setGroupIndices(int[] groupList) {
-		this.groupList = groupList;
-	}
-
-	/* (non-Javadoc)
-	 * @see org.rcsb.mmtf.decoder.DataApiInterface#getSeqResGroupList()
-	 */
 	@Override
 	public int[] getSeqResGroupIndices() {
 		return seqResGroupList;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.rcsb.mmtf.decoder.DataApiInterface#setSeqResGroupList(int[])
-	 */
-	@Override
-	public void setSeqResGroupIndices(int[] seqResGroupList) {
-		this.seqResGroupList = seqResGroupList;
-	}
-
-	/* (non-Javadoc)
-	 * @see org.rcsb.mmtf.decoder.DataApiInterface#getPublicChainIds()
-	 */
 	@Override
 	public String[] getChainNames() {
 		return publicChainIds;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.rcsb.mmtf.decoder.DataApiInterface#setPublicChainIds(java.lang.String[])
-	 */
-	@Override
-	public void setChainNames(String[] publicChainIds) {
-		this.publicChainIds = publicChainIds;
-	}
-
-	/* (non-Javadoc)
-	 * @see org.rcsb.mmtf.decoder.DataApiInterface#getChainsPerModel()
-	 */
 	@Override
 	public int[] getChainsPerModel() {
 		return chainsPerModel;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.rcsb.mmtf.decoder.DataApiInterface#setChainsPerModel(int[])
-	 */
-	@Override
-	public void setChainsPerModel(int[] chainsPerModel) {
-		this.chainsPerModel = chainsPerModel;
-	}
-
-	/* (non-Javadoc)
-	 * @see org.rcsb.mmtf.decoder.DataApiInterface#getGroupsPerChain()
-	 */
 	@Override
 	public int[] getGroupsPerChain() {
 		return groupsPerChain;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.rcsb.mmtf.decoder.DataApiInterface#setGroupsPerChain(int[])
-	 */
-	@Override
-	public void setGroupsPerChain(int[] groupsPerChain) {
-		this.groupsPerChain = groupsPerChain;
-	}
-
-	/* (non-Javadoc)
-	 * @see org.rcsb.mmtf.decoder.DataApiInterface#getSpaceGroup()
-	 */
 	@Override
 	public String getSpaceGroup() {
 		return spaceGroup;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.rcsb.mmtf.decoder.DataApiInterface#setSpaceGroup(java.lang.String)
-	 */
-	@Override
-	public void setSpaceGroup(String spaceGroup) {
-		this.spaceGroup = spaceGroup;
-	}
-
-	/* (non-Javadoc)
-	 * @see org.rcsb.mmtf.decoder.DataApiInterface#getUnitCell()
-	 */
 	@Override
 	public float[] getUnitCell() {
 		return unitCell;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.rcsb.mmtf.decoder.DataApiInterface#setUnitCell(java.util.List)
-	 */
-	@Override
-	public void setUnitCell(float[] inputUnitCell) {
-		this.unitCell = inputUnitCell;
-	}
-
-	/* (non-Javadoc)
-	 * @see org.rcsb.mmtf.decoder.DataApiInterface#getBioAssembly()
-	 */
 	@Override
 	public List<BioAssemblyData> getBioAssemblyList() {
 		return bioAssembly;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.rcsb.mmtf.decoder.DataApiInterface#setBioAssembly(java.util.Map)
-	 */
-	@Override
-	public void setBioAssemblyList(List<BioAssemblyData> bioAssembly) {
-		this.bioAssembly = bioAssembly;
-	}
-
-	/* (non-Javadoc)
-	 * @see org.rcsb.mmtf.decoder.DataApiInterface#getInterGroupBondIndices()
-	 */
 	@Override
 	public int[] getInterGroupBondIndices() {
 		return interGroupBondIndices;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.rcsb.mmtf.decoder.DataApiInterface#setInterGroupBondIndices(int[])
-	 */
-	@Override
-	public void setInterGroupBondIndices(int[] interGroupBondIndices) {
-		this.interGroupBondIndices = interGroupBondIndices;
-	}
-
-	/* (non-Javadoc)
-	 * @see org.rcsb.mmtf.decoder.DataApiInterface#getInterGroupBondOrders()
-	 */
 	@Override
 	public int[] getInterGroupBondOrders() {
 		return interGroupBondOrders;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.rcsb.mmtf.decoder.DataApiInterface#setInterGroupBondOrders(int[])
-	 */
-	@Override
-	public void setInterGroupBondOrders(int[] interGroupBondOrders) {
-		this.interGroupBondOrders = interGroupBondOrders;
-	}
-
-	/* (non-Javadoc)
-	 * @see org.rcsb.mmtf.decoder.DataApiInterface#getChainList()
-	 */
 	@Override
 	public String[] getChainIds() {
 		return chainList;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.rcsb.mmtf.decoder.DataApiInterface#setChainList(java.lang.String[])
-	 */
-	@Override
-	public void setChainIds(String[] chainList) {
-		this.chainList = chainList;
-	}
-
-	/* (non-Javadoc)
-	 * @see org.rcsb.mmtf.decoder.DataApiInterface#getMmtfVersion()
-	 */
 	@Override
 	public String getMmtfVersion() {
 		return mmtfVersion;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.rcsb.mmtf.decoder.DataApiInterface#setMmtfVersion(java.lang.String)
-	 */
-	@Override
-	public void setMmtfVersion(String mmtfVersion) {
-		this.mmtfVersion = mmtfVersion;
-	}
-
-	/* (non-Javadoc)
-	 * @see org.rcsb.mmtf.decoder.DataApiInterface#getMmtfProducer()
-	 */
 	@Override
 	public String getMmtfProducer() {
 		return mmtfProducer;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.rcsb.mmtf.decoder.DataApiInterface#setMmtfProducer(java.lang.String)
-	 */
-	@Override
-	public void setMmtfProducer(String mmtfProducer) {
-		this.mmtfProducer = mmtfProducer;
-	}
-
-
-	/* (non-Javadoc)
-	 * @see org.rcsb.mmtf.decoder.DataApiInterface#getEntityList()
-	 */
 	@Override
 	public Entity[] getEntityList() {
 		return entityList;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.rcsb.mmtf.decoder.DataApiInterface#setEntityList(org.rcsb.mmtf.dataholders.Entity[])
-	 */
-	@Override
-	public void setEntityList(Entity[] entityList) {
-		this.entityList = entityList;
-	}
-
-	/* (non-Javadoc)
-	 * @see org.rcsb.mmtf.decoder.DataApiInterface#getPdbId()
-	 */
 	@Override
 	public String getPdbId() {
 		return pdbId;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.rcsb.mmtf.decoder.DataApiInterface#setPdbId(java.lang.String)
-	 */
-	@Override
-	public void setPdbId(String pdbId) {
-		this.pdbId = pdbId;
-	}
-
-	
-	/* (non-Javadoc)
-	 * @see org.rcsb.mmtf.decoder.DataApiInterface#getNumResiudes()
-	 */
 	@Override
 	public int getNumResidues() {
 		return this.groupList.length;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.rcsb.mmtf.decoder.DataApiInterface#getNumChains()
-	 */
 	@Override
 	public int getNumChains() {
 		return this.chainList.length;
 	}
-
 	
-	/* (non-Javadoc)
-	 * @see org.rcsb.mmtf.decoder.DataApiInterface#getNumModels()
-	 */
 	@Override
 	public int getNumModels() {	
 		return this.chainsPerModel.length;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.rcsb.mmtf.decoder.DataApiInterface#getNumAtoms()
-	 */
 	@Override
 	public int getNumAtoms() {
 		return this.cartnX.length;
