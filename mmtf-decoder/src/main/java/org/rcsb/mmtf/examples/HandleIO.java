@@ -24,7 +24,7 @@ import org.rcsb.mmtf.decoder.SimpleDataApi;
 public class HandleIO {
 
 	/** The base url. */
-	private static final String BASE_URL = "http://mmtf.rcsb.org/full/";
+	public static final String BASE_URL = "http://mmtf.rcsb.org/full/";
 	/** The index to get the middle two characters of a PDB id. */
 	private static final int END_ID_FOR_MID_PDB = 3;
 	/** The size of a chunk for a byte buffer. */
@@ -89,18 +89,31 @@ public class HandleIO {
 
 	/**
 	 * Find the message pack byte array from the web using the input code.
+	 * Uses the server specified in BASE_URL param.
 	 * Caches the file if possible.
 	 * @param inputCode
 	 * @return
 	 * @throws IOException 
 	 */
 	public final byte[] getFromUrl(final String inputCode) throws IOException {
+		return getFromUrl(inputCode, BASE_URL);
+	}
+	
+	/**
+	 * Find the message pack byte array from the web using the input code and a base url.
+	 * Caches the file if possible.
+	 * @param inputCode
+	 * @param baseUrl
+	 * @return
+	 * @throws IOException
+	 */
+	public final byte[] getFromUrl(final String inputCode, String baseUrl) throws IOException {	
 		// Get the base path
 		String basePath = getBasePath();
 		// Get these as an inputstream
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		InputStream is = null;
-		URL url = new URL(BASE_URL + inputCode);
+		URL url = new URL(baseUrl + inputCode);
 		try {
 			is = url.openStream();
 			byte[] byteChunk = new byte[4096]; // Or whatever size you want to read in at a time.
