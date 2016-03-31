@@ -9,7 +9,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 /**
  * A class to store the data sent in an MMTF data source.
  *
- * @author anthony
+ * @author Anthony Bradley
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class MmtfBean implements Serializable {
