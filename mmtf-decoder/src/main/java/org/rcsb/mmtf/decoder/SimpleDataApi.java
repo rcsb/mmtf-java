@@ -173,7 +173,7 @@ public class SimpleDataApi implements DataApiInterface {
 	 * @see org.rcsb.mmtf.decoder.DataApiInterface#getCartnX()
 	 */
 	@Override
-	public int[] getCartnX() {
+	public int[] getXcoords() {
 		return cartnX;
 	}
 
@@ -181,7 +181,7 @@ public class SimpleDataApi implements DataApiInterface {
 	 * @see org.rcsb.mmtf.decoder.DataApiInterface#setCartnX(int[])
 	 */
 	@Override
-	public void setCartnX(int[] cartnX) {
+	public void setXcoords(int[] cartnX) {
 		this.cartnX = cartnX;
 	}
 
@@ -189,7 +189,7 @@ public class SimpleDataApi implements DataApiInterface {
 	 * @see org.rcsb.mmtf.decoder.DataApiInterface#getCartnY()
 	 */
 	@Override
-	public int[] getCartnY() {
+	public int[] getYcoords() {
 		return cartnY;
 	}
 
@@ -197,7 +197,7 @@ public class SimpleDataApi implements DataApiInterface {
 	 * @see org.rcsb.mmtf.decoder.DataApiInterface#setCartnY(int[])
 	 */
 	@Override
-	public void setCartnY(int[] cartnY) {
+	public void setYcoords(int[] cartnY) {
 		this.cartnY = cartnY;
 	}
 
@@ -205,7 +205,7 @@ public class SimpleDataApi implements DataApiInterface {
 	 * @see org.rcsb.mmtf.decoder.DataApiInterface#getCartnZ()
 	 */
 	@Override
-	public int[] getCartnZ() {
+	public int[] getZcoords() {
 		return cartnZ;
 	}
 
@@ -213,7 +213,7 @@ public class SimpleDataApi implements DataApiInterface {
 	 * @see org.rcsb.mmtf.decoder.DataApiInterface#setCartnZ(int[])
 	 */
 	@Override
-	public void setCartnZ(int[] cartnZ) {
+	public void setZcoords(int[] cartnZ) {
 		this.cartnZ = cartnZ;
 	}
 
@@ -221,7 +221,7 @@ public class SimpleDataApi implements DataApiInterface {
 	 * @see org.rcsb.mmtf.decoder.DataApiInterface#getbFactor()
 	 */
 	@Override
-	public int[] getbFactor() {
+	public int[] getBfactors() {
 		return bFactor;
 	}
 
@@ -229,7 +229,7 @@ public class SimpleDataApi implements DataApiInterface {
 	 * @see org.rcsb.mmtf.decoder.DataApiInterface#setbFactor(int[])
 	 */
 	@Override
-	public void setbFactor(int[] bFactor) {
+	public void setBfactors(int[] bFactor) {
 		this.bFactor = bFactor;
 	}
 
@@ -237,7 +237,7 @@ public class SimpleDataApi implements DataApiInterface {
 	 * @see org.rcsb.mmtf.decoder.DataApiInterface#getOccupancyArr()
 	 */
 	@Override
-	public int[] getOccupancyArr() {
+	public int[] getOccupancies() {
 		return occupancyArr;
 	}
 
@@ -245,7 +245,7 @@ public class SimpleDataApi implements DataApiInterface {
 	 * @see org.rcsb.mmtf.decoder.DataApiInterface#setOccupancyArr(int[])
 	 */
 	@Override
-	public void setOccupancyArr(int[] occupancyArr) {
+	public void setOccupancies(int[] occupancyArr) {
 		this.occupancyArr = occupancyArr;
 	}
 
@@ -253,7 +253,7 @@ public class SimpleDataApi implements DataApiInterface {
 	 * @see org.rcsb.mmtf.decoder.DataApiInterface#getAtomId()
 	 */
 	@Override
-	public int[] getAtomId() {
+	public int[] getAtomIds() {
 		return atomId;
 	}
 
@@ -261,7 +261,7 @@ public class SimpleDataApi implements DataApiInterface {
 	 * @see org.rcsb.mmtf.decoder.DataApiInterface#setAtomId(int[])
 	 */
 	@Override
-	public void setAtomId(int[] atomId) {
+	public void setAtomIds(int[] atomId) {
 		this.atomId = atomId;
 	}
 
@@ -269,7 +269,7 @@ public class SimpleDataApi implements DataApiInterface {
 	 * @see org.rcsb.mmtf.decoder.DataApiInterface#getAltId()
 	 */
 	@Override
-	public char[] getAltId() {
+	public char[] getAltLocIds() {
 		return altId;
 	}
 
@@ -277,7 +277,7 @@ public class SimpleDataApi implements DataApiInterface {
 	 * @see org.rcsb.mmtf.decoder.DataApiInterface#setAltId(char[])
 	 */
 	@Override
-	public void setAltId(char[] altId) {
+	public void setAltLocIds(char[] altId) {
 		this.altId = altId;
 	}
 
@@ -285,7 +285,7 @@ public class SimpleDataApi implements DataApiInterface {
 	 * @see org.rcsb.mmtf.decoder.DataApiInterface#getInsCode()
 	 */
 	@Override
-	public char[] getInsCode() {
+	public char[] getInsCodes() {
 		return insertionCodeList;
 	}
 
@@ -293,7 +293,7 @@ public class SimpleDataApi implements DataApiInterface {
 	 * @see org.rcsb.mmtf.decoder.DataApiInterface#setInsCode(char[])
 	 */
 	@Override
-	public void setInsCode(char[] insCode) {
+	public void setInsCodes(char[] insCode) {
 		this.insertionCodeList = insCode;
 	}
 
@@ -301,7 +301,7 @@ public class SimpleDataApi implements DataApiInterface {
 	 * @see org.rcsb.mmtf.decoder.DataApiInterface#getGroupNum()
 	 */
 	@Override
-	public int[] getGroupNum() {
+	public int[] getResidueNums() {
 		return groupNum;
 	}
 
@@ -309,7 +309,7 @@ public class SimpleDataApi implements DataApiInterface {
 	 * @see org.rcsb.mmtf.decoder.DataApiInterface#setGroupNum(int[])
 	 */
 	@Override
-	public void setGroupNum(int[] groupNum) {
+	public void setResidueNums(int[] groupNum) {
 		this.groupNum = groupNum;
 	}
 
@@ -333,7 +333,7 @@ public class SimpleDataApi implements DataApiInterface {
 	 * @see org.rcsb.mmtf.decoder.DataApiInterface#getGroupList()
 	 */
 	@Override
-	public int[] getGroupList() {
+	public int[] getGroupIndices() {
 		return groupList;
 	}
 
@@ -341,7 +341,7 @@ public class SimpleDataApi implements DataApiInterface {
 	 * @see org.rcsb.mmtf.decoder.DataApiInterface#setGroupList(int[])
 	 */
 	@Override
-	public void setGroupList(int[] groupList) {
+	public void setGroupIndices(int[] groupList) {
 		this.groupList = groupList;
 	}
 
@@ -349,7 +349,7 @@ public class SimpleDataApi implements DataApiInterface {
 	 * @see org.rcsb.mmtf.decoder.DataApiInterface#getSeqResGroupList()
 	 */
 	@Override
-	public int[] getSeqResGroupList() {
+	public int[] getSeqResGroupIndices() {
 		return seqResGroupList;
 	}
 
@@ -357,7 +357,7 @@ public class SimpleDataApi implements DataApiInterface {
 	 * @see org.rcsb.mmtf.decoder.DataApiInterface#setSeqResGroupList(int[])
 	 */
 	@Override
-	public void setSeqResGroupList(int[] seqResGroupList) {
+	public void setSeqResGroupIndices(int[] seqResGroupList) {
 		this.seqResGroupList = seqResGroupList;
 	}
 
@@ -365,7 +365,7 @@ public class SimpleDataApi implements DataApiInterface {
 	 * @see org.rcsb.mmtf.decoder.DataApiInterface#getPublicChainIds()
 	 */
 	@Override
-	public String[] getPublicChainIds() {
+	public String[] getChainNames() {
 		return publicChainIds;
 	}
 
@@ -373,7 +373,7 @@ public class SimpleDataApi implements DataApiInterface {
 	 * @see org.rcsb.mmtf.decoder.DataApiInterface#setPublicChainIds(java.lang.String[])
 	 */
 	@Override
-	public void setPublicChainIds(String[] publicChainIds) {
+	public void setChainNames(String[] publicChainIds) {
 		this.publicChainIds = publicChainIds;
 	}
 
@@ -493,7 +493,7 @@ public class SimpleDataApi implements DataApiInterface {
 	 * @see org.rcsb.mmtf.decoder.DataApiInterface#getChainList()
 	 */
 	@Override
-	public String[] getChainList() {
+	public String[] getChainIds() {
 		return chainList;
 	}
 
@@ -501,7 +501,7 @@ public class SimpleDataApi implements DataApiInterface {
 	 * @see org.rcsb.mmtf.decoder.DataApiInterface#setChainList(java.lang.String[])
 	 */
 	@Override
-	public void setChainList(String[] chainList) {
+	public void setChainIds(String[] chainList) {
 		this.chainList = chainList;
 	}
 
