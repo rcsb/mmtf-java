@@ -193,6 +193,8 @@ public class CheckOnBiojava {
 			EntityInfo entityInfoOne = entityListOne.get(i);
 			EntityInfo entityInfoTwo = entityListTwo.get(i);
 			assertEquals(entityInfoOne.getDescription(), entityInfoTwo.getDescription());
+//			// Need to fix bug in Biojava (entites not allocated to chains when using AuthIds).
+//			assertEquals(entityInfoOne.toString(), entityInfoTwo.toString());
 		}
 	}
 	/**
