@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.rcsb.mmtf.api.DataApiInterface;
 import org.rcsb.mmtf.api.StructureDecoderInterface;
 import org.rcsb.mmtf.dataholders.Entity;
 import org.rcsb.mmtf.dataholders.PDBGroup;
@@ -16,18 +17,14 @@ import org.rcsb.mmtf.dataholders.PDBGroup;
  */
 public class DecodeStructure {
 
-	/** The number to divide coordinate and b factor values by. */
-	private static final float COORD_B_FACTOR_DIVIDER = (float) 1000.0;
-	/** The number to divide occupancy values by. */
-	private static final float OCCUPANCY_DIVIDER = (float) 100.0;
-
+	
 
 	/** The struct inflator. */
 	private StructureDecoderInterface structInflator;
 
 	/** The api to the data */
-	private SimpleDataApi dataApi;
-
+	private DataApiInterface dataApi;
+	
 	/* 
 	 * Initialise the counters
 	 */
@@ -103,10 +100,10 @@ public class DecodeStructure {
 	private void useParseParams(ParsingParams parsingParams) {
 		if (parsingParams.isParseInternal()) {
 			System.out.println("Using asym ids");
-			chainList = dataApi.getChainList();
+			chainList = dataApi.getChainIds();
 		} else {
 			System.out.println("Using auth ids");
-			chainList = dataApi.getPublicChainIds();
+			chainList = dataApi.getChainNames();
 		}    
 	}
 
@@ -145,13 +142,13 @@ public class DecodeStructure {
 	 */
 	private int addGroup(final int thisGroupNum) {
 		// Now get the group
-		int g = dataApi.getGroupList()[thisGroupNum];
+		int g = dataApi.getGroupIndices()[thisGroupNum];
 		// Get this info
 		PDBGroup currentGroup = dataApi.getGroupMap().get(g);
 		List<String> atomInfo = currentGroup.getAtomInfo();
 		int atomCount = atomInfo.size() / 2;
-		int currentGroupNumber = dataApi.getGroupNum()[thisGroupNum];
-		char insertionCode = dataApi.getInsCode()[thisGroupNum];
+		int currentGroupNumber = dataApi.getResidueNums()[thisGroupNum];
+		char insertionCode = dataApi.getInsCodes()[thisGroupNum];
 		structInflator.setGroupInfo(currentGroup.getGroupName(), currentGroupNumber, insertionCode,
 				currentGroup.getChemCompType(), atomCount);
 		// A counter for the atom information
@@ -176,13 +173,13 @@ public class DecodeStructure {
 		String atomName = atomInfo.get(atomCounter * 2 + 1);
 		String element = atomInfo.get(atomCounter * 2);
 		int charge = currentPdbGroup.getAtomCharges().get(atomCounter);
-		int serialNumber = dataApi.getAtomId()[totalAtomCount];
-		char alternativeLocationId = dataApi.getAltId()[totalAtomCount];
-		float x = dataApi.getCartnX()[totalAtomCount] / COORD_B_FACTOR_DIVIDER;
-		float z = dataApi.getCartnZ()[totalAtomCount] / COORD_B_FACTOR_DIVIDER;
-		float y = dataApi.getCartnY()[totalAtomCount] / COORD_B_FACTOR_DIVIDER;
-		float occupancy = dataApi.getOccupancyArr()[totalAtomCount] / OCCUPANCY_DIVIDER;
-		float temperatureFactor = dataApi.getbFactor()[totalAtomCount] / OCCUPANCY_DIVIDER;
+		int serialNumber = dataApi.getAtomIds()[totalAtomCount];
+		char alternativeLocationId = dataApi.getAltLocIds()[totalAtomCount];
+		float x = dataApi.getXcoords()[totalAtomCount];
+		float z = dataApi.getZcoords()[totalAtomCount];
+		float y = dataApi.getYcoords()[totalAtomCount];
+		float occupancy = dataApi.getOccupancies()[totalAtomCount];
+		float temperatureFactor = dataApi.getBfactors()[totalAtomCount];
 		structInflator.setAtomInfo(atomName, serialNumber, alternativeLocationId,
 				x, y, z, occupancy, temperatureFactor, element, charge);
 		// Now increment the atom counter for this group
