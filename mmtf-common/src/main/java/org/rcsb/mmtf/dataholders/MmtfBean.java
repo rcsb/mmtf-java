@@ -14,6 +14,12 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class MmtfBean implements Serializable {
 	
+	/** The number to divide coordinate int values by. */
+	public static final float COORD_DIVIDER = (float) 1000.0;
+	/** The number to divide occupancy and bfactor int values by. */
+	public static final float OCCUPANCY_BFACTOR_DIVIDER = (float) 100.0;
+
+	
 	/** Serial id for this version of the format. */
 	private static final long serialVersionUID = 384559979573830324L;
 

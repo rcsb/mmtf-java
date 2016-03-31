@@ -82,7 +82,7 @@ public class CheckOnRawApi {
   public void checkIfSeqResInfoSame(Structure biojavaStruct, FileParsingParameters params){
     if(params.isUseInternalChainId()){
       // Get the seqres group list
-      int[] decodedSeqResGroupList = dataApi.getSeqResGroupList();
+      int[] decodedSeqResGroupList = dataApi.getSeqResGroupIndices();
       // Get the string sequences
       List<String> sequenceStrings = dataApi.getSequenceInfo();
       int groupCounter = 0;

@@ -9,68 +9,63 @@ import org.rcsb.mmtf.dataholders.PDBGroup;
 
 /**
  * An interface describing the data API.
- * One can implement their  own implementation of this interface.
+ * 
  * @author Anthony Bradley
  *
  */
 public interface DataApiInterface {
 
 	/**
-	 * Returns an array of length N atoms of the X coordinates of the atoms as integers.
-	 * They must be divided by 1000.0 to be in float form.
+	 * Returns an array of length N atoms of the X coordinates of the atoms.
 	 * @return
 	 */
-	int[] getCartnX();
+	float[] getXcoords();
 
-	void setCartnX(int[] cartnX);
+	void setXcoords(float[] xCoords);
 
 
 	/**
-	 * Returns an array of length N atoms of the Y coordinates of the atoms as integers.
-	 * They must be divided by 1000.0 to be in float form.
+	 * Returns an array of length N atoms of the Y coordinates of the atoms.
 	 * @return
 	 */
-	int[] getCartnY();
+	float[] getYcoords();
 
-	void setCartnY(int[] cartnY);
+	void setYcoords(float[] yCoords);
 
 
 	/**
-	 * Returns an array of length N atoms of the Z coordinates of the atoms as integers.
-	 * They must be divided by 1000.0 to be in float form.
+	 * Returns an array of length N atoms of the Z coordinates of the atoms.
 	 * @return
 	 */
-	int[] getCartnZ();
+	float[] getZcoords();
 
-	void setCartnZ(int[] cartnZ);
+	void setZcoords(float[] zCoords);
 
 
 	/**
-	 * Returns an array of length N atoms of the B-factors of the atoms as integers.
-	 * They must be divided by 100.0 to be in float form.
+	 * Returns an array of length N atoms of the B-factors of the atoms.
 	 * @return
 	 */
-	int[] getbFactor();
+	float[] getBfactors();
 
-	void setbFactor(int[] bFactor);
+	void setBfactors(float[] bFactors);
 
 	/**
-	 * Returns an array of length N atoms of the Occupancy of the atoms as integers.
-	 * They must be divided by 100.0 to be in float form.
+	 * Returns an array of length N atoms of the Occupancy of the atoms.
 	 * @return
 	 */	
-	int[] getOccupancyArr();
+	float[] getOccupancies();
 
-	void setOccupancyArr(int[] occupancyArr);
+	void setOccupancies(float[] occupancies);
 
 
 	/**
-	 * Returns an array of length N atoms of the serial ids of the atoms as integers.
+	 * Returns an array of atom serial ids (as specified in the mmCIF file) of length N atoms.
 	 * @return
 	 */
-	int[] getAtomId();
+	int[] getAtomIds();
 
-	void setAtomId(int[] atomId);
+	void setAtomIds(int[] atomIds);
 
 
 	/**
@@ -78,32 +73,35 @@ public interface DataApiInterface {
 	 * '?' specifies a lack of alt id.
 	 * @return
 	 */
-	char[] getAltId();
+	char[] getAltLocIds();
 
-	void setAltId(char[] altId);
+	void setAltLocIds(char[] altLocIds);
 
 
 	/**
-	 * Returns an array of length N atoms of the insertion codes of the atoms as characters.
-	 * "?" specifies a lack of alt id.
+	 * Returns an array of the insertion codes of length N residues.
+	 * '?' specifies a lack of insertion code.
 	 * @return
+	 * @see #getResidueNums()
 	 */	
-	char[] getInsCode();
+	char[] getInsCodes();
 
-	void setInsCode(char[] insCode);
+	void setInsCodes(char[] insertionCodes);
 
 
 	/**
-	 * Returns a list of length N groups indicating the residue number for  each group.
+	 * Returns a list of length N groups indicating the residue number (auth_seq_id in mmCIF dictionary) for  each group.
 	 * @return
+	 * @see #getInsCodes()
 	 */
-	int[] getGroupNum();
+	int[] getResidueNums();
 
-	void setGroupNum(int[] groupNum);
+	void setResidueNums(int[] residueNums);
 
 
 	/**
-	 * Returns the group map, mapping the numbers from getGroupNum to PDBGroup objects, which specify the atom names, 
+	 * Returns the group map, mapping the numbers from indices specified in {@link #getGroupIndices()} 
+	 * to {@link PDBGroup} objects, which specify the atom names, 
 	 * elements, bonds and charges for each group.
 	 * @return
 	 */
@@ -113,12 +111,12 @@ public interface DataApiInterface {
 
 
 	/**
-	 * Returns an array of length N groups indicating the index in the group map for each group.
+	 * Returns an array of length N groups indicating the index in {@link #getGroupMap()} for each group.
 	 * @return
 	 */	
-	int[] getGroupList();
+	int[] getGroupIndices();
 
-	void setGroupList(int[] groupList);
+	void setGroupIndices(int[] groupIndices);
 
 
 	/**
@@ -126,25 +124,36 @@ public interface DataApiInterface {
 	 * -1 indicates the group is not present in the sequence. Indices are specified per chain.
 	 * @return
 	 */
-	int[] getSeqResGroupList();
+	int[] getSeqResGroupIndices();
 
-	void setSeqResGroupList(int[] seqResGroupList);
-
-
+	void setSeqResGroupIndices(int[] seqResGroupIndices);
 
 
 	/**
-	 * Returns an array of Strings (length number of chains) for the public facing chain ids (auth ids).
-	 * Each string is of length up to 4.
+	 * Returns an array of internal chain identifiers (asym_ids in mmCIF dictionary), of length the 
+	 * number of chains (polymeric, non-polymeric and water) in the structure.
+	 * 
+	 * The ids have a maximum of 4 chars.
+	 * @return
+	 */
+	String[] getChainIds();
+
+	void setChainIds(String[] internalChainIds);
+
+	/**
+	 * Returns an array of public chain identifiers (auth_ids in mmCIF dictionary), of length the 
+	 * number of internal chains (polymeric, non-polymeric and water) in the structure.
+	 * 
 	 * @return
 	 */	
-	String[] getPublicChainIds();
+	String[] getChainNames();
 
-	void setPublicChainIds(String[] publicChainIds);
+	void setChainNames(String[] publicChainIds);
 
 
 	/**
-	 * Returns an array of length N models, indicating the number of (internal) chains in each model.
+	 * Returns an array of length N models, indicating the number of chains 
+	 * (polymeric/non-polymeric/water) in each model.
 	 * @return
 	 */
 	int[] getChainsPerModel();
@@ -162,9 +171,9 @@ public interface DataApiInterface {
 
 
 	/**
-	 * Returns the space group of the structure. //TODO WHAT IS IT FOR NMR??
+	 * Returns the space group of the structure.
 	 *
-	 * @return
+	 * @return the space group name (e.g. "P 21 21 21") or null if the structure is not crystallographic
 	 */
 	String getSpaceGroup();
 
@@ -180,9 +189,8 @@ public interface DataApiInterface {
 	void setUnitCell(List<Float> unitCell);
 
 
-	// TODO CLEAN UP THIS WHOLE THING AND THEN DOCUMENT IT CORRECTLY
 	/**
-	 * Returns the bioassmebly information as a map
+	 * Returns a list of {@link BioAssemblyData}s corresponding to the structure.
 	 * @return
 	 */
 	List<BioAssemblyData> getBioAssemblyList();
@@ -191,8 +199,8 @@ public interface DataApiInterface {
 
 
 	/**
-	 * Returns an array of length 2 * intergroup bonds of the bond indices.
-	 * Each index corresponds to a the index of the atom in the total structure.
+	 * Returns an array of inter-group bonds represented with 2 consecutive atom 
+	 * indices in the array, with length 2 * <em>number of inter-group bonds</em>.
 	 * @return
 	 */
 	int[] getInterGroupBondIndices();
@@ -201,23 +209,12 @@ public interface DataApiInterface {
 
 
 	/**
-	 * Returns an array of length intergroup bonds of the bond orders (1,2,3) for the bonds between groups as a list of integers.
+	 * Returns an array of bond orders (1,2,3) of inter-group bonds with length <em>number of inter-group bonds</em>
 	 * @return
 	 */
 	int[] getInterGroupBondOrders();
 
 	void setInterGroupBondOrders(int[] interGroupBondOrders);
-
-
-	/**
-	 * Returns an array of length N chains for the internal chain ids (asym ids).
-	 * Each string is of length up to 4.
-	 * @return
-	 */
-	String[] getChainList();
-
-	void setChainList(String[] chainList);
-
 
 
 	/**
@@ -248,7 +245,7 @@ public interface DataApiInterface {
 	void setMmtfProducer(String mmtfProducer);
 
 	/**
-	 * Returns the list of Entity objects for this structure.
+	 * Returns an array with all {@link Entity} objects for the structure.
 	 * @return
 	 */
 	Entity[] getEntityList();
@@ -257,7 +254,7 @@ public interface DataApiInterface {
 
 
 	/**
-	 * Returns the four character string pdb id of the structure.
+	 * Returns the four character PDB id of the structure.
 	 * @return
 	 */
 	String getPdbId();
@@ -267,23 +264,23 @@ public interface DataApiInterface {
 
 
 	/**
-	 * Returns the number of models in the total structure
+	 * Returns the number of models in the structure.
 	 */
 	int getNumModels();
 	
 	/**
-	 * Returns the number of chains in the total structure
+	 * Returns the number of chains in the structure.
 	 */
 	int getNumChains();
 	
 	/**
-	 * Returns the number of groups (residues) in the file
+	 * Returns the number of groups (residues) in the structure.
 	 */
 	int getNumResidues();
 	
 
 	/**
-	 * Returns the number of atoms in the total structure
+	 * Returns the number of atoms in the structure.
 	 */
 	int getNumAtoms();
 }

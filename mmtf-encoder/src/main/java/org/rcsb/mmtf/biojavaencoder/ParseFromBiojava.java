@@ -337,7 +337,7 @@ public class ParseFromBiojava {
           ResidueNumber residueNum = currentGroup.getResidueNumber();
           
           // bioStruct data item corresponds to the PDB insertion code.
-          Character insertionCode = residueNum.getInsCode();
+          Character insertionCode = residueNum.getInsCodes();
           if (insertionCode==null){
             bioStruct.get_atom_site_pdbx_PDB_ins_code().add(null);
           }
