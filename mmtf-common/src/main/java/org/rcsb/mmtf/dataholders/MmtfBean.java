@@ -15,9 +15,13 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 public class MmtfBean implements Serializable {
 	
 	/** The number to divide coordinate int values by. */
-	public static final float COORD_DIVIDER = (float) 1000.0;
+	public static final float COORD_DIVIDER = 1000.0f;
 	/** The number to divide occupancy and bfactor int values by. */
-	public static final float OCCUPANCY_BFACTOR_DIVIDER = (float) 100.0;
+	public static final float OCCUPANCY_BFACTOR_DIVIDER = 100.0f;
+	/**
+	 * The default value for Rfree, Rwork and resolution when not available or not applicable
+	 */
+	public static final float UNAVAILABLE_R_VALUE = -1.0f;
 
 	
 	/** Serial id for this version of the format. */
@@ -146,10 +150,12 @@ public class MmtfBean implements Serializable {
 		mmtfProducer = "NA";
 
 		/** The resolution in Angstrom. -1.0 if not applicable*/
-		resolution = (float) -1.0;
+		resolution = UNAVAILABLE_R_VALUE;
 
 		/** The rfree. -1.0 if not applicable */
-		rFree = (float) -1.0;
+		rFree = UNAVAILABLE_R_VALUE;
+		
+		rWork = UNAVAILABLE_R_VALUE;
 
 		/** The number of atoms. Default is -1 indicates error */
 		numAtoms = -1;
