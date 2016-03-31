@@ -50,18 +50,18 @@ public class CheckOnRawApi {
     // Fist check it's not null
     assertNotEquals(dataApi.getEntityList(), null);
     // Second check it's the same length
-    assertEquals(dataApi.getEntityList().length, biojavaStruct.getEntityInformation().size());
+    assertEquals(dataApi.getEntityList().length, biojavaStruct.getEntityInfos().size());
 	List<Chain> totChains = new ArrayList<>();
 	for (int i=0; i < biojavaStruct.nrModels(); i++) {
 		totChains.addAll(biojavaStruct.getChains(i));
 	}
     // Now check it has the same information as BioJava
     for(int i=0; i<dataApi.getEntityList().length; i++) {
-      EntityInfo biojavaEntity = biojavaStruct.getEntityInformation().get(i);
+      EntityInfo biojavaEntity = biojavaStruct.getEntityInfos().get(i);
       Entity mmtfEntity = dataApi.getEntityList()[i];
       assertNotEquals(mmtfEntity, null);
       assertEquals(mmtfEntity.getDescription(), biojavaEntity.getDescription());
-      assertEquals(mmtfEntity.getType(), biojavaEntity.getType());
+      assertEquals(mmtfEntity.getType(), biojavaEntity.getType().toString());
       // Now check it maps onto the correct chains
       List<Chain> bioJavaChains = biojavaEntity.getChains();
       int[] mmtfList = mmtfEntity.getChainIndexList();

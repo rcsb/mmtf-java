@@ -186,8 +186,8 @@ public class CheckOnBiojava {
 	 * @param structTwo
 	 */
 	private void checkIfEntitiesSame(Structure structOne, Structure structTwo) {
-		List<EntityInfo> entityListOne = structOne.getEntityInformation();
-		List<EntityInfo> entityListTwo = structTwo.getEntityInformation();
+		List<EntityInfo> entityListOne = structOne.getEntityInfos();
+		List<EntityInfo> entityListTwo = structTwo.getEntityInfos();
 		assertEquals(entityListOne.size(), entityListTwo.size());	
 		for (int i=0; i<entityListOne.size(); i++) {
 			EntityInfo entityInfoOne = entityListOne.get(i);
