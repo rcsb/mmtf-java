@@ -77,6 +77,13 @@ public class SimpleDataApi implements DataApiInterface {
 			mmtfProducer = inputData.getMmtfProducer();
 			entityList = inputData.getEntityList();
 			pdbId = inputData.getPdbId();
+			// Now get the header data
+			rFree = inputData.getrFree();
+			rWork = inputData.getrWork();
+			resolution = inputData.getResolution();
+			title = inputData.getTitle();
+			experimentalMethods = inputData.getExperimentalMethods();
+			
 
 		}
 		catch (IOException ioException){
@@ -164,8 +171,21 @@ public class SimpleDataApi implements DataApiInterface {
 
 	/** The PDB id	 */
 	private String pdbId;
+	
+	/** The reported resolution of the dataset. */
+	private float resolution;
 
+	/** The reported R Free of the model. */
+	private float rFree;
+	
+	/** The reported R Work of the model. */
+	private float rWork;
+	
+	/** The title of the model. */
+	private String title;
 
+	/** The list of experimental methods. */
+	private List<String> experimentalMethods;
 	
 	@Override
 	public float[] getXcoords() {
@@ -584,6 +604,31 @@ public class SimpleDataApi implements DataApiInterface {
 	@Override
 	public int getNumAtoms() {
 		return this.cartnX.length;
+	}
+
+	@Override
+	public float getRfree() {
+		return rFree;
+	}
+
+	@Override
+	public float getResolution() {
+		return resolution;
+	}
+
+	@Override
+	public float getRwork() {
+		return rWork;
+	}
+
+	@Override
+	public String getTitle() {
+		return title;
+	}
+
+	@Override
+	public List<String> getExperimentalMethods() {
+		return experimentalMethods;
 	}
 
 

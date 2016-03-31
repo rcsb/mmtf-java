@@ -74,6 +74,8 @@ public class DecodeStructure {
 			}
 			modelCounter++;
 		}
+		// Now add the header information.
+		addHeaderInfo();
 		// Now set the crystallographic  information
 		addXtalographicInfo();
 		/// Now get the bioassembly information
@@ -89,9 +91,19 @@ public class DecodeStructure {
 			}
 			inputStructInflator.setEntityInfo(chainIdList, entity.getSequence(), entity.getDescription(), entity.getType());
 		}
+		
+		
 		// Now do any required cleanup
 		inputStructInflator.cleanUpStructure();
 	}
+
+	/**
+	 * Function to add ancilliary header information to the structure
+	 */
+	private void addHeaderInfo() {
+		structInflator.setHeaderInfo(dataApi.getRfree(),dataApi.getRwork(), dataApi.getResolution(), dataApi.getTitle(), dataApi.getExperimentalMethods());		
+	}
+
 
 	/**
 	 * Use the parsing parameters to set the scene.
@@ -166,20 +178,20 @@ public class DecodeStructure {
 	 * Add atom level data for a given atom.
 	 * @param currentPdbGroup The group being considered.
 	 * @param atomInfo The list of strings containing atom level information.
-	 * @param totalAtomCount The total count of atoms
+	 * @param currentAtomIndex The index of the current Atom
 	 */
-	private void addAtomData(PDBGroup currentPdbGroup, List<String> atomInfo, int totalAtomCount) {
+	private void addAtomData(PDBGroup currentPdbGroup, List<String> atomInfo, int currentAtomIndex) {
 		// Now get all the relevant atom level information here
 		String atomName = atomInfo.get(atomCounter * 2 + 1);
 		String element = atomInfo.get(atomCounter * 2);
 		int charge = currentPdbGroup.getAtomCharges().get(atomCounter);
-		int serialNumber = dataApi.getAtomIds()[totalAtomCount];
-		char alternativeLocationId = dataApi.getAltLocIds()[totalAtomCount];
-		float x = dataApi.getXcoords()[totalAtomCount];
-		float z = dataApi.getZcoords()[totalAtomCount];
-		float y = dataApi.getYcoords()[totalAtomCount];
-		float occupancy = dataApi.getOccupancies()[totalAtomCount];
-		float temperatureFactor = dataApi.getBfactors()[totalAtomCount];
+		int serialNumber = dataApi.getAtomIds()[currentAtomIndex];
+		char alternativeLocationId = dataApi.getAltLocIds()[currentAtomIndex];
+		float x = dataApi.getXcoords()[currentAtomIndex];
+		float z = dataApi.getZcoords()[currentAtomIndex];
+		float y = dataApi.getYcoords()[currentAtomIndex];
+		float occupancy = dataApi.getOccupancies()[currentAtomIndex];
+		float temperatureFactor = dataApi.getBfactors()[currentAtomIndex];
 		structInflator.setAtomInfo(atomName, serialNumber, alternativeLocationId,
 				x, y, z, occupancy, temperatureFactor, element, charge);
 		// Now increment the atom counter for this group

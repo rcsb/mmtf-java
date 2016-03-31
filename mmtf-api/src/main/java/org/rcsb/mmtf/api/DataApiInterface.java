@@ -282,4 +282,31 @@ public interface DataApiInterface {
 	 * Returns the number of atoms in the structure.
 	 */
 	int getNumAtoms();
+	
+	
+	/**
+	 * Returns the Rfree (if available) of the dataset.
+	 */
+	float getRfree();
+	
+	/**
+	 * Returns the Resolution (if avaialble) of the dataset.
+	 */
+	float getResolution();
+	
+	/**
+	 * Returns the Rfree (if available) of the dataset.
+	 */
+	float getRwork();
+	
+	
+	/**
+	 * Returns the title of the structure.
+	 */
+	String getTitle();
+	
+	/**
+	 * Returns the list of experimental methods as a list of strings.
+	 */
+	List<String> getExperimentalMethods();
 }

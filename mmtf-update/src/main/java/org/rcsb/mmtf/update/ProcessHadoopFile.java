@@ -22,8 +22,9 @@ public class ProcessHadoopFile implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * First argument is the base path in the file system
-	 * Second argument is the version of MMTF being used
+	 * First argument is the path for the hadoop sequence file to read in. 
+	 * Second argument is the base path to write files out to.
+	 * Third argument is the path of the file to write to demonstrate the work is done.
 	 * @param args
 	 * @throws IOException 
 	 */

@@ -107,7 +107,17 @@ public interface StructureDecoderInterface {
   
   
   /**
-   * A generic function to be used before any additions to do any required pre-processing.
+   * Sets the header information.
+   * @param rFree
+   * @param rWork
+   * @param resolution
+   * @param title
+   * @param experimnetalMethods
+   */
+  void setHeaderInfo(float rFree, float rWork, float resolution, String title, List<String> experimnetalMethods);
+  
+  /**
+   * Used before any additions to do any required pre-processing.
    * For example the user could use this to specify the amount of memory to be allocated.
    * @param totalNumAtoms The total number of atoms found in the data.
    * @param totalNumGroups The total number of groups found in the data.
