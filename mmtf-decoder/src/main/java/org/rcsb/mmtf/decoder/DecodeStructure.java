@@ -59,11 +59,29 @@ public class DecodeStructure {
 		// Set the inflator
 		structInflator = inputStructInflator;
 		// Do any required preparation
-		inputStructInflator.prepareStructure(dataApi.getNumAtoms(), dataApi.getNumResidues(),
-				dataApi.getNumChains(), dataApi.getNumModels());
+		inputStructInflator.prepareStructure(dataApi.getNumAtoms(), dataApi.getNumResidues(), dataApi.getNumChains(), dataApi.getNumModels());
 		// Now get the parsing parameters to do their thing
 		useParseParams(parsingParams);
-		// Now get the group map
+		// Now add the atom information
+		addAtomicInformation();
+		// Now add the header information.
+		addHeaderInfo();
+		// Now set the crystallographic  information
+		addXtalographicInfo();
+		/// Now get the bioassembly information
+		generateBioAssembly();
+		// Now add the other bonds between groups
+		addInterGroupBonds();
+		// Now add the entity info
+		addEntityInfo();
+		// Now do any required cleanup
+		structInflator.cleanUpStructure();
+	}
+	
+	/**
+	 * Add the main atomic information to the data model
+	 */
+	private void addAtomicInformation() {
 		for (int modelChains: dataApi.getChainsPerModel()) {
 			structInflator.setModelInfo(modelCounter, modelChains);
 			// A list to check if we need to set or update the chains
@@ -73,15 +91,14 @@ public class DecodeStructure {
 				addOrUpdateChainInfo(chainIndex);
 			}
 			modelCounter++;
-		}
-		// Now add the header information.
-		addHeaderInfo();
-		// Now set the crystallographic  information
-		addXtalographicInfo();
-		/// Now get the bioassembly information
-		generateBioAssembly();
-		// Now add the other bonds between groups
-		addInterGroupBonds();
+		}		
+	}
+
+
+	/**
+	 * Add the entity information to a structure.
+	 */
+	private void addEntityInfo() {
 		for (Entity entity : dataApi.getEntityList()) {
 			String[] chainIdList = new String[entity.getChainIndexList().length];
 			int counter = 0;
@@ -89,13 +106,10 @@ public class DecodeStructure {
 				chainIdList[counter] = chainList[chainInd];
 				counter++;
 			}
-			inputStructInflator.setEntityInfo(chainIdList, entity.getSequence(), entity.getDescription(), entity.getType());
-		}
-		
-		
-		// Now do any required cleanup
-		inputStructInflator.cleanUpStructure();
+			structInflator.setEntityInfo(chainIdList, entity.getSequence(), entity.getDescription(), entity.getType());
+		}		
 	}
+
 
 	/**
 	 * Function to add ancilliary header information to the structure
