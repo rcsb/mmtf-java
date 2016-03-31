@@ -77,7 +77,6 @@ public class SimpleDataApi implements DataApiInterface {
 			bioAssembly  = inputData.getBioAssemblyList();
 			interGroupBondIndices = decoderUtils.bytesToInts(inputData.getBondAtomList());
 			interGroupBondOrders = decoderUtils.bytesToByteInts(inputData.getBondOrderList());
-			sequenceInfo = inputData.getChainSeqList();
 			mmtfVersion = inputData.getMmtfVersion();
 			mmtfProducer = inputData.getMmtfProducer();
 			entityList = inputData.getEntityList();
@@ -141,7 +140,7 @@ public class SimpleDataApi implements DataApiInterface {
 	private String spaceGroup;
 
 	/** The unit cell of the structure*/
-	private List<Float> unitCell;
+	private float[] unitCell;
 
 	/** The bioassembly information for the structure*/
 	private List<BioAssemblyData> bioAssembly;
@@ -154,9 +153,6 @@ public class SimpleDataApi implements DataApiInterface {
 
 	/** The chosen list of chain ids */
 	private String[] chainList;
-
-	/** The sequence information. An entry for each chain. In a list.  */
-	private List<String> sequenceInfo;
 
 	/** The mmtf version */
 	private String mmtfVersion;
@@ -433,7 +429,7 @@ public class SimpleDataApi implements DataApiInterface {
 	 * @see org.rcsb.mmtf.decoder.DataApiInterface#getUnitCell()
 	 */
 	@Override
-	public List<Float> getUnitCell() {
+	public float[] getUnitCell() {
 		return unitCell;
 	}
 
@@ -441,8 +437,8 @@ public class SimpleDataApi implements DataApiInterface {
 	 * @see org.rcsb.mmtf.decoder.DataApiInterface#setUnitCell(java.util.List)
 	 */
 	@Override
-	public void setUnitCell(List<Float> unitCell) {
-		this.unitCell = unitCell;
+	public void setUnitCell(float[] inputUnitCell) {
+		this.unitCell = inputUnitCell;
 	}
 
 	/* (non-Javadoc)
@@ -507,22 +503,6 @@ public class SimpleDataApi implements DataApiInterface {
 	@Override
 	public void setChainIds(String[] chainList) {
 		this.chainList = chainList;
-	}
-
-	/* (non-Javadoc)
-	 * @see org.rcsb.mmtf.decoder.DataApiInterface#getSequenceInfo()
-	 */
-	@Override
-	public List<String> getSequenceInfo() {
-		return sequenceInfo;
-	}
-
-	/* (non-Javadoc)
-	 * @see org.rcsb.mmtf.decoder.DataApiInterface#setSequenceInfo(java.util.List)
-	 */
-	@Override
-	public void setSequenceInfo(List<String> sequenceInfo) {
-		this.sequenceInfo = sequenceInfo;
 	}
 
 	/* (non-Javadoc)

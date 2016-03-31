@@ -7,6 +7,7 @@ import java.util.Set;
 import org.rcsb.mmtf.api.DataApiInterface;
 import org.rcsb.mmtf.api.StructureDecoderInterface;
 import org.rcsb.mmtf.dataholders.MmtfBean;
+import org.rcsb.mmtf.dataholders.Entity;
 import org.rcsb.mmtf.dataholders.PDBGroup;
 
 /**
@@ -21,7 +22,7 @@ public class DecodeStructure {
 
 	/** The struct inflator. */
 	private StructureDecoderInterface structInflator;
-	
+
 	/** The api to the data */
 	private DataApiInterface dataApi;
 	
@@ -44,7 +45,7 @@ public class DecodeStructure {
 
 		// Data api
 		dataApi = new SimpleDataApi(inputByteArr);
-		
+
 	}
 
 
@@ -80,6 +81,15 @@ public class DecodeStructure {
 		generateBioAssembly();
 		// Now add the other bonds between groups
 		addInterGroupBonds();
+		for (Entity entity : dataApi.getEntityList()) {
+			String[] chainIdList = new String[entity.getChainIndexList().length];
+			int counter = 0;
+			for (int chainInd : entity.getChainIndexList()) {
+				chainIdList[counter] = chainList[chainInd];
+				counter++;
+			}
+			inputStructInflator.setEntityInfo(chainIdList, entity.getSequence(), entity.getDescription(), entity.getType());
+		}
 		// Now do any required cleanup
 		inputStructInflator.cleanUpStructure();
 	}
@@ -208,7 +218,9 @@ public class DecodeStructure {
 	 * Adds the crystallographic info to the structure
 	 */
 	private void addXtalographicInfo() {
-		structInflator.setXtalInfo(dataApi.getSpaceGroup(), dataApi.getUnitCell());    
+		if(dataApi.getUnitCell()!=null){
+			structInflator.setXtalInfo(dataApi.getSpaceGroup(), dataApi.getUnitCell());    
+		}
 	}
 
 	/**

@@ -42,7 +42,7 @@ public class CalphaDistBean {
 	
 	/** The unit cell. */
 	// The unit cell information
-	private List<Float> unitCell = new ArrayList<Float>(); 
+	private float[] unitCell; 
 	
 	/** The bio assembly. */
 	// A map of Bioassembly -> new class so serializable
@@ -161,7 +161,7 @@ public class CalphaDistBean {
 	 *
 	 * @return the unit cell
 	 */
-	public List<Float> getUnitCell() {
+	public float[] getUnitCell() {
 		return unitCell;
 	}
 	
@@ -170,8 +170,8 @@ public class CalphaDistBean {
 	 *
 	 * @param unitCell the new unit cell
 	 */
-	public void setUnitCell(List<Float> unitCell) {
-		this.unitCell = unitCell;
+	public void setUnitCell(float[] inputUnitCell) {
+		this.unitCell = inputUnitCell;
 	}
 	
 	/**

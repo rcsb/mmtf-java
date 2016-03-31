@@ -1,6 +1,5 @@
 package org.rcsb.mmtf.dataholders;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -12,111 +11,111 @@ import org.rcsb.mmtf.dataholders.BioAssemblyData;
  * @author abradley
  */
 public class HeaderBean {
-	
+
 	/** The number of chains. */
 	// The number of chains
 	private int numChains;
-	
+
 	/** The number of atoms. */
 	// The number of atoms
 	private int numAtoms;
-	
+
 	/** The number of bonds. */
 	// The number of bonds
 	private int numBonds;
-	
+
 	/** The id code. */
 	// The PDBCode
 	private String idCode;
-	
+
 	/** The title. */
 	// The title of the structure
 	private String title;
-	
+
 	/** The description. */
 	// PDB HEADER INFORMATION
 	private String description;
-	
+
 	/** The classification. */
 	private String classification;	
-	
+
 	/** The depositon date. */
 	private Date depDate;
-	
+
 	/** The modified date. */
 	private Date modDate;
-	
+
 	/** The resolution.-1.0 if not available */
 	private float resolution;
-	
+
 	/** The r free. -1.0 if not available*/
 	private float rFree;
-	
-	 /** The r work. -1.0 if not available */
-  private float rWork;
-	
+
+	/** The r work. -1.0 if not available */
+	private float rWork;
+
 	/** The doi. */
 	private String doi;
-	
+
 	/** The authors. */
 	private String authors;
-	
+
 	/** The SEQRES sequence, per asym chain. */
 	private List<String> sequence;
-	
+
 	/** The SeqRes group ids. */
 	private List<Integer> seqResGroupIds;
-	
+
 	/** The experimental method(s). */
 	private List<String> experimentalMethods;
-	
+
 	/** The chains per model. */
 	// Add this to store the model information
 	private int[] chainsPerModel;
-	
+
 	/** The asym chains per model. */
 	private int[] asymChainsPerModel;
-	
+
 	/** The chain list. */
 	// List to store the chainids
 	private byte[] chainList;
-	
+
 	/** The asym chain list. */
 	// List to store the chainids
 	private byte[] asymChainList;
-	
+
 	/** The groups per chain. */
 	// List to store the number of groups per chain
 	private int[] groupsPerChain;
-	
+
 	/** The asym groups per chain. */
 	private int[] asymGroupsPerChain;
-	
+
 	/** The space group. */
 	// LOTS OF OTHER STUFF HERE -> TBD
 	private String spaceGroup;
-	
+
 	/** The list of entities in this structure. */
 	private Entity[] entityList;
-	
-	 /** The pdbx_description of a given chain (entity) */
-  private String[] chainDescriptionList;
 
-  /** The type of a given chain (entity) */
-  private String[] chainTypeList;
-	
+	/** The pdbx_description of a given chain (entity) */
+	private String[] chainDescriptionList;
+
+	/** The type of a given chain (entity) */
+	private String[] chainTypeList;
+
 	/** The unit cell. */
-	private List<Float> unitCell = new ArrayList<Float>(); 
-	
+	private float[] unitCell; 
+
 	/** The bio assembly. */
 	private List<BioAssemblyData> bioAssembly; 
-	  
+
 	public HeaderBean() {
-	  resolution = (float) -1.0;
-	  
-	  rFree = (float) -1.0;
-	  
-	  rWork = (float) -1.0;
+		resolution = (float) -1.0;
+
+		rFree = (float) -1.0;
+
+		rWork = (float) -1.0;
 	}
 
 	// Getters and setters
@@ -128,7 +127,7 @@ public class HeaderBean {
 	public int getNumChains() {
 		return numChains;
 	}
-	
+
 	/**
 	 * Sets the number of chains.
 	 *
@@ -137,7 +136,7 @@ public class HeaderBean {
 	public void setNumChains(int numChains) {
 		this.numChains = numChains;
 	}
-	
+
 	/**
 	 * Gets the number of atoms.
 	 *
@@ -146,7 +145,7 @@ public class HeaderBean {
 	public int getNumAtoms() {
 		return numAtoms;
 	}
-	
+
 	/**
 	 * Sets the number of atoms.
 	 *
@@ -155,7 +154,7 @@ public class HeaderBean {
 	public void setNumAtoms(int numAtoms) {
 		this.numAtoms = numAtoms;
 	}
-	
+
 	/**
 	 * Gets the pdb code.
 	 *
@@ -173,7 +172,7 @@ public class HeaderBean {
 	public void setPdbCode(String pdbCode) {
 		this.idCode = pdbCode;
 	}
-	
+
 	/**
 	 * Gets the space group.
 	 *
@@ -182,7 +181,7 @@ public class HeaderBean {
 	public String getSpaceGroup() {
 		return spaceGroup;
 	}
-	
+
 	/**
 	 * Sets the space group.
 	 *
@@ -191,25 +190,25 @@ public class HeaderBean {
 	public void setSpaceGroup(String spaceGroup) {
 		this.spaceGroup = spaceGroup;
 	}
-	
+
 	/**
 	 * Gets the unit cell.
 	 *
 	 * @return the unit cell
 	 */
-	public List<Float> getUnitCell() {
+	public float[] getUnitCell() {
 		return unitCell;
 	}
-	
+
 	/**
 	 * Sets the unit cell.
 	 *
 	 * @param unitCell the new unit cell
 	 */
-	public void setUnitCell(List<Float> unitCell) {
-		this.unitCell = unitCell;
+	public void setUnitCell(float[] inputUnitCell) {
+		this.unitCell = inputUnitCell;
 	}
-	
+
 	/**
 	 * Gets the chains per model.
 	 *
@@ -218,7 +217,7 @@ public class HeaderBean {
 	public int[] getChainsPerModel() {
 		return chainsPerModel;
 	}
-	
+
 	/**
 	 * Sets the chains per model.
 	 *
@@ -227,7 +226,7 @@ public class HeaderBean {
 	public void setChainsPerModel(int[] chainsPerModel) {
 		this.chainsPerModel = chainsPerModel;
 	}
-	
+
 	/**
 	 * Gets the groups per chain.
 	 *
@@ -236,7 +235,7 @@ public class HeaderBean {
 	public int[] getGroupsPerChain() {
 		return groupsPerChain;
 	}
-	
+
 	/**
 	 * Sets the groups per chain.
 	 *
@@ -245,7 +244,7 @@ public class HeaderBean {
 	public void setGroupsPerChain(int[] groupsPerChain) {
 		this.groupsPerChain = groupsPerChain;
 	}
-	
+
 	/**
 	 * Gets the id code.
 	 *
@@ -254,7 +253,7 @@ public class HeaderBean {
 	public String getIdCode() {
 		return idCode;
 	}
-	
+
 	/**
 	 * Sets the id code.
 	 *
@@ -263,7 +262,7 @@ public class HeaderBean {
 	public void setIdCode(String idCode) {
 		this.idCode = idCode;
 	}
-	
+
 	/**
 	 * Gets the description.
 	 *
@@ -272,7 +271,7 @@ public class HeaderBean {
 	public String getDescription() {
 		return description;
 	}
-	
+
 	/**
 	 * Sets the description.
 	 *
@@ -281,7 +280,7 @@ public class HeaderBean {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	
+
 	/**
 	 * Gets the classification.
 	 *
@@ -290,7 +289,7 @@ public class HeaderBean {
 	public String getClassification() {
 		return classification;
 	}
-	
+
 	/**
 	 * Sets the classification.
 	 *
@@ -299,7 +298,7 @@ public class HeaderBean {
 	public void setClassification(String classification) {
 		this.classification = classification;
 	}
-	
+
 	/**
 	 * Gets the dep date.
 	 *
@@ -308,7 +307,7 @@ public class HeaderBean {
 	public Date getDepDate() {
 		return depDate;
 	}
-	
+
 	/**
 	 * Sets the dep date.
 	 *
@@ -317,7 +316,7 @@ public class HeaderBean {
 	public void setDepDate(Date depDate) {
 		this.depDate = depDate;
 	}
-	
+
 	/**
 	 * Gets the mod date.
 	 *
@@ -326,7 +325,7 @@ public class HeaderBean {
 	public Date getModDate() {
 		return modDate;
 	}
-	
+
 	/**
 	 * Sets the mod date.
 	 *
@@ -335,7 +334,7 @@ public class HeaderBean {
 	public void setModDate(Date modDate) {
 		this.modDate = modDate;
 	}
-	
+
 	/**
 	 * Gets the resolution.
 	 *
@@ -344,7 +343,7 @@ public class HeaderBean {
 	public float getResolution() {
 		return resolution;
 	}
-	
+
 	/**
 	 * Sets the resolution.
 	 *
@@ -353,7 +352,7 @@ public class HeaderBean {
 	public void setResolution(float resolution) {
 		this.resolution = resolution;
 	}
-	
+
 	/**
 	 * Gets the r free.
 	 *
@@ -362,7 +361,7 @@ public class HeaderBean {
 	public float getrFree() {
 		return rFree;
 	}
-	
+
 	/**
 	 * Sets the r free.
 	 *
@@ -371,7 +370,7 @@ public class HeaderBean {
 	public void setrFree(float rFree) {
 		this.rFree = rFree;
 	}
-	
+
 	/**
 	 * Gets the doi.
 	 *
@@ -380,7 +379,7 @@ public class HeaderBean {
 	public String getDoi() {
 		return doi;
 	}
-	
+
 	/**
 	 * Sets the doi.
 	 *
@@ -389,7 +388,7 @@ public class HeaderBean {
 	public void setDoi(String doi) {
 		this.doi = doi;
 	}
-	
+
 	/**
 	 * Gets the authors.
 	 *
@@ -398,7 +397,7 @@ public class HeaderBean {
 	public String getAuthors() {
 		return authors;
 	}
-	
+
 	/**
 	 * Sets the authors.
 	 *
@@ -407,7 +406,7 @@ public class HeaderBean {
 	public void setAuthors(String authors) {
 		this.authors = authors;
 	}
-	
+
 	/**
 	 * Gets the bio assembly.
 	 *
@@ -416,7 +415,7 @@ public class HeaderBean {
 	public List<BioAssemblyData> getBioAssembly() {
 		return bioAssembly;
 	}
-	
+
 	/**
 	 * Sets the bio assembly.
 	 *
@@ -425,7 +424,7 @@ public class HeaderBean {
 	public void setBioAssembly(List<BioAssemblyData> inputBioAssembly) {
 		this.bioAssembly = inputBioAssembly;
 	}
-	
+
 	/**
 	 * Gets the chain list.
 	 *
@@ -434,7 +433,7 @@ public class HeaderBean {
 	public byte[] getChainList() {
 		return chainList;
 	}
-	
+
 	/**
 	 * Sets the chain list.
 	 *
@@ -443,7 +442,7 @@ public class HeaderBean {
 	public void setChainList(byte[] chainList) {
 		this.chainList = chainList;
 	}
-	
+
 	/**
 	 * Gets the asym chain list.
 	 *
@@ -452,7 +451,7 @@ public class HeaderBean {
 	public byte[] getAsymChainList() {
 		return asymChainList;
 	}
-	
+
 	/**
 	 * Sets the asym chain list.
 	 *
@@ -461,7 +460,7 @@ public class HeaderBean {
 	public void setAsymChainList(byte[] asymChainList) {
 		this.asymChainList = asymChainList;
 	}
-	
+
 	/**
 	 * Gets the title.
 	 *
@@ -470,7 +469,7 @@ public class HeaderBean {
 	public String getTitle() {
 		return title;
 	}
-	
+
 	/**
 	 * Sets the title.
 	 *
@@ -479,7 +478,7 @@ public class HeaderBean {
 	public void setTitle(String title) {
 		this.title = title;
 	}
-	
+
 	/**
 	 * Gets the sequence.
 	 *
@@ -488,7 +487,7 @@ public class HeaderBean {
 	public List<String> getSequence() {
 		return sequence;
 	}
-	
+
 	/**
 	 * Sets the sequence.
 	 *
@@ -497,7 +496,7 @@ public class HeaderBean {
 	public void setSequence(List<String> sequence) {
 		this.sequence = sequence;
 	}
-	
+
 	/**
 	 * Gets the number of bonds.
 	 *
@@ -506,7 +505,7 @@ public class HeaderBean {
 	public int getNumBonds() {
 		return numBonds;
 	}
-	
+
 	/**
 	 * Sets the number of bonds.
 	 *
@@ -515,7 +514,7 @@ public class HeaderBean {
 	public void setNumBonds(int numBonds) {
 		this.numBonds = numBonds;
 	}
-	
+
 	/**
 	 * Gets the asym chains per model.
 	 *
@@ -524,7 +523,7 @@ public class HeaderBean {
 	public int[] getAsymChainsPerModel() {
 		return asymChainsPerModel;
 	}
-	
+
 	/**
 	 * Sets the asym chains per model.
 	 *
@@ -533,7 +532,7 @@ public class HeaderBean {
 	public void setAsymChainsPerModel(int[] asymChainsPerModel) {
 		this.asymChainsPerModel = asymChainsPerModel;
 	}
-	
+
 	/**
 	 * Gets the asym groups per chain.
 	 *
@@ -542,7 +541,7 @@ public class HeaderBean {
 	public int[] getAsymGroupsPerChain() {
 		return asymGroupsPerChain;
 	}
-	
+
 	/**
 	 * Sets the asym groups per chain.
 	 *
@@ -552,81 +551,81 @@ public class HeaderBean {
 		this.asymGroupsPerChain = asymGroupsPerChain;
 	}
 
-  /**
-   * @return the seqResGroupIds
-   */
-  public List<Integer> getSeqResGroupIds() {
-    return seqResGroupIds;
-  }
+	/**
+	 * @return the seqResGroupIds
+	 */
+	public List<Integer> getSeqResGroupIds() {
+		return seqResGroupIds;
+	}
 
-  /**
-   * @param seqResGroupIds the seqResGroupIds to set
-   */
-  public void setSeqResGroupIds(List<Integer> seqResGroupIds) {
-    this.seqResGroupIds = seqResGroupIds;
-  }
+	/**
+	 * @param seqResGroupIds the seqResGroupIds to set
+	 */
+	public void setSeqResGroupIds(List<Integer> seqResGroupIds) {
+		this.seqResGroupIds = seqResGroupIds;
+	}
 
-  /**
-   * @return the experimental methods
-   */
-  public List<String> getExperimentalMethods() {
-    return experimentalMethods;
-  }
+	/**
+	 * @return the experimental methods
+	 */
+	public List<String> getExperimentalMethods() {
+		return experimentalMethods;
+	}
 
-  /**
-   * @param experimentalMethods the experimental methods to set
-   */
-  public void setExperimentalMethods(List<String> experimentalMethods) {
-    this.experimentalMethods = experimentalMethods;
-  }
+	/**
+	 * @param experimentalMethods the experimental methods to set
+	 */
+	public void setExperimentalMethods(List<String> experimentalMethods) {
+		this.experimentalMethods = experimentalMethods;
+	}
 
-  /**
-   * @return the rWork
-   */
-  public float getrWork() {
-    return rWork;
-  }
+	/**
+	 * @return the rWork
+	 */
+	public float getrWork() {
+		return rWork;
+	}
 
-  /**
-   * @param rWork the rWork to set
-   */
-  public void setrWork(float rWork) {
-    this.rWork = rWork;
-  }
+	/**
+	 * @param rWork the rWork to set
+	 */
+	public void setrWork(float rWork) {
+		this.rWork = rWork;
+	}
 
-  /**
-   * @return the chainDescriptionList
-   */
-  public String[] getChainDescriptionList() {
-    return chainDescriptionList;
-  }
+	/**
+	 * @return the chainDescriptionList
+	 */
+	public String[] getChainDescriptionList() {
+		return chainDescriptionList;
+	}
 
-  /**
-   * @param chainDescriptionList the chainDescriptionList to set
-   */
-  public void setChainDescriptionList(String[] chainDescriptionList) {
-    this.chainDescriptionList = chainDescriptionList;
-  }
+	/**
+	 * @param chainDescriptionList the chainDescriptionList to set
+	 */
+	public void setChainDescriptionList(String[] chainDescriptionList) {
+		this.chainDescriptionList = chainDescriptionList;
+	}
 
-  /**
-   * @return the chainTypeList
-   */
-  public String[] getChainTypeList() {
-    return chainTypeList;
-  }
+	/**
+	 * @return the chainTypeList
+	 */
+	public String[] getChainTypeList() {
+		return chainTypeList;
+	}
 
-  /**
-   * @param chainTypeList the chainTypeList to set
-   */
-  public void setChainTypeList(String[] chainTypeList) {
-    this.chainTypeList = chainTypeList;
-  }
+	/**
+	 * @param chainTypeList the chainTypeList to set
+	 */
+	public void setChainTypeList(String[] chainTypeList) {
+		this.chainTypeList = chainTypeList;
+	}
 
-public Entity[] getEntityList() {
-	return entityList;
-}
+	public Entity[] getEntityList() {
+		return entityList;
+	}
 
-public void setEntityList(Entity[] entityList) {
-	this.entityList = entityList;
-}	
+	public void setEntityList(Entity[] entityList) {
+		this.entityList = entityList;
+	}	
 }

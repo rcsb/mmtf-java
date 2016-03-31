@@ -21,6 +21,7 @@ public class Entity implements Serializable {
     /** The chain index list - referencing the entity of the asym id*/
     private int[] chainIndexList;
     /** The sequence for this entity*/
+	private String sequence;
     
     
     
@@ -49,5 +50,17 @@ public class Entity implements Serializable {
 	
 	public void setChainIndexList(int[] chainIndexList) {
 		this.chainIndexList = chainIndexList;
+	}
+	/**
+	 * @return the entitySequence
+	 */
+	public String getSequence() {
+		return sequence;
+	}
+	/**
+	 * @param entitySequence the entitySequence to set
+	 */
+	public void setSequence(String entitySequence) {
+		this.sequence = entitySequence;
 	}
 }

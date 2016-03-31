@@ -51,7 +51,10 @@ public class CheckOnRawApi {
     assertNotEquals(dataApi.getEntityList(), null);
     // Second check it's the same length
     assertEquals(dataApi.getEntityList().length, biojavaStruct.getEntityInformation().size());
-    List<Chain> totChains = biojavaStruct.getChains();
+	List<Chain> totChains = new ArrayList<>();
+	for (int i=0; i < biojavaStruct.nrModels(); i++) {
+		totChains.addAll(biojavaStruct.getChains(i));
+	}
     // Now check it has the same information as BioJava
     for(int i=0; i<dataApi.getEntityList().length; i++) {
       EntityInfo biojavaEntity = biojavaStruct.getEntityInformation().get(i);
@@ -84,13 +87,22 @@ public class CheckOnRawApi {
       // Get the seqres group list
       int[] decodedSeqResGroupList = dataApi.getSeqResGroupIndices();
       // Get the string sequences
-      List<String> sequenceStrings = dataApi.getSequenceInfo();
+      Entity[] entityList = dataApi.getEntityList();
       int groupCounter = 0;
       int chainCounter = 0;
       // Get the sequence information - only for the first model
       for(Chain currentChain : biojavaStruct.getChains()){
-        // Get the sequence
-        assertEquals(sequenceStrings.get(chainCounter), currentChain.getSeqResSequence());
+        // Get the entity
+    	Entity currentEntity = null;
+    	for (Entity entity : entityList) {
+    		for (int chainInd : entity.getChainIndexList()) {
+    			if (chainInd==chainCounter) {
+        		currentEntity = entity;
+        		break;
+    			}
+    		}
+    	}
+        assertEquals(currentEntity.getSequence(), currentChain.getSeqResSequence());
         List<Group> thisChainSeqResList = new ArrayList<>();
         for(Group seqResGroup : currentChain.getSeqResGroups()){
           thisChainSeqResList.add(seqResGroup);

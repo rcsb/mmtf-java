@@ -57,7 +57,7 @@ public class MmtfBean implements Serializable {
 	private String spaceGroup;
 
 	/** The unit cell. */
-	private List<Float> unitCell;
+	private float[] unitCell;
 
 	/** The bio assembly. */
 	private List<BioAssemblyData> bioAssemblyList;
@@ -116,9 +116,6 @@ public class MmtfBean implements Serializable {
 
 	/** The atom id list. */
 	private byte[] atomIdList;
-
-	/** The SEQRES sequence, per asym chain. */
-	private List<String> chainSeqList;
 
 	/** The SeqRes group ids. */
 	private byte[] seqResIdList;
@@ -228,7 +225,7 @@ public class MmtfBean implements Serializable {
 	 *
 	 * @return the unit cell
 	 */
-	public final List<Float> getUnitCell() {
+	public final float[] getUnitCell() {
 		return unitCell;
 	}
 
@@ -237,7 +234,7 @@ public class MmtfBean implements Serializable {
 	 *
 	 * @param inputUnitCell the new unit cell
 	 */
-	public final void setUnitCell(final List<Float> inputUnitCell) {
+	public final void setUnitCell(final float[] inputUnitCell) {
 		this.unitCell = inputUnitCell;
 	}
 
@@ -777,20 +774,6 @@ public class MmtfBean implements Serializable {
 	 */
 	public void setExperimentalMethods(List<String> experimentalMethods) {
 		this.experimentalMethods = experimentalMethods;
-	}
-
-	/**
-	 * @return the sequence on a per (asym) chain level.
-	 */
-	public List<String> getChainSeqList() {
-		return chainSeqList;
-	}
-
-	/**
-	 * @param sequence the list of strings (sequences per asym chain) to set.
-	 */
-	public void setChainSeqList(List<String> sequence) {
-		this.chainSeqList = sequence;
 	}
 
 	/**

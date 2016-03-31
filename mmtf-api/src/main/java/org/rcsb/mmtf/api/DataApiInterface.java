@@ -184,9 +184,9 @@ public interface DataApiInterface {
 	 * Returns the 6 floats that describe the unit cell.
 	 * @return
 	 */
-	List<Float> getUnitCell();
+	float[] getUnitCell();
 
-	void setUnitCell(List<Float> unitCell);
+	void setUnitCell(float[] unitCell);
 
 
 	/**
@@ -218,14 +218,13 @@ public interface DataApiInterface {
 
 
 	/**
-	 * Returns a list of length N chains indicating the sequences for each chain.
-	 * Sequences are described using standard single letter codes. 
+	 * Returns an array of length N chains for the internal chain ids (asym ids).
+	 * Each string is of length up to 4.
 	 * @return
 	 */
-	List<String> getSequenceInfo();
+	String[] getChainList();
 
-	void setSequenceInfo(List<String> sequenceInfo);
-
+	void setChainList(String[] chainList);
 
 	/**
 	 * Returns the MMTF version number (from the specification).
