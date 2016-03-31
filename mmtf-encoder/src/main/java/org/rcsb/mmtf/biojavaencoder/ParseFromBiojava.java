@@ -413,7 +413,12 @@ public class ParseFromBiojava {
 			newEntity.setChainIndexList(indexList);
 			newEntity.setDescription(entityInfo.getDescription());
 			newEntity.setType(entityInfo.getType());
-			newEntity.setSequence(entityInfo.getChains().get(0).getSeqResSequence());
+			if (entityInfo.getChains().size()==0){
+				newEntity.setSequence("");
+			}
+			else {
+				newEntity.setSequence(entityInfo.getChains().get(0).getSeqResSequence());
+			}
 			entityList[entityCounter] = newEntity;
 			entityCounter++;
 		}	
