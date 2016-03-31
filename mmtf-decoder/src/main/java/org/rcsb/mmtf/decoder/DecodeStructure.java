@@ -6,7 +6,6 @@ import java.util.Set;
 
 import org.rcsb.mmtf.api.DataApiInterface;
 import org.rcsb.mmtf.api.StructureDecoderInterface;
-import org.rcsb.mmtf.dataholders.MmtfBean;
 import org.rcsb.mmtf.dataholders.Entity;
 import org.rcsb.mmtf.dataholders.PDBGroup;
 
@@ -176,11 +175,11 @@ public class DecodeStructure {
 		int charge = currentPdbGroup.getAtomCharges().get(atomCounter);
 		int serialNumber = dataApi.getAtomIds()[totalAtomCount];
 		char alternativeLocationId = dataApi.getAltLocIds()[totalAtomCount];
-		float x = dataApi.getXcoords()[totalAtomCount] / MmtfBean.COORD_DIVIDER;
-		float z = dataApi.getZcoords()[totalAtomCount] / MmtfBean.COORD_DIVIDER;
-		float y = dataApi.getYcoords()[totalAtomCount] / MmtfBean.COORD_DIVIDER;
-		float occupancy = dataApi.getOccupancies()[totalAtomCount] / MmtfBean.OCCUPANCY_BFACTOR_DIVIDER;
-		float temperatureFactor = dataApi.getBfactors()[totalAtomCount] / MmtfBean.OCCUPANCY_BFACTOR_DIVIDER;
+		float x = dataApi.getXcoords()[totalAtomCount];
+		float z = dataApi.getZcoords()[totalAtomCount];
+		float y = dataApi.getYcoords()[totalAtomCount];
+		float occupancy = dataApi.getOccupancies()[totalAtomCount];
+		float temperatureFactor = dataApi.getBfactors()[totalAtomCount];
 		structInflator.setAtomInfo(atomName, serialNumber, alternativeLocationId,
 				x, y, z, occupancy, temperatureFactor, element, charge);
 		// Now increment the atom counter for this group

@@ -45,15 +45,11 @@ public class SimpleDataApi implements DataApiInterface {
 		try {
 			groupList = decoderUtils.bytesToInts(inputData.getGroupTypeList());
 			// Read the byte arrays as int arrays
-			cartnX = deltaDecompress.decompressByteArray(inputData.getxCoordBig(),
-					inputData.getxCoordSmall());
-			cartnY = deltaDecompress.decompressByteArray(inputData.getyCoordBig(),
-					inputData.getyCoordSmall());
-			cartnZ = deltaDecompress.decompressByteArray(inputData.getzCoordBig(),
-					inputData.getzCoordSmall());
-			bFactor =  deltaDecompress.decompressByteArray(inputData.getbFactorBig(),
-					inputData.getbFactorSmall());
-			occupancyArr = intRunLength.decompressByteArray(inputData.getOccList());
+			cartnX = decoderUtils.decodeIntsToFloats(deltaDecompress.decompressByteArray(inputData.getxCoordBig(), inputData.getxCoordSmall()), MmtfBean.COORD_DIVIDER);
+			cartnY = decoderUtils.decodeIntsToFloats(deltaDecompress.decompressByteArray(inputData.getyCoordBig(), inputData.getyCoordSmall()), MmtfBean.COORD_DIVIDER);
+			cartnZ = decoderUtils.decodeIntsToFloats(deltaDecompress.decompressByteArray(inputData.getzCoordBig(), inputData.getzCoordSmall()), MmtfBean.COORD_DIVIDER);
+			bFactor =  decoderUtils.decodeIntsToFloats(deltaDecompress.decompressByteArray(inputData.getbFactorBig(),inputData.getbFactorSmall()), MmtfBean.OCCUPANCY_BFACTOR_DIVIDER);
+			occupancy = decoderUtils.decodeIntsToFloats(intRunLength.decompressByteArray(inputData.getOccList()), MmtfBean.OCCUPANCY_BFACTOR_DIVIDER);
 			atomId = intRunLengthDelta.decompressByteArray(inputData.getAtomIdList());
 			altId = stringRunlength.stringArrayToChar(
 					(ArrayList<String>) inputData.getAltLabelList());
@@ -90,22 +86,22 @@ public class SimpleDataApi implements DataApiInterface {
 		}
 	}
 	
+	
+	/** The X coordinates */
+	private float[] cartnX;
 
-	/** The cartn x. */
-	private int[] cartnX;
+	/** The Y coordinates */
+	private float[] cartnY;
 
-	/** The cartn y. */
-	private int[] cartnY;
+	/** The Z coordinates */
+	private float[] cartnZ;
 
-	/** The cartn z. */
-	private int[] cartnZ;
+	/** The X coordinates */
+	private float[] bFactor;
 
-	/** The b factor. */
-	private int[] bFactor;
-
-	/** The occupancy arr. */
-	private int[] occupancyArr;
-
+	/** The Y coordinates */
+	private float[] occupancy;
+	
 	/** The atom id. */
 	private int[] atomId;
 
@@ -169,84 +165,70 @@ public class SimpleDataApi implements DataApiInterface {
 	/** The PDB id	 */
 	private String pdbId;
 
-	/* (non-Javadoc)
-	 * @see org.rcsb.mmtf.decoder.DataApiInterface#getCartnX()
-	 */
+
+	
 	@Override
-	public int[] getXcoords() {
+	public float[] getXcoords() {
 		return cartnX;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.rcsb.mmtf.decoder.DataApiInterface#setCartnX(int[])
-	 */
 	@Override
-	public void setXcoords(int[] cartnX) {
-		this.cartnX = cartnX;
+	public void setXcoords(float[] xCoords) {
+		this.cartnX = xCoords;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.rcsb.mmtf.decoder.DataApiInterface#getCartnY()
-	 */
 	@Override
-	public int[] getYcoords() {
+	public float[] getYcoords() {
 		return cartnY;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.rcsb.mmtf.decoder.DataApiInterface#setCartnY(int[])
-	 */
 	@Override
-	public void setYcoords(int[] cartnY) {
-		this.cartnY = cartnY;
+	public void setYcoords(float[] yCoords) {
+		this.cartnY = yCoords;
+		
 	}
 
-	/* (non-Javadoc)
-	 * @see org.rcsb.mmtf.decoder.DataApiInterface#getCartnZ()
-	 */
 	@Override
-	public int[] getZcoords() {
+	public float[] getZcoords() {
 		return cartnZ;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.rcsb.mmtf.decoder.DataApiInterface#setCartnZ(int[])
-	 */
 	@Override
-	public void setZcoords(int[] cartnZ) {
-		this.cartnZ = cartnZ;
+	public void setZcoords(float[] zCoords) {
+		this.cartnZ = zCoords;
+		
 	}
 
-	/* (non-Javadoc)
-	 * @see org.rcsb.mmtf.decoder.DataApiInterface#getbFactor()
-	 */
 	@Override
-	public int[] getBfactors() {
+	public float[] getBfactors() {
 		return bFactor;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.rcsb.mmtf.decoder.DataApiInterface#setbFactor(int[])
-	 */
 	@Override
-	public void setBfactors(int[] bFactor) {
-		this.bFactor = bFactor;
+	public void setBfactors(float[] bFactors) {
+		this.bFactor = bFactors;
+		
 	}
 
-	/* (non-Javadoc)
-	 * @see org.rcsb.mmtf.decoder.DataApiInterface#getOccupancyArr()
-	 */
 	@Override
-	public int[] getOccupancies() {
-		return occupancyArr;
+	public float[] getOccupancies() {
+		return occupancy;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.rcsb.mmtf.decoder.DataApiInterface#setOccupancyArr(int[])
-	 */
 	@Override
-	public void setOccupancies(int[] occupancyArr) {
-		this.occupancyArr = occupancyArr;
+	public void setOccupancies(float[] occupancies) {
+		this.occupancy = occupancies;
+		
+	}
+
+	@Override
+	public String[] getChainList() {
+		return this.chainList;
+	}
+
+	@Override
+	public void setChainList(String[] chainList) {
+		this.chainList = chainList;
 	}
 
 	/* (non-Javadoc)
@@ -603,5 +585,7 @@ public class SimpleDataApi implements DataApiInterface {
 	public int getNumAtoms() {
 		return this.cartnX.length;
 	}
+
+
 
 }
