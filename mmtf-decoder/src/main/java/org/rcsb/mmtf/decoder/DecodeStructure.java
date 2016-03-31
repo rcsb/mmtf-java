@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.rcsb.mmtf.api.StructureDecoderInterface;
+import org.rcsb.mmtf.dataholders.Entity;
 import org.rcsb.mmtf.dataholders.PDBGroup;
 
 /**
@@ -82,6 +83,15 @@ public class DecodeStructure {
 		generateBioAssembly();
 		// Now add the other bonds between groups
 		addInterGroupBonds();
+		for (Entity entity : dataApi.getEntityList()) {
+			String[] chainIdList = new String[entity.getChainIndexList().length];
+			int counter = 0;
+			for (int chainInd : entity.getChainIndexList()) {
+				chainIdList[counter] = chainList[chainInd];
+				counter++;
+			}
+			inputStructInflator.setEntityInfo(chainIdList, entity.getSequence(), entity.getDescription(), entity.getType());
+		}
 		// Now do any required cleanup
 		inputStructInflator.cleanUpStructure();
 	}

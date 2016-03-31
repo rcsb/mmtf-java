@@ -392,8 +392,11 @@ public class ParseFromBiojava {
 	 */
 	private void findEntityInfo(Structure bioJavaStruct) {
 		List<EntityInfo> entities = bioJavaStruct.getEntityInformation();
-		// Get the list of chains for the first model
-		List<Chain> structChains = bioJavaStruct.getChains();
+		// Get the list of chains for all the models
+		List<Chain> structChains = new ArrayList<>();
+		for (int i=0; i < bioJavaStruct.nrModels(); i++) {
+			structChains.addAll(bioJavaStruct.getChains(i));
+		}
 		Entity[] entityList = new Entity[entities.size()];
 		int entityCounter = 0;
 		for(EntityInfo entityInfo : entities) { 

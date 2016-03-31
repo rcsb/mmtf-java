@@ -31,8 +31,17 @@ public interface StructureDecoderInterface {
    */
   void setChainInfo(String chainId, int groupCount);
 
-
-
+  /**
+   * Sets the entity level annotation for a chain(s). ChainIds is a list of strings that indicate the list of chains this information
+   * refers to. Sequence is the one letter amino acid sequence. Description and title are both free forms strings describing the entity and 
+   * acting as a title for the entity.
+   * @param chainIds
+   * @param sequence
+   * @param description
+   * @param title
+   */
+  void setEntityInfo(String[] chainIds, String sequence, String description, String title);
+  
   /**
    * Sets the information for a given group / residue with atomic data.
    * @param groupName 3 letter code name of this group/residue
