@@ -11,51 +11,67 @@ import org.rcsb.mmtf.dataholders.PDBGroup;
 /**
  * An interface describing the data API.
  * 
+ * <p>
+ * The structural data is accessible through this interface via 
+ * a flat structure, instead of the usual hierarchical 
+ * data encountered in PDB structures: structure -> model -> chain -> group -> atom.
+ * Going back to a hierarchical view of the structure can be achieved by 
+ * using the {@link #getChainsPerModel()}, {@link #getGroupsPerChain()} and 
+ * {@link #getGroupMap()} methods so that the flat arrays can be reconstructed into
+ * a hierarchy.   
+ * </p>
+ * 
+ * <p>
+ * Please refer to the full MMTF specification available at 
+ * <a href="http://mmtf.rcsb.org">http://mmtf.rcsb.org</a>.
+ * Further reference can be found in the <a href="http://mmcif.wwpdb.org/">mmCIF dictionary</a>.
+ * </p>
+ * 
  * @author Anthony Bradley
- *
+ * @author Jose Duarte
  */
 public interface DataApiInterface {
 
 	/**
-	 * Returns an array of length N atoms of the X coordinates of the atoms.
-	 * @return
+	 * Returns an array containing the X coordinates of the atoms in Angstroms.
+	 * @return an array of length the number of atoms in the structure, obtainable with {@link #getNumAtoms()}
 	 */
 	float[] getXcoords();
 
 	/**
-	 * Returns an array of length N atoms of the Y coordinates of the atoms.
-	 * @return
+	 * Returns an array containing the Y coordinates of the atoms in Angstroms.
+	 * @return an array of length the number of atoms in the structure, obtainable with {@link #getNumAtoms()}
 	 */
 	float[] getYcoords();
 
 	/**
-	 * Returns an array of length N atoms of the Z coordinates of the atoms.
-	 * @return
+	 * Returns an array containing the Z coordinates of the atoms in Angstroms.
+	 * @return an array of length the number of atoms in the structure, obtainable with {@link #getNumAtoms()}
 	 */
 	float[] getZcoords();
 
 	/**
-	 * Returns an array of length N atoms of the B-factors of the atoms.
-	 * @return
+	 * Returns an array containing the B-factors (temperature factors) of the atoms in Angstroms^2.
+	 * @return an array of length the number of atoms in the structure, obtainable with {@link #getNumAtoms()}
 	 */
 	float[] getBfactors();
 
 	/**
-	 * Returns an array of length N atoms of the Occupancy of the atoms.
-	 * @return
+	 * Returns an array containing the occupancy values of the atoms.
+	 * @return an array of length the number of atoms in the structure, obtainable with {@link #getNumAtoms()}
 	 */	
 	float[] getOccupancies();
 
 	/**
-	 * Returns an array of atom serial ids (_atom_site.id in mmCIF dictionary) of length N atoms.
-	 * @return
+	 * Returns an array of atom serial ids (_atom_site.id in mmCIF dictionary).
+	 * @return an array of length the number of atoms in the structure, obtainable with {@link #getNumAtoms()}
 	 */
 	int[] getAtomIds();
 
 	/**
-	 * Returns an array of length N atoms of the alternate location ids of the atoms as characters.
+	 * Returns an array of location ids of the atoms.
 	 * '?' specifies a lack of alt id.
-	 * @return
+	 * @return an array of length the number of atoms in the structure, obtainable with {@link #getNumAtoms()} 
 	 */
 	char[] getAltLocIds();
 
@@ -78,20 +94,21 @@ public interface DataApiInterface {
 	 * Returns the group map, mapping the numbers from indices specified in {@link #getGroupIndices()} 
 	 * to {@link PDBGroup} objects, which specify the atom names, 
 	 * elements, bonds and charges for each group.
-	 * @return
+	 * @return a map of group indices to {@link PDBGroup} objects
 	 */
 	Map<Integer, PDBGroup> getGroupMap();
 
 	/**
-	 * Returns an array of length N groups indicating the index in {@link #getGroupMap()} for each group.
-	 * @return
+	 * Returns an array containing indices of all groups in the structure as used in {@link #getGroupMap()}.
+	 * @return an array of length the number of groups (residues) in the structure, obtainable with {@link #getNumResidues()}
 	 */	
 	int[] getGroupIndices();
 
 	/**
-	 * Returns an array of length N groups indicating the index in the Sequence for each group.
-	 * -1 indicates the group is not present in the sequence. Indices are specified per chain.
-	 * @return
+	 * Returns an array containing the indices of groups (residues) in their corresponding sequences,
+	 * obtainable through {@link #getEntityList()} from the {@link Entity} objects.
+	 * The indices are 0-based and specified per entity, -1 indicates the group is not present in the sequence.
+	 * @return an array of length the number of groups (residues) in the structure, obtainable with {@link #getNumResidues()}
 	 */
 	int[] getSeqResGroupIndices();
 
@@ -100,28 +117,27 @@ public interface DataApiInterface {
 	 * number of chains (polymeric, non-polymeric and water) in the structure.
 	 * 
 	 * The ids have a maximum of 4 chars.
-	 * @return
+	 * @return an array of length the number of chains in the structure, obtainable with {@link #getNumChains()}
 	 */
 	String[] getChainIds();
 
 	/**
 	 * Returns an array of public chain identifiers (auth_ids in mmCIF dictionary), of length the 
-	 * number of internal chains (polymeric, non-polymeric and water) in the structure.
+	 * number of chains (polymeric, non-polymeric and water) in the structure.
 	 * 
-	 * @return
+	 * @return an array of length the number of chains in the structure, obtainable with {@link #getNumChains()}
 	 */	
 	String[] getChainNames();
 
 	/**
-	 * Returns an array of length N models, indicating the number of chains 
-	 * (polymeric/non-polymeric/water) in each model.
-	 * @return
+	 * Returns an array containing the number of chains (polymeric/non-polymeric/water) in each model.
+	 * @return an array of length the number of models in the structure, obtainable with {@link #getNumModels()}
 	 */
 	int[] getChainsPerModel();
 
 	/**
-	 * Returns an array of length N chains, indicating the number of groups (residues) in each chain.
-	 * @return
+	 * Returns an array containing the number of groups (residues) in each chain.
+	 * @return an array of length the number of chains in the structure, obtainable with {@link #getNumChains()}
 	 */	
 	int[] getGroupsPerChain();
 
@@ -146,8 +162,8 @@ public interface DataApiInterface {
 
 	/**
 	 * Returns an array of inter-group bonds represented with 2 consecutive atom 
-	 * indices in the array, with length 2 * <em>number of inter-group bonds</em>.
-	 * @return
+	 * indices in the array.
+	 * @return an array of length 2 * <em>number of inter-group bonds</em>
 	 */
 	int[] getInterGroupBondIndices();
 
@@ -156,13 +172,6 @@ public interface DataApiInterface {
 	 * @return
 	 */
 	int[] getInterGroupBondOrders();
-
-	/**
-	 * Returns an array of length N chains for the internal chain ids (asym ids).
-	 * Each string is of length up to 4.
-	 * @return
-	 */
-	String[] getChainList();
 
 	/**
 	 * Returns the MMTF version number (from the specification).
@@ -178,38 +187,41 @@ public interface DataApiInterface {
 
 	/**
 	 * Returns an array with all {@link Entity} objects for the structure.
+	 * The sequences can be obtained from the Entities.
 	 * @return
 	 */
 	Entity[] getEntityList();
 
 	/**
 	 * Returns the four character PDB id of the structure.
-	 * @return
+	 * @return the PDB identifier
 	 */
 	String getPdbId();
 
 	/**
 	 * Returns the number of models in the structure.
-	 * @return
+	 * @return the number of models
 	 */
 	int getNumModels();
 	
 	/**
-	 * Returns the number of chains in the structure.
-	 * @return
+	 * Returns the number of chains (for all models) in the structure.
+	 * @return the number of chains for all models
+	 * @see #getChainsPerModel()
 	 */
 	int getNumChains();
 	
 	/**
-	 * Returns the number of groups (residues) in the structure.
-	 * @return
+	 * Returns the number of groups (residues) in the structure that have
+	 * experimentally determined 3D coordinates.
+	 * @return the number of residues in the structure, counting all models and chains
 	 */
 	int getNumResidues();
 	
 
 	/**
 	 * Returns the number of atoms in the structure.
-	 * @return
+	 * @return the number of atoms in the structure, counting all models and chains
 	 */
 	int getNumAtoms();
 	
@@ -240,9 +252,12 @@ public interface DataApiInterface {
 	String getTitle();
 	
 	/**
-	 * Returns the experimental methods as a list of strings. The experimental method values 
-	 * are described in <a href="http://mmcif.wwpdb.org/dictionaries/mmcif_pdbx_v40.dic/Items/_exptl.method.html">data item <em>_exptl.method</em> of the mmCIF dictionary</a>
-	 * @return
+	 * Returns the experimental methods as a list of strings. Normally only one 
+	 * experimental method is available, but structures solved with hybrid methods will
+	 * have more than one method. 
+	 * The possible experimental method values are described in 
+	 * <a href="http://mmcif.wwpdb.org/dictionaries/mmcif_pdbx_v40.dic/Items/_exptl.method.html">data item <em>_exptl.method</em> of the mmCIF dictionary</a>
+	 * @return the list of experimental methods 
 	 */
 	List<String> getExperimentalMethods();
 }

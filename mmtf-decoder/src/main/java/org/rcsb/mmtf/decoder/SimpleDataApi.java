@@ -213,11 +213,6 @@ public class SimpleDataApi implements DataApiInterface {
 	}
 
 	@Override
-	public String[] getChainList() {
-		return this.chainList;
-	}
-
-	@Override
 	public int[] getAtomIds() {
 		return atomId;
 	}
