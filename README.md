@@ -1,5 +1,4 @@
-https://travis-ci.org/rcsb/mmtf-java.svg?branch=master
-
+[![Build Status](https://travis-ci.org/rcsb/mmtf-java.svg?branch=master)](https://travis-ci.org/rcsb/mmtf-java)
 
 The **m**acro**m**olecular **t**ransmission **f**ormat (MMTF) is a binary encoding of biological structures.
 
