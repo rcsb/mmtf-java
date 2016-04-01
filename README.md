@@ -8,13 +8,13 @@ The alpha release is available on Maven central.
 ```<groupId>org.rcsb</groupId>
 <artifactId>mmtf-decoder</artifactId>
 <packaging>pom</packaging>
-<version>0.0.1-alpha1</version>
+<version>0.0.1-alpha3</version>
 ```
 
 ```<groupId>org.rcsb</groupId>
 <artifactId>mmtf-api</artifactId>
 <packaging>pom</packaging>
-<version>0.0.1-alpha1</version>
+<version>0.0.1-alpha3</version>
 ```
 
 Or you can clone this repo and install yourself.
