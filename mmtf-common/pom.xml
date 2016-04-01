@@ -8,7 +8,7 @@
 	<artifactId>mmtf-common</artifactId>
 	<packaging>jar</packaging>
 
-	<name>mmtf-specification</name>
+	<name>mmtf-common</name>
 	<url>http://maven.apache.org</url>
 
 	<properties>
