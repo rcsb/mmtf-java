@@ -1,7 +1,6 @@
 package org.rcsb.mmtf.examples;
 
 import org.rcsb.mmtf.api.DataApiInterface;
-import org.rcsb.mmtf.dataholders.PDBGroup;
 
 public class HelloWorld {
 
@@ -9,8 +8,7 @@ public class HelloWorld {
 		HandleIO handleIO = new HandleIO();
 		DataApiInterface dataApi = handleIO.getDataApiFromUrlOrFile("4cup");
 		System.out.println("PDB Code: "+dataApi.getPdbId()+" has "+dataApi.getNumChains()+" chains");
-		PDBGroup pdbGroup = dataApi.getGroupMap().get(0);
-		System.out.println("HET group "+pdbGroup.getGroupName()+" has the following atomic charges: "+pdbGroup.getAtomCharges());
+		System.out.println("HET group "+dataApi.getGroupName(0)+" has the following atomic charges: "+dataApi.getGroupAtomCharges(0));
 		System.out.println("PDB Code: "+dataApi.getPdbId()+" has "+dataApi.getBioAssemblyList().size()+" bioassemblies");
 	}
 

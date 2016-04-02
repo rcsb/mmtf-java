@@ -233,11 +233,6 @@ public class SimpleDataApi implements DataApiInterface {
 	}
 
 	@Override
-	public Map<Integer, PDBGroup> getGroupMap() {
-		return groupMap;
-	}
-
-	@Override
 	public int[] getGroupIndices() {
 		return groupList;
 	}
@@ -303,11 +298,6 @@ public class SimpleDataApi implements DataApiInterface {
 	}
 
 	@Override
-	public Entity[] getEntityList() {
-		return entityList;
-	}
-
-	@Override
 	public String getPdbId() {
 		return pdbId;
 	}
@@ -355,6 +345,107 @@ public class SimpleDataApi implements DataApiInterface {
 	@Override
 	public List<String> getExperimentalMethods() {
 		return experimentalMethods;
+	}
+
+	@Override
+	public String getGroupName(int groupInd) {
+		return groupMap.get(groupInd).getGroupName();
+	}
+	
+	public int getNumAtomsInGroup(int groupInd) {
+		return groupMap.get(groupInd).getAtomCharges().size();
+	}
+
+	@Override
+	public String[] getGroupAtomNames(int groupInd) {
+		List<String> atomInfo =  groupMap.get(groupInd).getAtomInfo();
+		String[] outList = new String[atomInfo.size()/2];
+		int counter = 0;
+		for (int i=1; i<atomInfo.size(); i+=2){
+			outList[counter] = atomInfo.get(i);
+			counter++;
+		}
+		return outList;
+	}
+
+	@Override
+	public String[] getGroupElementNames(int groupInd) {
+		List<String> atomInfo =  groupMap.get(groupInd).getAtomInfo();
+		String[] outList = new String[atomInfo.size()/2];
+		int counter = 0;
+		for (int i=0; i<atomInfo.size(); i+=2){
+			outList[counter] = atomInfo.get(i);
+			counter++;
+		}
+		return outList;
+	}
+
+	@Override
+	public int[] getGroupBondOrders(int groupInd) {
+		return convertToIntList(groupMap.get(groupInd).getBondOrders());
+
+	}
+
+	@Override
+	public int[] getGroupBondIndices(int groupInd) {
+		return convertToIntList(groupMap.get(groupInd).getBondIndices());
+	}
+
+	@Override
+	public int[] getGroupAtomCharges(int groupInd) {
+		return convertToIntList(groupMap.get(groupInd).getAtomCharges());
+	}
+
+	@Override
+	public String getGroupSingleLetterCode(int groupInd) {
+		return groupMap.get(groupInd).getSingleLetterCode();
+	}
+
+	@Override
+	public String getGroupChemCompType(int groupInd) {
+		return groupMap.get(groupInd).getChemCompType();
+	}
+	
+	
+	/**
+	 * Get a primitive int[] list from a Java List<>;
+	 * @param inArray The input List<> of Integers
+	 * @return A primitive int[].
+	 */
+	private int[] convertToIntList(List<Integer> inArray) {
+		int[] outArray = new int[inArray.size()];
+		for (int i=0; i<inArray.size(); i++) {
+			outArray[i] = inArray.get(i);
+		}
+		return outArray;
+	}
+
+	@Override
+	public String getEntityDescription(int entityInd) {
+		return entityList[entityInd].getDescription();
+	}
+
+	@Override
+	public String getEntityType(int entityInd) {
+		return entityList[entityInd].getType();
+
+	}
+
+	@Override
+	public int[] getEntityChainIndexList(int entityInd) {
+		return entityList[entityInd].getChainIndexList();
+
+	}
+
+	@Override
+	public String getEntitySequence(int entityInd) {
+		return entityList[entityInd].getSequence();
+
+	}
+
+	@Override
+	public int getNumEntities() {
+		return entityList.length;
 	}
 
 
