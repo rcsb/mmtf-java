@@ -71,6 +71,9 @@ public class HeaderBean {
 
 	/** The chains per model. */
 	private int chainsPerModel;
+	
+	/** The number of models. */
+	private int numModels;
 
 	/** The asym chains per model. Assumes model homogenity.*/
 	private int asymChainsPerModel;
@@ -626,5 +629,13 @@ public class HeaderBean {
 
 	public void setEntityList(Entity[] entityList) {
 		this.entityList = entityList;
+	}
+
+	public int getNumModels() {
+		return numModels;
+	}
+
+	public void setNumModels(int numModels) {
+		this.numModels = numModels;
 	}	
 }

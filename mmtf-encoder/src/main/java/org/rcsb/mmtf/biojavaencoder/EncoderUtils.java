@@ -149,6 +149,7 @@ public class EncoderUtils implements Serializable {
 		thisDistBeanTot.setBioAssemblyList(inHeader.getBioAssembly());
 		// Now set this extra header information
 		thisDistBeanTot.setTitle(inHeader.getTitle());
+		thisDistBeanTot.setNumModels(inStruct.getNumModels());
 		// Now add the byte arrays to the bean
 		addByteArrs(thisDistBeanTot, bioBean);
 		// Now set the version

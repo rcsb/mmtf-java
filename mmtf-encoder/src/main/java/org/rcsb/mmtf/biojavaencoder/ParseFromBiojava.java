@@ -256,19 +256,20 @@ public class ParseFromBiojava {
 			// Set the PDB Code
 			bioStruct.setPdbCode(bioJavaStruct.getPDBCode());
 			ArrayList<String> chainList = new ArrayList<String>();
-			// Set the number of chains in this model
-			if (i==0) {
-				internalChainsPerModel = chains.size();
-			}
 			// Get the number of unique ones
 			Set<String> chainIdSet = new HashSet<String>();
-			for(Chain c : chains){
+			for(Chain c : chains) {
 				String intChainId = c.getInternalChainID();
 				chainIdSet.add(intChainId);
+			}
+			// Set the number of chains in each model (assumes homogenity).
+			if (i==0) {
+				internalChainsPerModel = chains.size();
 			}
 			if (i==0) {
 				chainsPerModel = chainIdSet.size();
 			}
+
 			// Take the atomic information and place in a Hashmap
 			for (Chain biojavaChain: chains) {	
 				// Get the seq res groups for this chain

@@ -42,6 +42,7 @@ public class SimpleDataApi implements DataApiInterface {
 		
 		// Get the data
 		try {
+			numModels = inputData.getNumModels();
 			groupList = decoderUtils.bytesToInts(inputData.getGroupTypeList());
 			// Read the byte arrays as int arrays
 			cartnX = decoderUtils.decodeIntsToFloats(deltaDecompress.decompressByteArray(inputData.getxCoordBig(), inputData.getxCoordSmall()), MmtfBean.COORD_DIVIDER);
