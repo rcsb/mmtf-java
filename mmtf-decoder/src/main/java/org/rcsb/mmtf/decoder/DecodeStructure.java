@@ -6,6 +6,8 @@ import java.util.Set;
 
 import org.rcsb.mmtf.api.DataApiInterface;
 import org.rcsb.mmtf.api.StructureDecoderInterface;
+import org.rcsb.mmtf.dataholders.BioAssemblyData;
+import org.rcsb.mmtf.dataholders.BioAssemblyTrans;
 import org.rcsb.mmtf.dataholders.Entity;
 import org.rcsb.mmtf.dataholders.PDBGroup;
 
@@ -17,14 +19,14 @@ import org.rcsb.mmtf.dataholders.PDBGroup;
  */
 public class DecodeStructure {
 
-	
+
 
 	/** The struct inflator. */
 	private StructureDecoderInterface structInflator;
 
 	/** The api to the data */
 	private DataApiInterface dataApi;
-	
+
 	/* 
 	 * Initialise the counters
 	 */
@@ -77,7 +79,7 @@ public class DecodeStructure {
 		// Now do any required cleanup
 		structInflator.cleanUpStructure();
 	}
-	
+
 	/**
 	 * Add the main atomic information to the data model
 	 */
@@ -252,7 +254,15 @@ public class DecodeStructure {
 	 * Parses the bioassembly data and inputs it to the structure inflator
 	 */
 	private void generateBioAssembly() {
-		structInflator.setBioAssemblyList(dataApi.getBioAssemblyList());    
+		int bioAssemblyId = 0;
+		for (BioAssemblyData bioassembly : dataApi.getBioAssemblyList()) {
+			bioAssemblyId++;
+			List<BioAssemblyTrans> trans = bioassembly.getTransforms();
+			for (BioAssemblyTrans bioAssemblyTrans : trans ) {
+				String[] chainIdList = bioAssemblyTrans.getChainIdList().toArray(new String[0]);
+				structInflator.setBioAssemblyTrans(bioAssemblyId, chainIdList, bioAssemblyTrans.getTransformation());    
+			}
+		}
 	}
 
 

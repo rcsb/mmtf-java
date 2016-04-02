@@ -2,8 +2,6 @@ package org.rcsb.mmtf.api;
 
 import java.util.List;
 
-import org.rcsb.mmtf.dataholders.BioAssemblyData;
-
 /**
  * Interface to inflate a given MMTF data source.
  *
@@ -73,11 +71,11 @@ public interface StructureDecoderInterface {
 
 
   /**
-   * Sets the Bioassembly information for the structure.
+   * Sets a single Bioassembly transformation to a structure. bioAssemblyId indicates the index of the bioassembly.
    *
    * @param inputBioassemblies
    */
-  void setBioAssemblyList(List<BioAssemblyData> inputBioAssemblies);
+  void setBioAssemblyTrans(int bioAssemblyId, String[] inputChainIds, double[] inputTransform);
 
   /**
    * Sets the space group and unit cell information.
