@@ -29,22 +29,6 @@ public class BioDataStructBean extends NoCoordDataStruct implements BioBean {
 	// The fraction of the atom present at this atom position_
 	protected List<Float> _atom_site_occupancy= new ArrayList<Float>();
 	
-	/** The secondary  structure list. */
-	// An array to store the secondary structure data
-	private List<Integer> secStruct = new ArrayList<Integer>();
-	
-	/** The residue order list. */
-	// An array to store the sequence of residues
-	private List<Integer> resOrder = new ArrayList<Integer>();
-	
-	/** The inter-group bond indicess. */
-	// Arrays to store the indices and bond orders of inter residue bonds
-	private List<Integer> interGroupBondInds = new ArrayList<Integer>();
-	
-	/** The inter-group bond orders. */
-	private List<Integer> interGroupBondOrders = new ArrayList<Integer>();
-	
-	
 	/**
 	 * Gets the _atom_site_id.
 	 *
@@ -156,59 +140,4 @@ public class BioDataStructBean extends NoCoordDataStruct implements BioBean {
 		this._atom_site_occupancy = _atom_site_occupancy;
 	}
 	
-	/* (non-Javadoc)
-	 * @see org.rcsb.mmtf.dataholders.NoCoordDataStruct#getResOrder()
-	 */
-	public List<Integer> getResOrder() {
-		return resOrder;
-	}
-	
-	/* (non-Javadoc)
-	 * @see org.rcsb.mmtf.dataholders.NoCoordDataStruct#setResOrder(java.util.List)
-	 */
-	public void setResOrder(List<Integer> resOrder) {
-		this.resOrder = resOrder;
-	}
-	
-	/* (non-Javadoc)
-	 * @see org.rcsb.mmtf.dataholders.NoCoordDataStruct#getSecStruct()
-	 */
-	public List<Integer> getSecStruct() {
-		return secStruct;
-	}
-	
-	/* (non-Javadoc)
-	 * @see org.rcsb.mmtf.dataholders.NoCoordDataStruct#setSecStruct(java.util.List)
-	 */
-	public void setSecStruct(List<Integer> secStruct) {
-		this.secStruct = secStruct;
-	}
-	
-	/* (non-Javadoc)
-	 * @see org.rcsb.mmtf.dataholders.NoCoordDataStruct#getInterGroupBondOrders()
-	 */
-	public List<Integer> getInterGroupBondOrders() {
-		return interGroupBondOrders;
-	}
-	
-	/* (non-Javadoc)
-	 * @see org.rcsb.mmtf.dataholders.NoCoordDataStruct#setInterGroupBondOrders(java.util.List)
-	 */
-	public void setInterGroupBondOrders(List<Integer> interGroupBondOrders) {
-		this.interGroupBondOrders = interGroupBondOrders;
-	}
-	
-	/* (non-Javadoc)
-	 * @see org.rcsb.mmtf.dataholders.NoCoordDataStruct#getInterGroupBondInds()
-	 */
-	public List<Integer> getInterGroupBondInds() {
-		return interGroupBondInds;
-	}
-	
-	/* (non-Javadoc)
-	 * @see org.rcsb.mmtf.dataholders.NoCoordDataStruct#setInterGroupBondInds(java.util.List)
-	 */
-	public void setInterGroupBondInds(List<Integer> interGroupBondInds) {
-		this.interGroupBondInds = interGroupBondInds;
-	}
 }
