@@ -9,8 +9,10 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.zip.GZIPOutputStream;
 
@@ -38,6 +40,7 @@ import org.rcsb.mmtf.dataholders.HeaderBean;
 import org.rcsb.mmtf.dataholders.MmtfBean;
 import org.rcsb.mmtf.dataholders.NoFloatDataStruct;
 import org.rcsb.mmtf.dataholders.NoFloatDataStructBean;
+import org.rcsb.mmtf.dataholders.PDBGroup;
 import org.rcsb.mmtf.gitversion.GetRepoState;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -141,17 +144,32 @@ public class EncoderUtils implements Serializable {
 		thisDistBeanTot.setNumBonds(inHeader.getNumBonds());
 		// Now get the Xtalographic info from this header
 		thisDistBeanTot.setSpaceGroup(inHeader.getSpaceGroup());
-		thisDistBeanTot.setGroupMap(inStruct.getGroupMap());
+		thisDistBeanTot.setGroupList(genGroupList(inStruct.getGroupMap()));
 		thisDistBeanTot.setUnitCell(inHeader.getUnitCell());
 		thisDistBeanTot.setBioAssemblyList(inHeader.getBioAssembly());
 		// Now set this extra header information
 		thisDistBeanTot.setTitle(inHeader.getTitle());
+		thisDistBeanTot.setNumModels(inStruct.getNumModels());
 		// Now add the byte arrays to the bean
 		addByteArrs(thisDistBeanTot, bioBean);
 		// Now set the version
 		thisDistBeanTot.setMmtfProducer("RCSB-PDB Generator---version: "+grs.getCurrentVersion());
 		return thisDistBeanTot;
 	}
+
+	/**
+	 * Returns a PDBGroupList from a GroupMap. Uses the key of the map as the index in the list.
+	 * @param groupMap The input map of Integer -> PDBGroup
+	 * @return A list of PDBGroups, where the previous keys are used as indices.
+	 */
+	private PDBGroup[] genGroupList(Map<Integer, PDBGroup> groupMap) {
+		PDBGroup[] outGroupList = new PDBGroup[Collections.max(groupMap.keySet())+1];
+		for (int key : groupMap.keySet()) {
+			outGroupList[key] = groupMap.get(key);
+		}
+		return outGroupList;
+	}
+
 
 	/**
 	 * Add the required bytearrays to an mmtfbean.

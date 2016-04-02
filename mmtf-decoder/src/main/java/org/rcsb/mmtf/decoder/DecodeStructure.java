@@ -1,13 +1,10 @@
 package org.rcsb.mmtf.decoder;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import org.rcsb.mmtf.api.DataApiInterface;
 import org.rcsb.mmtf.api.StructureDecoderInterface;
-import org.rcsb.mmtf.dataholders.Entity;
-import org.rcsb.mmtf.dataholders.PDBGroup;
 
 /**
  * Decode an MMTF structure using a structure inflator. The class also allows access to the unconsumed but parsed and inflated underlying data.
@@ -17,22 +14,21 @@ import org.rcsb.mmtf.dataholders.PDBGroup;
  */
 public class DecodeStructure {
 
-	
+
 
 	/** The struct inflator. */
 	private StructureDecoderInterface structInflator;
 
 	/** The api to the data */
 	private DataApiInterface dataApi;
-	
+
 	/* 
 	 * Initialise the counters
 	 */
 	private int modelCounter = 0;
-	private int chainCounter = 0;
-	private int groupCounter = 0;
-	private int atomCounter = 0;
-	private int lastAtomCount = 0;
+	private int modelGroupCounter =0;
+	private int groupAtomCounter = 0;
+	private int structureAtomCounter = 0;
 	private Set<String> chainIdSet;
 	private String[] chainList;
 
@@ -77,20 +73,20 @@ public class DecodeStructure {
 		// Now do any required cleanup
 		structInflator.cleanUpStructure();
 	}
-	
+
 	/**
 	 * Add the main atomic information to the data model
 	 */
 	private void addAtomicInformation() {
-		for (int modelChains: dataApi.getChainsPerModel()) {
+		int modelChains = dataApi.getNumChains();
+		for (modelCounter=0; modelCounter<dataApi.getNumModels(); modelCounter++) {
 			structInflator.setModelInfo(modelCounter, modelChains);
+			modelGroupCounter = 0;
 			// A list to check if we need to set or update the chains
 			chainIdSet = new HashSet<>();
-			int totChainsThisModel = chainCounter + modelChains;
-			for (int chainIndex = chainCounter; chainIndex < totChainsThisModel;  chainIndex++) {
+			for (int chainIndex = 0; chainIndex < dataApi.getChainsPerModel();  chainIndex++) {
 				addOrUpdateChainInfo(chainIndex);
 			}
-			modelCounter++;
 		}		
 	}
 
@@ -99,14 +95,14 @@ public class DecodeStructure {
 	 * Add the entity information to a structure.
 	 */
 	private void addEntityInfo() {
-		for (Entity entity : dataApi.getEntityList()) {
-			String[] chainIdList = new String[entity.getChainIndexList().length];
+		for (int i=0; i<dataApi.getNumEntities(); i++) {
+			String[] chainIdList = new String[dataApi.getEntityChainIndexList(i).length];
 			int counter = 0;
-			for (int chainInd : entity.getChainIndexList()) {
+			for (int chainInd : dataApi.getEntityChainIndexList(i)) {
 				chainIdList[counter] = chainList[chainInd];
 				counter++;
 			}
-			structInflator.setEntityInfo(chainIdList, entity.getSequence(), entity.getDescription(), entity.getType());
+			structInflator.setEntityInfo(chainIdList, dataApi.getEntitySequence(i), dataApi.getEntityDescription(i), dataApi.getEntityType(i));
 		}		
 	}
 
@@ -120,7 +116,7 @@ public class DecodeStructure {
 
 
 	/**
-	 * Use the parsing parameters to set the scene.
+	 * Use the parsing parameters o set the scene.
 	 * @param parsingParams
 	 */
 	private void useParseParams(ParsingParams parsingParams) {
@@ -149,14 +145,12 @@ public class DecodeStructure {
 			structInflator.setChainInfo(currentChainId, groupsThisChain);
 			chainIdSet.add(currentChainId);
 		}
-		int nextInd = groupCounter + groupsThisChain;
-		// Now iteratr over the group
-		for (int currentGroupNumber = groupCounter; currentGroupNumber < nextInd; currentGroupNumber++) {
-			groupCounter++;
-			int atomCount = addGroup(currentGroupNumber);
-			lastAtomCount += atomCount;
+		// Now iterate over the groups.
+		int startInd = modelGroupCounter;
+		int endInd = modelGroupCounter + groupsThisChain;
+		for (int currentGroupNumber = startInd; currentGroupNumber < endInd; currentGroupNumber++) {
+			addGroup(currentGroupNumber);
 		}    
-		chainCounter++;
 	}
 
 	/**
@@ -166,50 +160,50 @@ public class DecodeStructure {
 	 * @param nucAcidList the nuc acid list
 	 * @return the int
 	 */
-	private int addGroup(final int thisGroupNum) {
+	private void addGroup(final int thisGroupNum) {
 		// Now get the group
-		int g = dataApi.getGroupIndices()[thisGroupNum];
+		int groupInd = dataApi.getGroupIndices()[thisGroupNum];
 		// Get this info
-		PDBGroup currentGroup = dataApi.getGroupMap().get(g);
-		List<String> atomInfo = currentGroup.getAtomInfo();
-		int atomCount = atomInfo.size() / 2;
+		int atomCount = dataApi.getNumAtomsInGroup(groupInd);
 		int currentGroupNumber = dataApi.getResidueNums()[thisGroupNum];
 		char insertionCode = dataApi.getInsCodes()[thisGroupNum];
-		structInflator.setGroupInfo(currentGroup.getGroupName(), currentGroupNumber, insertionCode,
-				currentGroup.getChemCompType(), atomCount);
+		structInflator.setGroupInfo(dataApi.getGroupName(groupInd), currentGroupNumber, insertionCode,
+				dataApi.getGroupChemCompType(groupInd), atomCount);
 		// A counter for the atom information
-		atomCounter = 0;
+		groupAtomCounter = 0;
 		// Now read the next atoms
-		for (int i = lastAtomCount; i < lastAtomCount + atomCount; i++) {
-			addAtomData(currentGroup, atomInfo, i);  
+		for (int i = 0; i < atomCount; i++) {
+			addAtomData(dataApi.getGroupAtomNames(groupInd), dataApi.getGroupElementNames(groupInd), 
+					dataApi.getGroupAtomCharges(groupInd));  
 		}
-		addGroupBonds(currentGroup.getBondIndices(), currentGroup.getBondOrders());
-		return atomCount;
+		addGroupBonds(dataApi.getGroupBondIndices(groupInd), dataApi.getGroupBondOrders(groupInd));
+		modelGroupCounter++;
 	}
 
-
+	
 	/**
 	 * Add atom level data for a given atom.
 	 * @param currentPdbGroup The group being considered.
 	 * @param atomInfo The list of strings containing atom level information.
-	 * @param currentAtomIndex The index of the current Atom
 	 */
-	private void addAtomData(PDBGroup currentPdbGroup, List<String> atomInfo, int currentAtomIndex) {
+	private void addAtomData(String[] atomNames, String[] elementNames, int[] atomCharges) {
 		// Now get all the relevant atom level information here
-		String atomName = atomInfo.get(atomCounter * 2 + 1);
-		String element = atomInfo.get(atomCounter * 2);
-		int charge = currentPdbGroup.getAtomCharges().get(atomCounter);
-		int serialNumber = dataApi.getAtomIds()[currentAtomIndex];
-		char alternativeLocationId = dataApi.getAltLocIds()[currentAtomIndex];
-		float x = dataApi.getXcoords()[currentAtomIndex];
-		float z = dataApi.getZcoords()[currentAtomIndex];
-		float y = dataApi.getYcoords()[currentAtomIndex];
-		float occupancy = dataApi.getOccupancies()[currentAtomIndex];
-		float temperatureFactor = dataApi.getBfactors()[currentAtomIndex];
+		String atomName = atomNames[groupAtomCounter];
+		String element = elementNames[groupAtomCounter];
+		int charge = atomCharges[groupAtomCounter];
+		int serialNumber = dataApi.getAtomIds()[structureAtomCounter];
+		char alternativeLocationId = dataApi.getAltLocIds()[structureAtomCounter];
+		float x = dataApi.getXcoords()[structureAtomCounter];
+		float z = dataApi.getZcoords()[structureAtomCounter];
+		float y = dataApi.getYcoords()[structureAtomCounter];
+		float occupancy = dataApi.getOccupancies()[structureAtomCounter];
+		float temperatureFactor = dataApi.getBfactors()[structureAtomCounter];
 		structInflator.setAtomInfo(atomName, serialNumber, alternativeLocationId,
 				x, y, z, occupancy, temperatureFactor, element, charge);
 		// Now increment the atom counter for this group
-		atomCounter++;
+		groupAtomCounter++;
+		// And for the structure as a whole.
+		structureAtomCounter++;
 	}
 
 	/**
@@ -218,12 +212,12 @@ public class DecodeStructure {
 	 * Bond indices are specified internally within the group and start at 0.
 	 * @param bondOrders A list of integers specifying the bond orders for each bond.
 	 */
-	private void addGroupBonds(List<Integer> bondInds, List<Integer> bondOrders) {
+	private void addGroupBonds(int[] bondInds, int[] bondOrders) {
 		// Now add the bond information for this group
-		for (int thisBond = 0; thisBond < bondOrders.size(); thisBond++) {
-			int thisBondOrder = bondOrders.get(thisBond);
-			int thisBondIndOne = bondInds.get(thisBond * 2);
-			int thisBondIndTwo = bondInds.get(thisBond * 2 + 1);
+		for (int thisBond = 0; thisBond < bondOrders.length; thisBond++) {
+			int thisBondOrder = bondOrders[thisBond];
+			int thisBondIndOne = bondInds[thisBond * 2];
+			int thisBondIndTwo = bondInds[(thisBond * 2 + 1)];
 			structInflator.setGroupBond(thisBondIndOne, thisBondIndTwo,
 					thisBondOrder);
 		}    
@@ -252,7 +246,11 @@ public class DecodeStructure {
 	 * Parses the bioassembly data and inputs it to the structure inflator
 	 */
 	private void generateBioAssembly() {
-		structInflator.setBioAssemblyList(dataApi.getBioAssemblyList());    
+		for (int i=0; i<dataApi.getNumBioassemblies(); i++) {
+			for(int j=0; j<dataApi.getNumTransInBioassembly(i); j++) {
+				structInflator.setBioAssemblyTrans(i+1, dataApi.getChainIdListForTrans(i, j), dataApi.getTransMatrixForTrans(i,j));    
+			}
+		}
 	}
 
 

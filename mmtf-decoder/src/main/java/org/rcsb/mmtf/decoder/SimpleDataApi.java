@@ -3,7 +3,6 @@ package org.rcsb.mmtf.decoder;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import org.msgpack.jackson.dataformat.MessagePackFactory;
 import org.rcsb.mmtf.api.DataApiInterface;
@@ -43,6 +42,7 @@ public class SimpleDataApi implements DataApiInterface {
 		
 		// Get the data
 		try {
+			numModels = inputData.getNumModels();
 			groupList = decoderUtils.bytesToInts(inputData.getGroupTypeList());
 			// Read the byte arrays as int arrays
 			cartnX = decoderUtils.decodeIntsToFloats(deltaDecompress.decompressByteArray(inputData.getxCoordBig(), inputData.getxCoordSmall()), MmtfBean.COORD_DIVIDER);
@@ -59,7 +59,7 @@ public class SimpleDataApi implements DataApiInterface {
 			// Get the groupNumber
 			groupNum = intRunLengthDelta.decompressByteArray(
 					inputData.getGroupIdList());
-			groupMap = inputData.getGroupMap();
+			groupMap = inputData.getGroupList();
 			// Get the seqRes groups
 			seqResGroupList = intRunLengthDelta.decompressByteArray(inputData.getSeqResIdList());
 			// Get the number of chains per model
@@ -122,7 +122,7 @@ public class SimpleDataApi implements DataApiInterface {
 	private int[] groupNum;
 
 	/** The group map. */
-	private Map<Integer, PDBGroup> groupMap;
+	private PDBGroup[] groupMap;
 
 	/** The group list. */
 	private int[] groupList;
@@ -133,8 +133,8 @@ public class SimpleDataApi implements DataApiInterface {
 	/** The public facing chain ids*/
 	private String[] publicChainIds;
 
-	/** The number of chains per model*/
-	private int[] chainsPerModel;
+	/** The number of chains per model. Assumes model homogenity.*/
+	private int chainsPerModel;
 
 	/** The number of groups per (internal) chain*/
 	private int[] groupsPerChain;
@@ -187,6 +187,9 @@ public class SimpleDataApi implements DataApiInterface {
 	/** The list of experimental methods. */
 	private List<String> experimentalMethods;
 	
+	/** The number of models in the structure. */
+	private int numModels;
+	
 	@Override
 	public float[] getXcoords() {
 		return cartnX;
@@ -233,11 +236,6 @@ public class SimpleDataApi implements DataApiInterface {
 	}
 
 	@Override
-	public Map<Integer, PDBGroup> getGroupMap() {
-		return groupMap;
-	}
-
-	@Override
 	public int[] getGroupIndices() {
 		return groupList;
 	}
@@ -253,7 +251,7 @@ public class SimpleDataApi implements DataApiInterface {
 	}
 
 	@Override
-	public int[] getChainsPerModel() {
+	public int getChainsPerModel() {
 		return chainsPerModel;
 	}
 
@@ -270,11 +268,6 @@ public class SimpleDataApi implements DataApiInterface {
 	@Override
 	public float[] getUnitCell() {
 		return unitCell;
-	}
-
-	@Override
-	public List<BioAssemblyData> getBioAssemblyList() {
-		return bioAssembly;
 	}
 
 	@Override
@@ -303,11 +296,6 @@ public class SimpleDataApi implements DataApiInterface {
 	}
 
 	@Override
-	public Entity[] getEntityList() {
-		return entityList;
-	}
-
-	@Override
 	public String getPdbId() {
 		return pdbId;
 	}
@@ -324,7 +312,7 @@ public class SimpleDataApi implements DataApiInterface {
 	
 	@Override
 	public int getNumModels() {	
-		return this.chainsPerModel.length;
+		return this.numModels;
 	}
 
 	@Override
@@ -355,6 +343,127 @@ public class SimpleDataApi implements DataApiInterface {
 	@Override
 	public List<String> getExperimentalMethods() {
 		return experimentalMethods;
+	}
+
+	@Override
+	public String getGroupName(int groupInd) {
+		return groupMap[groupInd].getGroupName();
+	}
+	
+	public int getNumAtomsInGroup(int groupInd) {
+		return groupMap[groupInd].getAtomInfo().size()/2;
+	}
+
+	@Override
+	public String[] getGroupAtomNames(int groupInd) {
+		List<String> atomInfo =  groupMap[groupInd].getAtomInfo();
+		String[] outList = new String[atomInfo.size()/2];
+		int counter = 0;
+		for (int i=1; i<atomInfo.size(); i+=2){
+			outList[counter] = atomInfo.get(i);
+			counter++;
+		}
+		return outList;
+	}
+
+	@Override
+	public String[] getGroupElementNames(int groupInd) {
+		List<String> atomInfo =  groupMap[groupInd].getAtomInfo();
+		String[] outList = new String[atomInfo.size()/2];
+		int counter = 0;
+		for (int i=0; i<atomInfo.size(); i+=2){
+			outList[counter] = atomInfo.get(i);
+			counter++;
+		}
+		return outList;
+	}
+
+	@Override
+	public int[] getGroupBondOrders(int groupInd) {
+		return convertToIntList(groupMap[groupInd].getBondOrders());
+
+	}
+
+	@Override
+	public int[] getGroupBondIndices(int groupInd) {
+		return convertToIntList(groupMap[groupInd].getBondIndices());
+	}
+
+	@Override
+	public int[] getGroupAtomCharges(int groupInd) {
+		return convertToIntList(groupMap[groupInd].getAtomCharges());
+	}
+
+	@Override
+	public String getGroupSingleLetterCode(int groupInd) {
+		return groupMap[groupInd].getSingleLetterCode();
+	}
+
+	@Override
+	public String getGroupChemCompType(int groupInd) {
+		return groupMap[groupInd].getChemCompType();
+	}
+	
+	
+	/**
+	 * Get a primitive int[] list from a Java List<>;
+	 * @param inArray The input List<> of Integers
+	 * @return A primitive int[].
+	 */
+	private int[] convertToIntList(List<Integer> inArray) {
+		int[] outArray = new int[inArray.size()];
+		for (int i=0; i<inArray.size(); i++) {
+			outArray[i] = inArray.get(i);
+		}
+		return outArray;
+	}
+
+	@Override
+	public String getEntityDescription(int entityInd) {
+		return entityList[entityInd].getDescription();
+	}
+
+	@Override
+	public String getEntityType(int entityInd) {
+		return entityList[entityInd].getType();
+
+	}
+
+	@Override
+	public int[] getEntityChainIndexList(int entityInd) {
+		return entityList[entityInd].getChainIndexList();
+
+	}
+
+	@Override
+	public String getEntitySequence(int entityInd) {
+		return entityList[entityInd].getSequence();
+
+	}
+
+	@Override
+	public int getNumEntities() {
+		return entityList.length;
+	}
+
+	@Override
+	public int getNumBioassemblies() {
+		return bioAssembly.size();
+	}
+
+	@Override
+	public int getNumTransInBioassembly(int bioassemblyIndex) {
+		return bioAssembly.get(bioassemblyIndex).getTransforms().size();
+	}
+
+	@Override
+	public String[] getChainIdListForTrans(int bioassemblyIndex, int transformationIndex) {
+		return bioAssembly.get(bioassemblyIndex).getTransforms().get(transformationIndex).getChainIdList().toArray(new String[0]);
+	}
+
+	@Override
+	public double[] getTransMatrixForTrans(int bioassemblyIndex, int transformationIndex) {
+		return bioAssembly.get(bioassemblyIndex).getTransforms().get(transformationIndex).getTransformation();
 	}
 
 

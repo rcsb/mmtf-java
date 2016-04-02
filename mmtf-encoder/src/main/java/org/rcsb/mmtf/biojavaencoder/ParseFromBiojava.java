@@ -209,20 +209,11 @@ public class ParseFromBiojava {
 		int atomCounter = 0;
 		chainCounter = 0;
 		int resCounter = 0;
-		int totAsymChains = 0;
 		// Get the total number of chains
-		for (int i=0; i<numModels; i++){		
-			totAsymChains += bioJavaStruct.getChains(i).size();
-		}
+		int totAsymChains = bioJavaStruct.getChains().size();
 		// Generate the group map for Calphas
 		calphaHashCodeToGroupMap = new HashMap<Integer, PDBGroup>();
 		// Get these lists to keep track of everthing - and to give  a datastrcutrue at the end
-		// List of chains per model
-		int[] chainsPerModel = new int[numModels];
-		int[] internalChainsPerModel = new int[numModels];
-		// Set this list
-		headerStruct.setChainsPerModel(chainsPerModel);
-		headerStruct.setAsymChainsPerModel(internalChainsPerModel);
 		byte[] charChainList = new byte[totAsymChains*4];
 		byte[] charInternalChainList = new byte[totAsymChains*4];
 		headerStruct.setChainList(charChainList);
@@ -242,7 +233,7 @@ public class ParseFromBiojava {
 		int bondCounter = 0;
 
 		calphaGroupsPerChain = new int[totAsymChains];
-		for(int i=0; i<totAsymChains; i++){
+		for(int i=0; i<totAsymChains; i++){			
 			calphaGroupsPerChain[i] = 0;
 		}
 		calphaStruct.setGroupsPerChain(calphaGroupsPerChain);
@@ -255,108 +246,101 @@ public class ParseFromBiojava {
 			List<Chain> chains = bioJavaStruct.getModel(i);
 			// Set the PDB Code
 			bioStruct.setPdbCode(bioJavaStruct.getPDBCode());
-			ArrayList<String> chainList = new ArrayList<String>();
-			// Set the number of chains in this model
-			internalChainsPerModel[i] = chains.size();
 			// Get the number of unique ones
 			Set<String> chainIdSet = new HashSet<String>();
-			for(Chain c : chains){
+			for(Chain c : chains) {
 				String intChainId = c.getInternalChainID();
 				chainIdSet.add(intChainId);
 			}
-			chainsPerModel[i] = chainIdSet.size();
+			// Set the number of chains in each model (assumes homogenity).
+			if (i==0) {
+				headerStruct.setAsymChainsPerModel(chains.size());
+				headerStruct.setChainsPerModel(chainIdSet.size());
+			}
+
 			// Take the atomic information and place in a Hashmap
 			for (Chain biojavaChain: chains) {	
 				// Get the seq res groups for this chain
 				List<Group> seqResGroups = biojavaChain.getSeqResGroups();
-				// Set the sequence  - if it's the first model...
+				// Set the sequence and chain information  - if it's the first model...
 				if(i==0){
-					headerStruct.getSequence().add(biojavaChain.getSeqResSequence());
+					headerStruct.getSequence().add(biojavaChain.getSeqResSequence());				
+					// Set the auth chain id
+					setChainId(biojavaChain.getInternalChainID(), charChainList, chainCounter);
+					// Set the asym chain id	
+					setChainId(biojavaChain.getChainID(), charInternalChainList, chainCounter);
+					// Set the number of groups per chain
+					groupsPerChain[chainCounter] += biojavaChain.getAtomGroups().size();
+					// Set the number of groups per internal chain
+					groupsPerInternalChain[chainCounter] = biojavaChain.getAtomGroups().size();				
 				}
-				// Set the auth chain id
-				setChainId(biojavaChain.getInternalChainID(), charChainList, chainCounter);
-				// Set the asym chain id	
-				setChainId(biojavaChain.getChainID(), charInternalChainList, chainCounter);
-				// Set the number of groups per chain
-				groupsPerChain[chainCounter] += biojavaChain.getAtomGroups().size();
-				// Set the number of groups per internal chain
-				groupsPerInternalChain[chainCounter] = biojavaChain.getAtomGroups().size();				
-				// Add this chain to the list
-				chainList.add(biojavaChain.getChainID());
-				// Get the groups
 				String currentChainId = biojavaChain.getChainID();
 				int numBonds = 0;
 				for (Group loopGroup : biojavaChain.getAtomGroups()) {
 					currentGroup = loopGroup;
 					// Set the seq res group id 
-					if(i==0){
-						headerStruct.getSeqResGroupIds().add(seqResGroups.indexOf(currentGroup));
-					}
-					// Get the pdb id
-					String res_id = currentGroup.getPDBName();
 					// Get the atoms for this group
 					List<Atom> atomsInThisGroup = encoderUtils.getAtomsForGroup(currentGroup);
-					// Get any bonds between groups
-					getInterGroupBond(atomsInThisGroup, totAtoms, atomCounter);
-					// Count the number of bonds
-					// Now loop through and get the coords
-
-					// Generate the group level data
-					// Get the 
-					List<String> atomInfo = getAtomInfo(atomsInThisGroup);
-					// Get the atomic info required - bioStruct is the unique identifier of the group 
-					int hashCode = getHashFromStringList(atomInfo);
-					// If we need bioStruct new information 
-					if (hashToRes.containsKey(hashCode)==false){
-						// Make a new group
-						PDBGroup outGroup = new PDBGroup();
-						// Set the one letter code
-						outGroup.setSingleLetterCode(currentGroup.getChemComp().getOne_letter_code());
-						// Set the group type
-						outGroup.setChemCompType(currentGroup.getChemComp().getType());
-						outGroup.setGroupName(atomInfo.remove(0));
-						outGroup.setAtomInfo(atomInfo);
-						// Now get the bond list (lengths, orders and indices)
-						createBondList(atomsInThisGroup, outGroup); 
-						getCharges(atomsInThisGroup, outGroup);
-						// 
-						bioStructMap.put(resCounter, outGroup);
-						hashToRes.put(hashCode, resCounter);
-						bioStruct.getResOrder().add(resCounter);
-						resCounter+=1;
-						numBonds = outGroup.getBondOrders().size();
-					}
-					else{
-						// Add this to the residue order
-						bioStruct.getResOrder().add(hashToRes.get(hashCode));	
-						numBonds = bioStructMap.get(hashToRes.get(hashCode)).getBondOrders().size();
-					}
-					// Add the number of bonds 
-					bondCounter+=numBonds;
-
+					// Residue number needed later.
 					ResidueNumber residueNum = currentGroup.getResidueNumber();
-
-					// bioStruct data item corresponds to the PDB insertion code.
-					Character insertionCode = residueNum.getInsCode();
-					if (insertionCode==null){
-						bioStruct.get_atom_site_pdbx_PDB_ins_code().add(null);
-					}
-					else{
-						bioStruct.get_atom_site_pdbx_PDB_ins_code().add(insertionCode.toString());
-					}
-
+					// Get the pdb id
+					String res_id = currentGroup.getPDBName();
+					// Get the secondary structure
 					SecStrucState props = (SecStrucState) currentGroup.getProperty("secstruc");
-					// Only assign secondary structure for the first model
 					if(i==0){
+						headerStruct.getSeqResGroupIds().add(seqResGroups.indexOf(currentGroup));
+						// Get any bonds between groups
+						getInterGroupBond(atomsInThisGroup, totAtoms, atomCounter);
+						// Count the number of bonds
+						// Get the atom info
+						List<String> atomInfo = getAtomInfo(atomsInThisGroup);
+						// Get the atomic info required - bioStruct is the unique identifier of the group 
+						int hashCode = getHashFromStringList(atomInfo);
+						// If we need bioStruct new information 
+						if (hashToRes.containsKey(hashCode)==false){
+							// Make a new group
+							PDBGroup outGroup = new PDBGroup();
+							// Set the one letter code
+							outGroup.setSingleLetterCode(currentGroup.getChemComp().getOne_letter_code());
+							// Set the group type
+							outGroup.setChemCompType(currentGroup.getChemComp().getType());
+							outGroup.setGroupName(atomInfo.remove(0));
+							outGroup.setAtomInfo(atomInfo);
+							// Now get the bond list (lengths, orders and indices)
+							createBondList(atomsInThisGroup, outGroup); 
+							getCharges(atomsInThisGroup, outGroup);
+							// 
+							bioStructMap.put(resCounter, outGroup);
+							hashToRes.put(hashCode, resCounter);
+							bioStruct.getResOrder().add(resCounter);
+							resCounter+=1;
+							numBonds = outGroup.getBondOrders().size();
+						}
+						else{
+							// Add this to the residue order
+							bioStruct.getResOrder().add(hashToRes.get(hashCode));	
+							numBonds = bioStructMap.get(hashToRes.get(hashCode)).getBondOrders().size();
+						}
+						// Add the number of bonds (only number of bonds in first model).
+						bondCounter+=numBonds;
+						// Set the inserion code
+						Character insertionCode = residueNum.getInsCode();
+						if (insertionCode==null){
+							bioStruct.get_atom_site_pdbx_PDB_ins_code().add(null);
+						}
+						else{
+							bioStruct.get_atom_site_pdbx_PDB_ins_code().add(insertionCode.toString());
+						}
+						// Assign secondary structure info
 						if(props==null){
 							bioStruct.getSecStruct().add(codeHolder.getDsspMap().get("NA"));
 						}
 						else{
 							bioStruct.getSecStruct().add(codeHolder.getDsspMap().get(props.getType().name));
 						}
+						// Now add the residue sequnece number
+						bioStruct.get_atom_site_auth_seq_id().add(residueNum.getSeqNum());
 					}
-					// Now add the residue sequnece number
-					bioStruct.get_atom_site_auth_seq_id().add(residueNum.getSeqNum());
 					// Set whether or not this is a calpha
 					List<Atom> cAlphaGroup = new ArrayList<Atom>();
 					for (Atom currentAtom : atomsInThisGroup) {
@@ -367,8 +351,10 @@ public class ParseFromBiojava {
 						// Increment the atom counter
 						atomCounter+=1;
 					}
-					// Now add this group - if there is something to consider
-					addCalphaGroup(cAlphaGroup, props, residueNum);
+					if (i==0){
+						// Now add this group - if there is something to consider
+						addCalphaGroup(cAlphaGroup, props, residueNum);
+					}
 				}
 				// Increment again by one
 				chainCounter+=1;
@@ -394,15 +380,20 @@ public class ParseFromBiojava {
 		List<EntityInfo> entities = bioJavaStruct.getEntityInfos();
 		// Get the list of chains for all the models
 		List<Chain> structChains = new ArrayList<>();
-		for (int i=0; i < bioJavaStruct.nrModels(); i++) {
-			structChains.addAll(bioJavaStruct.getChains(i));
+		// Only get entity info for the first model
+		structChains.addAll(bioJavaStruct.getChains());
+		List<Chain> bannedChains = new ArrayList<>();
+		for (int i=1; i<bioJavaStruct.nrModels(); i++) {
+			bannedChains.addAll(bioJavaStruct.getChains(i));
 		}
+		
 		Entity[] entityList = new Entity[entities.size()];
 		int entityCounter = 0;
 		for(EntityInfo entityInfo : entities) { 
 			Entity newEntity = new Entity();
 			// Get the indices for the chains in this guy
 			List<Chain> entChains = entityInfo.getChains();
+			entChains.removeAll(bannedChains);
 			int[] indexList = new int[entChains.size()];
 			int counter = 0;
 			for(Chain entChain : entChains) {

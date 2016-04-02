@@ -2,7 +2,6 @@ package org.rcsb.mmtf.dataholders;
 
 import java.io.Serializable;
 import java.util.List;
-import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -45,8 +44,11 @@ public class MmtfBean implements Serializable {
 	/** The number of atoms. */
 	private int numAtoms;
 
-	/** The number of chains per model. */
-	private int[] chainsPerModel;
+	/** The number of chains per model. Assumes model homogenity. */
+	private int chainsPerModel;
+	
+	/** The numnber of models */
+	private int numModels;
 
 	/** The internal groups per chain. */
 	private int[] groupsPerChain;
@@ -72,9 +74,8 @@ public class MmtfBean implements Serializable {
 	/** The bond order list. */
 	private byte[] bondOrderList;
 
-	/** The group map. */
-	// Map of all the data
-	private  Map<Integer, PDBGroup> groupMap;
+	/** The list of different PDBGroups in the structure. */
+	private  PDBGroup[] groupList;
 
 	/** The x coord big. 4 byte integers in pairs. */
 	private byte[] xCoordBig;
@@ -519,8 +520,8 @@ public class MmtfBean implements Serializable {
 	 *
 	 * @return the group map
 	 */
-	public final Map<Integer, PDBGroup> getGroupMap() {
-		return groupMap;
+	public final PDBGroup[] getGroupList() {
+		return groupList;
 	}
 
 	/**
@@ -528,8 +529,8 @@ public class MmtfBean implements Serializable {
 	 *
 	 * @param inputGroupMap the group map
 	 */
-	public final void setGroupMap(final Map<Integer, PDBGroup> inputGroupMap) {
-		this.groupMap = inputGroupMap;
+	public final void setGroupList(final PDBGroup[] inputGroupMap) {
+		this.groupList = inputGroupMap;
 	}
 
 	/**
@@ -717,7 +718,7 @@ public class MmtfBean implements Serializable {
 	 *
 	 * @return the list of chains per model.
 	 */
-	public final int[] getChainsPerModel() {
+	public final int getChainsPerModel() {
 		return chainsPerModel;
 	}
 
@@ -726,7 +727,7 @@ public class MmtfBean implements Serializable {
 	 *
 	 * @param inputInternalChainsPerModel the new list of chains per model.
 	 */
-	public final void setChainsPerModel(final int[]
+	public final void setChainsPerModel(final int
 			inputInternalChainsPerModel) {
 		this.chainsPerModel = inputInternalChainsPerModel;
 	}
@@ -810,6 +811,22 @@ public class MmtfBean implements Serializable {
    */
   public void setEntityList(Entity[] entityList) {
 	  this.entityList = entityList;
+  }
+
+  /**
+   * Get the number of models in the structure.
+   * @return An integer specifying the number of models in the structure.
+   */
+  public int getNumModels() {
+		return numModels;
+  }
+	
+  /**
+   * Set the number of models in the structure.
+   * @param An integer specifying the number of models in the structure.
+   */
+  public void setNumModels(int numModels) {
+		this.numModels = numModels;
   }
 
 }
