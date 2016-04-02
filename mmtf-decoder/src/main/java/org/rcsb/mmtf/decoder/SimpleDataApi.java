@@ -268,11 +268,6 @@ public class SimpleDataApi implements DataApiInterface {
 	}
 
 	@Override
-	public List<BioAssemblyData> getBioAssemblyList() {
-		return bioAssembly;
-	}
-
-	@Override
 	public int[] getInterGroupBondIndices() {
 		return interGroupBondIndices;
 	}
@@ -446,6 +441,26 @@ public class SimpleDataApi implements DataApiInterface {
 	@Override
 	public int getNumEntities() {
 		return entityList.length;
+	}
+
+	@Override
+	public int getNumBioassemblies() {
+		return bioAssembly.size();
+	}
+
+	@Override
+	public int getNumTransInBioassembly(int bioassemblyIndex) {
+		return bioAssembly.get(bioassemblyIndex).getTransforms().size();
+	}
+
+	@Override
+	public String[] getChainIdListForTrans(int bioassemblyIndex, int transformationIndex) {
+		return bioAssembly.get(bioassemblyIndex).getTransforms().get(transformationIndex).getChainIdList().toArray(new String[0]);
+	}
+
+	@Override
+	public double[] getTransMatrixForTrans(int bioassemblyIndex, int transformationIndex) {
+		return bioAssembly.get(bioassemblyIndex).getTransforms().get(transformationIndex).getTransformation();
 	}
 
 

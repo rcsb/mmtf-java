@@ -9,7 +9,7 @@ public class HelloWorld {
 		DataApiInterface dataApi = handleIO.getDataApiFromUrlOrFile("4cup");
 		System.out.println("PDB Code: "+dataApi.getPdbId()+" has "+dataApi.getNumChains()+" chains");
 		System.out.println("HET group "+dataApi.getGroupName(0)+" has the following atomic charges: "+dataApi.getGroupAtomCharges(0));
-		System.out.println("PDB Code: "+dataApi.getPdbId()+" has "+dataApi.getBioAssemblyList().size()+" bioassemblies");
+		System.out.println("PDB Code: "+dataApi.getPdbId()+" has "+dataApi.getNumBioassemblies()+" bioassemblies");
 	}
 
 }

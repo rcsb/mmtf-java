@@ -2,8 +2,6 @@ package org.rcsb.mmtf.api;
 
 import java.util.List;
 
-import org.rcsb.mmtf.dataholders.BioAssemblyData;
-
 /**
  * An interface describing the data API.
  * 
@@ -206,11 +204,36 @@ public interface DataApiInterface {
 	float[] getUnitCell();
 
 	/**
-	 * Returns a list of {@link BioAssemblyData}s corresponding to the structure.
-	 * @return
+	 * Returns the number of bioassemblies in this structure.
+	 * @return an integer specifying the number of bioassemblies.
 	 */
-	List<BioAssemblyData> getBioAssemblyList();
+	int getNumBioassemblies();
 
+	/**
+	 * Returns the number of transformations in a given bioassembly.
+	 * @param an integer specifying the bioassembly index (zero indexed).
+	 * @return an integer specifying of transformations in a given bioassembly.
+	 */
+	int getNumTransInBioassembly(int bioassemblyIndex);
+	
+	/**
+	 * Returns the list of chain ids for the given transformation for the given bioassembly.
+	 * @param an integer specifying the bioassembly index (zero indexed).
+	 * @param an integer specifying the  index (zero indexed) for the desired transformation.
+	 * @return a list of strings showing the chains involved in this transformation.
+	 */
+	String[] getChainIdListForTrans(int bioassemblyIndex, int transformationIndex);
+
+	
+	/**
+	 * Returns the transformation matrix for the given transformation for the given bioassembly.
+	 * @param an integer specifying the bioassembly index (zero indexed).
+	 * @param an integer specifying the  index (zero indexed) for the desired transformation.
+	 * @return the transformation matrix for this transformation.
+	 */
+	double[] getTransMatrixForTrans(int bioassemblyIndex, int transformationIndex);
+	
+	
 	/**
 	 * Returns an array of inter-group bonds represented with 2 consecutive atom 
 	 * indices in the array.

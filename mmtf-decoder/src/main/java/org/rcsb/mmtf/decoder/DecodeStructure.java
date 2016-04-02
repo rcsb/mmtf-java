@@ -1,13 +1,10 @@
 package org.rcsb.mmtf.decoder;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import org.rcsb.mmtf.api.DataApiInterface;
 import org.rcsb.mmtf.api.StructureDecoderInterface;
-import org.rcsb.mmtf.dataholders.BioAssemblyData;
-import org.rcsb.mmtf.dataholders.BioAssemblyTrans;
 
 /**
  * Decode an MMTF structure using a structure inflator. The class also allows access to the unconsumed but parsed and inflated underlying data.
@@ -250,13 +247,9 @@ public class DecodeStructure {
 	 * Parses the bioassembly data and inputs it to the structure inflator
 	 */
 	private void generateBioAssembly() {
-		int bioAssemblyId = 0;
-		for (BioAssemblyData bioassembly : dataApi.getBioAssemblyList()) {
-			bioAssemblyId++;
-			List<BioAssemblyTrans> trans = bioassembly.getTransforms();
-			for (BioAssemblyTrans bioAssemblyTrans : trans ) {
-				String[] chainIdList = bioAssemblyTrans.getChainIdList().toArray(new String[0]);
-				structInflator.setBioAssemblyTrans(bioAssemblyId, chainIdList, bioAssemblyTrans.getTransformation());    
+		for (int i=0; i<dataApi.getNumBioassemblies(); i++) {
+			for(int j=0; j<dataApi.getNumTransInBioassembly(i); j++) {
+				structInflator.setBioAssemblyTrans(i+1, dataApi.getChainIdListForTrans(i, j), dataApi.getTransMatrixForTrans(i,j));    
 			}
 		}
 	}
