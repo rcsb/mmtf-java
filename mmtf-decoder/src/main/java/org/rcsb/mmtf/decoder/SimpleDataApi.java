@@ -3,7 +3,6 @@ package org.rcsb.mmtf.decoder;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import org.msgpack.jackson.dataformat.MessagePackFactory;
 import org.rcsb.mmtf.api.DataApiInterface;
@@ -59,7 +58,7 @@ public class SimpleDataApi implements DataApiInterface {
 			// Get the groupNumber
 			groupNum = intRunLengthDelta.decompressByteArray(
 					inputData.getGroupIdList());
-			groupMap = inputData.getGroupMap();
+			groupMap = inputData.getGroupList();
 			// Get the seqRes groups
 			seqResGroupList = intRunLengthDelta.decompressByteArray(inputData.getSeqResIdList());
 			// Get the number of chains per model
@@ -122,7 +121,7 @@ public class SimpleDataApi implements DataApiInterface {
 	private int[] groupNum;
 
 	/** The group map. */
-	private Map<Integer, PDBGroup> groupMap;
+	private PDBGroup[] groupMap;
 
 	/** The group list. */
 	private int[] groupList;
@@ -344,16 +343,16 @@ public class SimpleDataApi implements DataApiInterface {
 
 	@Override
 	public String getGroupName(int groupInd) {
-		return groupMap.get(groupInd).getGroupName();
+		return groupMap[groupInd].getGroupName();
 	}
 	
 	public int getNumAtomsInGroup(int groupInd) {
-		return groupMap.get(groupInd).getAtomCharges().size();
+		return groupMap[groupInd].getAtomCharges().size();
 	}
 
 	@Override
 	public String[] getGroupAtomNames(int groupInd) {
-		List<String> atomInfo =  groupMap.get(groupInd).getAtomInfo();
+		List<String> atomInfo =  groupMap[groupInd].getAtomInfo();
 		String[] outList = new String[atomInfo.size()/2];
 		int counter = 0;
 		for (int i=1; i<atomInfo.size(); i+=2){
@@ -365,7 +364,7 @@ public class SimpleDataApi implements DataApiInterface {
 
 	@Override
 	public String[] getGroupElementNames(int groupInd) {
-		List<String> atomInfo =  groupMap.get(groupInd).getAtomInfo();
+		List<String> atomInfo =  groupMap[groupInd].getAtomInfo();
 		String[] outList = new String[atomInfo.size()/2];
 		int counter = 0;
 		for (int i=0; i<atomInfo.size(); i+=2){
@@ -377,28 +376,28 @@ public class SimpleDataApi implements DataApiInterface {
 
 	@Override
 	public int[] getGroupBondOrders(int groupInd) {
-		return convertToIntList(groupMap.get(groupInd).getBondOrders());
+		return convertToIntList(groupMap[groupInd].getBondOrders());
 
 	}
 
 	@Override
 	public int[] getGroupBondIndices(int groupInd) {
-		return convertToIntList(groupMap.get(groupInd).getBondIndices());
+		return convertToIntList(groupMap[groupInd].getBondIndices());
 	}
 
 	@Override
 	public int[] getGroupAtomCharges(int groupInd) {
-		return convertToIntList(groupMap.get(groupInd).getAtomCharges());
+		return convertToIntList(groupMap[groupInd].getAtomCharges());
 	}
 
 	@Override
 	public String getGroupSingleLetterCode(int groupInd) {
-		return groupMap.get(groupInd).getSingleLetterCode();
+		return groupMap[groupInd].getSingleLetterCode();
 	}
 
 	@Override
 	public String getGroupChemCompType(int groupInd) {
-		return groupMap.get(groupInd).getChemCompType();
+		return groupMap[groupInd].getChemCompType();
 	}
 	
 	

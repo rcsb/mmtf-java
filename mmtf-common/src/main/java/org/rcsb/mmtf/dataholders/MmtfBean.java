@@ -2,7 +2,6 @@ package org.rcsb.mmtf.dataholders;
 
 import java.io.Serializable;
 import java.util.List;
-import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -72,9 +71,8 @@ public class MmtfBean implements Serializable {
 	/** The bond order list. */
 	private byte[] bondOrderList;
 
-	/** The group map. */
-	// Map of all the data
-	private  Map<Integer, PDBGroup> groupMap;
+	/** The list of different PDBGroups in the structure. */
+	private  PDBGroup[] groupList;
 
 	/** The x coord big. 4 byte integers in pairs. */
 	private byte[] xCoordBig;
@@ -519,8 +517,8 @@ public class MmtfBean implements Serializable {
 	 *
 	 * @return the group map
 	 */
-	public final Map<Integer, PDBGroup> getGroupMap() {
-		return groupMap;
+	public final PDBGroup[] getGroupList() {
+		return groupList;
 	}
 
 	/**
@@ -528,8 +526,8 @@ public class MmtfBean implements Serializable {
 	 *
 	 * @param inputGroupMap the group map
 	 */
-	public final void setGroupMap(final Map<Integer, PDBGroup> inputGroupMap) {
-		this.groupMap = inputGroupMap;
+	public final void setGroupList(final PDBGroup[] inputGroupMap) {
+		this.groupList = inputGroupMap;
 	}
 
 	/**
