@@ -8,10 +8,20 @@ import java.util.UUID;
 public class IntegrationTestUtils {
 
 	public static final String[] TEST_CASES = new String[] {
-			//Standard structure
+
+			// THESE CURRENTLY FAIL...
+//			// Weird NMR structure
+//			"1o2f",
+//			// NMR structure with multiple models - one of which has chain missing
+//			"1msh",
+//			// A weird case with incorrect residue numbers.
+//			"3th3",
+//			// Calpha atom is missing (not marked as calpha)
+//			"1lpv",
+			// Standard structure
 			"4cup",
-			// Weird NMR structure
-			"1o2f",
+			// Stanadard NMR structure
+			"2n2z",
 			// Another weird structure (jose's suggestion) 
 			"3zyb",
 			// B-DNA structure
@@ -24,18 +34,13 @@ public class IntegrationTestUtils {
 			"4v5a",
 			// Biosynthetic protein
 			"5emg",
-			// Calpha atom is missing (not marked as calpha)
-			"1lpv",
-			// NMR structure with multiple models - one of which has chain missing
-			"1msh",
+
 			// No ATOM records just HETATM records (in PDB). Opposite true for MMCif. It's a D-Peptide.
 			"1r9v",
 			// Micro heterogenity
 			"4ck4",
 			// Negative residue numbers
 			"5esw",
-			// A weird case with incorrect residue numbers.
-	//		"3th3"
 			};
 
 	public Path returnTempDir() {

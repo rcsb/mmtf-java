@@ -51,6 +51,7 @@ public class CheckOnBiojava {
 
 			if(chainsOne.size()!=chainsTwo.size()){
 				System.out.println("Error - diff number chains: "+structOne.getPDBCode());
+				System.out.println("Model: "+i+ "."+chainsOne.size()+" vs "+chainsTwo.size());
 				return false;
 			}
 			// Now loop over

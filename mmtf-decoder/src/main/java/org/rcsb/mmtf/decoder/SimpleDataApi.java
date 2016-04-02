@@ -351,7 +351,7 @@ public class SimpleDataApi implements DataApiInterface {
 	}
 	
 	public int getNumAtomsInGroup(int groupInd) {
-		return groupMap[groupInd].getAtomCharges().size();
+		return groupMap[groupInd].getAtomInfo().size()/2;
 	}
 
 	@Override

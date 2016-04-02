@@ -51,9 +51,7 @@ public class CheckOnRawApi {
 		// Second check it's the same length
 		assertEquals(dataApi.getNumEntities(), biojavaStruct.getEntityInfos().size());
 		List<Chain> totChains = new ArrayList<>();
-		for (int i=0; i < biojavaStruct.nrModels(); i++) {
-			totChains.addAll(biojavaStruct.getChains(i));
-		}
+		totChains.addAll(biojavaStruct.getChains());
 		// Now check it has the same information as BioJava
 		for(int i=0; i<dataApi.getNumEntities(); i++) {
 			EntityInfo biojavaEntity = biojavaStruct.getEntityInfos().get(i);
