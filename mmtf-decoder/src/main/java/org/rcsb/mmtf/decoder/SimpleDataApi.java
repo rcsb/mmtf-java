@@ -132,8 +132,8 @@ public class SimpleDataApi implements DataApiInterface {
 	/** The public facing chain ids*/
 	private String[] publicChainIds;
 
-	/** The number of chains per model*/
-	private int[] chainsPerModel;
+	/** The number of chains per model. Assumes model homogenity.*/
+	private int chainsPerModel;
 
 	/** The number of groups per (internal) chain*/
 	private int[] groupsPerChain;
@@ -185,6 +185,9 @@ public class SimpleDataApi implements DataApiInterface {
 
 	/** The list of experimental methods. */
 	private List<String> experimentalMethods;
+	
+	/** The number of models in the structure. */
+	private int numModels;
 	
 	@Override
 	public float[] getXcoords() {
@@ -247,7 +250,7 @@ public class SimpleDataApi implements DataApiInterface {
 	}
 
 	@Override
-	public int[] getChainsPerModel() {
+	public int getChainsPerModel() {
 		return chainsPerModel;
 	}
 
@@ -308,7 +311,7 @@ public class SimpleDataApi implements DataApiInterface {
 	
 	@Override
 	public int getNumModels() {	
-		return this.chainsPerModel.length;
+		return this.numModels;
 	}
 
 	@Override

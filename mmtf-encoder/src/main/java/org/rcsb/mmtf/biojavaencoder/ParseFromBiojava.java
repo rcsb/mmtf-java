@@ -218,8 +218,8 @@ public class ParseFromBiojava {
 		calphaHashCodeToGroupMap = new HashMap<Integer, PDBGroup>();
 		// Get these lists to keep track of everthing - and to give  a datastrcutrue at the end
 		// List of chains per model
-		int[] chainsPerModel = new int[numModels];
-		int[] internalChainsPerModel = new int[numModels];
+		int chainsPerModel = -1;
+		int internalChainsPerModel = -1;
 		// Set this list
 		headerStruct.setChainsPerModel(chainsPerModel);
 		headerStruct.setAsymChainsPerModel(internalChainsPerModel);
@@ -257,14 +257,18 @@ public class ParseFromBiojava {
 			bioStruct.setPdbCode(bioJavaStruct.getPDBCode());
 			ArrayList<String> chainList = new ArrayList<String>();
 			// Set the number of chains in this model
-			internalChainsPerModel[i] = chains.size();
+			if (i==0) {
+				internalChainsPerModel = chains.size();
+			}
 			// Get the number of unique ones
 			Set<String> chainIdSet = new HashSet<String>();
 			for(Chain c : chains){
 				String intChainId = c.getInternalChainID();
 				chainIdSet.add(intChainId);
 			}
-			chainsPerModel[i] = chainIdSet.size();
+			if (i==0) {
+				chainsPerModel = chainIdSet.size();
+			}
 			// Take the atomic information and place in a Hashmap
 			for (Chain biojavaChain: chains) {	
 				// Get the seq res groups for this chain

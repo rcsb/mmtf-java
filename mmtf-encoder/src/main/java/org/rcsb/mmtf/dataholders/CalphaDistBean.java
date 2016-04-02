@@ -88,7 +88,7 @@ public class CalphaDistBean {
 	
 	/** The chains per model. */
 	// Add this to store the model information
-	private int[] chainsPerModel;
+	private int chainsPerModel;
 	
 	/** The chain list. */
 	// List to store the chainids
@@ -215,7 +215,7 @@ public class CalphaDistBean {
 	 *
 	 * @return the chains per model
 	 */
-	public int[] getChainsPerModel() {
+	public int getChainsPerModel() {
 		return chainsPerModel;
 	}
 	
@@ -224,7 +224,7 @@ public class CalphaDistBean {
 	 *
 	 * @param chainsPerModel the new chains per model
 	 */
-	public void setChainsPerModel(int[] chainsPerModel) {
+	public void setChainsPerModel(int chainsPerModel) {
 		this.chainsPerModel = chainsPerModel;
 	}
 	

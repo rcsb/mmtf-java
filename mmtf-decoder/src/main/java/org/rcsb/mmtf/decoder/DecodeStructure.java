@@ -79,7 +79,8 @@ public class DecodeStructure {
 	 * Add the main atomic information to the data model
 	 */
 	private void addAtomicInformation() {
-		for (int modelChains: dataApi.getChainsPerModel()) {
+		int modelChains = dataApi.getNumChains();
+		for (modelCounter=0; modelCounter<dataApi.getNumModels(); modelCounter++) {
 			structInflator.setModelInfo(modelCounter, modelChains);
 			// A list to check if we need to set or update the chains
 			chainIdSet = new HashSet<>();
@@ -87,7 +88,6 @@ public class DecodeStructure {
 			for (int chainIndex = chainCounter; chainIndex < totChainsThisModel;  chainIndex++) {
 				addOrUpdateChainInfo(chainIndex);
 			}
-			modelCounter++;
 		}		
 	}
 

@@ -70,11 +70,10 @@ public class HeaderBean {
 	private List<String> experimentalMethods;
 
 	/** The chains per model. */
-	// Add this to store the model information
-	private int[] chainsPerModel;
+	private int chainsPerModel;
 
-	/** The asym chains per model. */
-	private int[] asymChainsPerModel;
+	/** The asym chains per model. Assumes model homogenity.*/
+	private int asymChainsPerModel;
 
 	/** The chain list. */
 	// List to store the chainids
@@ -214,7 +213,7 @@ public class HeaderBean {
 	 *
 	 * @return the chains per model
 	 */
-	public int[] getChainsPerModel() {
+	public int getChainsPerModel() {
 		return chainsPerModel;
 	}
 
@@ -223,7 +222,7 @@ public class HeaderBean {
 	 *
 	 * @param chainsPerModel the new chains per model
 	 */
-	public void setChainsPerModel(int[] chainsPerModel) {
+	public void setChainsPerModel(int chainsPerModel) {
 		this.chainsPerModel = chainsPerModel;
 	}
 
@@ -520,7 +519,7 @@ public class HeaderBean {
 	 *
 	 * @return the asym chains per model
 	 */
-	public int[] getAsymChainsPerModel() {
+	public int getAsymChainsPerModel() {
 		return asymChainsPerModel;
 	}
 
@@ -529,7 +528,7 @@ public class HeaderBean {
 	 *
 	 * @param asymChainsPerModel the new asym chains per model
 	 */
-	public void setAsymChainsPerModel(int[] asymChainsPerModel) {
+	public void setAsymChainsPerModel(int asymChainsPerModel) {
 		this.asymChainsPerModel = asymChainsPerModel;
 	}
 

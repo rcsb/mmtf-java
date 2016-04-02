@@ -44,8 +44,11 @@ public class MmtfBean implements Serializable {
 	/** The number of atoms. */
 	private int numAtoms;
 
-	/** The number of chains per model. */
-	private int[] chainsPerModel;
+	/** The number of chains per model. Assumes model homogenity. */
+	private int chainsPerModel;
+	
+	/** The numnber of models */
+	private int numModels;
 
 	/** The internal groups per chain. */
 	private int[] groupsPerChain;
@@ -715,7 +718,7 @@ public class MmtfBean implements Serializable {
 	 *
 	 * @return the list of chains per model.
 	 */
-	public final int[] getChainsPerModel() {
+	public final int getChainsPerModel() {
 		return chainsPerModel;
 	}
 
@@ -724,7 +727,7 @@ public class MmtfBean implements Serializable {
 	 *
 	 * @param inputInternalChainsPerModel the new list of chains per model.
 	 */
-	public final void setChainsPerModel(final int[]
+	public final void setChainsPerModel(final int
 			inputInternalChainsPerModel) {
 		this.chainsPerModel = inputInternalChainsPerModel;
 	}
@@ -808,6 +811,22 @@ public class MmtfBean implements Serializable {
    */
   public void setEntityList(Entity[] entityList) {
 	  this.entityList = entityList;
+  }
+
+  /**
+   * Get the number of models in the structure.
+   * @return An integer specifying the number of models in the structure.
+   */
+  public int getNumModels() {
+		return numModels;
+  }
+	
+  /**
+   * Set the number of models in the structure.
+   * @param An integer specifying the number of models in the structure.
+   */
+  public void setNumModels(int numModels) {
+		this.numModels = numModels;
   }
 
 }

@@ -179,10 +179,10 @@ public interface DataApiInterface {
 	String[] getChainNames();
 
 	/**
-	 * Returns an array containing the number of chains (polymeric/non-polymeric/water) in each model.
-	 * @return an array of length the number of models in the structure, obtainable with {@link #getNumModels()}
+	 * Returns an integer containing the number of chains (polymeric/non-polymeric/water) in each model.
+	 * @return an integer of length the number of models in the structure, obtainable with {@link #getNumModels()}
 	 */
-	int[] getChainsPerModel();
+	int getChainsPerModel();
 
 	/**
 	 * Returns an array containing the number of groups (residues) in each chain.
