@@ -249,7 +249,7 @@ public class DecodeStructure {
 	private void generateBioAssembly() {
 		for (int i=0; i<dataApi.getNumBioassemblies(); i++) {
 			for(int j=0; j<dataApi.getNumTransInBioassembly(i); j++) {
-				structInflator.setBioAssemblyTrans(i+1, dataApi.getChainIdListForTrans(i, j), dataApi.getTransMatrixForTrans(i,j));    
+				structInflator.setBioAssemblyTrans(i+1, dataApi.getChainIndexListForTrans(i, j), dataApi.getTransMatrixForTrans(i,j));    
 			}
 		}
 	}

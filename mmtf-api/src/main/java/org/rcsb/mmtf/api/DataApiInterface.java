@@ -217,12 +217,12 @@ public interface DataApiInterface {
 	int getNumTransInBioassembly(int bioassemblyIndex);
 	
 	/**
-	 * Returns the list of chain ids for the given transformation for the given bioassembly.
+	 * Returns the list of chain indices for the given transformation for the given bioassembly.
 	 * @param an integer specifying the bioassembly index (zero indexed).
 	 * @param an integer specifying the  index (zero indexed) for the desired transformation.
-	 * @return a list of strings showing the chains involved in this transformation.
+	 * @return a list of indices showing the chains involved in this transformation.
 	 */
-	String[] getChainIdListForTrans(int bioassemblyIndex, int transformationIndex);
+	int[] getChainIndexListForTrans(int bioassemblyIndex, int transformationIndex);
 
 	
 	/**

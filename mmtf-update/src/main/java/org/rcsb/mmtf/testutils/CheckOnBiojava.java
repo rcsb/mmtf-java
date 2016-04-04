@@ -265,8 +265,6 @@ public class CheckOnBiojava {
 		}
 	}
 
-
-
 	/**
 	 * Check if all features between the two structures  are the same
 	 * @param biojavaStruct the input biojava structure parsed from the  mmcif file

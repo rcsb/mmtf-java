@@ -69,13 +69,13 @@ public interface StructureDecoderInterface {
   void setAtomInfo(String atomName, int serialNumber, char alternativeLocationId, 
       float x, float y, float z, float occupancy, float temperatureFactor, String element, int charge);
 
-
   /**
    * Sets a single Bioassembly transformation to a structure. bioAssemblyId indicates the index of the bioassembly.
-   *
-   * @param inputBioassemblies
+   * @param bioAssemblyIndex An integer index of this bioassembly.
+   * @param inputChainIndices The integer indices of the chains involved in this bioassembly. 
+   * @param inputTransform A list of doubles indicating the transform for this bioassembly.
    */
-  void setBioAssemblyTrans(int bioAssemblyId, String[] inputChainIds, double[] inputTransform);
+  void setBioAssemblyTrans(int bioAssemblyIndex, int[] inputChainIndices, double[] inputTransform);
 
   /**
    * Sets the space group and unit cell information.

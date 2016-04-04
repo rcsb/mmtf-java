@@ -453,8 +453,8 @@ public class SimpleDataApi implements DataApiInterface {
 	}
 
 	@Override
-	public String[] getChainIdListForTrans(int bioassemblyIndex, int transformationIndex) {
-		return bioAssembly.get(bioassemblyIndex).getTransforms().get(transformationIndex).getChainIdList().toArray(new String[0]);
+	public int[] getChainIndexListForTrans(int bioassemblyIndex, int transformationIndex) {
+		return bioAssembly.get(bioassemblyIndex).getTransforms().get(transformationIndex).getChainIndexList();
 	}
 
 	@Override

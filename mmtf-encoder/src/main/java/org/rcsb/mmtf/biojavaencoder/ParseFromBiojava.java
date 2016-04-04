@@ -692,11 +692,11 @@ public class ParseFromBiojava {
 	 * @return a map of the bioassembly information that is serializable
 	 */
 	private List<BioAssemblyData> generateSerializableBioAssembly(Structure bioJavaStruct, PDBHeader header) {
+		// Get a map to reference asym ids to chains
+		Map<String, Integer> chainIdToIndexMap = getChainIdToIndexMap(bioJavaStruct);
 		// Here we need to iterate through and get the chain ids and the matrices
 		Map<Integer, BioAssemblyInfo> inputBioAss = header.getBioAssemblies();
 		List<BioAssemblyData> outMap = new ArrayList<BioAssemblyData>();
-
-
 		for (Map.Entry<Integer, BioAssemblyInfo> entry : inputBioAss.entrySet()) {
 			Map<Matrix4d,BioAssemblyTrans> matSet = new HashMap<Matrix4d,BioAssemblyTrans>();
 			BioAssemblyInfo value = entry.getValue();
@@ -706,7 +706,6 @@ public class ParseFromBiojava {
 			// Copy across this info
 			List<BioAssemblyTrans> outTrans = new ArrayList<BioAssemblyTrans>();
 			for(BiologicalAssemblyTransformation transform: value.getTransforms()){
-
 				// Get's the chain id -> this is the asym id
 				String thisChain = transform.getChainId();
 				// Get the current matrix 4d
@@ -720,15 +719,35 @@ public class ParseFromBiojava {
 					}
 				}
 				if(matSet.containsKey(currentTransMat)){
-					// Get it 
+					// Get the trasnformation
 					BioAssemblyTrans bioTransNew = matSet.get(currentTransMat);
-					bioTransNew.getChainIdList().add(thisChain);
+					// Add this chain index to that list
+					int[] oldList = bioTransNew.getChainIndexList();
+					int oldLen = oldList.length;
+					int[] newList = new int[oldLen+1];
+					for (int i=0; i<oldLen; i++) {
+						newList[i] = oldList[i];
+					}
+					// Now add the new chain id
+					int newInd = 0;
+					try {
+						newInd = chainIdToIndexMap.get(thisChain);
+					}
+					// If it's not in the dictionary - because it's not a physical chain
+					catch(Exception e) {
+						newInd = -1;
+					}					
+					newList[oldLen] = newInd;
+					bioTransNew.setChainIndexList(newList);
 				}
 				else{
 					// Create a new one
 					BioAssemblyTrans bioTransNew = new BioAssemblyTrans();
 					bioTransNew.setTransformation(outList);
-					bioTransNew.getChainIdList().add(thisChain);
+					// Create a chain index list
+					int[] indexList = new int[1];
+					indexList[0] = chainIdToIndexMap.get(thisChain);
+					bioTransNew.setChainIndexList(indexList);
 					matSet.put(currentTransMat, bioTransNew);
 				}
 			}
@@ -740,6 +759,28 @@ public class ParseFromBiojava {
 		}
 
 		return outMap;
+	}
+
+	/**
+	 * Get the index of chain given a particular Asym id. Assumes there are more asym ids than auth ids...
+	 * @param thisChain
+	 * @return
+	 */
+	private Map<String, Integer> getChainIdToIndexMap(Structure bioJavaStruct) {
+		// First build a map of asymid -> chain index
+		Map<String,Integer> chainIdToIndexMapOne = new HashMap<>();
+		int chainCounter = 0;
+		for (int i=0; i<bioJavaStruct.nrModels(); i++) {
+			for (Chain chain : bioJavaStruct.getChains(i)) {
+				String idOne = chain.getChainID();
+				if (!chainIdToIndexMapOne.containsKey(idOne)) { 
+					chainIdToIndexMapOne.put(idOne, chainCounter);
+				}
+				chainCounter++;
+			}
+		}
+		return chainIdToIndexMapOne;
+
 	}
 
 

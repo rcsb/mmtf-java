@@ -1,10 +1,7 @@
 package org.rcsb.mmtf.dataholders;
 
 
-
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * The transformation needed for generation of biological assemblies
@@ -21,8 +18,8 @@ public class BioAssemblyTrans implements Serializable {
   private static final long serialVersionUID = -8109941242652091495L;
 
 
-  /** The chain id. */
-  private List<String> chainIdList = new ArrayList<String>();
+  /** The indices of the chains this bioassembly references. */
+  private int[] chainIndexList;
 
   /** The 4x4 matrix transformation specifying a rotation and a translation. */
   private double[] transformation;
@@ -51,21 +48,21 @@ public class BioAssemblyTrans implements Serializable {
   }
 
   /**
-   * Gets the chain id list.
+   * Gets the indices of the chains this bioassembly refers to.
    *
-   * @return the chain id list
+   * @return a list of integers indicating the indices (zero indexed) of the chains this bioassembly refers to.
    */
-  public final List<String> getChainIdList() {
-    return chainIdList;
+  public final int[] getChainIndexList() {
+    return chainIndexList;
   }
 
   /**
    * Sets the chain id.
    *
-   * @param inputChainId the new chain id
+   * @param  a list of integers indicating the indices (zero indexed) of the chains this bioassembly refers to.
    */
-  public final void setChainIdList(final List<String> inputChainId) {
-    this.chainIdList = inputChainId;
+  public final void setChainIndexList(final int[] inputChainId) {
+    this.chainIndexList = inputChainId;
   }
 
 }

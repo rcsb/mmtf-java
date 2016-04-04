@@ -8,12 +8,12 @@ import java.util.UUID;
 public class IntegrationTestUtils {
 
 	public static final String[] TEST_CASES = new String[] {
+			// Another weird structure (jose's suggestion) 
+			"3zyb",
 			//Standard structure
 			"4cup",
 			// Weird NMR structure
 			"1o2f",
-			// Another weird structure (jose's suggestion) 
-			"3zyb",
 			// B-DNA structure
 			"1bna", 
 			// DNA structure
