@@ -85,7 +85,7 @@ public class CheckServer {
 			e.printStackTrace();
 			throw new RuntimeException();
 		}
-		checkEquiv.checkIfStructuresSame(mmtfStruct, mmcifStruct);
+		checkEquiv.checkIfStructuresSame(mmtfStruct, mmcifStruct, parsingParms);
 		// Now do the checks on the Raw data
 		CheckOnRawApi checkRaw = new CheckOnRawApi(inputByteArr);
 		checkRaw.checkRawDataConsistency(mmcifStruct, params);

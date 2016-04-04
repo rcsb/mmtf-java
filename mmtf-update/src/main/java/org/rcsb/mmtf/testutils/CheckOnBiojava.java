@@ -21,6 +21,7 @@ import org.biojava.nbio.structure.PDBHeader;
 import org.biojava.nbio.structure.Structure;
 import org.biojava.nbio.structure.quaternary.BioAssemblyInfo;
 import org.biojava.nbio.structure.quaternary.BiologicalAssemblyTransformation;
+import org.rcsb.mmtf.decoder.ParsingParams;
 
 public class CheckOnBiojava {
 
@@ -31,11 +32,14 @@ public class CheckOnBiojava {
 	 * Broad test of atom similarity
 	 * @param structOne
 	 * @param structTwo
+	 * @param mmtfParams) 
 	 * @return
 	 */
-	private boolean checkIfAtomsSame(Structure structOne, Structure structTwo) {
+	private boolean checkIfAtomsSame(Structure structOne, Structure structTwo, ParsingParams mmtfParams) {
 		// First check the bioassemblies
-		checkIfBioassemblySame(structOne, structTwo);
+		if (mmtfParams.isParseInternal()){
+			checkIfBioassemblySame(structOne, structTwo);
+		}
 		// Now check the pdb header
 		checkIfHederSame(structOne, structTwo);
 		// Now check the entity information
@@ -193,8 +197,8 @@ public class CheckOnBiojava {
 			EntityInfo entityInfoOne = entityListOne.get(i);
 			EntityInfo entityInfoTwo = entityListTwo.get(i);
 			assertEquals(entityInfoOne.getDescription(), entityInfoTwo.getDescription());
-//			// Need to fix bug in Biojava (entites not allocated to chains when using AuthIds).
-//			assertEquals(entityInfoOne.toString(), entityInfoTwo.toString());
+			//			// Need to fix bug in Biojava (entites not allocated to chains when using AuthIds).
+			//			assertEquals(entityInfoOne.toString(), entityInfoTwo.toString());
 		}
 	}
 	/**
@@ -232,10 +236,9 @@ public class CheckOnBiojava {
 	 * @param structTwo
 	 * @return
 	 */
-	private void checkIfBioassemblySame(Structure structOne, Structure structTwo){
-
+	private void checkIfBioassemblySame(Structure structOne, Structure structTwo){		
 		// Get the headers
-		Map<Integer, BioAssemblyInfo> bioassembliesOne = structOne.getPDBHeader().getBioAssemblies();
+		Map<Integer, BioAssemblyInfo> bioassembliesOne = cleanUpBioass(structOne);
 		Map<Integer, BioAssemblyInfo> bioassembliesTwo = structTwo.getPDBHeader().getBioAssemblies();
 		assertEquals(bioassembliesOne.keySet(), bioassembliesTwo.keySet());
 		for(Entry<Integer, BioAssemblyInfo> entry: bioassembliesOne.entrySet()){
@@ -266,11 +269,43 @@ public class CheckOnBiojava {
 	}
 
 	/**
+	 * Remove any transformation applying to empty chains.
+	 * @param inputStruct The input Biojava Structure to be used.
+	 * @return The bioassemblies cleande up.
+	 */
+	private Map<Integer, BioAssemblyInfo> cleanUpBioass(Structure inputStruct) {		
+		// Get the bioassemblies
+		Map<Integer, BioAssemblyInfo> bioAssemblies = inputStruct.getPDBHeader().getBioAssemblies();
+		// Create a list of chains
+		List<String> chainList = new ArrayList<>();
+		for (int i=0; i<inputStruct.nrModels(); i++){
+			for (Chain inputChain : inputStruct.getChains(i)){
+				chainList.add(inputChain.getChainID());
+			}
+		}
+
+		// Loop through the bioassemblies
+		for (Entry<Integer,BioAssemblyInfo> entry : bioAssemblies.entrySet()) {
+			BioAssemblyInfo val = entry.getValue();
+			List<BiologicalAssemblyTransformation> removeList = new ArrayList<>();
+			for (BiologicalAssemblyTransformation bioTrans : val.getTransforms()) {
+				// Check if it exists
+				if(!chainList.contains(bioTrans.getChainId())) {
+					removeList.add(bioTrans);
+				}
+			}
+			val.getTransforms().removeAll(removeList);
+		}
+		return bioAssemblies;
+	}
+
+	/**
 	 * Check if all features between the two structures  are the same
 	 * @param biojavaStruct the input biojava structure parsed from the  mmcif file
 	 * @param structTwo the BioJava structure parsed from the MMTF file
+	 * @param mmtfParams 
 	 */
-	public void checkIfStructuresSame(Structure biojavaStruct, Structure structTwo){
-		assertTrue(checkIfAtomsSame(biojavaStruct, structTwo));
+	public void checkIfStructuresSame(Structure biojavaStruct, Structure structTwo, ParsingParams mmtfParams){
+		assertTrue(checkIfAtomsSame(biojavaStruct, structTwo, mmtfParams));
 	}
 }

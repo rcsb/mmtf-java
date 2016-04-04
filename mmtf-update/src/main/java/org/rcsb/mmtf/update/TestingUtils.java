@@ -49,7 +49,7 @@ public class TestingUtils {
 	  public void testOne(String pdbId, FileParsingParameters params, AtomCache cache, ParsingParams mmtfParams) throws IllegalAccessException, InvocationTargetException, IOException, StructureException {
 	      CheckOnBiojava checkEquiv = new CheckOnBiojava();
 	      Structure structure = StructureIO.getStructure(pdbId);
-	      checkEquiv.checkIfStructuresSame(structure,roundTripStruct(pdbId, mmtfParams, params, cache));
+	      checkEquiv.checkIfStructuresSame(structure,roundTripStruct(pdbId, mmtfParams, params, cache),mmtfParams);
 	  }
 
 	  /**

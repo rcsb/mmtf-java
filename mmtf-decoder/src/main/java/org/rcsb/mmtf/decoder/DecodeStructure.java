@@ -65,8 +65,10 @@ public class DecodeStructure {
 		addHeaderInfo();
 		// Now set the crystallographic  information
 		addXtalographicInfo();
-		/// Now get the bioassembly information
-		generateBioAssembly();
+		/// Now get the bioassembly information - only if parsing using AsymId
+		if (parsingParams.isParseInternal()){
+			generateBioAssembly();
+		}
 		// Now add the other bonds between groups
 		addInterGroupBonds();
 		// Now add the entity info
