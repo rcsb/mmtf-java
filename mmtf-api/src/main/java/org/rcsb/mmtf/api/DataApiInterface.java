@@ -1,12 +1,6 @@
 package org.rcsb.mmtf.api;
 
 import java.util.List;
-import java.util.Map;
-
-import org.rcsb.mmtf.dataholders.BioAssemblyData;
-import org.rcsb.mmtf.dataholders.Entity;
-import org.rcsb.mmtf.dataholders.MmtfBean;
-import org.rcsb.mmtf.dataholders.PDBGroup;
 
 /**
  * An interface describing the data API.
@@ -90,13 +84,68 @@ public interface DataApiInterface {
 	 */
 	int[] getResidueNums();
 
+
 	/**
-	 * Returns the group map, mapping the numbers from indices specified in {@link #getGroupIndices()} 
-	 * to {@link PDBGroup} objects, which specify the atom names, 
-	 * elements, bonds and charges for each group.
-	 * @return a map of group indices to {@link PDBGroup} objects
+	 * Returns the group name for the group specified in {@link #getGroupIndices()}.
+	 * to link groups to the 3 letter group name, e.g. HIS.
+	 * @param groupInd The index of the group specified in {@link #getGroupIndices()}.
+	 * @return a 3 letter string specifiying the group name.
 	 */
-	Map<Integer, PDBGroup> getGroupMap();
+	String getGroupName(int groupInd);
+	
+	/**
+	 * Returns the number of atoms in the group specified in {@link #getGroupIndices()}.
+	 * @param groupInd The index of the group specified in {@link #getGroupIndices()}.
+	 * @return The number of atoms in the group
+	 */	
+	int getNumAtomsInGroup(int groupInd);
+	
+
+	/** Returns the atom names (e.g. CB) for the group specified in {@link #getGroupIndices()}.
+	 * Atom names are unique for each unique atom in a group.
+	 * @param groupInd The index of the group specified in {@link #getGroupIndices()}.
+	 * @return A list of strings for the atom names. 
+	 * */
+	String[] getGroupAtomNames(int groupInd);
+
+	/** Returns the element names (e.g. C is carbon) for the group specified in {@link #getGroupIndices()}.
+	 * @param groupInd The index of the group specified in {@link #getGroupIndices()}.
+	 * @return A list of strings for the element information. 
+	 * */
+	String[] getGroupElementNames(int groupInd);	
+
+	/** Returns the bond orders for the group specified in {@link #getGroupIndices()}.
+	 * A list of integers indicating the bond orders
+	 * @param groupInd The index of the group specified in {@link #getGroupIndices()}.
+	 * @return A list of integers (1,2 or 3) indicating the bond orders. 
+	 * */
+	int[] getGroupBondOrders(int groupInd);
+
+	/** Returns the zero-indexed bond indices (in pairs) for the group specified in {@link #getGroupIndices()}.
+	 * (e.g. 0,1 means there is bond between atom 0 and 1).
+	 * @param groupInd The index of the group specified in {@link #getGroupIndices()}.
+	 * @return A list of integers specifying the bond indices (within the group). Indices are zero indexed.
+	 * */
+	int[] getGroupBondIndices(int groupInd);
+
+	/** Returns the atom charges for the group specified in {@link #getGroupIndices()}.
+	 * @param groupInd The index of the group specified in {@link #getGroupIndices()}.
+	 * @return A list of integers indicating the atomic charge for each atom in the group.
+	 */
+	int[] getGroupAtomCharges(int groupInd);
+
+	/** Returns the single letter amino acid code for the group specified in {@link #getGroupIndices()}.
+	 * @param groupInd The index of the group specified in {@link #getGroupIndices()}.
+	 * @return A string indicating the single letter amino acid
+	 */
+	String getGroupSingleLetterCode(int groupInd);
+
+	/** Returns the chemical componenet type for the group specified in {@link #getGroupIndices()}.
+	 * @param groupInd The index of the group specified in {@link #getGroupIndices()}.
+	 * @return A string (taken from the chemical component dictionary) indicating 
+	 * the type of the group. Corresponds to -> http://mmcif.wwpdb.org/dictionaries/mmcif_pdbx.dic/Items/_chem_comp.type.html
+	 */
+	String getGroupChemCompType(int groupInd);
 
 	/**
 	 * Returns an array containing indices of all groups in the structure as used in {@link #getGroupMap()}.
@@ -155,11 +204,36 @@ public interface DataApiInterface {
 	float[] getUnitCell();
 
 	/**
-	 * Returns a list of {@link BioAssemblyData}s corresponding to the structure.
-	 * @return
+	 * Returns the number of bioassemblies in this structure.
+	 * @return an integer specifying the number of bioassemblies.
 	 */
-	List<BioAssemblyData> getBioAssemblyList();
+	int getNumBioassemblies();
 
+	/**
+	 * Returns the number of transformations in a given bioassembly.
+	 * @param an integer specifying the bioassembly index (zero indexed).
+	 * @return an integer specifying of transformations in a given bioassembly.
+	 */
+	int getNumTransInBioassembly(int bioassemblyIndex);
+	
+	/**
+	 * Returns the list of chain ids for the given transformation for the given bioassembly.
+	 * @param an integer specifying the bioassembly index (zero indexed).
+	 * @param an integer specifying the  index (zero indexed) for the desired transformation.
+	 * @return a list of strings showing the chains involved in this transformation.
+	 */
+	String[] getChainIdListForTrans(int bioassemblyIndex, int transformationIndex);
+
+	
+	/**
+	 * Returns the transformation matrix for the given transformation for the given bioassembly.
+	 * @param an integer specifying the bioassembly index (zero indexed).
+	 * @param an integer specifying the  index (zero indexed) for the desired transformation.
+	 * @return the transformation matrix for this transformation.
+	 */
+	double[] getTransMatrixForTrans(int bioassemblyIndex, int transformationIndex);
+	
+	
 	/**
 	 * Returns an array of inter-group bonds represented with 2 consecutive atom 
 	 * indices in the array.
@@ -186,11 +260,37 @@ public interface DataApiInterface {
 	String getMmtfProducer();
 
 	/**
-	 * Returns an array with all {@link Entity} objects for the structure.
-	 * The sequences can be obtained from the Entities.
-	 * @return
+	 * @return The number of entities in the Structure 
 	 */
-	Entity[] getEntityList();
+	int getNumEntities();
+	
+	/**
+	 * Returns the entity description for the entity specified by the index.
+	 * @param The index of this entity.
+	 * @return The description based on the PDBx model.
+	 */
+    String getEntityDescription(int entityInd);
+    
+	/**
+	 * Returns the the type (polymer, non-polymer, water) for the entity specified by the index.
+	 * @param The index of this entity.
+	 * @return The type (polymer, non-polymer, water)
+	 */ 
+    String getEntityType(int entityInd);
+    
+	/**
+	 * Returns the chain indices for the entity specified by the index.
+	 * @param The index of this entity.
+	 * @return The chain index list - referencing the entity to the chains.
+	 */    
+    int[] getEntityChainIndexList(int entityInd);
+    
+	/**
+	 * Returns the sequence for the entity specified by the index.
+	 * @param The index of this entity.
+	 * @return The one letter sequence for this entity. Empty string if no sequence is applicable.
+	 */
+    String getEntitySequence(int entityInd);
 
 	/**
 	 * Returns the four character PDB id of the structure.
@@ -203,54 +303,54 @@ public interface DataApiInterface {
 	 * @return the number of models
 	 */
 	int getNumModels();
-	
+
 	/**
 	 * Returns the number of chains (for all models) in the structure.
 	 * @return the number of chains for all models
 	 * @see #getChainsPerModel()
 	 */
 	int getNumChains();
-	
+
 	/**
 	 * Returns the number of groups (residues) in the structure that have
 	 * experimentally determined 3D coordinates.
 	 * @return the number of residues in the structure, counting all models and chains
 	 */
 	int getNumResidues();
-	
+
 
 	/**
 	 * Returns the number of atoms in the structure.
 	 * @return the number of atoms in the structure, counting all models and chains
 	 */
 	int getNumAtoms();
-	
-	
+
+
 	/**
 	 * Returns the Rfree (if available) of the dataset.
 	 * @return the Rfree value or {@value MmtfBean#UNAVAILABLE_R_VALUE} if unavailable
 	 */
 	float getRfree();
-	
+
 	/**
 	 * Returns the Resolution (if available) of the dataset.
 	 * @return the resolution value in Angstroms or {@value MmtfBean#UNAVAILABLE_R_VALUE} if unavailable
 	 */
 	float getResolution();
-	
+
 	/**
 	 * Returns the Rwork (if available) of the dataset.
 	 * @return the Rwork value or {@value MmtfBean#UNAVAILABLE_R_VALUE} if unavailable
 	 */
 	float getRwork();
-	
-	
+
+
 	/**
 	 * Returns the title of the structure.
 	 * @return
 	 */
 	String getTitle();
-	
+
 	/**
 	 * Returns the experimental methods as a list of strings. Normally only one 
 	 * experimental method is available, but structures solved with hybrid methods will
