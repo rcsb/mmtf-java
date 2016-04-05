@@ -139,7 +139,7 @@ public class EncoderUtils implements Serializable {
 		// Get
 		thisDistBeanTot.setEntityList(inHeader.getEntityList());
 		// Get the seqres information
-		thisDistBeanTot.setSeqResIdList(cm.integersToBytes(runLengthComp.compressIntArray(deltaComp.compressIntArray((ArrayList<Integer>) inHeader.getSeqResGroupIds()))));
+		thisDistBeanTot.setSequenceIdList(cm.integersToBytes(runLengthComp.compressIntArray(deltaComp.compressIntArray((ArrayList<Integer>) inHeader.getSeqResGroupIds()))));
 		thisDistBeanTot.setExperimentalMethods(inHeader.getExperimentalMethods());
 		// Now get this list
 		thisDistBeanTot.setBondAtomList(cm.integersToBytes(inStruct.getInterGroupBondInds()));

@@ -60,7 +60,7 @@ public class SimpleDataApi implements DataApiInterface {
 					inputData.getGroupIdList());
 			groupMap = inputData.getGroupList();
 			// Get the seqRes groups
-			seqResGroupList = intRunLengthDelta.decompressByteArray(inputData.getSeqResIdList());
+			seqResGroupList = intRunLengthDelta.decompressByteArray(inputData.getSequenceIdList());
 			// Get the number of chains per model
 			chainsPerModel = inputData.getChainsPerModel();
 			groupsPerChain = inputData.getGroupsPerChain();
