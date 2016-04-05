@@ -75,7 +75,7 @@ public class SimpleDataApi implements DataApiInterface {
 			mmtfVersion = inputData.getMmtfVersion();
 			mmtfProducer = inputData.getMmtfProducer();
 			entityList = inputData.getEntityList();
-			pdbId = inputData.getPdbId();
+			pdbId = inputData.getStructureId();
 			// Now get the header data
 			rFree = inputData.getrFree();
 			// Optional fields

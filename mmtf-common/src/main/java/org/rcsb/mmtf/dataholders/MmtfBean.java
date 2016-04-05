@@ -36,8 +36,8 @@ public class MmtfBean implements Serializable {
 	/** The number of bonds. */
 	private int numBonds;
 
-	/** The pdb id. */
-	private String pdbId;
+	/** The structure Id. Most commonly this will be the four character PDB id. */
+	private String structureId;
 
 	/** The title. */
 	private String title;
@@ -616,21 +616,21 @@ public class MmtfBean implements Serializable {
 	}
 
 	/**
-	 * Gets the pdb id.
+	 * Gets the structure id. Should be used as a unique identifier of this structure.
 	 *
-	 * @return the pdb id
+	 * @return the the structure id a unique String id of this structure.
 	 */
-	public final String getPdbId() {
-		return pdbId;
+	public final String getStructureId() {
+		return structureId;
 	}
 
 	/**
-	 * Sets the pdb id.
+	 * Sets the structure id. Should be used as a unique identifier of this structure.
 	 *
-	 * @param pdbCode the new pdb id
+	 * @param inputId a unique String id of this structure.
 	 */
-	public final void setPdbId(final String pdbCode) {
-		this.pdbId = pdbCode;
+	public final void setStructureId(final String inputId) {
+		this.structureId = inputId;
 	}
 
 	/**

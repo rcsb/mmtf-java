@@ -125,7 +125,7 @@ public class EncoderUtils implements Serializable {
 		NoFloatDataStructBean bioBean = (NoFloatDataStructBean) strucureData.findDataAsBean();
 		// Copt these things
 		thisDistBeanTot.setDepositionDate(convertToIsoTime(inHeader.getDepDate()));
-		thisDistBeanTot.setPdbId(bioBean.getPdbCode());
+		thisDistBeanTot.setStructureId(bioBean.getPdbCode());
 		thisDistBeanTot.setInsCodeList(bioBean.get_atom_site_pdbx_PDB_ins_code());
 		thisDistBeanTot.setAltLabelList(bioBean.get_atom_site_label_alt_id());
 		// Set this experimental data
