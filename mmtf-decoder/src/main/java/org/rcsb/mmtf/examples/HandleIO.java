@@ -12,7 +12,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.zip.GZIPInputStream;
 
-import org.rcsb.mmtf.api.DataApiInterface;
+import org.rcsb.mmtf.api.MmtfDecodedDataInterface;
 import org.rcsb.mmtf.decoder.SimpleDataApi;
 
 /**
@@ -57,7 +57,7 @@ public class HandleIO {
 	 * @param inputCode the input code
 	 * @return 
 	 */
-	public final DataApiInterface getDataApiFromUrlOrFile(final String inputCode) {
+	public final MmtfDecodedDataInterface getDataApiFromUrlOrFile(final String inputCode) {
 		String basePath = getBasePath();
 		boolean isFile = getFile(basePath, inputCode);
 		// If it's a file on the file system - get it

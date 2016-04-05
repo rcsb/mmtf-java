@@ -3,8 +3,8 @@ package org.rcsb.mmtf.decoder;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.rcsb.mmtf.api.DataApiInterface;
-import org.rcsb.mmtf.api.StructureDecoderInterface;
+import org.rcsb.mmtf.api.MmtfDecodedDataInterface;
+import org.rcsb.mmtf.api.MmtfDecoderInterface;
 
 /**
  * Decode an MMTF structure using a structure inflator. The class also allows access to the unconsumed but parsed and inflated underlying data.
@@ -17,10 +17,10 @@ public class DecodeStructure {
 
 
 	/** The struct inflator. */
-	private StructureDecoderInterface structInflator;
+	private MmtfDecoderInterface structInflator;
 
 	/** The api to the data */
-	private DataApiInterface dataApi;
+	private MmtfDecodedDataInterface dataApi;
 
 	/* 
 	 * Initialise the counters
@@ -52,11 +52,11 @@ public class DecodeStructure {
 	 * @param inputStructInflator the input struct inflator
 	 * @param parsingParams the parsing params
 	 */
-	public final void getStructFromByteArray(final StructureDecoderInterface inputStructInflator, final ParsingParams parsingParams) {    
+	public final void getStructFromByteArray(final MmtfDecoderInterface inputStructInflator, final ParsingParams parsingParams) {    
 		// Set the inflator
 		structInflator = inputStructInflator;
 		// Do any required preparation
-		inputStructInflator.prepareStructure(dataApi.getNumAtoms(), dataApi.getNumResidues(), dataApi.getNumChains(), dataApi.getNumModels(), dataApi.getPdbId());
+		inputStructInflator.initStructure(dataApi.getNumAtoms(), dataApi.getNumGroups(), dataApi.getNumChains(), dataApi.getNumModels(), dataApi.getStructureId());
 		// Now get the parsing parameters to do their thing
 		useParseParams(parsingParams);
 		// Now add the atom information
@@ -74,7 +74,7 @@ public class DecodeStructure {
 		// Now add the entity info
 		addEntityInfo();
 		// Now do any required cleanup
-		structInflator.cleanUpStructure();
+		structInflator.finalizeStructure();
 	}
 
 	/**
@@ -167,10 +167,10 @@ public class DecodeStructure {
 	 */
 	private int addGroup(final int thisGroupNum) {
 		// Now get the group
-		int groupInd = dataApi.getGroupIndices()[thisGroupNum];
+		int groupInd = dataApi.getGroupTypeIndices()[thisGroupNum];
 		// Get this info
 		int atomCount = dataApi.getNumAtomsInGroup(groupInd);
-		int currentGroupNumber = dataApi.getResidueNums()[thisGroupNum];
+		int currentGroupNumber = dataApi.getGroupIds()[thisGroupNum];
 		char insertionCode = dataApi.getInsCodes()[thisGroupNum];
 		structInflator.setGroupInfo(dataApi.getGroupName(groupInd), currentGroupNumber, insertionCode,
 				dataApi.getGroupChemCompType(groupInd), atomCount);
@@ -198,11 +198,11 @@ public class DecodeStructure {
 		int charge = atomCharges[atomCounter];
 		int serialNumber = dataApi.getAtomIds()[currentAtomIndex];
 		char alternativeLocationId = dataApi.getAltLocIds()[currentAtomIndex];
-		float x = dataApi.getXcoords()[currentAtomIndex];
-		float z = dataApi.getZcoords()[currentAtomIndex];
-		float y = dataApi.getYcoords()[currentAtomIndex];
+		float x = dataApi.getxCoords()[currentAtomIndex];
+		float z = dataApi.getzCoords()[currentAtomIndex];
+		float y = dataApi.getyCoords()[currentAtomIndex];
 		float occupancy = dataApi.getOccupancies()[currentAtomIndex];
-		float temperatureFactor = dataApi.getBfactors()[currentAtomIndex];
+		float temperatureFactor = dataApi.getbFactors()[currentAtomIndex];
 		structInflator.setAtomInfo(atomName, serialNumber, alternativeLocationId,
 				x, y, z, occupancy, temperatureFactor, element, charge);
 		// Now increment the atom counter for this group
@@ -251,7 +251,7 @@ public class DecodeStructure {
 	private void generateBioAssembly() {
 		for (int i=0; i<dataApi.getNumBioassemblies(); i++) {
 			for(int j=0; j<dataApi.getNumTransInBioassembly(i); j++) {
-				structInflator.setBioAssemblyTrans(i+1, dataApi.getChainIndexListForTrans(i, j), dataApi.getTransMatrixForTrans(i,j));    
+				structInflator.setBioAssemblyTrans(i+1, dataApi.getChainIndexListForTransform(i, j), dataApi.getMatrixForTransform(i,j));    
 			}
 		}
 	}
