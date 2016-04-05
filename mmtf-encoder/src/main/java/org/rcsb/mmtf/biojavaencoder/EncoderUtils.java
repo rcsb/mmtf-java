@@ -8,8 +8,11 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -121,6 +124,7 @@ public class EncoderUtils implements Serializable {
 		MmtfBean thisDistBeanTot = new MmtfBean();
 		NoFloatDataStructBean bioBean = (NoFloatDataStructBean) strucureData.findDataAsBean();
 		// Copt these things
+		thisDistBeanTot.setDepositionDate(convertToIsoTime(inHeader.getDepDate()));
 		thisDistBeanTot.setPdbId(bioBean.getPdbCode());
 		thisDistBeanTot.setInsCodeList(bioBean.get_atom_site_pdbx_PDB_ins_code());
 		thisDistBeanTot.setAltLabelList(bioBean.get_atom_site_label_alt_id());
@@ -157,6 +161,17 @@ public class EncoderUtils implements Serializable {
 		thisDistBeanTot.setMmtfProducer("RCSB-PDB Generator---version: "+grs.getCurrentVersion());
 		return thisDistBeanTot;
 	}
+
+	/**
+	 * Covert a Date object to ISO time format.
+	 * @param inputDate The input date object
+	 * @return The time in ISO time format
+	 */
+	private String convertToIsoTime(Date inputDate) {
+		DateFormat dateStringFormat = new SimpleDateFormat("yyyy-MM-dd");
+		return dateStringFormat.format(inputDate);
+	}
+
 
 	/**
 	 * Returns a PDBGroupList from a GroupMap. Uses the key of the map as the index in the list.

@@ -137,6 +137,9 @@ public class MmtfBean implements Serializable {
 
 	/** The list of entities in this structure. */
 	private Entity[] entityList;
+	
+	/** The deposition date of the structure in ISO time standard format. https://www.cl.cam.ac.uk/~mgk25/iso-time.html */
+	private String depositionDate;
 
 
 	/** Constructor to set the default values for floats */
@@ -818,6 +821,20 @@ public class MmtfBean implements Serializable {
 	 */
 	public void setEntityList(Entity[] entityList) {
 		this.entityList = entityList;
+	}
+
+	/**
+	 * @return the deposition date of the structure in ISO time standard.
+	 */
+	public String getDepositionDate() {
+		return depositionDate;
+	}
+
+	/**
+	 * @param depositionDate a string indicating the deposition date to set. 
+	 */
+	public void setDepositionDate(String depositionDate) {
+		this.depositionDate = depositionDate;
 	}
 
 }
