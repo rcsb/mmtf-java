@@ -43,6 +43,7 @@ import org.rcsb.mmtf.dataholders.NoFloatDataStructBean;
 import org.rcsb.mmtf.dataholders.PDBGroup;
 import org.rcsb.mmtf.gitversion.GetRepoState;
 
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.core.JsonProcessingException;
 
 
@@ -97,6 +98,7 @@ public class EncoderUtils implements Serializable {
 	 */
 	public byte[] getMessagePack(Object inputObject) throws JsonProcessingException{
 		com.fasterxml.jackson.databind.ObjectMapper objectMapper = new com.fasterxml.jackson.databind.ObjectMapper(new MessagePackFactory());
+		objectMapper.setSerializationInclusion(Include.NON_NULL);
 		byte[] inBuf = objectMapper.writeValueAsBytes(inputObject);
 		return inBuf;
 	}

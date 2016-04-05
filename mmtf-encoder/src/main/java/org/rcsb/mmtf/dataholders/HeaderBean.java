@@ -111,11 +111,11 @@ public class HeaderBean {
 	private List<BioAssemblyData> bioAssembly; 
 
 	public HeaderBean() {
-		resolution = (float) -1.0;
+		resolution = MmtfBean.UNAVAILABLE_RESOLUTION_VALUE;
 
-		rFree = (float) -1.0;
+		rFree = MmtfBean.UNAVAILABLE_R_VALUE;
 
-		rWork = (float) -1.0;
+		rWork = MmtfBean.UNAVAILABLE_R_VALUE;
 	}
 
 	// Getters and setters

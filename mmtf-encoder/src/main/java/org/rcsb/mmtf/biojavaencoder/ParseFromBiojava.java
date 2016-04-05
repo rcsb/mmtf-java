@@ -54,7 +54,6 @@ public class ParseFromBiojava {
 	private static final int COORD_MULT = 1000;
 
 	/** The bio struct. */
-	// Instances availble to the class of the main, calpha and header data structures
 	private BioDataStruct bioStruct = new BioDataStruct();
 
 	/** The calpha struct. */
@@ -64,7 +63,6 @@ public class ParseFromBiojava {
 	private HeaderBean headerStruct = new HeaderBean();
 
 	/** The code holder. */
-	// A class to store encoding information
 	private CodeHolders codeHolder = new CodeHolders();
 
 	/** The bonds for the structure. Used to keep track of which bonds have already been considered */
@@ -467,7 +465,7 @@ public class ParseFromBiojava {
 		headerStruct.setClassification(header.getClassification());
 		headerStruct.setDepDate(header.getDepDate());
 		headerStruct.setModDate(header.getModDate());
-		headerStruct.setResolution(header.getResolution());
+		headerStruct.setResolution(header.getResolution());		
 		headerStruct.setrFree(header.getRfree());
 
 		JournalArticle myJournal = header.getJournalArticle();

@@ -12,7 +12,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class MmtfBean implements Serializable {
-	
+
 	/** The number to divide coordinate int values by. */
 	public static final float COORD_DIVIDER = 1000.0f;
 	/** The number to divide occupancy and bfactor int values by. */
@@ -20,9 +20,10 @@ public class MmtfBean implements Serializable {
 	/**
 	 * The default value for Rfree, Rwork and resolution when not available or not applicable
 	 */
-	public static final float UNAVAILABLE_R_VALUE = -1.0f;
+	public static final float UNAVAILABLE_R_VALUE = 1.0f;
+	public static final float UNAVAILABLE_RESOLUTION_VALUE = 99.0f;
 
-	
+
 	/** Serial id for this version of the format. */
 	private static final long serialVersionUID = 384559979573830324L;
 
@@ -125,19 +126,19 @@ public class MmtfBean implements Serializable {
 	/** The experimental method(s). */
 	private List<String> experimentalMethods;
 
-	/** The resolution in Angstrom. -1.0 if not applicable*/
+	/** The resolution in Angstrom. Null if not applicable*/
 	private float resolution;
 
-	/** The rfree. -1.0 if not applicable */
+	/** The rfree. Null if not applicable */
 	private float rFree;
 
-	/** The r-work. -1.0 if not applicable */
+	/** The r-work. Null if not applicable */
 	private float rWork;
-	
+
 	/** The list of entities in this structure. */
 	private Entity[] entityList;
-	
-	
+
+
 	/** Constructor to set the default values for floats */
 	public MmtfBean() {
 
@@ -148,11 +149,11 @@ public class MmtfBean implements Serializable {
 		mmtfProducer = "NA";
 
 		/** The resolution in Angstrom. -1.0 if not applicable*/
-		resolution = UNAVAILABLE_R_VALUE;
+		resolution = UNAVAILABLE_RESOLUTION_VALUE;
 
-		/** The rfree. -1.0 if not applicable */
+		/** The rfree. 1.0 if not applicable */
 		rFree = UNAVAILABLE_R_VALUE;
-		
+
 		rWork = UNAVAILABLE_R_VALUE;
 
 		/** The number of atoms. Default is -1 indicates error */
@@ -166,7 +167,10 @@ public class MmtfBean implements Serializable {
 	/**
 	 * @return the resolution
 	 */
-	public float getResolution() {
+	public Float getResolution() {
+		if (resolution==UNAVAILABLE_RESOLUTION_VALUE) {
+			return null;
+		}
 		return resolution;
 	}
 
@@ -180,7 +184,10 @@ public class MmtfBean implements Serializable {
 	/**
 	 * @return the rFree
 	 */
-	public float getrFree() {
+	public Float getrFree() {
+		if (rFree==UNAVAILABLE_R_VALUE) {
+			return null;
+		}
 		return rFree;
 	}
 
@@ -194,7 +201,10 @@ public class MmtfBean implements Serializable {
 	/**
 	 * @return the rWork
 	 */
-	public float getrWork() {
+	public Float getrWork() {
+		if (rWork==UNAVAILABLE_R_VALUE) {
+			return null;
+		}
 		return rWork;
 	}
 
@@ -206,7 +216,7 @@ public class MmtfBean implements Serializable {
 	}
 
 
-   /**
+	/**
 	 * Gets the space group.
 	 *
 	 * @return the space group
@@ -794,20 +804,20 @@ public class MmtfBean implements Serializable {
 		this.seqResIdList = seqResGroupIds;
 	}
 
-  /**
-   * Get the entity list
-   * @return
-   */
-  public Entity[] getEntityList() {
-	  return entityList;
-  }
-  
-  /**
-   * Set the entity list
-   * @param entityList
-   */
-  public void setEntityList(Entity[] entityList) {
-	  this.entityList = entityList;
-  }
+	/**
+	 * Get the entity list
+	 * @return
+	 */
+	public Entity[] getEntityList() {
+		return entityList;
+	}
+
+	/**
+	 * Set the entity list
+	 * @param entityList
+	 */
+	public void setEntityList(Entity[] entityList) {
+		this.entityList = entityList;
+	}
 
 }

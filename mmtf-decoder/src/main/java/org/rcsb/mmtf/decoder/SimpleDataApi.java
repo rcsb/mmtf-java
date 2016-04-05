@@ -18,11 +18,11 @@ import org.rcsb.mmtf.dataholders.PDBGroup;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class SimpleDataApi implements DataApiInterface {
-	
-	
+
+
 	public SimpleDataApi(byte[] inputByteArr) {
-		
-		
+
+
 		MmtfBean inputData = null;
 		try {
 			inputData = new ObjectMapper(new MessagePackFactory()).readValue(inputByteArr, MmtfBean.class);
@@ -32,14 +32,14 @@ public class SimpleDataApi implements DataApiInterface {
 			e.printStackTrace();
 			throw new RuntimeException();
 		}
-		
+
 		// Get the decompressors to build in the data structure
 		DeltaDeCompress deltaDecompress = new DeltaDeCompress();
 		RunLengthDelta intRunLengthDelta = new RunLengthDelta();
 		RunLengthDecodeInt intRunLength = new RunLengthDecodeInt();
 		RunLengthDecodeString stringRunlength = new RunLengthDecodeString();
 		DecoderUtils decoderUtils = new DecoderUtils();
-		
+
 		// Get the data
 		try {
 			groupList = decoderUtils.bytesToInts(inputData.getGroupTypeList());
@@ -78,11 +78,12 @@ public class SimpleDataApi implements DataApiInterface {
 			pdbId = inputData.getPdbId();
 			// Now get the header data
 			rFree = inputData.getrFree();
+			// Optional fields
 			rWork = inputData.getrWork();
 			resolution = inputData.getResolution();
 			title = inputData.getTitle();
 			experimentalMethods = inputData.getExperimentalMethods();
-			
+
 
 		}
 		catch (IOException ioException){
@@ -91,8 +92,8 @@ public class SimpleDataApi implements DataApiInterface {
 			throw new RuntimeException();
 		}
 	}
-	
-	
+
+
 	/** The X coordinates */
 	private float[] cartnX;
 
@@ -107,7 +108,7 @@ public class SimpleDataApi implements DataApiInterface {
 
 	/** The Y coordinates */
 	private float[] occupancy;
-	
+
 	/** The atom id. */
 	private int[] atomId;
 
@@ -170,22 +171,22 @@ public class SimpleDataApi implements DataApiInterface {
 
 	/** The PDB id	 */
 	private String pdbId;
-	
+
 	/** The reported resolution of the dataset. */
-	private float resolution;
+	private Float resolution;
 
 	/** The reported R Free of the model. */
-	private float rFree;
-	
+	private Float rFree;
+
 	/** The reported R Work of the model. */
-	private float rWork;
-	
+	private Float rWork;
+
 	/** The title of the model. */
 	private String title;
 
 	/** The list of experimental methods. */
 	private List<String> experimentalMethods;
-	
+
 	@Override
 	public float[] getXcoords() {
 		return cartnX;
@@ -305,7 +306,7 @@ public class SimpleDataApi implements DataApiInterface {
 	public int getNumChains() {
 		return this.chainList.length;
 	}
-	
+
 	@Override
 	public int getNumModels() {	
 		return this.chainsPerModel.length;
@@ -318,16 +319,25 @@ public class SimpleDataApi implements DataApiInterface {
 
 	@Override
 	public float getRfree() {
+		if (rFree==null) {
+			return MmtfBean.UNAVAILABLE_R_VALUE;
+		}
 		return rFree;
 	}
 
 	@Override
 	public float getResolution() {
+		if (resolution==null) {
+			return MmtfBean.UNAVAILABLE_RESOLUTION_VALUE;
+		}
 		return resolution;
 	}
 
 	@Override
 	public float getRwork() {
+		if (rWork==null) {
+			return MmtfBean.UNAVAILABLE_R_VALUE;
+		}
 		return rWork;
 	}
 
@@ -345,7 +355,7 @@ public class SimpleDataApi implements DataApiInterface {
 	public String getGroupName(int groupInd) {
 		return groupMap[groupInd].getGroupName();
 	}
-	
+
 	public int getNumAtomsInGroup(int groupInd) {
 		return groupMap[groupInd].getAtomCharges().size();
 	}
@@ -399,8 +409,8 @@ public class SimpleDataApi implements DataApiInterface {
 	public String getGroupChemCompType(int groupInd) {
 		return groupMap[groupInd].getChemCompType();
 	}
-	
-	
+
+
 	/**
 	 * Get a primitive int[] list from a Java List<>;
 	 * @param inArray The input List<> of Integers
