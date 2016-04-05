@@ -2,6 +2,7 @@ package org.rcsb.mmtf.arraycompressors;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Class to encode an integer array with deltas.
@@ -18,9 +19,9 @@ public class FindDeltas implements IntArrayCompressor, Serializable {
    * @see org.rcsb.mmtf.arraycompressors.IntArray
    * Compressor#compressIntArray(java.util.ArrayList)
    */
-  public final ArrayList<Integer> compressIntArray(final ArrayList<Integer> inArray) {
+  public final List<Integer> compressIntArray(final List<Integer> inArray) {
     // 
-    ArrayList<Integer> outArray =  new ArrayList<Integer>();
+    List<Integer> outArray =  new ArrayList<Integer>();
     int oldInt = 0;
     for (int i = 0; i < inArray.size(); i++) {
       // Get the value out here

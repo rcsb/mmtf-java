@@ -2,6 +2,7 @@ package org.rcsb.mmtf.arraycompressors;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Class to run length encode an integer array.
@@ -17,9 +18,9 @@ public class RunLengthEncode implements IntArrayCompressor, Serializable  {
 	/* (non-Javadoc)
 	 * @see org.rcsb.mmtf.arraycompressors.IntArrayCompressor#compressIntArray(java.util.ArrayList)
 	 */
-	public ArrayList<Integer> compressIntArray(ArrayList<Integer> inArray) {
+	public List<Integer> compressIntArray(List<Integer> inArray) {
 
-		ArrayList<Integer> outArray =  new ArrayList<Integer>();
+		List<Integer> outArray =  new ArrayList<Integer>();
 		int oldVal = 0;
 		boolean inSwitch = false;
 		int counter = 0;

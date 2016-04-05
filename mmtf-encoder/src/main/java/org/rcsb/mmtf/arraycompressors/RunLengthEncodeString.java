@@ -1,6 +1,7 @@
 package org.rcsb.mmtf.arraycompressors;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Class to run length encode a string array.
@@ -13,8 +14,8 @@ public class RunLengthEncodeString implements StringArrayCompressor {
   /* (non-Javadoc)
    * @see org.rcsb.mmtf.arraycompressors.StringArrayCompressor#compressStringArray(java.util.ArrayList)
    */
-  public ArrayList<String> compressStringArray(ArrayList<String> inArray) {
-    ArrayList<String> outArray =  new ArrayList<String>();
+  public List<String> compressStringArray(List<String> inArray) {
+    List<String> outArray =  new ArrayList<String>();
     String oldVal = "";
     int counter = 0;
     // Loop through the vals

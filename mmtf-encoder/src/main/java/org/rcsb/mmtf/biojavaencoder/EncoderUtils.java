@@ -139,7 +139,7 @@ public class EncoderUtils implements Serializable {
 		// Get
 		thisDistBeanTot.setEntityList(inHeader.getEntityList());
 		// Get the seqres information
-		thisDistBeanTot.setSequenceIdList(cm.integersToBytes(runLengthComp.compressIntArray(deltaComp.compressIntArray((ArrayList<Integer>) inHeader.getSeqResGroupIds()))));
+		thisDistBeanTot.setSequenceIdList(cm.integersToBytes(runLengthComp.compressIntArray(deltaComp.compressIntArray(inHeader.getSeqResGroupIds()))));
 		thisDistBeanTot.setExperimentalMethods(inHeader.getExperimentalMethods());
 		// Now get this list
 		thisDistBeanTot.setBondAtomList(cm.integersToBytes(inStruct.getInterGroupBondInds()));
@@ -342,27 +342,27 @@ public class EncoderUtils implements Serializable {
 		outStruct = doublesToInts.compresStructure(inputBioDataStruct);
 		// Get the input structure
 		NoFloatDataStruct inStruct =  (NoFloatDataStruct) outStruct;
-		ArrayList<Integer> cartnX = (ArrayList<Integer>) inStruct.get_atom_site_Cartn_xInt();
-		ArrayList<Integer> cartnY = (ArrayList<Integer>) inStruct.get_atom_site_Cartn_yInt();
-		ArrayList<Integer> cartnZ = (ArrayList<Integer>) inStruct.get_atom_site_Cartn_zInt();
+		List<Integer> cartnX = inStruct.get_atom_site_Cartn_xInt();
+		List<Integer> cartnY = inStruct.get_atom_site_Cartn_yInt();
+		List<Integer> cartnZ = inStruct.get_atom_site_Cartn_zInt();
 
 		// Get the number of models
 		inStruct.set_atom_site_Cartn_xInt(deltaComp.compressIntArray(cartnX));
 		inStruct.set_atom_site_Cartn_yInt(deltaComp.compressIntArray(cartnY));
 		inStruct.set_atom_site_Cartn_zInt(deltaComp.compressIntArray(cartnZ));		
 		//		// Now the occupancy and BFACTOR -> VERY SMALL GAIN
-		inStruct.set_atom_site_B_iso_or_equivInt(deltaComp.compressIntArray((ArrayList<Integer>) inStruct.get_atom_site_B_iso_or_equivInt()));
+		inStruct.set_atom_site_B_iso_or_equivInt(deltaComp.compressIntArray(inStruct.get_atom_site_B_iso_or_equivInt()));
 		// SMALL GAIN
-		inStruct.set_atom_site_occupancyInt(runLengthComp.compressIntArray((ArrayList<Integer>) inStruct.get_atom_site_occupancyInt()));
+		inStruct.set_atom_site_occupancyInt(runLengthComp.compressIntArray(inStruct.get_atom_site_occupancyInt()));
 		// Now the sequential numbers - huge gain - new order of good compressors
 		// Now runlength encode the residue order
 		inStruct.setResOrder(inStruct.getResOrder());
 		// THESE ONES CAN BE RUN LENGTH ON DELTA
 
 		// Check for negative counters
-		inStruct.set_atom_site_auth_seq_id(runLengthComp.compressIntArray(deltaComp.compressIntArray((ArrayList<Integer>) inStruct.get_atom_site_auth_seq_id())));
-		inStruct.set_atom_site_label_entity_poly_seq_num(runLengthComp.compressIntArray(deltaComp.compressIntArray((ArrayList<Integer>) inStruct.get_atom_site_label_entity_poly_seq_num())));
-		inStruct.set_atom_site_id(runLengthComp.compressIntArray(deltaComp.compressIntArray((ArrayList<Integer>) inStruct.get_atom_site_id())));
+		inStruct.set_atom_site_auth_seq_id(runLengthComp.compressIntArray(deltaComp.compressIntArray(inStruct.get_atom_site_auth_seq_id())));
+		inStruct.set_atom_site_label_entity_poly_seq_num(runLengthComp.compressIntArray(deltaComp.compressIntArray(inStruct.get_atom_site_label_entity_poly_seq_num())));
+		inStruct.set_atom_site_id(runLengthComp.compressIntArray(deltaComp.compressIntArray(inStruct.get_atom_site_id())));
 		//// NOW THE STRINGS  - small gain
 		StringArrayCompressor stringRunEncode = new RunLengthEncodeString();
 		inStruct.set_atom_site_label_alt_id(stringRunEncode.compressStringArray((ArrayList<String>) inStruct.get_atom_site_label_alt_id()));
@@ -407,9 +407,9 @@ public class EncoderUtils implements Serializable {
 		calphaOut.setGroupMap(calphaStruct.getGroupMap());
 		calphaOut.setGroupTypeList(cm.integersToBytes(calphaStruct.getResOrder()));
 		// Get the input structure
-		ArrayList<Integer> cartnX = (ArrayList<Integer>) calphaStruct.getCartn_x();
-		ArrayList<Integer> cartnY = (ArrayList<Integer>) calphaStruct.getCartn_y();
-		ArrayList<Integer> cartnZ = (ArrayList<Integer>) calphaStruct.getCartn_z();
+		List<Integer> cartnX = calphaStruct.getCartn_x();
+		List<Integer> cartnY = calphaStruct.getCartn_y();
+		List<Integer> cartnZ = calphaStruct.getCartn_z();
 		// Now add the X coords
 		List<byte[]> bigAndLittleX = getBigAndLittle(deltaComp.compressIntArray(cartnX));
 		calphaOut.setxCoordBig(bigAndLittleX.get(0));
@@ -423,7 +423,7 @@ public class EncoderUtils implements Serializable {
 		calphaOut.setzCoordBig(bigAndLittleZ.get(0));
 		calphaOut.setzCoordSmall(bigAndLittleZ.get(1));	
 		// THESE ONES CAN BE RUN LENGTH ON DELTA
-		calphaOut.setGroupIdList(cm.integersToBytes(runLengthComp.compressIntArray(deltaComp.compressIntArray((ArrayList<Integer>) calphaStruct.get_atom_site_auth_seq_id()))));
+		calphaOut.setGroupIdList(cm.integersToBytes(runLengthComp.compressIntArray(deltaComp.compressIntArray(calphaStruct.get_atom_site_auth_seq_id()))));
 		return calphaOut;
 	}
 

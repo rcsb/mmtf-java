@@ -1,6 +1,6 @@
 package org.rcsb.mmtf.arraycompressors;
 
-import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -14,5 +14,5 @@ public interface IntArrayCompressor {
 	 * @param inArray the in array
 	 * @return the array list
 	 */
-	public ArrayList<Integer> compressIntArray(ArrayList<Integer> inArray);
+	public List<Integer> compressIntArray(List<Integer> inArray);
 }

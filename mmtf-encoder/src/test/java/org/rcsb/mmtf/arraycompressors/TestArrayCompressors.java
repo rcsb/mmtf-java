@@ -1,6 +1,7 @@
 package org.rcsb.mmtf.arraycompressors;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.Test;
 import org.rcsb.mmtf.arraycompressors.FindDeltas;
@@ -28,7 +29,7 @@ public class TestArrayCompressors {
 			}
 		}
 		// Compress it
-		ArrayList<Integer> deltadArray = fd.compressIntArray(inArray);
+		List<Integer> deltadArray = fd.compressIntArray(inArray);
 		// Now check 
 		assertEquals(deltadArray, testArray);
 
@@ -39,8 +40,8 @@ public class TestArrayCompressors {
 		// Generate the array
 		RunLengthEncode rle = new RunLengthEncode();
 		// Create the two arrays
-		ArrayList<Integer> inArray = new ArrayList<Integer>();
-		ArrayList<Integer> testArray = new ArrayList<Integer>();
+		List<Integer> inArray = new ArrayList<Integer>();
+		List<Integer> testArray = new ArrayList<Integer>();
 		int length = 1000;
 		for(int i=0; i<length;i++){
 			inArray.add(1);
@@ -50,7 +51,7 @@ public class TestArrayCompressors {
 		}
 		testArray.add(length);
 		// Compress it
-		ArrayList<Integer> runlenghtdArray = rle.compressIntArray(inArray);
+		List<Integer> runlenghtdArray = rle.compressIntArray(inArray);
 		// Now check 
 		assertEquals(runlenghtdArray, testArray);
 	}
@@ -73,7 +74,7 @@ public class TestArrayCompressors {
 		}
 		testArray.add(Integer.toString(length));
 		// Compress it
-		ArrayList<String> runlenghtdArray = rle.compressStringArray(inArray);
+		List<String> runlenghtdArray = rle.compressStringArray(inArray);
 		// Now check 
 		assertEquals(runlenghtdArray, testArray);
 	}
