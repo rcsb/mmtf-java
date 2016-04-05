@@ -103,7 +103,7 @@ public class MmtfBean implements Serializable {
 	private byte[] secStructList;
 
 	/** The occupancy list. */
-	private byte[] occList;
+	private byte[] occupancyList;
 
 	/** The alt label list. */
 	private List<String> altLabelList;
@@ -490,21 +490,21 @@ public class MmtfBean implements Serializable {
 	}
 
 	/**
-	 * Gets the occ list.
+	 * Gets the occupancy list - an encoded per atom list of occupancy values.
 	 *
-	 * @return the occ list
+	 * @return the occupancy list - an encoded per atom list of occupancy values.
 	 */
-	public final byte[] getOccList() {
-		return occList;
+	public final byte[] getOccupancyList() {
+		return occupancyList;
 	}
 
 	/**
-	 * Sets the occ list.
+	 * Sets the occupancy list - an encoded per atom list of occupancy values.
 	 *
-	 * @param occupancy the new occ list
+	 * @param inputOccupancyList the occupancy list - an encoded per atom list of occupancy values.
 	 */
-	public final void setOccList(final byte[] occupancy) {
-		this.occList = occupancy;
+	public final void setOccupancyList(final byte[] inputOccupancyList) {
+		this.occupancyList = inputOccupancyList;
 	}
 
 	/**

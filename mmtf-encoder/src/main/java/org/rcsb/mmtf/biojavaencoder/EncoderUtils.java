@@ -210,7 +210,7 @@ public class EncoderUtils implements Serializable {
 		thisDistBeanTot.setbFactorBig(retArr.get(0));
 		thisDistBeanTot.setbFactorSmall(retArr.get(1));
 		// Now the occupancy
-		thisDistBeanTot.setOccList(cm.integersToBytes(bioBean.get_atom_site_occupancyInt()));
+		thisDistBeanTot.setOccupancyList(cm.integersToBytes(bioBean.get_atom_site_occupancyInt()));
 		// System.out.println(Collections.max(bioBean.getResOrder()));
 		thisDistBeanTot.setGroupTypeList((cm.integersToBytes(bioBean.getResOrder())));
 		thisDistBeanTot.setAtomIdList(cm.integersToBytes(bioBean.get_atom_site_id()));
