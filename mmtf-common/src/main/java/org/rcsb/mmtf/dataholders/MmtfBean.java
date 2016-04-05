@@ -13,20 +13,17 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class MmtfBean implements Serializable {
 
+	
 	/** The number to divide coordinate int values by. */
 	public static final float COORD_DIVIDER = 1000.0f;
 	/** The number to divide occupancy and bfactor int values by. */
 	public static final float OCCUPANCY_BFACTOR_DIVIDER = 100.0f;
-	/**
-	 * The default value for Rfree, Rwork and resolution when not available or not applicable
-	 */
+	/** The default value for Rfree and Rwork */
 	public static final float UNAVAILABLE_R_VALUE = 1.0f;
+	/** The default value for resolution when not available or not applicable  */
 	public static final float UNAVAILABLE_RESOLUTION_VALUE = 99.0f;
-	/**
-	 * The default value for a missing or null string field
-	 */
-	public static final String UNAVAILABLE_STRING_VALUE = " ";
-	
+	/** The default value for a missing or null string field */
+	public static final char UNAVAILABLE_CHAR_VALUE = '\0';
 
 
 	/** Serial id for this version of the format. */
@@ -78,7 +75,7 @@ public class MmtfBean implements Serializable {
 	private byte[] bondOrderList;
 
 	/** The list of different PDBGroups in the structure. */
-	private  PDBGroup[] groupList;
+	private PDBGroup[] groupList;
 
 	/** The x coord big. 4 byte integers in pairs. */
 	private byte[] xCoordBig;
@@ -111,10 +108,10 @@ public class MmtfBean implements Serializable {
 	private byte[] occupancyList;
 
 	/** The alt label list. */
-	private List<String> altLabelList;
+	private int[] altLabelList;
 
 	/** The insertion code list. */
-	private List<String> insCodeList;
+	private int[] insCodeList;
 
 	/** The group type list. */
 	private byte[] groupTypeList;
@@ -427,7 +424,7 @@ public class MmtfBean implements Serializable {
 	 *
 	 * @return the alt label list
 	 */
-	public final List<String> getAltLabelList() {
+	public final int[] getAltLabelList() {
 		return altLabelList;
 	}
 
@@ -436,7 +433,7 @@ public class MmtfBean implements Serializable {
 	 *
 	 * @param inputAltIdList the new alt id label list
 	 */
-	public final void setAltLabelList(final List<String> inputAltIdList) {
+	public final void setAltLabelList(final int[] inputAltIdList) {
 		this.altLabelList = inputAltIdList;
 	}
 
@@ -517,7 +514,7 @@ public class MmtfBean implements Serializable {
 	 *
 	 * @return the insertion code list
 	 */
-	public final List<String> getInsCodeList() {
+	public final int[] getInsCodeList() {
 		return insCodeList;
 	}
 
@@ -526,7 +523,7 @@ public class MmtfBean implements Serializable {
 	 *
 	 * @param inputInsertionCodeList the new insertion code list
 	 */
-	public final void setInsCodeList(final List<String> inputInsertionCodeList) {
+	public final void setInsCodeList(final int[] inputInsertionCodeList) {
 		this.insCodeList = inputInsertionCodeList;
 	}
 

@@ -50,9 +50,9 @@ public class SimpleDataApi implements DataApiInterface {
 			bFactor =  decoderUtils.decodeIntsToFloats(deltaDecompress.decompressByteArray(inputData.getbFactorBig(),inputData.getbFactorSmall()), MmtfBean.OCCUPANCY_BFACTOR_DIVIDER);
 			occupancy = decoderUtils.decodeIntsToFloats(intRunLength.decompressByteArray(inputData.getOccupancyList()), MmtfBean.OCCUPANCY_BFACTOR_DIVIDER);
 			atomId = intRunLengthDelta.decompressByteArray(inputData.getAtomIdList());
-			altId = stringRunlength.stringArrayToChar((ArrayList<String>) inputData.getAltLabelList());
+			altId = stringRunlength.intArrayToCharArray(inputData.getAltLabelList());
 			// Get the insertion code
-			insertionCodeList = stringRunlength.stringArrayToChar((ArrayList<String>) inputData.getInsCodeList());
+			insertionCodeList = stringRunlength.intArrayToCharArray(inputData.getInsCodeList());
 			// Get the groupNumber
 			groupNum = intRunLengthDelta.decompressByteArray(
 					inputData.getGroupIdList());

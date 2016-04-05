@@ -126,8 +126,8 @@ public class EncoderUtils implements Serializable {
 		// Copt these things
 		thisDistBeanTot.setDepositionDate(convertToIsoTime(inHeader.getDepDate()));
 		thisDistBeanTot.setStructureId(bioBean.getPdbCode());
-		thisDistBeanTot.setInsCodeList(bioBean.get_atom_site_pdbx_PDB_ins_code());
-		thisDistBeanTot.setAltLabelList(bioBean.get_atom_site_label_alt_id());
+		thisDistBeanTot.setInsCodeList(convertToIntArr(bioBean.get_atom_site_pdbx_PDB_ins_code()));
+		thisDistBeanTot.setAltLabelList(convertToIntArr(bioBean.get_atom_site_label_alt_id()));
 		// Set this experimental data
 		thisDistBeanTot.setResolution(inHeader.getResolution());
 		thisDistBeanTot.setrFree(inHeader.getrFree());
@@ -161,6 +161,33 @@ public class EncoderUtils implements Serializable {
 		thisDistBeanTot.setMmtfProducer("RCSB-PDB Generator---version: "+grs.getCurrentVersion());
 		return thisDistBeanTot;
 	}
+	
+	/**
+	 * Convert a String list to an int[].
+	 * @param inputStringArray
+	 * @return An integer array.
+	 */
+	private int[] convertToIntArr(List<String> inputStringArray) {
+		// The output integer array
+		int[] outArray = new int[inputStringArray.size()];
+		// Now loop through the array first value is char.
+		for (int i=0; i<inputStringArray.size(); i+=2) {
+			if ( inputStringArray.get(i)==null){
+				outArray[i] = MmtfBean.UNAVAILABLE_CHAR_VALUE;
+			}
+			else{
+				outArray[i] = inputStringArray.get(i).charAt(0);
+			}
+			
+		}
+		// The second value is an integer.
+		for (int i=1; i<inputStringArray.size(); i+=2) {
+			outArray[i] = Integer.parseInt(inputStringArray.get(i));
+		}		
+		
+		return outArray;
+	}
+
 
 	/**
 	 * Covert a Date object to ISO time format.

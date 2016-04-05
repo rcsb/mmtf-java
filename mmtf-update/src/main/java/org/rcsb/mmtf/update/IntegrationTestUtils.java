@@ -34,8 +34,8 @@ public class IntegrationTestUtils {
 			"4ck4",
 			// Negative residue numbers
 			"5esw",
-			// A weird case with incorrect residue numbers.
-	//		"3th3"
+//			//A weird case with incorrect residue numbers.
+//			"3th3"
 			};
 
 	public Path returnTempDir() {

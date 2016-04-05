@@ -17,46 +17,41 @@ public class RunLengthDecodeString implements StringArrayDeCompressorInterface {
 
 
   /**
-   * Runlength decode a string list and return as a char[].
-   * @param inputArray An input string array.
-   * @return a char array of  the strings
-   * rather than a string array.
+   * Runlength decode an int[] and return as a char[].
+   * @param inputIntArray An input array of integers.
+   * @return a char array of values runlength decoded.
    */
-  public final char[] stringArrayToChar(final ArrayList<String> inputArray) {
+  public final char[] intArrayToCharArray(final int[] inputIntArray) {
     int totNum = 0;
-    // Define an array to hold chars
-    char[] outChars = new char[1];
-    char outChar = "l".charAt(0);
+    // Define a default Char value
+    char outChar =  MmtfBean.UNAVAILABLE_CHAR_VALUE;
     // If it's only one long - just take the char
-    if (inputArray.size() == 1) {
+    if (inputIntArray.length == 1) {
       char[] outArray = new char[1];
-      if (inputArray.get(0) == MmtfBean.UNAVAILABLE_STRING_VALUE) {
-        outChar = "?".charAt(0);
+      if (Character.toChars(inputIntArray[0])[0] == MmtfBean.UNAVAILABLE_CHAR_VALUE) {
+        outChar = '?';
       } else {
-        String outString = inputArray.get(0);
-        outString.getChars(0, 1, outChars, 0);
-        outChar = outChars[0];
+        outChar = Character.toChars(inputIntArray[0])[0];
       }
       outArray[0] = outChar;
       return outArray;
     }
-    for (int i = 0; i < inputArray.size(); i += 2) {
-      totNum += Integer.parseInt(inputArray.get(i + 1));
+    for (int i = 0; i < inputIntArray.length; i += 2) {
+      totNum += inputIntArray[i + 1];
     }
 
     char[] outArray = new char[totNum];
     int totCounter = 0;
 
 
-    for (int i = 0; i < inputArray.size(); i += 2) {
-      if (inputArray.get(i) == null) {
+    for (int i = 0; i < inputIntArray.length; i += 2) {
+      if (inputIntArray[i] == MmtfBean.UNAVAILABLE_CHAR_VALUE) {
         outChar = "?".charAt(0);
       } else {
-        String outString = inputArray.get(i);
-        outString.getChars(0, 1, outChars, 0);
-        outChar = outChars[0];
+    	// Otherwise get this char
+        outChar = Character.toChars(inputIntArray[i])[0];
       }
-      int numString = Integer.parseInt(inputArray.get(i + 1));
+      int numString = inputIntArray[i + 1];
       for (int j = 0; j < numString; j++) {
         outArray[totCounter] = outChar;
         totCounter++;

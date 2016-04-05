@@ -40,7 +40,6 @@ import org.rcsb.mmtf.dataholders.CalphaBean;
 import org.rcsb.mmtf.dataholders.CodeHolders;
 import org.rcsb.mmtf.dataholders.Entity;
 import org.rcsb.mmtf.dataholders.HeaderBean;
-import org.rcsb.mmtf.dataholders.MmtfBean;
 import org.rcsb.mmtf.dataholders.PDBGroup;
 
 
@@ -338,7 +337,7 @@ public class ParseFromBiojava {
 					// bioStruct data item corresponds to the PDB insertion code.
 					Character insertionCode = residueNum.getInsCode();
 					if (insertionCode==null){
-						bioStruct.get_atom_site_pdbx_PDB_ins_code().add(MmtfBean.UNAVAILABLE_STRING_VALUE);
+						bioStruct.get_atom_site_pdbx_PDB_ins_code().add(null);
 					}
 					else{
 						bioStruct.get_atom_site_pdbx_PDB_ins_code().add(insertionCode.toString());
@@ -935,7 +934,7 @@ public class ParseFromBiojava {
 		// bioStruct item is a uniquely identifies for each alternative site for
 		// bioStruct atom position.
 		if (inputAtom.getAltLoc()==" ".charAt(0)){
-			bioStruct.get_atom_site_label_alt_id().add(MmtfBean.UNAVAILABLE_STRING_VALUE);
+			bioStruct.get_atom_site_label_alt_id().add(null);
 		}
 		else{
 			bioStruct.get_atom_site_label_alt_id().add(inputAtom.getAltLoc().toString());

@@ -44,7 +44,7 @@ public class DeltaDeCompress {
     for (int i = 0; i < lengthOfBigIntArray; i++) {
       int bigNum =  bigStream.readInt();
       int counterNum =  bigStream.readInt();
-      // Now writ thei sout
+      // Now write this out
       totNum++;
       // Now add to the counter
       totNum += counterNum;
