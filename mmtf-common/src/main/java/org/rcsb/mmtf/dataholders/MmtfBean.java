@@ -22,6 +22,11 @@ public class MmtfBean implements Serializable {
 	 */
 	public static final float UNAVAILABLE_R_VALUE = 1.0f;
 	public static final float UNAVAILABLE_RESOLUTION_VALUE = 99.0f;
+	/**
+	 * The default value for a missing or null string field
+	 */
+	public static final String UNAVAILABLE_STRING_VALUE = " ";
+	
 
 
 	/** Serial id for this version of the format. */

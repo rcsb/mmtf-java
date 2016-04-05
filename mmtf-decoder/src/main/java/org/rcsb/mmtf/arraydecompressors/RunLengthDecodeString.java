@@ -3,6 +3,8 @@ package org.rcsb.mmtf.arraydecompressors;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.rcsb.mmtf.dataholders.MmtfBean;
+
 /**
  * Decode string arrays that have been run length encoded.
  * The input values are in pairs. The first value in each pair
@@ -28,7 +30,7 @@ public class RunLengthDecodeString implements StringArrayDeCompressorInterface {
     // If it's only one long - just take the char
     if (inputArray.size() == 1) {
       char[] outArray = new char[1];
-      if (inputArray.get(0) == null) {
+      if (inputArray.get(0) == MmtfBean.UNAVAILABLE_STRING_VALUE) {
         outChar = "?".charAt(0);
       } else {
         String outString = inputArray.get(0);
