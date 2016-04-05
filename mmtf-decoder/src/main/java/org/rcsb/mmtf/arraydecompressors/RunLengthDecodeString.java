@@ -1,8 +1,5 @@
 package org.rcsb.mmtf.arraydecompressors;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.rcsb.mmtf.dataholders.MmtfBean;
 
 /**
@@ -13,7 +10,7 @@ import org.rcsb.mmtf.dataholders.MmtfBean;
  * @author Anthony Bradley
  *
  */
-public class RunLengthDecodeString implements StringArrayDeCompressorInterface {
+public class RunLengthDecodeString {
 
 
   /**
@@ -59,22 +56,6 @@ public class RunLengthDecodeString implements StringArrayDeCompressorInterface {
     }
     return outArray;
   }
-
-  @Override
-  public final List<String> deCompressStringArray(final List<String> inArray) {
-    // Make the output array
-    List<String> outArray =  new ArrayList<String>();
-    for (int i = 0; i < inArray.size(); i += 2) {
-      String outString = inArray.get(i);
-      int numString = Integer.parseInt(inArray.get(i + 1));
-
-      for (int j = 0; j < numString; j++) {
-        outArray.add(outString);
-      }
-    }
-    return outArray;
-  }
-
 
 
 }

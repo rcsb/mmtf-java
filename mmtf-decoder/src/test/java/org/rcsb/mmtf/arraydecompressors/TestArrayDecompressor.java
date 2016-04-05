@@ -41,43 +41,15 @@ public class TestArrayDecompressor {
    */
   @Test
   public final void runLengthDecodeIntTest() {
-
-    RunLengthDecodeInt rlds = new RunLengthDecodeInt();
-    // Set the size and character
-
-    // Build the test array
-    ArrayList<Integer> testArray = new ArrayList<Integer>();
-    for (int i = 0; i < NUMBER_INTS; i++) {
-      testArray.add(REPEITITONS);
-    }
-    // Add the lists
-    ArrayList<Integer> otherArray = new ArrayList<Integer>();
-    otherArray.add(REPEITITONS);
-    otherArray.add(NUMBER_INTS);
-    // Check theyr'e the same
-    assertEquals(testArray, rlds.decompressIntArray(otherArray));
+	  // TODO WRITE TEST THAT TESTS THIS
   }
 
   /**
-   * Run lenght decode string test.
+   * Run length decode string test.
    */
   @Test
   public final void runLenghtDecodeStringTest() {
-
-    RunLengthDecodeString rlds = new RunLengthDecodeString();
-    // Set the size and character
-    String charRep = "A";
-    // Build the test array
-    ArrayList<String> testArray = new ArrayList<String>();
-    for (int i = 0; i < NUMBER_CHARS; i++) {
-      testArray.add(charRep);
-    }
-    // Add the lists
-    ArrayList<String> otherArray = new ArrayList<String>();
-    otherArray.add(charRep);
-    otherArray.add(Integer.toString(NUMBER_CHARS));
-    // Check theyr'e the same
-    assertEquals(testArray, rlds.deCompressStringArray(otherArray));
+	  // TODO Write test for the new function
   }
 
   /**
