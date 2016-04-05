@@ -4,14 +4,13 @@ package org.rcsb.mmtf.arraydecompressors;
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.nio.ByteBuffer;
 
 import org.junit.Test;
 import org.rcsb.mmtf.arraydecompressors.DeltaDeCompress;
 import org.rcsb.mmtf.arraydecompressors.RunLengthDecodeInt;
 import org.rcsb.mmtf.arraydecompressors.RunLengthDecodeString;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertArrayEquals;
 
 /**
@@ -21,27 +20,25 @@ import static org.junit.Assert.assertArrayEquals;
  */
 public class TestArrayDecompressor {
 
-
-  /** The Constant NUMBER_INTS. */
-  private static final int NUMBER_INTS = 100;
-
-  /** The Constant REPEITITONS. */
-  private static final int REPEITITONS = 1000;
-
-  /** The Constant NUMBER_CHARS. */
-  private static final int NUMBER_CHARS = 100;
-
   /** The Constant INITIAL_INT. */
   private static final int INITIAL_INT = 3000;
 
   /** The Constant TOTAL_LENGTH. */
   private static final int TOTAL_LENGTH = 100;
+  
+  
   /**
    * Run length decode int test.
+ * @throws IOException 
    */
   @Test
-  public final void runLengthDecodeIntTest() {
-	  // TODO WRITE TEST THAT TESTS THIS
+  public final void runLengthDecodeIntTest() throws IOException {
+	  // Allocate the byte array
+	 byte[] inputData =  ByteBuffer.allocate(48).putInt(15).putInt(3).putInt(100).putInt(2).putInt(111).putInt(4).array();
+	 int[] outPutDataTest = {15,15,15,100,100,111,111,111,111};
+	 RunLengthDecodeInt runLengthDecodeInt = new RunLengthDecodeInt();
+	 int[] outPutData = runLengthDecodeInt.decompressByteArray(inputData);
+	 assertArrayEquals(outPutDataTest, outPutData);
   }
 
   /**
@@ -49,7 +46,11 @@ public class TestArrayDecompressor {
    */
   @Test
   public final void runLenghtDecodeStringTest() {
-	  // TODO Write test for the new function
+	 int[] inputData =  {66,4,63,2,67,1};
+	 char[] outPutDataTest = {'B','B','B','B','?','?','C'};
+	 RunLengthDecodeString runLengthDecodeString = new RunLengthDecodeString();
+	 char[] outPutData = runLengthDecodeString.intArrayToCharArray(inputData);
+	 assertArrayEquals(outPutDataTest, outPutData);
   }
 
   /**

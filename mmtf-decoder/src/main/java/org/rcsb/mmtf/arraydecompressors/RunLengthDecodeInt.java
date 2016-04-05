@@ -3,8 +3,6 @@ package org.rcsb.mmtf.arraydecompressors;
 import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Run length decode a list of integers.
