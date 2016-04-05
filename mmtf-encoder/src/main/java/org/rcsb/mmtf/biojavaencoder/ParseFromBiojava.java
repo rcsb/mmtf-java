@@ -37,7 +37,7 @@ import org.rcsb.mmtf.dataholders.BioAssemblyData;
 import org.rcsb.mmtf.dataholders.BioDataStruct;
 import org.rcsb.mmtf.dataholders.BioAssemblyTrans;
 import org.rcsb.mmtf.dataholders.CalphaBean;
-import org.rcsb.mmtf.dataholders.CodeHolders;
+import org.rcsb.mmtf.dataholders.DsspType;
 import org.rcsb.mmtf.dataholders.Entity;
 import org.rcsb.mmtf.dataholders.HeaderBean;
 import org.rcsb.mmtf.dataholders.PDBGroup;
@@ -61,9 +61,6 @@ public class ParseFromBiojava {
 
 	/** The header struct. */
 	private HeaderBean headerStruct = new HeaderBean();
-
-	/** The code holder. */
-	private CodeHolders codeHolder = new CodeHolders();
 
 	/** The bonds for the structure. Used to keep track of which bonds have already been considered */
 	private  List<Bond> totBonds = new ArrayList<Bond>();
@@ -347,10 +344,10 @@ public class ParseFromBiojava {
 					// Only assign secondary structure for the first model
 					if(i==0){
 						if(props==null){
-							bioStruct.getSecStruct().add(codeHolder.getDsspMap().get("NA"));
+							bioStruct.getSecStruct().add(DsspType.dsspTypeFromString("NA").getDsspIndex());
 						}
 						else{
-							bioStruct.getSecStruct().add(codeHolder.getDsspMap().get(props.getType().name));
+							bioStruct.getSecStruct().add(DsspType.dsspTypeFromString(props.getType().name).getDsspIndex());
 						}
 					}
 					// Now add the residue sequnece number
@@ -656,11 +653,10 @@ public class ParseFromBiojava {
 		// Now set the sec structure
 		//
 		if(props==null){
-			calphaStruct.getSecStruct().add(codeHolder.getDsspMap().get("NA"));
-
+			calphaStruct.getSecStruct().add(DsspType.dsspTypeFromString("NA").getDsspIndex());
 		}
 		else{
-			calphaStruct.getSecStruct().add(codeHolder.getDsspMap().get(props.getType().name));
+			calphaStruct.getSecStruct().add(DsspType.dsspTypeFromString(props.getType().name).getDsspIndex());
 		}
 
 	}
