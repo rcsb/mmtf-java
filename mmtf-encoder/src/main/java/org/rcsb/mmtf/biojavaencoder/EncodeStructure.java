@@ -16,7 +16,7 @@ public class EncodeStructure {
 	 * @param pdbId
 	 * @return a byte array of compressed data
 	 */
-	public byte[] getCompressedMessagePackFromPdbId(String pdbId) {
+	public final byte[] getCompressedMessagePackFromPdbId(String pdbId) {
 		// Get the utility class to get the strucutes
 		ParseFromBiojava parsedDataStruct = new ParseFromBiojava();
 		Map<Integer, PDBGroup> totMap = new HashMap<Integer, PDBGroup>();
@@ -31,7 +31,7 @@ public class EncodeStructure {
 	 * @param bioJavaStruct
 	 * @return a byte array of compressed data
 	 */
-	public byte[] encodeFromBiojava(Structure bioJavaStruct){
+	public final byte[] encodeFromBiojava(Structure bioJavaStruct){
 		// Get the utility class to get the strucutes
 		ParseFromBiojava parsedDataStruct = new ParseFromBiojava();
 		Map<Integer, PDBGroup> totMap = new HashMap<Integer, PDBGroup>();
@@ -45,7 +45,7 @@ public class EncodeStructure {
 	 * @param parsedDataStruct
 	 * @return a byte array of compressed data
 	 */
-	private byte[] buildFromDataStructure(ParseFromBiojava parsedDataStruct) {
+	private final byte[] buildFromDataStructure(ParseFromBiojava parsedDataStruct) {
 		EncoderUtils eu = new EncoderUtils();
 		// Compress the data and get it back out
 		try {
@@ -64,7 +64,7 @@ public class EncodeStructure {
 	 * @param pdbId The input pdb id
 	 * @return a byte array of compressed calpha data
 	 */
-	public byte[] encodeBackBoneFromPdbId(String pdbId){
+	public final byte[] encodeBackBoneFromPdbId(String pdbId){
 		// Get the two utility classes
 		EncoderUtils eu = new EncoderUtils();
 		ParseFromBiojava cbs = new ParseFromBiojava();

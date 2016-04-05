@@ -83,16 +83,6 @@ public class ParseFromBiojava {
 	/** The Biojava group currently being parsed. */
 	private Group currentGroup;
 
-	/** The Constant MY_MAP. Relates the group name to the type of atom id */
-	private static final Map<String, String> MY_MAP;
-	static {
-		Map<String, String> aMap = new HashMap<String, String>();
-		aMap.put("hetatm", "HETATM");
-		aMap.put("amino", "ATOM");
-		aMap.put("nucleotide", "ATOM");
-		MY_MAP = Collections.unmodifiableMap(aMap);
-	}
-
 	/**
 	 * Gets the bio struct.
 	 *
@@ -160,7 +150,7 @@ public class ParseFromBiojava {
 	 * @param pdbId the pdb id
 	 * @param bioStructMap the bio struct map
 	 */
-	public void createFromJavaStruct(String pdbId, Map<Integer, PDBGroup> bioStructMap) {		
+	public final void createFromJavaStruct(String pdbId, Map<Integer, PDBGroup> bioStructMap) {		
 		// Get the structure from here
 		Structure bioJavaStruct;
 		try {
@@ -185,7 +175,7 @@ public class ParseFromBiojava {
 	 * @param bioStructMap the map relating hash codes to PDB groups.
 	 * input so that a consistent map can be held across several structures
 	 */
-	public void generateDataStructuresFromBioJavaStructure(Structure bioJavaStruct, Map<Integer, PDBGroup> bioStructMap) {
+	public final void generateDataStructuresFromBioJavaStructure(Structure bioJavaStruct, Map<Integer, PDBGroup> bioStructMap) {
 		EncoderUtils encoderUtils = new EncoderUtils();
 		// Reset structure to consider altloc groups with the same residue number but different group names as seperate groups
 		encoderUtils.fixMicroheterogenity(bioJavaStruct);
@@ -385,7 +375,7 @@ public class ParseFromBiojava {
 	 * Find and store the entity information in the header structure.
 	 * @param bioJavaStruct
 	 */
-	private void findEntityInfo(Structure bioJavaStruct) {
+	private final void findEntityInfo(Structure bioJavaStruct) {
 		List<EntityInfo> entities = bioJavaStruct.getEntityInfos();
 		// Get the list of chains for all the models
 		List<Chain> structChains = new ArrayList<>();
@@ -926,7 +916,7 @@ public class ParseFromBiojava {
 		bioStruct.get_atom_site_symbol().add(ele.toString());
 		bioStruct.get_atom_site_asym_id().add(inputChainId);
 		// identify coordinate records (e.g. ATOM or HETATM).
-		bioStruct.get_atom_site_group_PDB().add(MY_MAP.get(inputAtom.getGroup().getType().toString()));
+		bioStruct.get_atom_site_group_PDB().add(GroupType.groupTypeFromString(inputAtom.getGroup().getType().toString()).getGroupType());
 		// bioStruct item is a uniquely identifies for each alternative site for
 		// bioStruct atom position.
 		if (inputAtom.getAltLoc()==" ".charAt(0)){
@@ -956,7 +946,7 @@ public class ParseFromBiojava {
 		// category. bioStruct item is used to identify chemically distinct
 		// portions of the molecular structure (e.g. polymer chains,
 		// ligands, solvent).
-		bioStruct.get_atom_site_label_entity_id().add(MY_MAP.get(inputAtom.getGroup().getType().toString()));
+		bioStruct.get_atom_site_label_entity_id().add(GroupType.groupTypeFromString(inputAtom.getGroup().getType().toString()).getGroupType());
 		// bioStruct data item is a reference to _entity_poly_seq.num defined in
 		// the ENTITY_POLY_SEQ category. bioStruct item is used to maintain the
 		// correspondence between the chemical sequence of a polymeric

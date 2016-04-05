@@ -80,7 +80,7 @@ public class DecodeStructure {
 	/**
 	 * Add the main atomic information to the data model
 	 */
-	private void addAtomicInformation() {
+	private final void addAtomicInformation() {
 		for (int modelChains: dataApi.getChainsPerModel()) {
 			structInflator.setModelInfo(modelCounter, modelChains);
 			// A list to check if we need to set or update the chains
@@ -97,7 +97,7 @@ public class DecodeStructure {
 	/**
 	 * Add the entity information to a structure.
 	 */
-	private void addEntityInfo() {
+	private final void addEntityInfo() {
 		for (int i=0; i<dataApi.getNumEntities(); i++) {
 			String[] chainIdList = new String[dataApi.getEntityChainIndexList(i).length];
 			int counter = 0;
@@ -113,7 +113,7 @@ public class DecodeStructure {
 	/**
 	 * Function to add ancilliary header information to the structure
 	 */
-	private void addHeaderInfo() {
+	private final void addHeaderInfo() {
 		structInflator.setHeaderInfo(dataApi.getRfree(),dataApi.getRwork(), dataApi.getResolution(), dataApi.getTitle(), dataApi.getExperimentalMethods());		
 	}
 
@@ -122,7 +122,7 @@ public class DecodeStructure {
 	 * Use the parsing parameters to set the scene.
 	 * @param parsingParams
 	 */
-	private void useParseParams(ParsingParams parsingParams) {
+	private final void useParseParams(ParsingParams parsingParams) {
 		if (parsingParams.isParseInternal()) {
 			System.out.println("Using asym ids");
 			chainList = dataApi.getChainIds();

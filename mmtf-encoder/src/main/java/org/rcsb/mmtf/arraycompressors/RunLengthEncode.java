@@ -18,7 +18,7 @@ public class RunLengthEncode implements IntArrayCompressor, Serializable  {
 	/* (non-Javadoc)
 	 * @see org.rcsb.mmtf.arraycompressors.IntArrayCompressor#compressIntArray(java.util.ArrayList)
 	 */
-	public List<Integer> compressIntArray(List<Integer> inArray) {
+	public final  List<Integer> compressIntArray(List<Integer> inArray) {
 
 		List<Integer> outArray =  new ArrayList<Integer>();
 		int oldVal = 0;

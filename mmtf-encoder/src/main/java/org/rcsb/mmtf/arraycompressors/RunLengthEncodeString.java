@@ -14,7 +14,7 @@ public class RunLengthEncodeString implements StringArrayCompressor {
   /* (non-Javadoc)
    * @see org.rcsb.mmtf.arraycompressors.StringArrayCompressor#compressStringArray(java.util.ArrayList)
    */
-  public List<String> compressStringArray(List<String> inArray) {
+  public final List<String> compressStringArray(List<String> inArray) {
     List<String> outArray =  new ArrayList<String>();
     String oldVal = "";
     int counter = 0;

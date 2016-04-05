@@ -88,7 +88,7 @@ public class DecoderUtils {
 	 * @param currentChainList the byte array of the chain list input. Each chain takes up 4 bytes.
 	 * @return the string array of the parsed chain ids
 	 */
-	public String[] decodeChainList(byte[] currentChainList) {
+	public final String[] decodeChainList(byte[] currentChainList) {
 		int outputLength = currentChainList.length/4;
 		String[] outArray = new String[outputLength];
 		for (int i = 0; i < outputLength; i++){
@@ -103,7 +103,7 @@ public class DecoderUtils {
 	 * @param floatDivider
 	 * @return
 	 */
-	public float[] decodeIntsToFloats(int[] inputIntArray, float floatDivider) {
+	public final float[] decodeIntsToFloats(int[] inputIntArray, float floatDivider) {
 		// Assign the output array to write
 		float[] outArray = new float[inputIntArray.length];
 		for (int i=0; i<inputIntArray.length; i++) {

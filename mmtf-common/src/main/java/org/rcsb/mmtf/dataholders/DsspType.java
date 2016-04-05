@@ -81,7 +81,7 @@ public enum DsspType {
 	{
 
 		if ( dsspType == null)
-			return null;
+			return DsspType.NULL_ENTRY;
 
 		for(DsspType et : DsspType.values())
 		{

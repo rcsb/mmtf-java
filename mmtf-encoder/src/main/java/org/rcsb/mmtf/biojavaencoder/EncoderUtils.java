@@ -99,7 +99,7 @@ public class EncoderUtils implements Serializable {
 	 * @throws JsonProcessingException the json processing exception - most likely related 
 	 * to serialization.
 	 */
-	public byte[] getMessagePack(Object inputObject) throws JsonProcessingException{
+	public final byte[] getMessagePack(Object inputObject) throws JsonProcessingException{
 		com.fasterxml.jackson.databind.ObjectMapper objectMapper = new com.fasterxml.jackson.databind.ObjectMapper(new MessagePackFactory());
 		objectMapper.setSerializationInclusion(Include.NON_NULL);
 		byte[] inBuf = objectMapper.writeValueAsBytes(inputObject);
@@ -116,7 +116,7 @@ public class EncoderUtils implements Serializable {
 	 * @throws IOException reading byte array
 	 * @throws Exception 
 	 */
-	public MmtfBean compressMainData(BioDataStruct inStruct, HeaderBean inHeader) throws IOException {
+	public final MmtfBean compressMainData(BioDataStruct inStruct, HeaderBean inHeader) throws IOException {
 		EncoderUtils cm = new EncoderUtils();
 		// Compress the protein 
 		CoreSingleStructure strucureData = compressHadoopStruct(inStruct);
@@ -167,7 +167,7 @@ public class EncoderUtils implements Serializable {
 	 * @param inputStringArray
 	 * @return An integer array.
 	 */
-	private int[] convertToIntArr(List<String> inputStringArray) {
+	private final int[] convertToIntArr(List<String> inputStringArray) {
 		// The output integer array
 		int[] outArray = new int[inputStringArray.size()];
 		// Now loop through the array first value is char.
@@ -194,7 +194,7 @@ public class EncoderUtils implements Serializable {
 	 * @param inputDate The input date object
 	 * @return The time in ISO time format
 	 */
-	private String convertToIsoTime(Date inputDate) {
+	private final String convertToIsoTime(Date inputDate) {
 		DateFormat dateStringFormat = new SimpleDateFormat("yyyy-MM-dd");
 		return dateStringFormat.format(inputDate);
 	}
@@ -205,7 +205,7 @@ public class EncoderUtils implements Serializable {
 	 * @param groupMap The input map of Integer -> PDBGroup
 	 * @return A list of PDBGroups, where the previous keys are used as indices.
 	 */
-	private PDBGroup[] genGroupList(Map<Integer, PDBGroup> groupMap) {
+	private final PDBGroup[] genGroupList(Map<Integer, PDBGroup> groupMap) {
 		PDBGroup[] outGroupList = new PDBGroup[Collections.max(groupMap.keySet())+1];
 		for (int key : groupMap.keySet()) {
 			outGroupList[key] = groupMap.get(key);
@@ -221,7 +221,7 @@ public class EncoderUtils implements Serializable {
 	 * @param bioBean the bio bean
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
-	private void addByteArrs(MmtfBean thisDistBeanTot, NoFloatDataStructBean bioBean) throws IOException {
+	private final void addByteArrs(MmtfBean thisDistBeanTot, NoFloatDataStructBean bioBean) throws IOException {
 		EncoderUtils cm = new EncoderUtils();
 		// X,Y and Z and Bfactors - set these arrays
 		List<byte[]> retArr = getBigAndLittle(bioBean.get_atom_site_Cartn_xInt());
@@ -256,7 +256,7 @@ public class EncoderUtils implements Serializable {
 	 * @return the byte[]
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
-	public byte[] integersToSmallBytes(List<Integer> values) throws IOException {
+	public final byte[] integersToSmallBytes(List<Integer> values) throws IOException {
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		DataOutputStream dos = new DataOutputStream(baos);
 		for(int i: values)
@@ -273,7 +273,7 @@ public class EncoderUtils implements Serializable {
 	 * @return the big and little
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
-	public List<byte[]> getBigAndLittle(List<Integer> inArr) throws IOException{
+	public final List<byte[]> getBigAndLittle(List<Integer> inArr) throws IOException{
 		List<byte[]>outArr = new ArrayList<byte[]>();
 		int counter = 0;
 		ByteArrayOutputStream littleOS = new ByteArrayOutputStream();
@@ -314,7 +314,7 @@ public class EncoderUtils implements Serializable {
 	 * @param inputArray the input array
 	 * @return the byte[]
 	 */
-	public byte[] gzipCompress(byte[] inputArray){
+	public final byte[] gzipCompress(byte[] inputArray){
 		ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
 		try{
 			GZIPOutputStream gzipOutputStream = new GZIPOutputStream(byteArrayOutputStream);
@@ -336,7 +336,7 @@ public class EncoderUtils implements Serializable {
 	 * @throws InvocationTargetException 
 	 * @throws Exception The bean data copying didn't work - weird.
 	 */
-	public CoreSingleStructure compressHadoopStruct(BioDataStruct inputBioDataStruct) {
+	public final CoreSingleStructure compressHadoopStruct(BioDataStruct inputBioDataStruct) {
 
 		CoreSingleStructure outStruct;
 		outStruct = doublesToInts.compresStructure(inputBioDataStruct);
@@ -379,7 +379,7 @@ public class EncoderUtils implements Serializable {
 	 * @return the calpha dist bean
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
-	public CalphaDistBean compCAlpha(CalphaBean calphaStruct, HeaderBean inHeader) throws IOException {
+	public final CalphaDistBean compCAlpha(CalphaBean calphaStruct, HeaderBean inHeader) throws IOException {
 		EncoderUtils cm = new  EncoderUtils();
 		// Create the object to leave
 		CalphaDistBean calphaOut = new CalphaDistBean();
@@ -472,7 +472,7 @@ public class EncoderUtils implements Serializable {
 	 * This sets all microheterogeneous groups (previously alternate location groups) as separate groups.
 	 * @param bioJavaStruct
 	 */
-	public void fixMicroheterogenity(Structure bioJavaStruct) {
+	public final void fixMicroheterogenity(Structure bioJavaStruct) {
 		// Loop through the models
 		for (int i=0; i<bioJavaStruct.nrModels(); i++){
 			// Then the chains
@@ -507,7 +507,7 @@ public class EncoderUtils implements Serializable {
 	 * @param bioJavaStruct the bio java struct
 	 * @return the all atoms
 	 */
-	public List<Atom> getAllAtoms(Structure bioJavaStruct) {
+	public final List<Atom> getAllAtoms(Structure bioJavaStruct) {
 		// Get all the atoms
 		List<Atom> theseAtoms = new ArrayList<Atom>();
 		for (int i=0; i<bioJavaStruct.nrModels(); i++){
@@ -529,7 +529,7 @@ public class EncoderUtils implements Serializable {
 	 * @param inputGroup the Biojava Group to consider
 	 * @return the atoms for the input Biojava Group
 	 */
-	public List<Atom> getAtomsForGroup(Group inputGroup) {
+	public final List<Atom> getAtomsForGroup(Group inputGroup) {
 		Set<Atom> uniqueAtoms = new HashSet<Atom>();
 		List<Atom> theseAtoms = new ArrayList<Atom>();
 		for(Atom a: inputGroup.getAtoms()){

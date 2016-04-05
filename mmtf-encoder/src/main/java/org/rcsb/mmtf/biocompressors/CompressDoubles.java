@@ -23,7 +23,7 @@ public class CompressDoubles implements BioCompressor, Serializable {
 	/* (non-Javadoc)
 	 * @see org.rcsb.mmtf.biocompressors.BioCompressor#compresStructure(org.rcsb.mmtf.dataholders.CoreSingleStructure)
 	 */
-	public CoreSingleStructure compresStructure(CoreSingleStructure coress) {
+	public final CoreSingleStructure compresStructure(CoreSingleStructure coress) {
 		//  Take in the appropriate arrays 
 		BioDataStruct bioDataS = (BioDataStruct) coress;
 		NoFloatDataStruct noFloatDataS = new NoFloatDataStruct();
@@ -58,7 +58,7 @@ public class CompressDoubles implements BioCompressor, Serializable {
 	 * @param multiplier - the multiplication factor for conversion
 	 * @return the integer array after conversion
 	 */
-	public List<Integer> getIntArrayFromFloat(List<Float> inArray, float multiplier) {
+	public final List<Integer> getIntArrayFromFloat(List<Float> inArray, float multiplier) {
 		// Initialise the out array
 		List<Integer> outArray = new ArrayList<Integer>(inArray.size());
 		for(Float oldDouble: inArray){
@@ -76,7 +76,7 @@ public class CompressDoubles implements BioCompressor, Serializable {
 	 * @param multiplier the multiplier
 	 * @return the int array from double
 	 */
-	public List<Integer> getIntArrayFromDouble(List<Double> inArray, Double multiplier){
+	public final List<Integer> getIntArrayFromDouble(List<Double> inArray, Double multiplier){
 		// Initialise the out array
 		List<Integer> outArray = new ArrayList<Integer>(inArray.size());
 		for(Double oldDouble: inArray){
