@@ -23,28 +23,21 @@ public class DecoderUtils {
 
 		int incrementor = 0;
 		StringBuilder sb = new StringBuilder();
-		byte chainIdOne = chainList[thisChain
-		                            *
-		                            MAX_CHARS_PER_CHAIN_ENTRY + incrementor];
+		byte chainIdOne = chainList[thisChain * MAX_CHARS_PER_CHAIN_ENTRY + incrementor];
 		sb.append((char) chainIdOne);
 		// Now get the next byte
 		incrementor += 1;
-		byte chainIdTwo = chainList[thisChain
-		                            * MAX_CHARS_PER_CHAIN_ENTRY + incrementor];
+		byte chainIdTwo = chainList[thisChain * MAX_CHARS_PER_CHAIN_ENTRY + incrementor];
 		if (chainIdTwo != (byte) 0) {
 			sb.append((char) chainIdTwo);
 		}
 		incrementor += 1;
-		byte chainIdThree = chainList[thisChain
-		                              *
-		                              MAX_CHARS_PER_CHAIN_ENTRY + incrementor];
+		byte chainIdThree = chainList[thisChain * MAX_CHARS_PER_CHAIN_ENTRY + incrementor];
 		if (chainIdThree != (byte) 0) {
 			sb.append((char) chainIdThree);
 		}
 		incrementor += 1;
-		byte chainIdFour = chainList[thisChain
-		                             *
-		                             MAX_CHARS_PER_CHAIN_ENTRY + incrementor];
+		byte chainIdFour = chainList[thisChain * MAX_CHARS_PER_CHAIN_ENTRY + incrementor];
 		if (chainIdFour != (byte) 0) {
 			sb.append((char) chainIdFour);
 		}
