@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.msgpack.jackson.dataformat.MessagePackFactory;
-import org.rcsb.mmtf.api.DataApiInterface;
+import org.rcsb.mmtf.api.MmtfDecodedDataInterface;
 import org.rcsb.mmtf.arraydecompressors.DeltaDeCompress;
 import org.rcsb.mmtf.arraydecompressors.RunLengthDecodeInt;
 import org.rcsb.mmtf.arraydecompressors.RunLengthDecodeString;
@@ -17,7 +17,7 @@ import org.rcsb.mmtf.dataholders.PDBGroup;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-public class SimpleDataApi implements DataApiInterface {
+public class SimpleDataApi implements MmtfDecodedDataInterface {
 
 
 	public SimpleDataApi(byte[] inputByteArr) {
@@ -186,22 +186,22 @@ public class SimpleDataApi implements DataApiInterface {
 	private List<String> experimentalMethods;
 
 	@Override
-	public float[] getXcoords() {
+	public float[] getxCoords() {
 		return cartnX;
 	}
 
 	@Override
-	public float[] getYcoords() {
+	public float[] getyCoords() {
 		return cartnY;
 	}
 
 	@Override
-	public float[] getZcoords() {
+	public float[] getzCoords() {
 		return cartnZ;
 	}
 
 	@Override
-	public float[] getBfactors() {
+	public float[] getbFactors() {
 		return bFactor;
 	}
 
@@ -226,17 +226,17 @@ public class SimpleDataApi implements DataApiInterface {
 	}
 
 	@Override
-	public int[] getResidueNums() {
+	public int[] getGroupIds() {
 		return groupNum;
 	}
 
 	@Override
-	public int[] getGroupIndices() {
+	public int[] getGroupTypeIndices() {
 		return groupList;
 	}
 
 	@Override
-	public int[] getSeqResGroupIndices() {
+	public int[] getGroupSequenceIndices() {
 		return seqResGroupList;
 	}
 
@@ -291,12 +291,12 @@ public class SimpleDataApi implements DataApiInterface {
 	}
 
 	@Override
-	public String getPdbId() {
+	public String getStructureId() {
 		return pdbId;
 	}
 
 	@Override
-	public int getNumResidues() {
+	public int getNumGroups() {
 		return this.groupList.length;
 	}
 
@@ -345,7 +345,7 @@ public class SimpleDataApi implements DataApiInterface {
 	}
 
 	@Override
-	public List<String> getExperimentalMethods() {
+	public String[] getExperimentalMethods() {
 		return experimentalMethods;
 	}
 
@@ -399,7 +399,7 @@ public class SimpleDataApi implements DataApiInterface {
 	}
 
 	@Override
-	public String getGroupSingleLetterCode(int groupInd) {
+	public char getGroupSingleLetterCode(int groupInd) {
 		return groupMap[groupInd].getSingleLetterCode();
 	}
 
@@ -461,12 +461,12 @@ public class SimpleDataApi implements DataApiInterface {
 	}
 
 	@Override
-	public int[] getChainIndexListForTrans(int bioassemblyIndex, int transformationIndex) {
+	public int[] getChainIndexListForTransform(int bioassemblyIndex, int transformationIndex) {
 		return bioAssembly.get(bioassemblyIndex).getTransforms().get(transformationIndex).getChainIndexList();
 	}
 
 	@Override
-	public double[] getTransMatrixForTrans(int bioassemblyIndex, int transformationIndex) {
+	public double[] getMatrixForTransform(int bioassemblyIndex, int transformationIndex) {
 		return bioAssembly.get(bioassemblyIndex).getTransforms().get(transformationIndex).getTransformation();
 	}
 

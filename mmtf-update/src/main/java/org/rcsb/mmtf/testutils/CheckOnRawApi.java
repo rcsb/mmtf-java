@@ -12,7 +12,7 @@ import org.biojava.nbio.structure.EntityInfo;
 import org.biojava.nbio.structure.Group;
 import org.biojava.nbio.structure.Structure;
 import org.biojava.nbio.structure.io.FileParsingParameters;
-import org.rcsb.mmtf.api.DataApiInterface;
+import org.rcsb.mmtf.api.MmtfDecodedDataInterface;
 import org.rcsb.mmtf.decoder.SimpleDataApi;
 
 /**
@@ -21,7 +21,7 @@ import org.rcsb.mmtf.decoder.SimpleDataApi;
  *
  */
 public class CheckOnRawApi {
-	DataApiInterface dataApi;
+	MmtfDecodedDataInterface dataApi;
 	public CheckOnRawApi(byte[] inputData) {
 		dataApi = new SimpleDataApi(inputData);
 	}
@@ -82,7 +82,7 @@ public class CheckOnRawApi {
 	public void checkIfSeqResInfoSame(Structure biojavaStruct, FileParsingParameters params){
 		if(params.isUseInternalChainId()){
 			// Get the seqres group list
-			int[] decodedSeqResGroupList = dataApi.getSeqResGroupIndices();
+			int[] decodedSeqResGroupList = dataApi.getGroupSequenceIndices();
 			// Get the string sequences
 			int groupCounter = 0;
 			int chainCounter = 0;
