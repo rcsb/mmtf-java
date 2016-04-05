@@ -8,7 +8,7 @@ import org.biojava.nbio.structure.StructureException;
 import org.biojava.nbio.structure.StructureIO;
 import org.biojava.nbio.structure.align.util.AtomCache;
 import org.biojava.nbio.structure.io.FileParsingParameters;
-import org.biojava.nbio.structure.io.mmtf.ParseUsingBioJava;
+import org.biojava.nbio.structure.io.mmtf.MmtfStructureDecoder;
 import org.rcsb.mmtf.biojavaencoder.EncoderUtils;
 import org.rcsb.mmtf.decoder.ParsingParams;
 import org.rcsb.mmtf.examples.HandleIO;
@@ -19,7 +19,6 @@ import org.rcsb.mmtf.update.IntegrationTestUtils;
 public class CheckServer {
 
 	private HandleIO handleIo;
-	private ParseUsingBioJava parseUsingBioJava;
 	private FileParsingParameters params;
 	private CheckOnBiojava checkEquiv;
 	
@@ -47,7 +46,6 @@ public class CheckServer {
 	 */
 	public void basicParsingTest(String baseUrl) throws IOException {
 		// Get the class to parse and get data
-		parseUsingBioJava = new ParseUsingBioJava();
 		handleIo = new HandleIO();
 		checkEquiv = new CheckOnBiojava();
 		EncoderUtils encoderUtils = new EncoderUtils();
@@ -70,7 +68,7 @@ public class CheckServer {
 		byte[] inputByteArr = handleIo.getFromUrl(inputPdb, inputUrl);
 		ParsingParams parsingParms = new ParsingParams();
 		parsingParms.setParseInternal(params.isUseInternalChainId());
-		Structure mmtfStruct = parseUsingBioJava.getBiojavaStruct(inputByteArr, parsingParms);
+		Structure mmtfStruct = MmtfStructureDecoder.getBiojavaStruct(inputByteArr, parsingParms);
 		// Now parse from the MMCIF file
 		Structure mmcifStruct;
 		try {

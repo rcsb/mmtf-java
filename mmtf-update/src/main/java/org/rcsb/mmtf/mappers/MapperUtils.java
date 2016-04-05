@@ -9,7 +9,7 @@ import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.biojava.nbio.structure.Structure;
 import org.biojava.nbio.structure.StructureImpl;
-import org.biojava.nbio.structure.io.mmtf.BioJavaStructureDecoder;
+import org.biojava.nbio.structure.io.mmtf.MmtfStructureDecoder;
 import org.rcsb.mmtf.biojavaencoder.EncoderUtils;
 import org.rcsb.mmtf.decoder.DecodeStructure;
 import org.rcsb.mmtf.decoder.ParsingParams;
@@ -32,7 +32,7 @@ public class MapperUtils implements Serializable{
 	 * @return
 	 */
 	public Structure byteArrToBiojavaStruct(String pdbCodePlus, byte[] inputByteArr) { 
-		BioJavaStructureDecoder bjs = new BioJavaStructureDecoder();
+		MmtfStructureDecoder bjs = new MmtfStructureDecoder();
 		Structure newStruct;
 		ParsingParams pp = new ParsingParams();
 		try{
