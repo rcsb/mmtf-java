@@ -153,7 +153,7 @@ public class TestDataHolders {
 		parsedDataStruct.createFromJavaStruct(pdbId, totMap);
 		MmtfBean mmtfBean = null;
 		// Compress the data and get it back out
-		mmtfBean = eu.compressMainData(parsedDataStruct.getBioStruct(), parsedDataStruct.getHeaderStruct());
+		mmtfBean = eu.compressToMmtfBean(parsedDataStruct.getBioStruct(), parsedDataStruct.getHeaderStruct());
 		// Make sure all fields are re-populated
 		ReflectionAssert.assertPropertiesNotNull("Some properties are null in mmtf generated from biojava object",  mmtfBean);
 		// Now check the standard ones have been set

@@ -49,7 +49,7 @@ public class EncodeStructure {
 		EncoderUtils eu = new EncoderUtils();
 		// Compress the data and get it back out
 		try {
-			MmtfBean mmtfBean = eu.compressMainData(parsedDataStruct.getBioStruct(), parsedDataStruct.getHeaderStruct());
+			MmtfBean mmtfBean = eu.compressToMmtfBean(parsedDataStruct.getBioStruct(), parsedDataStruct.getHeaderStruct());
 			return eu.getMessagePack(mmtfBean);
 		} catch (IOException e) {
 			// Here we've failed to read or write a byte array

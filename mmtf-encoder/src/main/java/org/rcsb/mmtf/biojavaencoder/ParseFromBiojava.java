@@ -670,7 +670,6 @@ public class ParseFromBiojava {
 	/**
 	 * Generate a serializable biotransformation for storing
 	 * in the messagepack.
-	 *
 	 * @param bioJavaStruct the Biojava structure
 	 * @param header the header
 	 * @return a map of the bioassembly information that is serializable

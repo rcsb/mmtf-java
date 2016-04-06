@@ -51,7 +51,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 
 
 /**
- * This class finds an mmCIF file and saves it as a csv file .
+ * A class of functions to help encoding of mmCIF data to other data structures.
  *
  * @author Anthony Bradley
  */
@@ -73,10 +73,10 @@ public class EncoderUtils implements Serializable {
 	private IntArrayCompressor runLengthComp = new RunLengthEncode();
 
 	/**
-	 * Take a list of integers (as List<Integer>).
-	 *
+	 * Take a list of integers (as List<Integer>) and return as byte array.
+	 * Each integer is stored as four bytes.
 	 * @param inputList the input integer array
-	 * @return the byte[] output 
+	 * @return the byte array output. Each integer is stored as four bytes.
 	 * @throws IOException Occurred writing the int to the stream.
 	 */
 	public byte[] integersToBytes(List<Integer> inputList) throws IOException
@@ -90,12 +90,10 @@ public class EncoderUtils implements Serializable {
 		return baos.toByteArray();
 	}
 
-
 	/**
-	 * Get a messagepack from a bean.
-	 *
-	 * @param inputObject the input object
-	 * @return the message pack
+	 * Get a messagepack from an input object using the getters and setters.
+	 * @param inputObject the input object. Field names will be set using the getters and setters for private variable.s
+	 * @return the message pack as a byte array.
 	 * @throws JsonProcessingException the json processing exception - most likely related 
 	 * to serialization.
 	 */
@@ -109,68 +107,69 @@ public class EncoderUtils implements Serializable {
 
 	/**
 	 * Compress the biological and header data into a combined data structure.
-	 *
-	 * @param inStruct the in struct
-	 * @param inHeader the in header
-	 * @return the byte array for the compressed data
+	 * @param inStruct the BiodataStruct holding the structure data
+	 * @param inHeader the header data
+	 * @return the MmtfBean of the combined (compressed) data.
 	 * @throws IOException reading byte array
-	 * @throws Exception 
 	 */
-	public final MmtfBean compressMainData(BioDataStruct inStruct, HeaderBean inHeader) throws IOException {
+	public final MmtfBean compressToMmtfBean(BioDataStruct inStruct, HeaderBean inHeader) throws IOException {
 		EncoderUtils cm = new EncoderUtils();
-		// Compress the protein 
-		CoreSingleStructure strucureData = compressHadoopStruct(inStruct);
-		// NOW SET UP THE 
-		MmtfBean thisDistBeanTot = new MmtfBean();
+		// Compress the data.
+		CoreSingleStructure strucureData = compressInputData(inStruct);
+		// Now set up the output MMTF dataholder
+		MmtfBean outputMmtfBean = new MmtfBean();
 		NoFloatDataStructBean bioBean = (NoFloatDataStructBean) strucureData.findDataAsBean();
-		// Copt these things
-		thisDistBeanTot.setDepositionDate(convertToIsoTime(inHeader.getDepDate()));
-		thisDistBeanTot.setStructureId(bioBean.getPdbCode());
-		thisDistBeanTot.setInsCodeList(convertToIntArr(bioBean.get_atom_site_pdbx_PDB_ins_code()));
-		thisDistBeanTot.setAltLocList(convertToIntArr(bioBean.get_atom_site_label_alt_id()));
+		// Copy these things
+		outputMmtfBean.setDepositionDate(convertToIsoTime(inHeader.getDepDate()));
+		outputMmtfBean.setStructureId(bioBean.getPdbCode());
+		outputMmtfBean.setInsCodeList(convertRunLengthStringListToIntArray(bioBean.get_atom_site_pdbx_PDB_ins_code()));
+		outputMmtfBean.setAltLocList(convertRunLengthStringListToIntArray(bioBean.get_atom_site_label_alt_id()));
 		// Set this experimental data
-		thisDistBeanTot.setResolution(inHeader.getResolution());
-		thisDistBeanTot.setrFree(inHeader.getrFree());
-		thisDistBeanTot.setrWork(inHeader.getrWork());
+		outputMmtfBean.setResolution(inHeader.getResolution());
+		outputMmtfBean.setrFree(inHeader.getrFree());
+		outputMmtfBean.setrWork(inHeader.getrWork());
 		// Copy the asym data
-		thisDistBeanTot.setChainIdList(inHeader.getAsymChainList());
-		thisDistBeanTot.setChainsPerModel(inHeader.getAsymChainsPerModel());
-		thisDistBeanTot.setGroupsPerChain(inHeader.getAsymGroupsPerChain());
-		// Get
-		thisDistBeanTot.setEntityList(inHeader.getEntityList());
+		outputMmtfBean.setChainIdList(inHeader.getAsymChainList());
+		outputMmtfBean.setChainsPerModel(inHeader.getAsymChainsPerModel());
+		outputMmtfBean.setGroupsPerChain(inHeader.getAsymGroupsPerChain());
+		// Set the entity information
+		outputMmtfBean.setEntityList(inHeader.getEntityList());
 		// Get the seqres information
-		thisDistBeanTot.setSequenceIdList(cm.integersToBytes(runLengthComp.compressIntArray(deltaComp.compressIntArray(inHeader.getSeqResGroupIds()))));
-		thisDistBeanTot.setExperimentalMethods(inHeader.getExperimentalMethods());
+		outputMmtfBean.setSequenceIdList(cm.integersToBytes(runLengthComp.compressIntArray(deltaComp.compressIntArray(inHeader.getSeqResGroupIds()))));
+		outputMmtfBean.setExperimentalMethods(inHeader.getExperimentalMethods());
 		// Now get this list
-		thisDistBeanTot.setBondAtomList(cm.integersToBytes(inStruct.getInterGroupBondInds()));
-		thisDistBeanTot.setBondOrderList(cm.integersToSmallBytes(inStruct.getInterGroupBondOrders()));
+		outputMmtfBean.setBondAtomList(cm.integersToBytes(inStruct.getInterGroupBondInds()));
+		outputMmtfBean.setBondOrderList(cm.integersToSmallBytes(inStruct.getInterGroupBondOrders()));
 		// Now get these from the headers
-		thisDistBeanTot.setChainNameList(inHeader.getChainList());
-		thisDistBeanTot.setNumAtoms(inHeader.getNumAtoms());
-		thisDistBeanTot.setNumBonds(inHeader.getNumBonds());
-		// Now get the Xtalographic info from this header
-		thisDistBeanTot.setSpaceGroup(inHeader.getSpaceGroup());
-		thisDistBeanTot.setGroupList(genGroupList(inStruct.getGroupMap()));
-		thisDistBeanTot.setUnitCell(inHeader.getUnitCell());
-		thisDistBeanTot.setBioAssemblyList(inHeader.getBioAssembly());
+		outputMmtfBean.setChainNameList(inHeader.getChainList());
+		outputMmtfBean.setNumAtoms(inHeader.getNumAtoms());
+		outputMmtfBean.setNumBonds(inHeader.getNumBonds());
+		// Now get the crystalographic info from this header
+		outputMmtfBean.setSpaceGroup(inHeader.getSpaceGroup());
+		outputMmtfBean.setGroupList(genGroupList(inStruct.getGroupMap()));
+		outputMmtfBean.setUnitCell(inHeader.getUnitCell());
+		outputMmtfBean.setBioAssemblyList(inHeader.getBioAssembly());
 		// Now set this extra header information
-		thisDistBeanTot.setTitle(inHeader.getTitle());
+		outputMmtfBean.setTitle(inHeader.getTitle());
 		// Now add the byte arrays to the bean
-		addByteArrs(thisDistBeanTot, bioBean);
+		addByteArrs(outputMmtfBean, bioBean);
 		// Now set the version
-		thisDistBeanTot.setMmtfProducer("RCSB-PDB Generator---version: "+grs.getCurrentVersion());
-		return thisDistBeanTot;
+		outputMmtfBean.setMmtfProducer("RCSB-PDB Generator---version: "+grs.getCurrentVersion());
+		return outputMmtfBean;
 	}
 	
 	/**
-	 * Convert a String list to an int[].
-	 * @param inputStringArray
-	 * @return An integer array.
+	 * Convert the a run length encoded List of strings to an integer array.
+	 * The values are in pairs. The first value of each pair encodes the character.
+	 * The second is a string representing the number of repeats. 
+	 * @param inputStringArray The list of strings. Values are in pairs. The first value is a String of length 1.
+	 * The second value encodes an integer as a string.
+	 * @return An integer array of the values having been converted to integers.
 	 */
-	private final int[] convertToIntArr(List<String> inputStringArray) {
+	private final int[] convertRunLengthStringListToIntArray(List<String> inputStringArray) {
 		// The output integer array
 		int[] outArray = new int[inputStringArray.size()];
-		// Now loop through the array first value is char.
+		// Now loop through the array first value is char. 
 		for (int i=0; i<inputStringArray.size(); i+=2) {
 			if ( inputStringArray.get(i)==null){
 				outArray[i] = MmtfBean.UNAVAILABLE_CHAR_VALUE;
@@ -192,7 +191,7 @@ public class EncoderUtils implements Serializable {
 	/**
 	 * Covert a Date object to ISO time format.
 	 * @param inputDate The input date object
-	 * @return The time in ISO time format
+	 * @return the time in ISO time format
 	 */
 	private final String convertToIsoTime(Date inputDate) {
 		DateFormat dateStringFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -202,8 +201,8 @@ public class EncoderUtils implements Serializable {
 
 	/**
 	 * Returns a PDBGroupList from a GroupMap. Uses the key of the map as the index in the list.
-	 * @param groupMap The input map of Integer -> PDBGroup
-	 * @return A list of PDBGroups, where the previous keys are used as indices.
+	 * @param groupMap the input map of Integer -> PDBGroup
+	 * @return a list of PDBGroups, where the previous keys are used as indices.
 	 */
 	private final PDBGroup[] genGroupList(Map<Integer, PDBGroup> groupMap) {
 		PDBGroup[] outGroupList = new PDBGroup[Collections.max(groupMap.keySet())+1];
@@ -216,50 +215,47 @@ public class EncoderUtils implements Serializable {
 
 	/**
 	 * Add the required bytearrays to an mmtfbean.
-	 *
-	 * @param thisDistBeanTot the this dist bean tot
-	 * @param bioBean the bio bean
+	 * @param inputMmtfBean the mmtf bean to which the arrays are to be added.
+	 * @param inputDataBean the bean holding the coordinate information.
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
-	private final void addByteArrs(MmtfBean thisDistBeanTot, NoFloatDataStructBean bioBean) throws IOException {
+	private final void addByteArrs(MmtfBean inputMmtfBean, NoFloatDataStructBean inputDataBean) throws IOException {
 		EncoderUtils cm = new EncoderUtils();
-		// X,Y and Z and Bfactors - set these arrays
-		List<byte[]> retArr = getBigAndLittle(bioBean.get_atom_site_Cartn_xInt());
-		thisDistBeanTot.setxCoordBig(retArr.get(0));
-		thisDistBeanTot.setxCoordSmall(retArr.get(1));
-		retArr = getBigAndLittle(bioBean.get_atom_site_Cartn_yInt());
-		thisDistBeanTot.setyCoordBig(retArr.get(0));
-		thisDistBeanTot.setyCoordSmall(retArr.get(1));
-		retArr = getBigAndLittle(bioBean.get_atom_site_Cartn_zInt());
-		thisDistBeanTot.setzCoordBig(retArr.get(0));
-		thisDistBeanTot.setzCoordSmall(retArr.get(1));
-		retArr = getBigAndLittle(bioBean.get_atom_site_B_iso_or_equivInt());
-		thisDistBeanTot.setbFactorBig(retArr.get(0));
-		thisDistBeanTot.setbFactorSmall(retArr.get(1));
+		// Convert the x,y,z coordinate arrays as 4 and 2 byte arrays.
+		List<byte[]> retArr = splitListIntsToByteArrays(inputDataBean.get_atom_site_Cartn_xInt());
+		inputMmtfBean.setxCoordBig(retArr.get(0));
+		inputMmtfBean.setxCoordSmall(retArr.get(1));
+		retArr = splitListIntsToByteArrays(inputDataBean.get_atom_site_Cartn_yInt());
+		inputMmtfBean.setyCoordBig(retArr.get(0));
+		inputMmtfBean.setyCoordSmall(retArr.get(1));
+		retArr = splitListIntsToByteArrays(inputDataBean.get_atom_site_Cartn_zInt());
+		inputMmtfBean.setzCoordBig(retArr.get(0));
+		inputMmtfBean.setzCoordSmall(retArr.get(1));
+		// Set the bfactor arrays as 4 and 2 byte arrays
+		retArr = splitListIntsToByteArrays(inputDataBean.get_atom_site_B_iso_or_equivInt());
+		inputMmtfBean.setbFactorBig(retArr.get(0));
+		inputMmtfBean.setbFactorSmall(retArr.get(1));
 		// Now the occupancy
-		thisDistBeanTot.setOccupancyList(cm.integersToBytes(bioBean.get_atom_site_occupancyInt()));
+		inputMmtfBean.setOccupancyList(cm.integersToBytes(inputDataBean.get_atom_site_occupancyInt()));
 		// System.out.println(Collections.max(bioBean.getResOrder()));
-		thisDistBeanTot.setGroupTypeList((cm.integersToBytes(bioBean.getResOrder())));
-		thisDistBeanTot.setAtomIdList(cm.integersToBytes(bioBean.get_atom_site_id()));
-
+		inputMmtfBean.setGroupTypeList((cm.integersToBytes(inputDataBean.getResOrder())));
+		inputMmtfBean.setAtomIdList(cm.integersToBytes(inputDataBean.get_atom_site_id()));
 		// Now the secondary structure
-		thisDistBeanTot.setSecStructList(cm.integersToSmallBytes(bioBean.getSecStruct()));
+		inputMmtfBean.setSecStructList(cm.integersToSmallBytes(inputDataBean.getSecStruct()));
 		// Now set the group num list
-		thisDistBeanTot.setGroupIdList(cm.integersToBytes(bioBean.get_atom_site_auth_seq_id()));
+		inputMmtfBean.setGroupIdList(cm.integersToBytes(inputDataBean.get_atom_site_auth_seq_id()));
 	}
-
 
 	/**
 	 * Write a list of integers to 1 byte integers.
-	 *
-	 * @param values the values
-	 * @return the byte[]
+	 * @param inputList the input list of integers.
+	 * @return the byte array, each byte is a different integer.
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
-	public final byte[] integersToSmallBytes(List<Integer> values) throws IOException {
+	public final byte[] integersToSmallBytes(List<Integer> inputList) throws IOException {
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		DataOutputStream dos = new DataOutputStream(baos);
-		for(int i: values)
+		for(int i: inputList)
 		{
 			dos.writeByte(i);
 		}
@@ -267,50 +263,54 @@ public class EncoderUtils implements Serializable {
 	}
 
 	/**
-	 * Split an array into small (2 byte) and big (4 byte) integers.
-	 *
-	 * @param inArr the in arr
-	 * @return the big and little
+	 * Split a list of integers into small (2 byte) and big (4 byte) integers.
+	 * @param inputList the input list of 4 byte integers.
+	 * @return a list (length two) of byte arrays. The first array is the four byte integers.
+	 * The second is the two byte integers.
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
-	public final List<byte[]> getBigAndLittle(List<Integer> inArr) throws IOException{
-		List<byte[]>outArr = new ArrayList<byte[]>();
+	public final List<byte[]> splitListIntsToByteArrays(List<Integer> inputList) throws IOException{
+		// Initialise the list to return
+		List<byte[]> outputList = new ArrayList<>();
+		// The counter keeps track of  every short (two byte int) that has been added after a four byte int.
 		int counter = 0;
-		ByteArrayOutputStream littleOS = new ByteArrayOutputStream();
-		DataOutputStream littleDOS = new DataOutputStream(littleOS);
-		ByteArrayOutputStream bigOS = new ByteArrayOutputStream();
-		DataOutputStream bigDOS = new DataOutputStream(bigOS);
-		for(int i=0;i<inArr.size();i++){
+		// Generate the output streams and data output streams.
+		ByteArrayOutputStream twoByteOutputStream = new ByteArrayOutputStream();
+		DataOutputStream twoByteDataOutputStream = new DataOutputStream(twoByteOutputStream);
+		ByteArrayOutputStream fourByteOutputStream = new ByteArrayOutputStream();
+		DataOutputStream fourByteDataOutputStream = new DataOutputStream(fourByteOutputStream);
+		// Iterate through the input list.
+		for(int i=0;i<inputList.size();i++){
+			// First number always goes as a four byte integer.
 			if(i==0){
-				// First number goes in big list
-				bigDOS.writeInt(inArr.get(i));
+				fourByteDataOutputStream.writeInt(inputList.get(i));
 			}
-			else if(Math.abs(inArr.get(i))>30000){
-				// Counter added to the big list
-				bigDOS.writeInt(counter);
-				// Big number added to big list
-				bigDOS.writeInt(inArr.get(i));
-				// Counter set to zero
+			// If the number is greater than the maximum for a two byte integer. Store as a four byte integer.
+			else if(Math.abs(inputList.get(i))>Short.MAX_VALUE){
+				// Add the counter to the four byte list.
+				fourByteDataOutputStream.writeInt(counter);
+				// Add the number to the four byte list.
+				fourByteDataOutputStream.writeInt(inputList.get(i));
+				// Set the counter to zero.
 				counter = 0;
 			}
 			else{
-				// Little number added to little list
-				littleDOS.writeShort(inArr.get(i));
-				// Add to the counter
+				// Add the two byte integer to the two byte list.
+				twoByteDataOutputStream.writeShort(inputList.get(i));
+				// Add one to the counter.
 				counter+=1;
 			}
 		}
-		// Finally add the counter to the big list 
-		bigDOS.writeInt(counter);
-
-		outArr.add(bigOS.toByteArray());
-		outArr.add(littleOS.toByteArray());
-		return outArr;
+		// Finally add the final counter to the four byte list.
+		fourByteDataOutputStream.writeInt(counter);
+		// Add the two byte arrays to the out put list.
+		outputList.add(fourByteOutputStream.toByteArray());
+		outputList.add(twoByteOutputStream.toByteArray());
+		return outputList;
 	}
 
 	/**
 	 * Utility function to gzip compress a byte[].
-	 *
 	 * @param inputArray the input array
 	 * @return the byte[]
 	 */
@@ -329,41 +329,35 @@ public class EncoderUtils implements Serializable {
 
 	/**
 	 * Function to compress the input biological data.
-	 *
 	 * @param inputBioDataStruct the input data structure
 	 * @return a core single structure
 	 * @throws IllegalAccessException 
 	 * @throws InvocationTargetException 
 	 * @throws Exception The bean data copying didn't work - weird.
 	 */
-	public final CoreSingleStructure compressHadoopStruct(BioDataStruct inputBioDataStruct) {
-
-		CoreSingleStructure outStruct;
-		outStruct = doublesToInts.compresStructure(inputBioDataStruct);
-		// Get the input structure
-		NoFloatDataStruct inStruct =  (NoFloatDataStruct) outStruct;
+	public final CoreSingleStructure compressInputData(BioDataStruct inputBioDataStruct) {
+		// Convert the arrays to integers.
+		NoFloatDataStruct inStruct = (NoFloatDataStruct) doublesToInts.compresStructure(inputBioDataStruct);
+		// Get the lists of coordinates.
 		List<Integer> cartnX = inStruct.get_atom_site_Cartn_xInt();
 		List<Integer> cartnY = inStruct.get_atom_site_Cartn_yInt();
 		List<Integer> cartnZ = inStruct.get_atom_site_Cartn_zInt();
-
 		// Get the number of models
 		inStruct.set_atom_site_Cartn_xInt(deltaComp.compressIntArray(cartnX));
 		inStruct.set_atom_site_Cartn_yInt(deltaComp.compressIntArray(cartnY));
 		inStruct.set_atom_site_Cartn_zInt(deltaComp.compressIntArray(cartnZ));		
-		//		// Now the occupancy and BFACTOR -> VERY SMALL GAIN
+		// Compress the b factors using delta compression.
 		inStruct.set_atom_site_B_iso_or_equivInt(deltaComp.compressIntArray(inStruct.get_atom_site_B_iso_or_equivInt()));
-		// SMALL GAIN
+		// Run length compress the occupanct
 		inStruct.set_atom_site_occupancyInt(runLengthComp.compressIntArray(inStruct.get_atom_site_occupancyInt()));
 		// Now the sequential numbers - huge gain - new order of good compressors
 		// Now runlength encode the residue order
 		inStruct.setResOrder(inStruct.getResOrder());
-		// THESE ONES CAN BE RUN LENGTH ON DELTA
-
 		// Check for negative counters
 		inStruct.set_atom_site_auth_seq_id(runLengthComp.compressIntArray(deltaComp.compressIntArray(inStruct.get_atom_site_auth_seq_id())));
 		inStruct.set_atom_site_label_entity_poly_seq_num(runLengthComp.compressIntArray(deltaComp.compressIntArray(inStruct.get_atom_site_label_entity_poly_seq_num())));
 		inStruct.set_atom_site_id(runLengthComp.compressIntArray(deltaComp.compressIntArray(inStruct.get_atom_site_id())));
-		//// NOW THE STRINGS  - small gain
+		// Now run length decode the strings
 		StringArrayCompressor stringRunEncode = new RunLengthEncodeString();
 		inStruct.set_atom_site_label_alt_id(stringRunEncode.compressStringArray((ArrayList<String>) inStruct.get_atom_site_label_alt_id()));
 		//inStruct.set_atom_site_label_entity_id(stringRunEncode.compressStringArray((ArrayList<String>) inStruct.get_atom_site_label_entity_id()));
@@ -372,14 +366,13 @@ public class EncoderUtils implements Serializable {
 	}
 
 	/**
-	 * Comp c alpha.
-	 *
-	 * @param calphaStruct the calpha struct
-	 * @param inHeader the in header
-	 * @return the calpha dist bean
+	 * Compress Calpha data to the output format.
+	 * @param calphaData the calpha struct
+	 * @param inHeader the header data
+	 * @return the compressed calpha data
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
-	public final CalphaDistBean compCAlpha(CalphaBean calphaStruct, HeaderBean inHeader) throws IOException {
+	public final CalphaDistBean compCAlpha(CalphaBean calphaData, HeaderBean inHeader) throws IOException {
 		EncoderUtils cm = new  EncoderUtils();
 		// Create the object to leave
 		CalphaDistBean calphaOut = new CalphaDistBean();
@@ -395,35 +388,35 @@ public class EncoderUtils implements Serializable {
 		// A map of Bioassembly -> new class so serializable
 		calphaOut.setBioAssembly(inHeader.getBioAssembly());
 		// Now set the number of bonds
-		calphaOut.setNumBonds(calphaStruct.getNumBonds());
-		calphaOut.setGroupsPerChain(calphaStruct.getGroupsPerChain());
+		calphaOut.setNumBonds(calphaData.getNumBonds());
+		calphaOut.setGroupsPerChain(calphaData.getGroupsPerChain());
 		// Set this header info
 		calphaOut.setChainsPerModel(inHeader.getChainsPerModel());
-		calphaOut.setGroupsPerChain(calphaStruct.getGroupsPerChain());
+		calphaOut.setGroupsPerChain(calphaData.getGroupsPerChain());
 		calphaOut.setChainIdList(inHeader.getChainList());
-		calphaOut.setNumAtoms(calphaStruct.getNumAtoms());
+		calphaOut.setNumAtoms(calphaData.getNumAtoms());
 		// Write the secondary stucture out
-		calphaOut.setSecStructList(cm.integersToSmallBytes(calphaStruct.getSecStruct()));
-		calphaOut.setGroupMap(calphaStruct.getGroupMap());
-		calphaOut.setGroupTypeList(cm.integersToBytes(calphaStruct.getResOrder()));
+		calphaOut.setSecStructList(cm.integersToSmallBytes(calphaData.getSecStruct()));
+		calphaOut.setGroupMap(calphaData.getGroupMap());
+		calphaOut.setGroupTypeList(cm.integersToBytes(calphaData.getResOrder()));
 		// Get the input structure
-		List<Integer> cartnX = calphaStruct.getCartn_x();
-		List<Integer> cartnY = calphaStruct.getCartn_y();
-		List<Integer> cartnZ = calphaStruct.getCartn_z();
+		List<Integer> cartnX = calphaData.getCartn_x();
+		List<Integer> cartnY = calphaData.getCartn_y();
+		List<Integer> cartnZ = calphaData.getCartn_z();
 		// Now add the X coords
-		List<byte[]> bigAndLittleX = getBigAndLittle(deltaComp.compressIntArray(cartnX));
+		List<byte[]> bigAndLittleX = splitListIntsToByteArrays(deltaComp.compressIntArray(cartnX));
 		calphaOut.setxCoordBig(bigAndLittleX.get(0));
 		calphaOut.setxCoordSmall(bigAndLittleX.get(1));
 		//  No add they Y coords
-		List<byte[]> bigAndLittleY = getBigAndLittle(deltaComp.compressIntArray(cartnY));
+		List<byte[]> bigAndLittleY = splitListIntsToByteArrays(deltaComp.compressIntArray(cartnY));
 		calphaOut.setyCoordBig(bigAndLittleY.get(0));
 		calphaOut.setyCoordSmall(bigAndLittleY.get(1));
 		// Now add the Z coords
-		List<byte[]> bigAndLittleZ = getBigAndLittle(deltaComp.compressIntArray(cartnZ));
+		List<byte[]> bigAndLittleZ = splitListIntsToByteArrays(deltaComp.compressIntArray(cartnZ));
 		calphaOut.setzCoordBig(bigAndLittleZ.get(0));
 		calphaOut.setzCoordSmall(bigAndLittleZ.get(1));	
 		// THESE ONES CAN BE RUN LENGTH ON DELTA
-		calphaOut.setGroupIdList(cm.integersToBytes(runLengthComp.compressIntArray(deltaComp.compressIntArray(calphaStruct.get_atom_site_auth_seq_id()))));
+		calphaOut.setGroupIdList(cm.integersToBytes(runLengthComp.compressIntArray(deltaComp.compressIntArray(calphaData.get_atom_site_auth_seq_id()))));
 		return calphaOut;
 	}
 

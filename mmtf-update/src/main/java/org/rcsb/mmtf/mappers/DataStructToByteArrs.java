@@ -36,7 +36,7 @@ public class DataStructToByteArrs  implements PairFlatMapFunction<Tuple2<String,
 		BioDataStruct thisBS = cbs.getBioStruct();
 		CalphaDistBean calphaDistStruct = cm.compCAlpha(cbs.getCalphaStruct(), cbs.getHeaderStruct());
 		// NOW JUST WRITE THE KEY VALUE PAIRS HERE
-		byte[] totBytes = cm.getMessagePack(cm.compressMainData(thisBS, headerData));
+		byte[] totBytes = cm.getMessagePack(cm.compressToMmtfBean(thisBS, headerData));
 		byte[] headerBytes = cm.getMessagePack(headerData);
 		byte[] calphaBytes = cm.getMessagePack(calphaDistStruct);
 		// Add the total data
