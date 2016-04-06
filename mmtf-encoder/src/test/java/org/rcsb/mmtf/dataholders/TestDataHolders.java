@@ -17,7 +17,8 @@ import org.biojava.nbio.structure.io.mmcif.DownloadChemCompProvider;
 import org.biojava.nbio.structure.quaternary.BioAssemblyInfo;
 import org.junit.Test;
 import org.msgpack.jackson.dataformat.MessagePackFactory;
-import org.rcsb.mmtf.biojavaencoder.ParseFromBiojava;
+import org.rcsb.mmtf.biojavaencoder.BiojavaEncoderImpl;
+import org.rcsb.mmtf.encoder.EncoderInterface;
 import org.rcsb.mmtf.encoder.EncoderUtils;
 import org.unitils.reflectionassert.ReflectionAssert;
 
@@ -147,10 +148,10 @@ public class TestDataHolders {
 		// Utility functions for encoding stuff
 		EncoderUtils eu = new EncoderUtils();
 		// Get the utility class to get the structures
-		ParseFromBiojava parsedDataStruct = new ParseFromBiojava();
+		EncoderInterface parsedDataStruct = new BiojavaEncoderImpl();
 		Map<Integer, PDBGroup> totMap = new HashMap<Integer, PDBGroup>();
 		// Parse the data into the basic data structure
-		parsedDataStruct.createFromJavaStruct(pdbId, totMap);
+		parsedDataStruct.generateDataStructuresFromPdbId(pdbId, totMap);
 		MmtfBean mmtfBean = null;
 		// Compress the data and get it back out
 		mmtfBean = eu.compressToMmtfBean(parsedDataStruct.getBioStruct(), parsedDataStruct.getHeaderStruct());

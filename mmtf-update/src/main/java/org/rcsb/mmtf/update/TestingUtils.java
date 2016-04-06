@@ -68,7 +68,7 @@ public class TestingUtils {
 	    StructureIO.setAtomCache(cache);
 	    EncodeStructure es = new EncodeStructure();
 	    Structure mmcifStruct  = StructureIO.getStructure(pdbId);
-	    FileUtils.writeByteArrayToFile(new File("pathname"), es.encodeFromBiojava(mmcifStruct));
+	    FileUtils.writeByteArrayToFile(new File("pathname"), es.encodeFromPdbId(mmcifStruct));
 	    byte[] inArr = FileUtils.readFileToByteArray(new File("pathname"));
 	    // Now do the checks on the Raw data
 	    CheckOnRawApi checkRaw = new CheckOnRawApi(inArr);

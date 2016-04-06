@@ -6,10 +6,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.spark.api.java.function.PairFlatMapFunction;
-import org.rcsb.mmtf.biojavaencoder.ParseFromBiojava;
+import org.rcsb.mmtf.biojavaencoder.BiojavaEncoderImpl;
 import org.rcsb.mmtf.dataholders.BioDataStruct;
 import org.rcsb.mmtf.dataholders.CalphaDistBean;
 import org.rcsb.mmtf.dataholders.HeaderBean;
+import org.rcsb.mmtf.encoder.EncoderInterface;
 import org.rcsb.mmtf.encoder.EncoderUtils;
 
 import scala.Tuple2;
@@ -20,16 +21,16 @@ import scala.Tuple2;
  * @author Anthony Bradley
  *
  */
-public class DataStructToByteArrs  implements PairFlatMapFunction<Tuple2<String, ParseFromBiojava>, String, byte[]>{
+public class DataStructToByteArrs  implements PairFlatMapFunction<Tuple2<String, BiojavaEncoderImpl>, String, byte[]>{
 
 	private static final long serialVersionUID = 2066093446043635571L;
 	
 	@Override
-	public Iterable<Tuple2<String, byte[]>> call(Tuple2<String, ParseFromBiojava> t) throws IOException, IllegalAccessException, InvocationTargetException {
+	public Iterable<Tuple2<String, byte[]>> call(Tuple2<String, BiojavaEncoderImpl> t) throws IOException, IllegalAccessException, InvocationTargetException {
 		// First generate the list to return
 		List<Tuple2<String, byte[]>> outList = new ArrayList<Tuple2<String, byte[]>>();
 		EncoderUtils cm = new EncoderUtils();
-		ParseFromBiojava cbs = t._2;
+		EncoderInterface cbs = t._2;
 		String pdbCode = t._1;
 		// Now get the header too
 		HeaderBean headerData = cbs.getHeaderStruct();

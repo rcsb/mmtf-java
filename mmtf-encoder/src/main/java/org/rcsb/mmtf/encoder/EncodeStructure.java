@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.biojava.nbio.structure.Structure;
-import org.rcsb.mmtf.biojavaencoder.ParseFromBiojava;
+import org.rcsb.mmtf.biojavaencoder.BiojavaEncoderImpl;
 import org.rcsb.mmtf.dataholders.MmtfBean;
 import org.rcsb.mmtf.dataholders.PDBGroup;
 
@@ -19,10 +19,10 @@ public class EncodeStructure {
 	 */
 	public final byte[] getCompressedMessagePackFromPdbId(String pdbId) {
 		// Get the utility class to get the strucutes
-		ParseFromBiojava parsedDataStruct = new ParseFromBiojava();
+		EncoderInterface parsedDataStruct = new BiojavaEncoderImpl();
 		Map<Integer, PDBGroup> totMap = new HashMap<Integer, PDBGroup>();
 		// Parse the data into the basic data structure
-		parsedDataStruct.createFromJavaStruct(pdbId, totMap);
+		parsedDataStruct.generateDataStructuresFromPdbId(pdbId, totMap);
 		// Compress the data and get it back out
 		return buildFromDataStructure(parsedDataStruct);
 	}
@@ -32,12 +32,12 @@ public class EncodeStructure {
 	 * @param bioJavaStruct
 	 * @return a byte array of compressed data
 	 */
-	public final byte[] encodeFromBiojava(Structure bioJavaStruct){
+	public final byte[] encodeFromPdbId(Structure bioJavaStruct){
 		// Get the utility class to get the strucutes
-		ParseFromBiojava parsedDataStruct = new ParseFromBiojava();
+		BiojavaEncoderImpl parsedDataStruct = new BiojavaEncoderImpl();
 		Map<Integer, PDBGroup> totMap = new HashMap<Integer, PDBGroup>();
 		// Parse the data into the basic data structure
-		parsedDataStruct.generateDataStructuresFromBioJavaStructure(bioJavaStruct, totMap);
+		parsedDataStruct.generateDataStructuresFromPdbId(bioJavaStruct, totMap);
 		return buildFromDataStructure(parsedDataStruct);
 	}
 
@@ -46,7 +46,7 @@ public class EncodeStructure {
 	 * @param parsedDataStruct
 	 * @return a byte array of compressed data
 	 */
-	private final byte[] buildFromDataStructure(ParseFromBiojava parsedDataStruct) {
+	private final byte[] buildFromDataStructure(EncoderInterface parsedDataStruct) {
 		EncoderUtils eu = new EncoderUtils();
 		// Compress the data and get it back out
 		try {
@@ -68,10 +68,10 @@ public class EncodeStructure {
 	public final byte[] encodeBackBoneFromPdbId(String pdbId){
 		// Get the two utility classes
 		EncoderUtils eu = new EncoderUtils();
-		ParseFromBiojava cbs = new ParseFromBiojava();
+		EncoderInterface cbs = new BiojavaEncoderImpl();
 		Map<Integer, PDBGroup> totMap = new HashMap<Integer, PDBGroup>();
 		// Parse the data into the basic data structure
-		cbs.createFromJavaStruct(pdbId, totMap);
+		cbs.generateDataStructuresFromPdbId(pdbId, totMap);
 		// Compress the data and get it back out
 		try {
 			return eu.getMessagePack(eu.compCAlpha(cbs.getCalphaStruct(), cbs.getHeaderStruct()));

@@ -26,15 +26,14 @@ import org.rcsb.mmtf.dataholders.CalphaBean;
 import org.rcsb.mmtf.dataholders.DsspType;
 import org.rcsb.mmtf.dataholders.Entity;
 import org.rcsb.mmtf.dataholders.HeaderBean;
+import org.rcsb.mmtf.dataholders.MmtfBean;
 import org.rcsb.mmtf.dataholders.PDBGroup;
+import org.rcsb.mmtf.encoder.EncoderInterface;
 import org.rcsb.mmtf.encoder.EncoderUtils;
 
 
 /** A class to use biojava to parse MMCIF data and produce a data structure that can be fed into the MMTF. */
-public class ParseFromBiojava {
-
-	/** The multiplication factor for coordinate information */
-	private static final int COORD_MULT = 1000;
+public class BiojavaEncoderImpl implements EncoderInterface {
 
 	/** The bio struct. */
 	private BioDataStruct bioStruct = new BioDataStruct();
@@ -46,7 +45,7 @@ public class ParseFromBiojava {
 	private HeaderBean headerStruct = new HeaderBean();
 
 	/** The bonds for the structure. Used to keep track of which bonds have already been considered */
-	private  List<Bond> totBonds = new ArrayList<Bond>();
+	private List<Bond> totBonds = new ArrayList<Bond>();
 
 	/** The number of groups per calpha chain. */
 	private int[] calphaGroupsPerChain;
@@ -67,74 +66,66 @@ public class ParseFromBiojava {
 	private Group currentGroup;
 	
 
-	/**
-	 * Gets the bio struct.
-	 *
-	 * @return the bio struct
+	/* (non-Javadoc)
+	 * @see org.rcsb.mmtf.biojavaencoder.EncoderInterface#getBioStruct()
 	 */
+	@Override
 	public BioDataStruct getBioStruct() {
 		return bioStruct;
 	}
 
 
-	/**
-	 * Sets the bio struct.
-	 *
-	 * @param bioStruct the new bio struct
+	/* (non-Javadoc)
+	 * @see org.rcsb.mmtf.biojavaencoder.EncoderInterface#setBioStruct(org.rcsb.mmtf.dataholders.BioDataStruct)
 	 */
+	@Override
 	public void setBioStruct(BioDataStruct bioStruct) {
 		this.bioStruct = bioStruct;
 	}
 
 
-	/**
-	 * Gets the calpha struct.
-	 *
-	 * @return the calpha struct
+	/* (non-Javadoc)
+	 * @see org.rcsb.mmtf.biojavaencoder.EncoderInterface#getCalphaStruct()
 	 */
+	@Override
 	public CalphaBean getCalphaStruct() {
 		return calphaStruct;
 	}
 
 
-	/**
-	 * Sets the calpha struct.
-	 *
-	 * @param calphaStruct the new calpha struct
+	/* (non-Javadoc)
+	 * @see org.rcsb.mmtf.biojavaencoder.EncoderInterface#setCalphaStruct(org.rcsb.mmtf.dataholders.CalphaBean)
 	 */
+	@Override
 	public void setCalphaStruct(CalphaBean calphaStruct) {
 		this.calphaStruct = calphaStruct;
 	}
 
 
-	/**
-	 * Gets the header struct.
-	 *
-	 * @return the header struct
+	/* (non-Javadoc)
+	 * @see org.rcsb.mmtf.biojavaencoder.EncoderInterface#getHeaderStruct()
 	 */
+	@Override
 	public HeaderBean getHeaderStruct() {
 		return headerStruct;
 	}
 
 
-	/**
-	 * Sets the header struct.
-	 *
-	 * @param headerStruct the new header struct
+	/* (non-Javadoc)
+	 * @see org.rcsb.mmtf.biojavaencoder.EncoderInterface#setHeaderStruct(org.rcsb.mmtf.dataholders.HeaderBean)
 	 */
+	@Override
 	public void setHeaderStruct(HeaderBean headerStruct) {
 		this.headerStruct = headerStruct;
 	}
 
 
 
-	/**
-	 * Helper function to generate a main, calpha and header data form a PDB id.
-	 *
-	 * @param pdbId the pdb id
-	 * @param bioStructMap the bio struct map
+	/* (non-Javadoc)
+	 * @see org.rcsb.mmtf.biojavaencoder.EncoderInterface#generateDataStructuresFromPdbId(java.lang.String, java.util.Map)
 	 */
-	public final void createFromJavaStruct(String pdbId, Map<Integer, PDBGroup> bioStructMap) {		
+	@Override
+	public final void generateDataStructuresFromPdbId(String pdbId, Map<Integer, PDBGroup> bioStructMap) {		
 		// Get the structure from here
 		Structure bioJavaStruct;
 		try {
@@ -148,7 +139,7 @@ public class ParseFromBiojava {
 			System.err.println("Error in parsing structure for input: "+pdbId);
 			throw new RuntimeException(e);
 		}
-		generateDataStructuresFromBioJavaStructure(bioJavaStruct, bioStructMap);
+		generateDataStructuresFromPdbId(bioJavaStruct, bioStructMap);
 	}
 
 
@@ -159,7 +150,7 @@ public class ParseFromBiojava {
 	 * @param bioStructMap the map relating hash codes to PDB groups.
 	 * input so that a consistent map can be held across several structures
 	 */
-	public final void generateDataStructuresFromBioJavaStructure(Structure inputBiojavaStruct, Map<Integer, PDBGroup> bioStructMap) {
+	public final void generateDataStructuresFromPdbId(Structure inputBiojavaStruct, Map<Integer, PDBGroup> bioStructMap) {
 		EncoderUtils encoderUtils = new EncoderUtils();
 		BiojavaUtils biojavaUtils = new BiojavaUtils();
 		// Reset structure to consider altloc groups with the same residue number but different group names as seperate groups
@@ -496,9 +487,9 @@ public class ParseFromBiojava {
 		// Set the number of atoms in the group
 		calphaStruct.setNumAtoms(calphaStruct.getNumAtoms()+1);
 		// Covert the cooridnates for this group
-		calphaStruct.getCartn_x().add((int) Math.round(inputAtom.getX()*COORD_MULT));
-		calphaStruct.getCartn_y().add((int) Math.round(inputAtom.getY()*COORD_MULT));
-		calphaStruct.getCartn_z().add((int) Math.round(inputAtom.getZ()*COORD_MULT));
+		calphaStruct.getCartn_x().add((int) Math.round(inputAtom.getX()*MmtfBean.COORD_DIVIDER));
+		calphaStruct.getCartn_y().add((int) Math.round(inputAtom.getY()*MmtfBean.COORD_DIVIDER));
+		calphaStruct.getCartn_z().add((int) Math.round(inputAtom.getZ()*MmtfBean.COORD_DIVIDER));
 		// Get the residue name
 		calphaStruct.get_atom_site_auth_seq_id().add(residueNumber.getSeqNum());
 		calphaStruct.get_atom_site_label_entity_poly_seq_num().add(residueNumber.getSeqNum());
