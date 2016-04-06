@@ -1,4 +1,4 @@
-package org.rcsb.mmtf.arraycompressors;
+package org.rcsb.mmtf.arrayencoders;
 
 import java.util.List;
 

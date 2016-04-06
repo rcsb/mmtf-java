@@ -39,9 +39,10 @@ public interface MmtfDecoderInterface {
 	/**
 	 * Sets the information for a given chain.
 	 * @param chainId chain identifier - length of one to four
+	 * @param chainName chain name - public chain id
 	 * @param groupCount number of groups/residues in chain
 	 */
-	void setChainInfo(String chainId, int groupCount);
+	void setChainInfo(String chainId, String chainName, int groupCount);
 
 	/**
 	 * Sets the entity level annotation for a chain(s). ChainIds is a list of strings that indicate the list of chains this information
@@ -124,6 +125,9 @@ public interface MmtfDecoderInterface {
 	 * @param rWork
 	 * @param resolution
 	 * @param title
+// TODO Add date information to the API
+//	 * @param depositionDate 
+//   * @param releaseDate 
 	 * @param experimnetalMethods
 	 */
 	void setHeaderInfo(float rFree, float rWork, float resolution, String title, String[] experimnetalMethods);

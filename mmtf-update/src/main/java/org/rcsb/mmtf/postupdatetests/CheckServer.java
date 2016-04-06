@@ -10,7 +10,6 @@ import org.biojava.nbio.structure.align.util.AtomCache;
 import org.biojava.nbio.structure.io.FileParsingParameters;
 import org.biojava.nbio.structure.io.mmtf.MmtfStructureDecoder;
 import org.rcsb.mmtf.biojavaencoder.BiojavaUtils;
-import org.rcsb.mmtf.decoder.ParsingParams;
 import org.rcsb.mmtf.examples.HandleIO;
 import org.rcsb.mmtf.testutils.CheckOnBiojava;
 import org.rcsb.mmtf.testutils.CheckOnRawApi;
@@ -66,9 +65,7 @@ public class CheckServer {
 	private void testParsing(String inputPdb, String inputUrl) throws IOException {
 		System.out.println("TESTING: "+inputPdb);
 		byte[] inputByteArr = handleIo.getFromUrl(inputPdb, inputUrl);
-		ParsingParams parsingParms = new ParsingParams();
-		parsingParms.setParseInternal(params.isUseInternalChainId());
-		Structure mmtfStruct = MmtfStructureDecoder.getBiojavaStruct(inputByteArr, parsingParms);
+		Structure mmtfStruct = MmtfStructureDecoder.getBiojavaStruct(inputByteArr);
 		// Now parse from the MMCIF file
 		Structure mmcifStruct;
 		try {
@@ -83,7 +80,7 @@ public class CheckServer {
 			e.printStackTrace();
 			throw new RuntimeException();
 		}
-		checkEquiv.checkIfStructuresSame(mmtfStruct, mmcifStruct, parsingParms);
+		checkEquiv.checkIfStructuresSame(mmtfStruct, mmcifStruct);
 		// Now do the checks on the Raw data
 		CheckOnRawApi checkRaw = new CheckOnRawApi(inputByteArr);
 		checkRaw.checkRawDataConsistency(mmcifStruct, params);

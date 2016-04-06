@@ -1,4 +1,4 @@
-package org.rcsb.mmtf.arraycompressors;
+package org.rcsb.mmtf.arrayencoders;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -28,8 +28,6 @@ public class RunLengthEncode implements IntArrayCompressor, Serializable  {
 		for (int i = 0; i < inArray.size(); i++) {
 			// Get the value out here
 			int num_int = inArray.get(i);
-
-
 			if(inSwitch==false){
 				inSwitch=true;
 				// If it's a new number add it to the array

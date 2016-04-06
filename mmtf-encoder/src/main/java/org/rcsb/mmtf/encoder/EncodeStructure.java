@@ -61,7 +61,7 @@ public class EncodeStructure {
 	 * @param pdbId The input pdb id
 	 * @return a byte array of compressed calpha data
 	 */
-	public final byte[] encodeBackBoneFromPdbId(String pdbId,EncoderInterface encoderInterface){
+	public final byte[] encodeBackBoneFromPdbId(String pdbId, EncoderInterface encoderInterface){
 		// Get the two utility classes
 		EncoderUtils eu = new EncoderUtils();
 		Map<Integer, PDBGroup> totMap = new HashMap<Integer, PDBGroup>();

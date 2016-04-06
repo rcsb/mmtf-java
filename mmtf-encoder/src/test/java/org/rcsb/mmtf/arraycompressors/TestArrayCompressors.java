@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Test;
-import org.rcsb.mmtf.arraycompressors.FindDeltas;
-import org.rcsb.mmtf.arraycompressors.RunLengthEncode;
-import org.rcsb.mmtf.arraycompressors.RunLengthEncodeString;
+import org.rcsb.mmtf.arrayencoders.FindDeltas;
+import org.rcsb.mmtf.arrayencoders.RunLengthEncode;
+import org.rcsb.mmtf.arrayencoders.RunLengthEncodeString;
 
 import static org.junit.Assert.*;
 

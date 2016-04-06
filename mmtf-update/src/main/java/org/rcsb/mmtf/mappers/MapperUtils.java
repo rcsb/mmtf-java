@@ -12,8 +12,6 @@ import org.biojava.nbio.structure.StructureImpl;
 import org.biojava.nbio.structure.io.mmtf.MmtfStructureDecoder;
 import org.rcsb.mmtf.biojavaencoder.BiojavaUtils;
 import org.rcsb.mmtf.decoder.DecodeStructure;
-import org.rcsb.mmtf.decoder.ParsingParams;
-
 
 /**
  * A class to preserve the log if the functions in mappers. 
@@ -34,10 +32,9 @@ public class MapperUtils implements Serializable{
 	public Structure byteArrToBiojavaStruct(String pdbCodePlus, byte[] inputByteArr) { 
 		MmtfStructureDecoder bjs = new MmtfStructureDecoder();
 		Structure newStruct;
-		ParsingParams pp = new ParsingParams();
 		try{
 			DecodeStructure ds = new DecodeStructure(inputByteArr);
-		ds.getStructFromByteArray(bjs, pp);
+		ds.getStructFromByteArray(bjs);
 		newStruct = bjs.getStructure();
 		newStruct.setPDBCode(pdbCodePlus.substring(0,4));}
 		catch(Exception e){

@@ -1,4 +1,4 @@
-package org.rcsb.mmtf.arraydecompressors;
+package org.rcsb.mmtf.arraydecoders;
 
 import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;

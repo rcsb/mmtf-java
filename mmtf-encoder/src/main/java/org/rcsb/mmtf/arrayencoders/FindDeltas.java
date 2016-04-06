@@ -1,4 +1,4 @@
-package org.rcsb.mmtf.arraycompressors;
+package org.rcsb.mmtf.arrayencoders;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -20,12 +20,12 @@ public class FindDeltas implements IntArrayCompressor, Serializable {
    * Compressor#compressIntArray(java.util.ArrayList)
    */
   public final List<Integer> compressIntArray(final List<Integer> inArray) {
-    // 
     List<Integer> outArray =  new ArrayList<Integer>();
     int oldInt = 0;
     for (int i = 0; i < inArray.size(); i++) {
       // Get the value out here
       int numInt = inArray.get(i);
+      // TODO Remove the if statement.
       if (i==0){
         oldInt = numInt;
         outArray.add(numInt);

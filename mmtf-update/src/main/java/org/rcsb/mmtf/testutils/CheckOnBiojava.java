@@ -21,7 +21,6 @@ import org.biojava.nbio.structure.PDBHeader;
 import org.biojava.nbio.structure.Structure;
 import org.biojava.nbio.structure.quaternary.BioAssemblyInfo;
 import org.biojava.nbio.structure.quaternary.BiologicalAssemblyTransformation;
-import org.rcsb.mmtf.decoder.ParsingParams;
 
 public class CheckOnBiojava {
 
@@ -35,11 +34,9 @@ public class CheckOnBiojava {
 	 * @param mmtfParams) 
 	 * @return
 	 */
-	private boolean checkIfAtomsSame(Structure structOne, Structure structTwo, ParsingParams mmtfParams) {
+	private boolean checkIfAtomsSame(Structure structOne, Structure structTwo) {
 		// First check the bioassemblies
-		if (mmtfParams.isParseInternal()){
-			checkIfBioassemblySame(structOne, structTwo);
-		}
+		checkIfBioassemblySame(structOne, structTwo);
 		// Now check the pdb header
 		checkIfHederSame(structOne, structTwo);
 		// Now check the entity information
@@ -305,7 +302,7 @@ public class CheckOnBiojava {
 	 * @param structTwo the BioJava structure parsed from the MMTF file
 	 * @param mmtfParams 
 	 */
-	public void checkIfStructuresSame(Structure biojavaStruct, Structure structTwo, ParsingParams mmtfParams){
-		assertTrue(checkIfAtomsSame(biojavaStruct, structTwo, mmtfParams));
+	public void checkIfStructuresSame(Structure biojavaStruct, Structure structTwo){
+		assertTrue(checkIfAtomsSame(biojavaStruct, structTwo));
 	}
 }

@@ -1,4 +1,4 @@
-package org.rcsb.mmtf.arraydecompressors;
+package org.rcsb.mmtf.arraydecoders;
 
 import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
@@ -31,8 +31,7 @@ public class RunLengthDecodeInt {
 		int[] countArr = new int[lengthOfBigIntArr];
 		// Get the size
 		int totCount = 0;
-		DataInputStream bis = new DataInputStream(new
-				ByteArrayInputStream(inArray));
+		DataInputStream bis = new DataInputStream(new ByteArrayInputStream(inArray));
 		for (int i = 0; i < lengthOfBigIntArr; i++) {
 			// Get the number
 			int getNum = bis.readInt();

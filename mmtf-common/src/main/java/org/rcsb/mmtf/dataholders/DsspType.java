@@ -3,8 +3,10 @@ package org.rcsb.mmtf.dataholders;
 
 /**
  * The encoding of secondary structure types.
+ * Based on DSSP: Kabsch W, Sander C (1983). 
+ * "Dictionary of protein secondary structure: pattern recognition of hydrogen-bonded and geometrical features".
+ * Biopolymers 22 (12): 2577–637. doi:10.1002/bip.360221211. PMID 6667333.
  * @author Anthony Bradley
- *
  */
 public enum DsspType {
 
@@ -20,8 +22,11 @@ public enum DsspType {
 	
 	/** The String type of the DSSP*/
 	private String dsspType;
-	/** The index used for encoding secondary structure 
-	 * information. One for each type*/
+	
+	/** 
+	 * The index used for encoding secondary structure 
+	 * information. One for each type
+	 * */
 	private int dsspIndex;
 
 	/**
@@ -30,7 +35,6 @@ public enum DsspType {
 	 * @param inputDsspIndex The integer index of hte DSSP input.
 	 */
 	private DsspType(String inputDsspType, int inputDsspIndex) {
-
 		this.setDsspType(inputDsspType);
 		this.setDsspIndex(inputDsspIndex);
 
@@ -44,8 +48,8 @@ public enum DsspType {
 		this.dsspIndex = inputDsspIndex;
 	}
 
-	/** Returns the type of the DSSP as a String
-	 *
+	/**
+	 * Returns the type of the DSSP as a String
 	 * @return String representation of the DSSP type.
 	 */
 	public String getDsspType() {
@@ -54,7 +58,6 @@ public enum DsspType {
 
 	
 	/** Returns the index of the Dssp as an integer
-	 *
 	 * @return String representation of the Dssp type.
 	 */
 	public int getDsspIndex() {
@@ -69,10 +72,10 @@ public enum DsspType {
 		this.dsspType = inputDsspType;
 	}
 
-	/** Creates a new DsspType from a String value.
-	 *  Returns DsspType.NULL_ENTRY if dsspType is "NA" or not one of the supported
-	 *  standard types.
-	 *
+	/**
+	 * Creates a new DsspType from a String value.
+	 * Returns DsspType.NULL_ENTRY if dsspType is "NA" or not one of the supported
+	 * standard types.
 	 * @param dsspType String value , should be one of 	"pi Helix","Bend","alpha Helix","Extended",
 	 * "3-10 Helix","Bridge","Turn","Coil","NA"
 	 * @return an DsspType object
@@ -80,7 +83,7 @@ public enum DsspType {
 	public static DsspType dsspTypeFromString(String dsspType)
 	{
 
-		if ( dsspType == null)
+		if (dsspType == null)
 			return DsspType.NULL_ENTRY;
 
 		for(DsspType et : DsspType.values())

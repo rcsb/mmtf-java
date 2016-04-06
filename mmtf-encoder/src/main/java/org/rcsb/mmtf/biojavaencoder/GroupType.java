@@ -13,12 +13,10 @@ public enum GroupType {
 	private String groupType;
 	private String groupName;
 	
-	
-	private GroupType(String inputGroupName, String inputGroupType) {
-		this.setGroupName(inputGroupName);
-		this.setGroupType(inputGroupType);
+	private GroupType(String groupName, String groupType) {
+		this.groupName = groupName;
+		this.groupType = groupType;
 	}
-
 
 	/**
 	 * @return the groupType
@@ -27,15 +25,6 @@ public enum GroupType {
 		return groupType;
 	}
 
-
-	/**
-	 * @param groupType the groupType to set
-	 */
-	public void setGroupType(String groupType) {
-		this.groupType = groupType;
-	}
-
-
 	/**
 	 * @return the groupName
 	 */
@@ -43,14 +32,6 @@ public enum GroupType {
 		return groupName;
 	}
 
-
-	/**
-	 * @param groupName the groupName to set
-	 */
-	public void setGroupName(String groupName) {
-		this.groupName = groupName;
-	}
-	
 	public static GroupType groupTypeFromString(String groupType)
 	{
 

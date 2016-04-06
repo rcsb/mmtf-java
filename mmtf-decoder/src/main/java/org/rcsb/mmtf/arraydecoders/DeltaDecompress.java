@@ -1,4 +1,4 @@
-package org.rcsb.mmtf.arraydecompressors;
+package org.rcsb.mmtf.arraydecoders;
 
 import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
@@ -12,7 +12,7 @@ import java.io.IOException;
  * @author Anthony Bradley
  *
  */
-public class DeltaDeCompress {
+public class DeltaDecompress {
 
 	/** The number of bytes in a four byte integers. */
 	private static final int BIG_INT_BYTES = 4;

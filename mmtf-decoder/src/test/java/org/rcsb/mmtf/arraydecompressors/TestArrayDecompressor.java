@@ -7,9 +7,9 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 
 import org.junit.Test;
-import org.rcsb.mmtf.arraydecompressors.DeltaDeCompress;
-import org.rcsb.mmtf.arraydecompressors.RunLengthDecodeInt;
-import org.rcsb.mmtf.arraydecompressors.RunLengthDecodeString;
+import org.rcsb.mmtf.arraydecoders.DeltaDecompress;
+import org.rcsb.mmtf.arraydecoders.RunLengthDecodeInt;
+import org.rcsb.mmtf.arraydecoders.RunLengthDecodeString;
 
 import static org.junit.Assert.assertArrayEquals;
 
@@ -61,7 +61,7 @@ public class TestArrayDecompressor {
 	@Test
 	public final void deltaDecompressorTest() throws IOException {
 
-		DeltaDeCompress ddc = new DeltaDeCompress();
+		DeltaDecompress ddc = new DeltaDecompress();
 		// Now let's generate the byte arrays for the test data
 		ByteArrayOutputStream bigBos = new ByteArrayOutputStream();
 		DataOutputStream bigDos = new DataOutputStream(bigBos);

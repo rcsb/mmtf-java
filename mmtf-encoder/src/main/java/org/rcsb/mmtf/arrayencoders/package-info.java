@@ -5,4 +5,4 @@
  * @author Anthony Bradley
  *
  */
-package org.rcsb.mmtf.arraycompressors;
+package org.rcsb.mmtf.arrayencoders;

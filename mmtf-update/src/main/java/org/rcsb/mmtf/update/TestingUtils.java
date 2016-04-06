@@ -13,7 +13,6 @@ import org.biojava.nbio.structure.io.FileParsingParameters;
 import org.biojava.nbio.structure.io.mmtf.MmtfStructureDecoder;
 import org.rcsb.mmtf.biojavaencoder.BiojavaEncoderImpl;
 import org.rcsb.mmtf.decoder.DecodeStructure;
-import org.rcsb.mmtf.decoder.ParsingParams;
 import org.rcsb.mmtf.encoder.EncodeStructure;
 import org.rcsb.mmtf.testutils.CheckOnBiojava;
 import org.rcsb.mmtf.testutils.CheckOnRawApi;
@@ -27,11 +26,9 @@ public class TestingUtils {
 	   * @throws StructureException
 	   */
 	  public void testAll(String[] inputList, FileParsingParameters params, AtomCache cache) throws IllegalAccessException, InvocationTargetException, IOException, StructureException{
-		    ParsingParams mmtfParams = new ParsingParams();
-		    mmtfParams.setParseInternal(params.isUseInternalChainId());
 		    StructureIO.setAtomCache(cache);
 		    for (String pdbId : inputList){
-		    	testOne(pdbId, params, cache, mmtfParams);
+		    	testOne(pdbId, params, cache);
 		    }
 	    
 	  }
@@ -47,10 +44,10 @@ public class TestingUtils {
 	   * @throws IOException
 	   * @throws StructureException
 	   */
-	  public void testOne(String pdbId, FileParsingParameters params, AtomCache cache, ParsingParams mmtfParams) throws IllegalAccessException, InvocationTargetException, IOException, StructureException {
+	  public void testOne(String pdbId, FileParsingParameters params, AtomCache cache) throws IllegalAccessException, InvocationTargetException, IOException, StructureException {
 	      CheckOnBiojava checkEquiv = new CheckOnBiojava();
 	      Structure structure = StructureIO.getStructure(pdbId);
-	      checkEquiv.checkIfStructuresSame(structure,roundTripStruct(pdbId, mmtfParams, params, cache),mmtfParams);
+	      checkEquiv.checkIfStructuresSame(structure,roundTripStruct(pdbId, params, cache));
 	  }
 
 	  /**
@@ -61,7 +58,7 @@ public class TestingUtils {
 	   * @throws InvocationTargetException 
 	   * @throws IllegalAccessException 
 	   */
-	  public Structure roundTripStruct(String pdbId, ParsingParams pp, FileParsingParameters params, AtomCache cache) throws IOException, IllegalAccessException, InvocationTargetException, StructureException{
+	  public Structure roundTripStruct(String pdbId, FileParsingParameters params, AtomCache cache) throws IOException, IllegalAccessException, InvocationTargetException, StructureException{
 	    // We need to set the parsing params to this
 	    boolean oldValue = params.isUseInternalChainId();
 	    params.setUseInternalChainId(true);
@@ -77,7 +74,7 @@ public class TestingUtils {
 	    // Now decode the data and return this new structure
 	    MmtfStructureDecoder bjsi = new MmtfStructureDecoder();
 	    DecodeStructure decodeStructure = new DecodeStructure(inArr);
-	    decodeStructure.getStructFromByteArray(bjsi, pp);
+	    decodeStructure.getStructFromByteArray(bjsi);
 	    Structure struct = bjsi.getStructure();
 	    // Revert back
 	    params.setUseInternalChainId(oldValue);

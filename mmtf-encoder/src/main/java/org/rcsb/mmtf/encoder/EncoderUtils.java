@@ -15,11 +15,11 @@ import java.util.Map;
 import java.util.zip.GZIPOutputStream;
 
 import org.msgpack.jackson.dataformat.MessagePackFactory;
-import org.rcsb.mmtf.arraycompressors.FindDeltas;
-import org.rcsb.mmtf.arraycompressors.IntArrayCompressor;
-import org.rcsb.mmtf.arraycompressors.RunLengthEncode;
-import org.rcsb.mmtf.arraycompressors.RunLengthEncodeString;
-import org.rcsb.mmtf.arraycompressors.StringArrayCompressor;
+import org.rcsb.mmtf.arrayencoders.FindDeltas;
+import org.rcsb.mmtf.arrayencoders.IntArrayCompressor;
+import org.rcsb.mmtf.arrayencoders.RunLengthEncode;
+import org.rcsb.mmtf.arrayencoders.RunLengthEncodeString;
+import org.rcsb.mmtf.arrayencoders.StringArrayCompressor;
 import org.rcsb.mmtf.biocompressors.BioCompressor;
 import org.rcsb.mmtf.biocompressors.CompressDoubles;
 import org.rcsb.mmtf.dataholders.BioDataStruct;
@@ -35,6 +35,7 @@ import org.rcsb.mmtf.gitversion.GetRepoState;
 
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 
 /**
@@ -85,7 +86,7 @@ public class EncoderUtils implements Serializable {
 	 * to serialization.
 	 */
 	public final byte[] getMessagePack(Object inputObject) throws JsonProcessingException{
-		com.fasterxml.jackson.databind.ObjectMapper objectMapper = new com.fasterxml.jackson.databind.ObjectMapper(new MessagePackFactory());
+		ObjectMapper objectMapper = new ObjectMapper(new MessagePackFactory());
 		objectMapper.setSerializationInclusion(Include.NON_NULL);
 		byte[] inBuf = objectMapper.writeValueAsBytes(inputObject);
 		return inBuf;
@@ -100,7 +101,7 @@ public class EncoderUtils implements Serializable {
 	 * @throws IOException reading byte array
 	 */
 	public final MmtfBean compressToMmtfBean(BioDataStruct inStruct, HeaderBean inHeader) throws IOException {
-		EncoderUtils cm = new EncoderUtils();
+		EncoderUtils encoderUtils = new EncoderUtils();
 		// Compress the data.
 		CoreSingleStructure strucureData = compressInputData(inStruct);
 		// Now set up the output MMTF dataholder
@@ -122,11 +123,11 @@ public class EncoderUtils implements Serializable {
 		// Set the entity information
 		outputMmtfBean.setEntityList(inHeader.getEntityList());
 		// Get the seqres information
-		outputMmtfBean.setSequenceIdList(cm.integersToBytes(runLengthComp.compressIntArray(deltaComp.compressIntArray(inHeader.getSeqResGroupIds()))));
+		outputMmtfBean.setSequenceIdList(encoderUtils.integersToBytes(runLengthComp.compressIntArray(deltaComp.compressIntArray(inHeader.getSeqResGroupIds()))));
 		outputMmtfBean.setExperimentalMethods(inHeader.getExperimentalMethods());
 		// Now get this list
-		outputMmtfBean.setBondAtomList(cm.integersToBytes(inStruct.getInterGroupBondInds()));
-		outputMmtfBean.setBondOrderList(cm.integersToSmallBytes(inStruct.getInterGroupBondOrders()));
+		outputMmtfBean.setBondAtomList(encoderUtils.integersToBytes(inStruct.getInterGroupBondInds()));
+		outputMmtfBean.setBondOrderList(encoderUtils.integersToSmallBytes(inStruct.getInterGroupBondOrders()));
 		// Now get these from the headers
 		outputMmtfBean.setChainNameList(inHeader.getChainList());
 		outputMmtfBean.setNumAtoms(inHeader.getNumAtoms());

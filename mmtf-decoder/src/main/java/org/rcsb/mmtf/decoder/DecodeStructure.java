@@ -49,13 +49,11 @@ public class DecodeStructure {
 	 * @param inputStructInflator the structure inflator to be used
 	 * @param parsingParams the parsing parameters object to be used when inflating. 
 	 */
-	public final void getStructFromByteArray(final MmtfDecoderInterface inputStructInflator, final ParsingParams parsingParams) {    
+	public final void getStructFromByteArray(final MmtfDecoderInterface inputStructInflator) {    
 		// Set the inflator
 		structInflator = inputStructInflator;
 		// Do any required preparation
 		inputStructInflator.initStructure(dataApi.getNumAtoms(), dataApi.getNumGroups(), dataApi.getNumChains(), dataApi.getNumModels(), dataApi.getStructureId());
-		// Now get the parsing parameters to do their thing
-		useParseParams(parsingParams);
 		// Now add the atom information
 		addAtomicInformation();
 		// Now add the header information.
@@ -63,9 +61,7 @@ public class DecodeStructure {
 		// Now set the crystallographic  information
 		addXtalographicInfo();
 		/// Now get the bioassembly information - only if parsing using AsymId
-		if (parsingParams.isParseInternal()){
-			generateBioAssembly();
-		}
+		generateBioAssembly();
 		// Now add the other bonds between groups
 		addInterGroupBonds();
 		// Now add the entity info
@@ -116,33 +112,19 @@ public class DecodeStructure {
 
 
 	/**
-	 * Use the parsing parameters to set the scene.
-	 * @param parsingParams the input parsing parameters object
-	 */
-	private final void useParseParams(ParsingParams parsingParams) {
-		if (parsingParams.isParseInternal()) {
-			System.out.println("Using asym ids");
-			chainList = dataApi.getChainIds();
-		} else {
-			System.out.println("Using auth ids");
-			chainList = dataApi.getChainNames();
-		}    
-	}
-
-
-	/**
 	 * Set the chain level information and then loop through the groups
 	 * @param chainIndex the chain index to be created or updated.
 	 */
 	private void addOrUpdateChainInfo(int chainIndex) {
 		// Get the current c
-		String currentChainId = chainList[chainIndex];
+		String currentChainId = dataApi.getChainIds()[chainIndex];
+		String currentChainName = dataApi.getChainNames()[chainIndex];
 		int groupsThisChain = dataApi.getGroupsPerChain()[chainIndex];
 		// If we've already seen this chain -> just update it
 		if (chainIdSet.contains(currentChainId)) {
-			structInflator.setChainInfo(currentChainId, groupsThisChain);
+			structInflator.setChainInfo(currentChainId, currentChainName, groupsThisChain);
 		} else {
-			structInflator.setChainInfo(currentChainId, groupsThisChain);
+			structInflator.setChainInfo(currentChainId, currentChainName, groupsThisChain);
 			chainIdSet.add(currentChainId);
 		}
 		int nextInd = groupCounter + groupsThisChain;

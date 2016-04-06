@@ -6,10 +6,10 @@ import java.util.List;
 
 import org.msgpack.jackson.dataformat.MessagePackFactory;
 import org.rcsb.mmtf.api.MmtfDecodedDataInterface;
-import org.rcsb.mmtf.arraydecompressors.DeltaDeCompress;
-import org.rcsb.mmtf.arraydecompressors.RunLengthDecodeInt;
-import org.rcsb.mmtf.arraydecompressors.RunLengthDecodeString;
-import org.rcsb.mmtf.arraydecompressors.RunLengthDelta;
+import org.rcsb.mmtf.arraydecoders.DeltaDecompress;
+import org.rcsb.mmtf.arraydecoders.RunLengthDecodeInt;
+import org.rcsb.mmtf.arraydecoders.RunLengthDecodeString;
+import org.rcsb.mmtf.arraydecoders.RunLengthDelta;
 import org.rcsb.mmtf.dataholders.BioAssemblyData;
 import org.rcsb.mmtf.dataholders.Entity;
 import org.rcsb.mmtf.dataholders.MmtfBean;
@@ -22,7 +22,7 @@ public class SimpleDataApi implements MmtfDecodedDataInterface {
 
 	public SimpleDataApi(byte[] inputByteArr) {
 
-
+		// TODO Extract this from the instantiation of the object.
 		MmtfBean inputData = null;
 		try {
 			inputData = new ObjectMapper(new MessagePackFactory()).readValue(inputByteArr, MmtfBean.class);
@@ -33,7 +33,7 @@ public class SimpleDataApi implements MmtfDecodedDataInterface {
 		}
 
 		// Get the decompressors to build in the data structure
-		DeltaDeCompress deltaDecompress = new DeltaDeCompress();
+		DeltaDecompress deltaDecompress = new DeltaDecompress();
 		RunLengthDelta intRunLengthDelta = new RunLengthDelta();
 		RunLengthDecodeInt intRunLength = new RunLengthDecodeInt();
 		RunLengthDecodeString stringRunlength = new RunLengthDecodeString();
