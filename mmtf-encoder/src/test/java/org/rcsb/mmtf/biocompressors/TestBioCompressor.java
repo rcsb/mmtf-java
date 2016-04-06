@@ -12,7 +12,6 @@ public class TestBioCompressor {
 
 	@Test
 	public void floatToInt() {
-		// 
 		CompressDoubles cd = new CompressDoubles();
 		ArrayList<Float> inArray = new ArrayList<Float>();
 		ArrayList<Integer> testArray = new ArrayList<Integer>();
@@ -28,8 +27,6 @@ public class TestBioCompressor {
 
 	@Test
 	public void doubleToInt() {
-
-		// 
 		CompressDoubles cd = new CompressDoubles();
 		ArrayList<Double> inArray = new ArrayList<Double>();
 		ArrayList<Integer> testArray = new ArrayList<Integer>();

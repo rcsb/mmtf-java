@@ -27,7 +27,6 @@ public class TestDecoderUtils {
 
 	@Test
 	public void getChainIdTest() {
-
 		ByteArrayOutputStream bos = new ByteArrayOutputStream();
 		List<String> testList = new ArrayList<>();
 		//Loop through and add one, two, three and four character strings

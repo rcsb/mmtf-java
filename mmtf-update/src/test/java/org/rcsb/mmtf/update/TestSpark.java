@@ -5,6 +5,11 @@ import org.apache.spark.api.java.JavaSparkContext;
 import static org.junit.Assert.*;
 import org.junit.Test;
 
+/**
+ * Tests to see if Sparks can be launched succesfully.
+ * @author Anthony Bradley
+ *
+ */
 public class TestSpark {
 
 	JavaSparkContext sc;

@@ -20,7 +20,11 @@ import org.biojava.nbio.structure.StructureIO;
 
 public class TestEncoderUtils {
 
-
+	/**
+	 * Integration test to see that the microheterogenity is being dealt with correctly.
+	 * @throws IOException
+	 * @throws StructureException
+	 */
 	@Test
 	public void microHeterogenity() throws IOException, StructureException {
 		EncoderUtils encoderUtils = new EncoderUtils();
@@ -46,7 +50,6 @@ public class TestEncoderUtils {
 		}
 		// Now "fix" the microheterogenity
 		encoderUtils.fixMicroheterogenity(inputStructure);
-		
 		assertEquals(before, inputStructure.getChains().get(0).getAtomGroup(17));
 		assertFalse(inputStructure.getChains().get(0).getAtomGroup(17).hasAltLoc());
 		assertFalse(inputStructure.getChains().get(0).getAtomGroup(18).hasAltLoc());
@@ -64,15 +67,10 @@ public class TestEncoderUtils {
 				}
 			}
 		}
-		
+		// Find the atoms after the fix.
 	    List<Atom> totalAtomsAfter = new ArrayList<>(encoderUtils.getAllAtoms(inputStructure));
-		System.out.println("Before: "+ totalAtoms.size());
-		System.out.println("After: "+ totalAtomsAfter.size());
-		System.out.println("Unique before: "+ totAtoms.size());
-		System.out.println("Unique after: "+ totAtomsAfter.size());
 		// Get all of the duplicate atoms
 		Set<Atom> duplicates = findDuplicates(totalAtomsAfter);
-		System.out.println(duplicates.size());
 		for (Atom a : duplicates) {
 			System.out.println(a);
 		}

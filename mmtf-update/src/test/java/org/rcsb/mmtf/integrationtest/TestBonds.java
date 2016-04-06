@@ -10,6 +10,11 @@ import org.rcsb.mmtf.biojavaencoder.EncoderUtils;
 import org.rcsb.mmtf.testutils.CheckBonds;
 import org.rcsb.mmtf.update.IntegrationTestUtils;
 
+/**
+ * Tests to see that all bonds are being generated using Biojava.
+ * @author Anthony Bradley
+ *
+ */
 public class TestBonds {
 
 
