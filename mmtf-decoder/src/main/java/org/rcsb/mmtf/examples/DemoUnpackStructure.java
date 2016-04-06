@@ -39,7 +39,7 @@ public class DemoUnpackStructure {
 						// Use the atomCounter to get group level info
 						String element = dataApi.getGroupElementNames(currentGroupTypeIndex)[groupAtomIndex];
 						System.out.println("Serial id: "+serialId+" X coordinate: "+xCoord+", B-factor: "+bFactor+", element: "+element);
-						// Incremenet the atom index
+						// Increment the atom index
 						structureAtomIndex++;
 					}
 					// Increment the groupIndex

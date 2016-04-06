@@ -49,7 +49,7 @@ public class SimpleDataApi implements MmtfDecodedDataInterface {
 			bFactor =  decoderUtils.convertIntsToFloats(deltaDecompress.decompressByteArray(inputData.getbFactorBig(),inputData.getbFactorSmall()), MmtfBean.OCCUPANCY_BFACTOR_DIVIDER);
 			occupancy = decoderUtils.convertIntsToFloats(intRunLength.decompressByteArray(inputData.getOccupancyList()), MmtfBean.OCCUPANCY_BFACTOR_DIVIDER);
 			atomId = intRunLengthDelta.decompressByteArray(inputData.getAtomIdList());
-			altId = stringRunlength.intArrayToCharArray(inputData.getAltLabelList());
+			altId = stringRunlength.intArrayToCharArray(inputData.getAltLocList());
 			// Get the insertion code
 			insertionCodeList = stringRunlength.intArrayToCharArray(inputData.getInsCodeList());
 			// Get the groupNumber
