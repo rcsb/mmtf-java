@@ -107,8 +107,8 @@ public class MmtfBean implements Serializable {
 	/** The occupancy list. */
 	private byte[] occupancyList;
 
-	/** The alt label list. */
-	private int[] altLabelList;
+	/** The list of alternate location ids. */
+	private int[] altLocList;
 
 	/** The insertion code list. */
 	private int[] insCodeList;
@@ -420,21 +420,21 @@ public class MmtfBean implements Serializable {
 	}
 
 	/**
-	 * Gets the alt label list.
+	 * Gets the alternate location list.
 	 *
-	 * @return the alt label list
+	 * @return the alternate location list
 	 */
-	public final int[] getAltLabelList() {
-		return altLabelList;
+	public final int[] getAltLocList() {
+		return altLocList;
 	}
 
 	/**
 	 * Sets the alt label list.
 	 *
-	 * @param inputAltIdList the new alt id label list
+	 * @param inputAltLocList the new alternation location label list
 	 */
-	public final void setAltLabelList(final int[] inputAltIdList) {
-		this.altLabelList = inputAltIdList;
+	public final void setAltLocList(final int[] inputAltLocList) {
+		this.altLocList = inputAltLocList;
 	}
 
 	/**
