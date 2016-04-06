@@ -9,7 +9,7 @@ import org.biojava.nbio.structure.StructureIO;
 import org.biojava.nbio.structure.align.util.AtomCache;
 import org.biojava.nbio.structure.io.FileParsingParameters;
 import org.biojava.nbio.structure.io.mmtf.MmtfStructureDecoder;
-import org.rcsb.mmtf.biojavaencoder.EncoderUtils;
+import org.rcsb.mmtf.biojavaencoder.BiojavaUtils;
 import org.rcsb.mmtf.decoder.ParsingParams;
 import org.rcsb.mmtf.examples.HandleIO;
 import org.rcsb.mmtf.testutils.CheckOnBiojava;
@@ -48,8 +48,8 @@ public class CheckServer {
 		// Get the class to parse and get data
 		handleIo = new HandleIO();
 		checkEquiv = new CheckOnBiojava();
-		EncoderUtils encoderUtils = new EncoderUtils();
-		AtomCache cache = encoderUtils.setUpBioJava();
+		BiojavaUtils biojavaUtils = new BiojavaUtils();
+		AtomCache cache = biojavaUtils.setUpBioJava();
 		params = cache.getFileParsingParams();
 		// Test it for a series of structures
 		for (String pdbId : IntegrationTestUtils.TEST_CASES) {

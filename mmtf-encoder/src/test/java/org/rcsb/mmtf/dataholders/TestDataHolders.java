@@ -17,8 +17,8 @@ import org.biojava.nbio.structure.io.mmcif.DownloadChemCompProvider;
 import org.biojava.nbio.structure.quaternary.BioAssemblyInfo;
 import org.junit.Test;
 import org.msgpack.jackson.dataformat.MessagePackFactory;
-import org.rcsb.mmtf.biojavaencoder.EncoderUtils;
 import org.rcsb.mmtf.biojavaencoder.ParseFromBiojava;
+import org.rcsb.mmtf.encoder.EncoderUtils;
 import org.unitils.reflectionassert.ReflectionAssert;
 
 import com.fasterxml.jackson.core.JsonParseException;

@@ -27,16 +27,13 @@ import org.rcsb.mmtf.dataholders.DsspType;
 import org.rcsb.mmtf.dataholders.Entity;
 import org.rcsb.mmtf.dataholders.HeaderBean;
 import org.rcsb.mmtf.dataholders.PDBGroup;
+import org.rcsb.mmtf.encoder.EncoderUtils;
 
 
-/**
- * A class to use biojava to parse MMCIF data and produce a data structure that can be fed into the MMTF.
- */
+/** A class to use biojava to parse MMCIF data and produce a data structure that can be fed into the MMTF. */
 public class ParseFromBiojava {
 
-	/**
-	 * The multiplication factor for coordinate information
-	 */
+	/** The multiplication factor for coordinate information */
 	private static final int COORD_MULT = 1000;
 
 	/** The bio struct. */
@@ -164,12 +161,13 @@ public class ParseFromBiojava {
 	 */
 	public final void generateDataStructuresFromBioJavaStructure(Structure inputBiojavaStruct, Map<Integer, PDBGroup> bioStructMap) {
 		EncoderUtils encoderUtils = new EncoderUtils();
+		BiojavaUtils biojavaUtils = new BiojavaUtils();
 		// Reset structure to consider altloc groups with the same residue number but different group names as seperate groups
-		encoderUtils.fixMicroheterogenity(inputBiojavaStruct);
+		biojavaUtils.fixMicroheterogenity(inputBiojavaStruct);
 		// Generate the secondary structure
-		encoderUtils.genSecStruct(inputBiojavaStruct);
+		biojavaUtils.calculateDsspSecondaryStructure(inputBiojavaStruct);
 		// Set the header information
-		encoderUtils.setHeaderInfo(inputBiojavaStruct, headerStruct);
+		biojavaUtils.setHeaderInfo(inputBiojavaStruct, headerStruct);
 		// Get the number of models
 		Integer numModels = inputBiojavaStruct.nrModels();
 		bioStruct.setNumModels(numModels);
@@ -221,7 +219,7 @@ public class ParseFromBiojava {
 		// Now let's find the entity infomration
 		findEntityInfo(inputBiojavaStruct);
 		// Get all the atoms
-		List<Atom> totAtoms = encoderUtils.getAllAtoms(inputBiojavaStruct);
+		List<Atom> totAtoms = biojavaUtils.getAllAtoms(inputBiojavaStruct);
 		for (int i=0; i<numModels; i++){
 			// Now let's loop over all the atom site record
 			List<Chain> chains = inputBiojavaStruct.getModel(i);
@@ -246,37 +244,34 @@ public class ParseFromBiojava {
 					headerStruct.getSequence().add(biojavaChain.getSeqResSequence());
 				}
 				// Set the auth chain id
-				setChainId(biojavaChain.getInternalChainID(), charChainList, chainCounter);
+				encoderUtils.setChainId(biojavaChain.getInternalChainID(), charChainList, chainCounter);
 				// Set the asym chain id	
-				setChainId(biojavaChain.getChainID(), charInternalChainList, chainCounter);
+				encoderUtils.setChainId(biojavaChain.getChainID(), charInternalChainList, chainCounter);
 				// Set the number of groups per chain
 				groupsPerChain[chainCounter] += biojavaChain.getAtomGroups().size();
 				// Set the number of groups per internal chain
 				groupsPerInternalChain[chainCounter] = biojavaChain.getAtomGroups().size();				
 				// Add this chain to the list
 				chainList.add(biojavaChain.getChainID());
-				// Get the groups
-				String currentChainId = biojavaChain.getChainID();
+				// Reset the number of bonds counter for this chain
 				int numBonds = 0;
 				for (Group loopGroup : biojavaChain.getAtomGroups()) {
 					currentGroup = loopGroup;
 					// Set the seq res group id 
 					if(i==0){
 						headerStruct.getSeqResGroupIds().add(seqResGroups.indexOf(currentGroup));
-					}
-					// Get the pdb id
-					String res_id = currentGroup.getPDBName();
+					} 
 					// Get the atoms for this group
-					List<Atom> atomsInThisGroup = encoderUtils.getAtomsForGroup(currentGroup);
+					List<Atom> atomsInThisGroup = biojavaUtils.getAtomsForGroup(currentGroup);
 					// Get any bonds between groups
-					getInterGroupBond(atomsInThisGroup, totAtoms, atomCounter);
+					getInterGroupBond(atomsInThisGroup, totAtoms);
 					// Count the number of bonds
 					// Now loop through and get the coords
 					// Generate the group level data
-					// Get the atomic data for the group
-					List<String> atomInfo = getAtomInfo(atomsInThisGroup);
+					// Get the data that defines a group
+					List<String> groupInfo = getGroupData(atomsInThisGroup);
 					// Get the atomic info required - bioStruct is the unique identifier of the group 
-					int hashCode = getHashFromStringList(atomInfo);
+					int hashCode = getHashFromStringList(groupInfo);
 					// If we need bioStruct new information 
 					if (hashToRes.containsKey(hashCode)==false){
 						// Make a new group
@@ -285,8 +280,8 @@ public class ParseFromBiojava {
 						outGroup.setSingleLetterCode(currentGroup.getChemComp().getOne_letter_code().charAt(0));
 						// Set the group type
 						outGroup.setChemCompType(currentGroup.getChemComp().getType());
-						outGroup.setGroupName(atomInfo.remove(0));
-						outGroup.setAtomInfo(atomInfo);
+						outGroup.setGroupName(groupInfo.remove(0));
+						outGroup.setAtomInfo(groupInfo);
 						// Now get the bond list (lengths, orders and indices)
 						createBondList(atomsInThisGroup, outGroup); 
 						getCharges(atomsInThisGroup, outGroup);
@@ -332,7 +327,7 @@ public class ParseFromBiojava {
 					List<Atom> cAlphaGroup = new ArrayList<Atom>();
 					for (Atom currentAtom : atomsInThisGroup) {
 						// Update the structure
-						addAtomInfo(currentAtom, currentChainId, res_id, residueNum, biojavaChain);
+						addAtomInfo(currentAtom, loopGroup, biojavaChain);
 						// Update the calpha
 						updateCalpha(cAlphaGroup, currentAtom);
 						// Increment the atom counter
@@ -409,7 +404,7 @@ public class ParseFromBiojava {
 		int thisResNum;
 		if(cAlphaGroup.size()>0){
 			calphaGroupsPerChain[chainCounter] = calphaGroupsPerChain[chainCounter]+1;
-			List<String> calphaAtomInfo = getAtomInfo(cAlphaGroup);
+			List<String> calphaAtomInfo = getGroupData(cAlphaGroup);
 			/// Now consider the C-Alpha, phosophate and ligand cases
 			int calphaHashCode = getHashFromStringList(calphaAtomInfo);
 			// If we need bioStruct new information 
@@ -470,90 +465,50 @@ public class ParseFromBiojava {
 
 
 	/**
-	 * Update calpha.
-	 *
-	 * @param totG the tot g
-	 * @param cAlphaGroup the c alpha group
-	 * @param a the a
+	 * Add the calpha/phosphate/ligand backbone data to a group. If it is a calpha/phosphate or ligand.
+	 * @param inputAtomData the input list of atoms associated to this group
+	 * @param inputAtom the atom to be added
 	 */
-	private void updateCalpha(List<Atom> cAlphaGroup, Atom a) {
-		// NOW THE CALPHA / PHOSPHATE / LIGAND STUFF
-		// GET THE CALPHA
-		if (a.getName().equals("CA") && a.getElement().toString().equals("C")){
+	private void updateCalpha(List<Atom> inputAtomData, Atom inputAtom) {
+		// Check if it is a calpha
+		if (inputAtom.getName().equals("CA") && inputAtom.getElement().toString().equals("C")){
 			// Now add the calpha
-			cAlphaGroup.add(a);
+			inputAtomData.add(inputAtom);
 		}
-		// GET THE PHOSPHATE
-		if(a.getName().equals("P")){	
-			cAlphaGroup.add(a);
+		// Check if it is a phosphate
+		else if(inputAtom.getName().equals("P")){	
+			inputAtomData.add(inputAtom);
 		}
-		// GET THE LIGANDS
-		if(currentGroup.isWater()==false && currentGroup.getType().name().equals("HETATM")){
-			cAlphaGroup.add(a);
+		// Check if it is a ligand
+		else if(currentGroup.isWater()==false && currentGroup.getType().name().equals("HETATM")){
+			inputAtomData.add(inputAtom);
 		}
 	}
 
 
 	/**
-	 * Functon to set the chain id.
-	 *
-	 * @param chainId the chain id
-	 * @param charChainList the char chain list
-	 * @param chainCounter the chain counter
+	 * Add a calpha atom to the C-alpha structure.
+	 * @param inputAtom the input atom data.
+	 * @param secondaryStructureInfo the secondary structure information (DSSP) for the group this atom is related to.
+	 * @param residueNumber the residue number of the group this atom is part of.
 	 */
-	private void setChainId(String chainId, byte[] charChainList, int chainCounter) {
-		// A char array to store the chars
-		char[] outChar = new char[4];
-		// The lenght of this chain id
-		int chainIdLen =  chainId.length();
-		chainId.getChars(0, chainIdLen, outChar, 0);
-		// Set the bytrarray - chain ids can be up to 4 chars - pad with empty bytes
-		charChainList[chainCounter*4+0] = (byte) outChar[0];
-		if(chainIdLen>1){
-			charChainList[chainCounter*4+1] = (byte) outChar[1];
-		}
-		else{
-			charChainList[chainCounter*4+1] = (byte) 0;
-		}
-		if(chainIdLen>2){
-			charChainList[chainCounter*4+2] = (byte) outChar[2];
-		}				
-		else{
-			charChainList[chainCounter*4+2] = (byte) 0;
-		}
-		if(chainIdLen>3){
-			charChainList[chainCounter*4+3] = (byte) outChar[3];
-		}				
-		else{
-			charChainList[chainCounter*4+3] =  (byte) 0;
-		}		
-	}
-
-
-	/**
-	 * Add a new calpha / phosophate / ligand atom.
-	 *
-	 * @param a the a
-	 * @param props the props
-	 * @param residueNumber the residue number (Biojava group)
-	 */
-	private void addCalpha(Atom a, SecStrucState props, ResidueNumber residueNumber) {
-		calphaStruct.setNumAtoms(calphaStruct.getNumAtoms()+1); 
-		calphaStruct.getCartn_x().add((int) Math.round(a.getX()*COORD_MULT));
-		calphaStruct.getCartn_y().add((int) Math.round(a.getY()*COORD_MULT));
-		calphaStruct.getCartn_z().add((int) Math.round(a.getZ()*COORD_MULT));
+	private void addCalpha(Atom inputAtom, SecStrucState secondaryStructureInfo, ResidueNumber residueNumber) {
+		// Set the number of atoms in the group
+		calphaStruct.setNumAtoms(calphaStruct.getNumAtoms()+1);
+		// Covert the cooridnates for this group
+		calphaStruct.getCartn_x().add((int) Math.round(inputAtom.getX()*COORD_MULT));
+		calphaStruct.getCartn_y().add((int) Math.round(inputAtom.getY()*COORD_MULT));
+		calphaStruct.getCartn_z().add((int) Math.round(inputAtom.getZ()*COORD_MULT));
 		// Get the residue name
 		calphaStruct.get_atom_site_auth_seq_id().add(residueNumber.getSeqNum());
 		calphaStruct.get_atom_site_label_entity_poly_seq_num().add(residueNumber.getSeqNum());
 		// Now set the sec structure
-		//
-		if(props==null){
+		if(secondaryStructureInfo==null){
 			calphaStruct.getSecStruct().add(DsspType.dsspTypeFromString("NA").getDsspIndex());
 		}
 		else{
-			calphaStruct.getSecStruct().add(DsspType.dsspTypeFromString(props.getType().name).getDsspIndex());
+			calphaStruct.getSecStruct().add(DsspType.dsspTypeFromString(secondaryStructureInfo.getType().name).getDsspIndex());
 		}
-
 	}
 
 
@@ -572,15 +527,18 @@ public class ParseFromBiojava {
 
 
 	/**
-	 * Function to find a hash code from a list of strings.
-	 *
-	 * @param strings the strings
-	 * @return the hash from string list
+	 * Find a unique hash code from a list of strings.
+	 * Multiplies the hashcode of each string in the list by a prime number.
+	 * Finds the product of this.
+	 * @param inputStrings the input strings
+	 * @return the integer hashcode from this string list
 	 */
-	private int getHashFromStringList(List<String> strings){
+	private int getHashFromStringList(List<String> inputStrings){
+		// A prime number need for multiplication.
 		int prime = 31;
+		// The starting number
 		int result = 1;
-		for( String s : strings )
+		for( String s : inputStrings )
 		{
 			result = result * prime + s.hashCode();
 		}
@@ -592,11 +550,11 @@ public class ParseFromBiojava {
 
 	/**
 	 * Get the atomic information from a list of Atoms.
-	 *
-	 * @param atomList the atom list
-	 * @return the atom info
+	 * @param atomList the input atom list.
+	 * @return a string list of atomic info comprising the element and name (in pairs) of 
+	 * each atom in the input list.
 	 */
-	private List<String> getAtomInfo(List<Atom> atomList){
+	private List<String> getGroupData(List<Atom> atomList){
 		int numAtoms = atomList.size();
 		int arraySize = numAtoms*2+2;
 		List<String> outString = new ArrayList<String>(arraySize);
@@ -611,14 +569,11 @@ public class ParseFromBiojava {
 
 
 	/**
-	 * Find bonds between groups.
-	 *
-	 * @param atoms the atoms
-	 * @param totAtoms the tot atoms
-	 * @param atomCounter the atom counter
-	 * @return the inter group bond
+	 * Finds the atoms between groups in a given input list of atoms
+	 * @param inputAtomsInThisGroup the atoms in the group being considered
+	 * @param totAtoms the total list of atoms across the whole structure.
 	 */
-	private void getInterGroupBond(List<Atom> inputAtomsInThisGroup, List<Atom> totAtoms, int atomCounter){
+	private void getInterGroupBond(List<Atom> inputAtomsInThisGroup, List<Atom> totAtoms){
 		// Get the atoms
 		for (Atom currentAtom : inputAtomsInThisGroup) {
 			// Get the  atom
@@ -651,13 +606,12 @@ public class ParseFromBiojava {
 	}
 
 	/**
-	 * Generate lists for the bonds in the group.
-	 *
-	 * @param atoms the atoms
-	 * @param outGroup the out group
+	 * Creates the bond list for a given PDBGroup object.
+	 * @param inputAtoms a list of atoms in the group
+	 * @param pdbGroup a PDBGroup object to update the information to
 	 */
-	private void createBondList(List<Atom> atoms, PDBGroup outGroup) {
-		int n = atoms.size();
+	private void createBondList(List<Atom> inputAtoms, PDBGroup pdbGroup) {
+		int n = inputAtoms.size();
 		if (n == 0) {
 			System.out.println("creating empty bond list");
 		}
@@ -670,12 +624,12 @@ public class ParseFromBiojava {
 
 		for (int i = 0; i < n; i++) {
 			// Get the  atom
-			Atom a = atoms.get(i);
+			Atom a = inputAtoms.get(i);
 			List<Bond> thisAtomBonds = a.getBonds();
 			if(thisAtomBonds!=null){
 				for (Bond b: thisAtomBonds) {
 					Atom other = b.getOther(a);
-					int index = atoms.indexOf(other);
+					int index = inputAtoms.indexOf(other);
 					int order = b.getBondOrder();
 					// Now build this to check if the indices 
 					List<Integer> thisArr = new ArrayList<Integer>();
@@ -696,28 +650,23 @@ public class ParseFromBiojava {
 				}
 			}
 		}
-		outGroup.setBondOrders(bondOrder);
-		outGroup.setBondIndices(bondList);
+		pdbGroup.setBondOrders(bondOrder);
+		pdbGroup.setBondIndices(bondList);
 	}
 
 
 	/**
-	 * Adds the atom info.
-	 *
-	 * @param inputAtom the input atom
-	 * @param inputChainId the input chain id
-	 * @param inputResidueId the input residue id
-	 * @param residueNumber the residue number
-	 * @param biojavaChain the input chain
+	 * Add the information for a given atom to the overall structure.
+	 * @param inputAtom the atom to be added
+	 * @param inputGroup the group to be added
+	 * @param inputChain the chain to be added
 	 */
-	private void addAtomInfo(Atom inputAtom, String inputChainId, String inputResidueId,
-			ResidueNumber residueNumber, Chain biojavaChain) {
-
+	private void addAtomInfo(Atom inputAtom, Group inputGroup, Chain inputChain) {
 		bioStruct.get_atom_site_id().add(inputAtom.getPDBserial());
 		// Atom symbol
 		Element ele = inputAtom.getElement();
 		bioStruct.get_atom_site_symbol().add(ele.toString());
-		bioStruct.get_atom_site_asym_id().add(inputChainId);
+		bioStruct.get_atom_site_asym_id().add(inputChain.getChainID());
 		// identify coordinate records (e.g. ATOM or HETATM).
 		bioStruct.get_atom_site_group_PDB().add(GroupType.groupTypeFromString(inputAtom.getGroup().getType().toString()).getGroupType());
 		// bioStruct item is a uniquely identifies for each alternative site for
@@ -734,7 +683,7 @@ public class ParseFromBiojava {
 		// structure determined by crystallographic method bioStruct corresponds
 		// to a unique identifier within the cyrstallographic asymmetric
 		// unit.
-		bioStruct.get_atom_site_label_asym_id().add(biojavaChain.getInternalChainID().toString());
+		bioStruct.get_atom_site_label_asym_id().add(inputChain.getInternalChainID().toString());
 		// bioStruct data item is a reference to item _chem_comp_atom.atom_id
 		// defined in category CHEM_COMP_ATOM which is stored in the
 		// Chemical Component Dictionary. bioStruct atom identifier uniquely
@@ -756,7 +705,7 @@ public class ParseFromBiojava {
 		// entity and the sequence information in the coordinate list and in
 		// may other structural categories. bioStruct identifier has no meaning
 		// for non-polymer entities.
-		bioStruct.get_atom_site_label_entity_poly_seq_num().add(residueNumber.getSeqNum());
+		bioStruct.get_atom_site_label_entity_poly_seq_num().add(inputGroup.getResidueNumber().getSeqNum());
 		// Cartesian coordinate components describing the position of bioStruct
 		// atom site.
 		bioStruct.get_atom_site_Cartn_x().add(inputAtom.getX());
@@ -768,8 +717,4 @@ public class ParseFromBiojava {
 		bioStruct.get_atom_site_occupancy().add(inputAtom.getOccupancy());
 		// The net integer charge assigned to bioStruct atom.
 	}
-
-
-
-
 }

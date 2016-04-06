@@ -18,8 +18,11 @@ import org.biojava.nbio.structure.Structure;
 import org.biojava.nbio.structure.StructureException;
 import org.biojava.nbio.structure.StructureIO;
 
-public class TestEncoderUtils {
+public class TestBiojavaUtils {
 
+	private BiojavaUtils biojavaUtils = new BiojavaUtils();
+
+	
 	/**
 	 * Integration test to see that the microheterogenity is being dealt with correctly.
 	 * @throws IOException
@@ -27,13 +30,12 @@ public class TestEncoderUtils {
 	 */
 	@Test
 	public void microHeterogenity() throws IOException, StructureException {
-		EncoderUtils encoderUtils = new EncoderUtils();
-		encoderUtils.setUpBioJava();
+		biojavaUtils.setUpBioJava();
 		Structure inputStructure = StructureIO.getStructure("4ck4");
 		// Count the number of groups
 		Group before = inputStructure.getChains().get(0).getAtomGroup(17);
 		assertTrue(inputStructure.getChains().get(0).getAtomGroup(17).hasAltLoc());
-	    List<Atom> totalAtoms = new ArrayList<>(encoderUtils.getAllAtoms(inputStructure));
+	    List<Atom> totalAtoms = new ArrayList<>(biojavaUtils.getAllAtoms(inputStructure));
 		int totGroups = 0;
 		int totAtomsCounter = 0;
 		Set<Atom> totAtoms = new HashSet<>();
@@ -49,7 +51,7 @@ public class TestEncoderUtils {
 			}
 		}
 		// Now "fix" the microheterogenity
-		encoderUtils.fixMicroheterogenity(inputStructure);
+		biojavaUtils.fixMicroheterogenity(inputStructure);
 		assertEquals(before, inputStructure.getChains().get(0).getAtomGroup(17));
 		assertFalse(inputStructure.getChains().get(0).getAtomGroup(17).hasAltLoc());
 		assertFalse(inputStructure.getChains().get(0).getAtomGroup(18).hasAltLoc());
@@ -68,7 +70,7 @@ public class TestEncoderUtils {
 			}
 		}
 		// Find the atoms after the fix.
-	    List<Atom> totalAtomsAfter = new ArrayList<>(encoderUtils.getAllAtoms(inputStructure));
+	    List<Atom> totalAtomsAfter = new ArrayList<>(biojavaUtils.getAllAtoms(inputStructure));
 		// Get all of the duplicate atoms
 		Set<Atom> duplicates = findDuplicates(totalAtomsAfter);
 		for (Atom a : duplicates) {
@@ -85,6 +87,20 @@ public class TestEncoderUtils {
 		assertEquals(totAtomsCounterAfter, totAtomsCounter);
 		
 	}
+	
+	
+//TODO ADD TESTS FOR THESE FUNCTIONS
+//	getAllAtoms
+//	
+//	getAtomsForGroup
+//	
+//	calculateDsspSecondaryStructure
+//	
+//	setHeaderInfo
+//	
+//	generateSerializableBioAssembly
+//
+//	getChainIdToIndexMap
 	
 	private Set<Atom> findDuplicates(List<Atom> listContainingDuplicates)
 	{ 

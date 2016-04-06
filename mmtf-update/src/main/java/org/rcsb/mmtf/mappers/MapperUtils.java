@@ -10,7 +10,7 @@ import org.apache.spark.api.java.JavaSparkContext;
 import org.biojava.nbio.structure.Structure;
 import org.biojava.nbio.structure.StructureImpl;
 import org.biojava.nbio.structure.io.mmtf.MmtfStructureDecoder;
-import org.rcsb.mmtf.biojavaencoder.EncoderUtils;
+import org.rcsb.mmtf.biojavaencoder.BiojavaUtils;
 import org.rcsb.mmtf.decoder.DecodeStructure;
 import org.rcsb.mmtf.decoder.ParsingParams;
 
@@ -56,8 +56,8 @@ public class MapperUtils implements Serializable{
 	 */
 	public JavaPairRDD<Text, BytesWritable> generateRDD(JavaSparkContext sparkContext, List<String> inputList, String inputUrl) {
 		// Set up Biojava appropriateyl
-		EncoderUtils encoderUtils = new EncoderUtils();
-		encoderUtils.setUpBioJava(inputUrl);
+		BiojavaUtils biojavaUtils = new BiojavaUtils();
+		biojavaUtils.setUpBioJava(inputUrl);
 		return sparkContext.parallelize(inputList)
 		.mapToPair(new PdbIdToDataStruct())
 		.flatMapToPair(new DataStructToByteArrs())

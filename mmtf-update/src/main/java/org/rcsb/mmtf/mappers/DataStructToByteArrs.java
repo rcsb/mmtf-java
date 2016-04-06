@@ -6,11 +6,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.spark.api.java.function.PairFlatMapFunction;
-import org.rcsb.mmtf.biojavaencoder.EncoderUtils;
 import org.rcsb.mmtf.biojavaencoder.ParseFromBiojava;
 import org.rcsb.mmtf.dataholders.BioDataStruct;
 import org.rcsb.mmtf.dataholders.CalphaDistBean;
 import org.rcsb.mmtf.dataholders.HeaderBean;
+import org.rcsb.mmtf.encoder.EncoderUtils;
 
 import scala.Tuple2;
 

@@ -1,8 +1,10 @@
 package org.rcsb.mmtf.biojavaencoder;
 
-
+/**
+ * An enum to specify the group type of a PDBGroup.
+ * @author Anthony Bradley
+ */
 public enum GroupType {
-
 	
 	HETATM("hetatm","HEATM"),
 	AMINO("amino","ATOM"),
@@ -13,10 +15,8 @@ public enum GroupType {
 	
 	
 	private GroupType(String inputGroupName, String inputGroupType) {
-
 		this.setGroupName(inputGroupName);
 		this.setGroupType(inputGroupType);
-
 	}
 
 

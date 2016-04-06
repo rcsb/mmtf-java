@@ -1,10 +1,11 @@
-package org.rcsb.mmtf.biojavaencoder;
+package org.rcsb.mmtf.encoder;
 
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.biojava.nbio.structure.Structure;
+import org.rcsb.mmtf.biojavaencoder.ParseFromBiojava;
 import org.rcsb.mmtf.dataholders.MmtfBean;
 import org.rcsb.mmtf.dataholders.PDBGroup;
 

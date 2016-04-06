@@ -8,7 +8,7 @@ import org.biojava.nbio.structure.StructureIO;
 import org.biojava.nbio.structure.align.util.AtomCache;
 import org.biojava.nbio.structure.io.FileParsingParameters;
 import org.junit.Test;
-import org.rcsb.mmtf.biojavaencoder.EncoderUtils;
+import org.rcsb.mmtf.biojavaencoder.BiojavaUtils;
 import org.rcsb.mmtf.update.IntegrationTestUtils;
 import org.rcsb.mmtf.update.TestingUtils;
 
@@ -24,9 +24,9 @@ public class TestParseMMCif {
 	private TestingUtils testingUtils = new TestingUtils();
 
 	public TestParseMMCif(){
-		// Set up the atom cache etc
-		EncoderUtils encoderUtils = new EncoderUtils();
-		cache = encoderUtils.setUpBioJava();
+		// Set up biojava
+		BiojavaUtils biojavaUtils = new BiojavaUtils();
+		cache = biojavaUtils.setUpBioJava();
 		params = cache.getFileParsingParams();
 	}
 
