@@ -234,9 +234,10 @@ public interface MmtfDecodedDataInterface {
 	
 	/**
 	 * Returns a 4x4 transformation matrix for the given transformation for the given bioassembly.
-	 * TODO is it column-packed or row-packed, we should use vecmath's convention
+	 * It is row-packed as per the convention of vecmath. (The first four elements are in the first row of the
+	 * overall matrix).
 	 * @param an integer specifying the bioassembly index (zero indexed).
-	 * @param an integer specifying the  index (zero indexed) for the desired transformation.
+	 * @param an integer specifying the  index for the desired transformation (zero indexed).
 	 * @return the transformation matrix for this transformation.
 	 */
 	double[] getMatrixForTransform(int bioassemblyIndex, int transformationIndex);
@@ -358,7 +359,7 @@ public interface MmtfDecodedDataInterface {
 
 	/**
 	 * Returns the title of the structure.
-	 * @return
+	 * @return the title of the structure.
 	 */
 	String getTitle();
 
