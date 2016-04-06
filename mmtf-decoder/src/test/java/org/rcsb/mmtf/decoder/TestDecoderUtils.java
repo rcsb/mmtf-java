@@ -96,7 +96,7 @@ public class TestDecoderUtils {
 	public void convertIntToFloatTest() {
 	   int[] inputData = {10213, 20303, 102, 183, 1021};
 	   float[] outPutData = {(float) 10.213, (float) 20.303, (float) 0.102, (float) 0.183, (float) 1.021};
-	   float [] outPutToTest = decoderUtils.decodeIntsToFloats(inputData, (float) 1000.0);
+	   float [] outPutToTest = decoderUtils.convertIntsToFloats(inputData, (float) 1000.0);
 	   // Test they are the same length
 	   assertEquals(outPutData.length, outPutToTest.length);
 	   assertTrue(Arrays.equals(outPutData, outPutToTest));

@@ -7,7 +7,8 @@ import org.rcsb.mmtf.api.MmtfDecodedDataInterface;
 import org.rcsb.mmtf.api.MmtfDecoderInterface;
 
 /**
- * Decode an MMTF structure using a structure inflator. The class also allows access to the unconsumed but parsed and inflated underlying data.
+ * Decode an MMTF structure using a structure inflator. 
+ * The class also allows access to the unconsumed but parsed and inflated underlying data.
  * 
  * @author Anthony Bradley
  *
@@ -22,9 +23,7 @@ public class DecodeStructure {
 	/** The api to the data */
 	private MmtfDecodedDataInterface dataApi;
 
-	/* 
-	 * Initialise the counters
-	 */
+	// Intialises the counters.
 	private int modelCounter = 0;
 	private int chainCounter = 0;
 	private int groupCounter = 0;

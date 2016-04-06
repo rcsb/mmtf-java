@@ -13,31 +13,30 @@ public class DecoderUtils {
 	private static final int MAX_CHARS_PER_CHAIN_ENTRY = 4;
 
 	/**
-	 * Function to get the chain id for this chain.
-	 *
-	 * @param chainList the chain list
-	 * @param thisChain the this chain
-	 * @return the chain id
+	 * Return the String of a chain id for a given chain, from a byte array.
+	 * @param chainList the input byte array. Each chain id is stored as four bytes. Each byte encodes a char.
+	 * @param chainIndex the index of the chain for which the id is required.
+	 * @return a String of the chain id for the given chain.
 	 */
-	public final String getChainId(final byte[] chainList, final int thisChain) {
+	public final String getChainId(final byte[] chainList, final int chainIndex) {
 
 		int incrementor = 0;
 		StringBuilder sb = new StringBuilder();
-		byte chainIdOne = chainList[thisChain * MAX_CHARS_PER_CHAIN_ENTRY + incrementor];
+		byte chainIdOne = chainList[chainIndex * MAX_CHARS_PER_CHAIN_ENTRY + incrementor];
 		sb.append((char) chainIdOne);
 		// Now get the next byte
 		incrementor += 1;
-		byte chainIdTwo = chainList[thisChain * MAX_CHARS_PER_CHAIN_ENTRY + incrementor];
+		byte chainIdTwo = chainList[chainIndex * MAX_CHARS_PER_CHAIN_ENTRY + incrementor];
 		if (chainIdTwo != (byte) 0) {
 			sb.append((char) chainIdTwo);
 		}
 		incrementor += 1;
-		byte chainIdThree = chainList[thisChain * MAX_CHARS_PER_CHAIN_ENTRY + incrementor];
+		byte chainIdThree = chainList[chainIndex * MAX_CHARS_PER_CHAIN_ENTRY + incrementor];
 		if (chainIdThree != (byte) 0) {
 			sb.append((char) chainIdThree);
 		}
 		incrementor += 1;
-		byte chainIdFour = chainList[thisChain * MAX_CHARS_PER_CHAIN_ENTRY + incrementor];
+		byte chainIdFour = chainList[chainIndex * MAX_CHARS_PER_CHAIN_ENTRY + incrementor];
 		if (chainIdFour != (byte) 0) {
 			sb.append((char) chainIdFour);
 		}
@@ -45,11 +44,10 @@ public class DecoderUtils {
 	}
 
 	/**
-	 * Function to convert a byte array to an int array.
-	 *
-	 * @param inArray the in array
-	 * @return the int[]
-	 * @throws IOException Signals that an I/O exception has occurred.
+	 * Convert a byte array (each four byte encodes a different integer)  to an integer array.
+	 * @param inArray the input byte array
+	 * @return the decoded integer array
+	 * @throws IOException due to byte array not being accesible
 	 */
 	public final int[] bytesToInts(final byte[] inArray) throws IOException {
 		DataInputStream bis = new DataInputStream(new ByteArrayInputStream(inArray));
@@ -64,11 +62,10 @@ public class DecoderUtils {
 	}
 
 	/**
-	 * Function to convert a byte array to byte encoded .
-	 *
-	 * @param inArray the in array
-	 * @return the int[]
-	 * @throws IOException Signals that an I/O exception has occurred.
+	 * Convert a byte array (each byte encodes a different integer) to an integer array.
+	 * @param inArray the input byte array
+	 * @return the decoded integer array
+	 * @throws IOException due to byte array not being accesible
 	 */
 	public final int[] bytesToByteInts(final byte[] inArray) throws IOException {
 		DataInputStream bis = new DataInputStream(new ByteArrayInputStream(inArray));
@@ -84,7 +81,7 @@ public class DecoderUtils {
 
 
 	/**
-	 * Decode chain ids from byte arrays
+	 * Find all the chain ids from a single byte array. Each byte encodes a different ASCII character.
 	 * @param currentChainList the byte array of the chain list input. Each chain takes up 4 bytes.
 	 * @return the string array of the parsed chain ids
 	 */
@@ -98,12 +95,12 @@ public class DecoderUtils {
 	}
 
 	/**
-	 * Decode integers to floats by dividing by this float.
-	 * @param decompressByteArray
-	 * @param floatDivider
-	 * @return
+	 * Convert an integer array to a float array by dividing by a float.
+	 * @param inputIntArray the input integer array to be divided
+	 * @param floatDivider the float divider to divide the integers by.
+	 * @return a float array converted from the input.
 	 */
-	public final float[] decodeIntsToFloats(int[] inputIntArray, float floatDivider) {
+	public final float[] convertIntsToFloats(int[] inputIntArray, float floatDivider) {
 		// Assign the output array to write
 		float[] outArray = new float[inputIntArray.length];
 		for (int i=0; i<inputIntArray.length; i++) {
