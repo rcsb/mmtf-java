@@ -1,6 +1,5 @@
 package org.rcsb.mmtf.biojavaencoder;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -10,8 +9,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import javax.vecmath.Matrix4d;
-
 import org.biojava.nbio.structure.Atom;
 import org.biojava.nbio.structure.Bond;
 import org.biojava.nbio.structure.Chain;
@@ -19,23 +16,12 @@ import org.biojava.nbio.structure.Element;
 import org.biojava.nbio.structure.EntityInfo;
 import org.biojava.nbio.structure.ExperimentalTechnique;
 import org.biojava.nbio.structure.Group;
-import org.biojava.nbio.structure.JournalArticle;
-import org.biojava.nbio.structure.PDBCrystallographicInfo;
-import org.biojava.nbio.structure.PDBHeader;
 import org.biojava.nbio.structure.ResidueNumber;
 import org.biojava.nbio.structure.Structure;
 import org.biojava.nbio.structure.StructureException;
 import org.biojava.nbio.structure.StructureIO;
-import org.biojava.nbio.structure.quaternary.BioAssemblyInfo;
-import org.biojava.nbio.structure.quaternary.BiologicalAssemblyTransformation;
-import org.biojava.nbio.structure.secstruc.DSSPParser;
-import org.biojava.nbio.structure.secstruc.SecStrucCalc;
 import org.biojava.nbio.structure.secstruc.SecStrucState;
-import org.biojava.nbio.structure.xtal.CrystalCell;
-import org.biojava.nbio.structure.xtal.SpaceGroup;
-import org.rcsb.mmtf.dataholders.BioAssemblyData;
 import org.rcsb.mmtf.dataholders.BioDataStruct;
-import org.rcsb.mmtf.dataholders.BioAssemblyTrans;
 import org.rcsb.mmtf.dataholders.CalphaBean;
 import org.rcsb.mmtf.dataholders.DsspType;
 import org.rcsb.mmtf.dataholders.Entity;
@@ -82,6 +68,7 @@ public class ParseFromBiojava {
 
 	/** The Biojava group currently being parsed. */
 	private Group currentGroup;
+	
 
 	/**
 	 * Gets the bio struct.
@@ -171,20 +158,20 @@ public class ParseFromBiojava {
 	/**
 	 * Function to generate a main, calpha and header data form a biojava structure.
 	 *
-	 * @param bioJavaStruct the Biojava structure
+	 * @param inputBiojavaStruct the Biojava structure
 	 * @param bioStructMap the map relating hash codes to PDB groups.
 	 * input so that a consistent map can be held across several structures
 	 */
-	public final void generateDataStructuresFromBioJavaStructure(Structure bioJavaStruct, Map<Integer, PDBGroup> bioStructMap) {
+	public final void generateDataStructuresFromBioJavaStructure(Structure inputBiojavaStruct, Map<Integer, PDBGroup> bioStructMap) {
 		EncoderUtils encoderUtils = new EncoderUtils();
 		// Reset structure to consider altloc groups with the same residue number but different group names as seperate groups
-		encoderUtils.fixMicroheterogenity(bioJavaStruct);
+		encoderUtils.fixMicroheterogenity(inputBiojavaStruct);
 		// Generate the secondary structure
-		genSecStruct(bioJavaStruct);
+		encoderUtils.genSecStruct(inputBiojavaStruct);
 		// Set the header information
-		setHeaderInfo(bioJavaStruct);
+		encoderUtils.setHeaderInfo(inputBiojavaStruct, headerStruct);
 		// Get the number of models
-		Integer numModels = bioJavaStruct.nrModels();
+		Integer numModels = inputBiojavaStruct.nrModels();
 		bioStruct.setNumModels(numModels);
 		// Set these maps and lists
 		List<List<Integer>> bioStructList= new ArrayList<List<Integer>>();
@@ -197,7 +184,7 @@ public class ParseFromBiojava {
 		int totAsymChains = 0;
 		// Get the total number of chains
 		for (int i=0; i<numModels; i++){		
-			totAsymChains += bioJavaStruct.getChains(i).size();
+			totAsymChains += inputBiojavaStruct.getChains(i).size();
 		}
 		// Generate the group map for Calphas
 		calphaHashCodeToGroupMap = new HashMap<Integer, PDBGroup>();
@@ -218,7 +205,7 @@ public class ParseFromBiojava {
 		headerStruct.setGroupsPerChain(groupsPerChain);
 		headerStruct.setSequence(new ArrayList<String>());
 		// Find the experimental techniques
-		Set<ExperimentalTechnique> techniqueSet = bioJavaStruct.getPDBHeader().getExperimentalTechniques();
+		Set<ExperimentalTechnique> techniqueSet = inputBiojavaStruct.getPDBHeader().getExperimentalTechniques();
 		headerStruct.setExperimentalMethods(new ArrayList<String>());
 		for (ExperimentalTechnique currentTechnique : techniqueSet){
 			headerStruct.getExperimentalMethods().add(currentTechnique.toString());
@@ -232,14 +219,14 @@ public class ParseFromBiojava {
 		}
 		calphaStruct.setGroupsPerChain(calphaGroupsPerChain);
 		// Now let's find the entity infomration
-		findEntityInfo(bioJavaStruct);
+		findEntityInfo(inputBiojavaStruct);
 		// Get all the atoms
-		List<Atom> totAtoms = encoderUtils.getAllAtoms(bioJavaStruct);
+		List<Atom> totAtoms = encoderUtils.getAllAtoms(inputBiojavaStruct);
 		for (int i=0; i<numModels; i++){
 			// Now let's loop over all the atom site record
-			List<Chain> chains = bioJavaStruct.getModel(i);
+			List<Chain> chains = inputBiojavaStruct.getModel(i);
 			// Set the PDB Code
-			bioStruct.setPdbCode(bioJavaStruct.getPDBCode());
+			bioStruct.setPdbCode(inputBiojavaStruct.getPDBCode());
 			ArrayList<String> chainList = new ArrayList<String>();
 			// Set the number of chains in this model
 			internalChainsPerModel[i] = chains.size();
@@ -285,9 +272,8 @@ public class ParseFromBiojava {
 					getInterGroupBond(atomsInThisGroup, totAtoms, atomCounter);
 					// Count the number of bonds
 					// Now loop through and get the coords
-
 					// Generate the group level data
-					// Get the 
+					// Get the atomic data for the group
 					List<String> atomInfo = getAtomInfo(atomsInThisGroup);
 					// Get the atomic info required - bioStruct is the unique identifier of the group 
 					int hashCode = getHashFromStringList(atomInfo);
@@ -304,7 +290,7 @@ public class ParseFromBiojava {
 						// Now get the bond list (lengths, orders and indices)
 						createBondList(atomsInThisGroup, outGroup); 
 						getCharges(atomsInThisGroup, outGroup);
-						// 
+						// Put the residue information into this bio structure map
 						bioStructMap.put(resCounter, outGroup);
 						hashToRes.put(hashCode, resCounter);
 						bioStruct.getResOrder().add(resCounter);
@@ -367,7 +353,7 @@ public class ParseFromBiojava {
 		headerStruct.setNumBonds(bondCounter+bioStruct.getInterGroupBondInds().size());
 		headerStruct.setNumAtoms(atomCounter);
 		headerStruct.setNumChains(chainCounter);
-		headerStruct.setPdbCode(bioJavaStruct.getPDBCode());
+		headerStruct.setPdbCode(inputBiojavaStruct.getPDBCode());
 	}
 
 
@@ -411,89 +397,8 @@ public class ParseFromBiojava {
 	}
 
 
-
-
-	/**
-	 * Sets the header info.
-	 *
-	 * @param bioJavaStruct the new header info
-	 */
-	private void setHeaderInfo(Structure bioJavaStruct) {
-		headerStruct.setPdbCode(bioJavaStruct.getPDBCode());
-		// Now get hte xtalographic info
-		PDBCrystallographicInfo xtalInfo = bioJavaStruct.getCrystallographicInfo();
-		CrystalCell xtalCell = xtalInfo.getCrystalCell();
-		SpaceGroup spaceGroup = xtalInfo.getSpaceGroup();
-		float[] inputUnitCell = new float[6];
-		if(xtalCell==null){
-
-		}else{
-			headerStruct.setUnitCell(inputUnitCell);
-			inputUnitCell[0] = (float) xtalCell.getA();
-			inputUnitCell[1] = (float) xtalCell.getB();
-			inputUnitCell[2] = (float) xtalCell.getC();
-			inputUnitCell[3] = (float) xtalCell.getAlpha();
-			inputUnitCell[4] = (float) xtalCell.getBeta();
-			inputUnitCell[5] = (float) xtalCell.getGamma();
-			if(spaceGroup==null){
-				// This could be the I21 shown here
-				headerStruct.setSpaceGroup("NA");
-			}
-			else{
-				headerStruct.setSpaceGroup(spaceGroup.getShortSymbol());
-			}
-		}
-		// GET THE HEADER INFORMATION
-		PDBHeader header = bioJavaStruct.getPDBHeader();
-		List<BioAssemblyData> outMap = generateSerializableBioAssembly(bioJavaStruct, header);
-		headerStruct.setBioAssembly(outMap);
-		headerStruct.setTitle(header.getTitle());
-		headerStruct.setDescription(header.getDescription());
-		headerStruct.setClassification(header.getClassification());
-		headerStruct.setDepDate(header.getDepDate());
-		headerStruct.setModDate(header.getModDate());
-		headerStruct.setResolution(header.getResolution());		
-		headerStruct.setrFree(header.getRfree());
-
-		JournalArticle myJournal = header.getJournalArticle();
-		if( myJournal==null){
-
-		}
-		else{
-			headerStruct.setDoi(myJournal.getDoi());
-		}
-	}
-
-
-	/**
-	 *  
-	 * Function to generate the secondary structuee for a biojava structure object.
-	 *
-	 * @param bioJavaStruct the bio java struct
-	 */
-	private void genSecStruct(Structure bioJavaStruct) {
-		SecStrucCalc ssp = new SecStrucCalc();
-		try{
-			ssp.calculate(bioJavaStruct, true);
-		}
-
-		catch(StructureException e) {
-			try{
-				DSSPParser.fetch(bioJavaStruct.getPDBCode(), bioJavaStruct, true); //download from PDB the DSSP result
-			}
-			catch(FileNotFoundException enew){
-			}
-			catch(Exception bige){
-				System.out.println(bige);
-			}
-		}
-
-	}
-
-
 	/**
 	 * Adds the calpha group.
-	 *
 	 * @param cAlphaGroup the c alpha group
 	 * @param props the props
 	 * @param residueNum the residue number Biojava objext
@@ -653,116 +558,15 @@ public class ParseFromBiojava {
 
 
 	/**
-	 * Find the atomic charge information.
-	 *
-	 * @param inputAtoms the atoms
-	 * @param pdbGroup the PDBGroup being considered
+	 * Find and store the atomic charge information.
+	 * @param inputAtoms the atoms being coisdered.
+	 * @param pdbGroup the PDBGroup to be modified.
 	 * @return the atomic charges
 	 */
 	private void getCharges(List<Atom> inputAtoms, PDBGroup pdbGroup) {
 		for(Atom a: inputAtoms){
 			pdbGroup.getAtomCharges().add((int) a.getCharge());
 		}
-
-	}
-
-
-	/**
-	 * Generate a serializable biotransformation for storing
-	 * in the messagepack.
-	 * @param bioJavaStruct the Biojava structure
-	 * @param header the header
-	 * @return a map of the bioassembly information that is serializable
-	 */
-	private List<BioAssemblyData> generateSerializableBioAssembly(Structure bioJavaStruct, PDBHeader header) {
-		// Get a map to reference asym ids to chains
-		Map<String, Integer> chainIdToIndexMap = getChainIdToIndexMap(bioJavaStruct);
-		// Here we need to iterate through and get the chain ids and the matrices
-		Map<Integer, BioAssemblyInfo> inputBioAss = header.getBioAssemblies();
-		List<BioAssemblyData> outMap = new ArrayList<BioAssemblyData>();
-		for (Map.Entry<Integer, BioAssemblyInfo> entry : inputBioAss.entrySet()) {
-			Map<Matrix4d,BioAssemblyTrans> matSet = new HashMap<Matrix4d,BioAssemblyTrans>();
-			BioAssemblyInfo value = entry.getValue();
-			// Make a new one of these
-			BioAssemblyData newValue = new BioAssemblyData();
-			outMap.add(newValue);
-			// Copy across this info
-			List<BioAssemblyTrans> outTrans = new ArrayList<BioAssemblyTrans>();
-			for(BiologicalAssemblyTransformation transform: value.getTransforms()){
-				// Get's the chain id -> this is the asym id
-				String thisChain = transform.getChainId();
-				// Get the current matrix 4d
-				Matrix4d currentTransMat = transform.getTransformationMatrix();
-				double[] outList = new double[16];
-				// Iterate over the matrix
-				for(int i=0; i<4; i++){
-					for(int j=0; j<4; j++){
-						// Now set this element
-						outList[i*4+j] = currentTransMat.getElement(i,j);
-					}
-				}
-				if(matSet.containsKey(currentTransMat)){
-					// Get the trasnformation
-					BioAssemblyTrans bioTransNew = matSet.get(currentTransMat);
-					// Add this chain index to that list
-					int[] oldList = bioTransNew.getChainIndexList();
-					int oldLen = oldList.length;
-					int[] newList = new int[oldLen+1];
-					for (int i=0; i<oldLen; i++) {
-						newList[i] = oldList[i];
-					}
-					// Now add the new chain id
-					int newInd = 0;
-					try {
-						newInd = chainIdToIndexMap.get(thisChain);
-					}
-					// If it's not in the dictionary - because it's not a physical chain
-					catch(Exception e) {
-						newInd = -1;
-					}					
-					newList[oldLen] = newInd;
-					bioTransNew.setChainIndexList(newList);
-				}
-				else{
-					// Create a new one
-					BioAssemblyTrans bioTransNew = new BioAssemblyTrans();
-					bioTransNew.setTransformation(outList);
-					// Create a chain index list
-					int[] indexList = new int[1];
-					indexList[0] = chainIdToIndexMap.get(thisChain);
-					bioTransNew.setChainIndexList(indexList);
-					matSet.put(currentTransMat, bioTransNew);
-				}
-			}
-			for(BioAssemblyTrans thisTrans: matSet.values()){
-				outTrans.add(thisTrans);
-			}
-			// Set the transform information
-			newValue.setTransforms(outTrans);
-		}
-
-		return outMap;
-	}
-
-	/**
-	 * Get the index of chain given a particular Asym id. Assumes there are more asym ids than auth ids...
-	 * @param thisChain
-	 * @return
-	 */
-	private Map<String, Integer> getChainIdToIndexMap(Structure bioJavaStruct) {
-		// First build a map of asymid -> chain index
-		Map<String,Integer> chainIdToIndexMapOne = new HashMap<>();
-		int chainCounter = 0;
-		for (int i=0; i<bioJavaStruct.nrModels(); i++) {
-			for (Chain chain : bioJavaStruct.getChains(i)) {
-				String idOne = chain.getChainID();
-				if (!chainIdToIndexMapOne.containsKey(idOne)) { 
-					chainIdToIndexMapOne.put(idOne, chainCounter);
-				}
-				chainCounter++;
-			}
-		}
-		return chainIdToIndexMapOne;
 
 	}
 
