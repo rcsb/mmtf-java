@@ -396,7 +396,7 @@ public class EncoderUtils implements Serializable {
 	 * @return the compressed calpha data
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
-	public final CalphaDistBean compCAlpha(CalphaBean calphaData, HeaderBean inHeader) throws IOException {
+	public final CalphaDistBean compressCalpha(CalphaBean calphaData, HeaderBean inHeader) throws IOException {
 		EncoderUtils cm = new  EncoderUtils();
 		// Create the object to leave
 		CalphaDistBean calphaOut = new CalphaDistBean();

@@ -7,6 +7,11 @@ import org.rcsb.mmtf.dataholders.CalphaBean;
 import org.rcsb.mmtf.dataholders.HeaderBean;
 import org.rcsb.mmtf.dataholders.PDBGroup;
 
+/**
+ * An interface to be used in encoding structures
+ * @author Anthony Bradley
+ *
+ */
 public interface EncoderInterface {
 
 	/**

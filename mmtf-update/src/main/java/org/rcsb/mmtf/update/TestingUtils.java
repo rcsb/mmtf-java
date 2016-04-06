@@ -11,6 +11,7 @@ import org.biojava.nbio.structure.StructureIO;
 import org.biojava.nbio.structure.align.util.AtomCache;
 import org.biojava.nbio.structure.io.FileParsingParameters;
 import org.biojava.nbio.structure.io.mmtf.MmtfStructureDecoder;
+import org.rcsb.mmtf.biojavaencoder.BiojavaEncoderImpl;
 import org.rcsb.mmtf.decoder.DecodeStructure;
 import org.rcsb.mmtf.decoder.ParsingParams;
 import org.rcsb.mmtf.encoder.EncodeStructure;
@@ -67,8 +68,8 @@ public class TestingUtils {
 	    cache.setFileParsingParams(params);
 	    StructureIO.setAtomCache(cache);
 	    EncodeStructure es = new EncodeStructure();
-	    Structure mmcifStruct  = StructureIO.getStructure(pdbId);
-	    FileUtils.writeByteArrayToFile(new File("pathname"), es.encodeFromPdbId(mmcifStruct));
+	    Structure mmcifStruct = StructureIO.getStructure(pdbId);
+	    FileUtils.writeByteArrayToFile(new File("pathname"), es.encodeFromPdbId(pdbId, new BiojavaEncoderImpl()));
 	    byte[] inArr = FileUtils.readFileToByteArray(new File("pathname"));
 	    // Now do the checks on the Raw data
 	    CheckOnRawApi checkRaw = new CheckOnRawApi(inArr);
