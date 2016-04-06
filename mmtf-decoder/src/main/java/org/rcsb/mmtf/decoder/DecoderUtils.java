@@ -19,7 +19,6 @@ public class DecoderUtils {
 	 * @return a String of the chain id for the given chain.
 	 */
 	public final String getChainId(final byte[] chainList, final int chainIndex) {
-
 		int incrementor = 0;
 		StringBuilder sb = new StringBuilder();
 		byte chainIdOne = chainList[chainIndex * MAX_CHARS_PER_CHAIN_ENTRY + incrementor];
@@ -57,7 +56,6 @@ public class DecoderUtils {
 		for (int i = 0; i < numIntsInArr; i++) {
 			outArray[i] = bis.readInt();
 		}
-
 		return outArray;
 	}
 
@@ -74,7 +72,6 @@ public class DecoderUtils {
 		for (int i = 0; i < inArray.length; i++) {
 			outArray[i] = (int) bis.readByte();
 		}
-
 		return outArray;
 
 	}

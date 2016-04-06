@@ -34,13 +34,11 @@ public class BuildFirstDataSet {
 			System.err.println("NOT ENOUGH ARGUMENTS PROVIDED");
 			throw new RuntimeException();
 		}
-		
 		// This is the default 2 line structure for Spark applications
 		SparkConf conf = new SparkConf().setMaster("local[*]")
 				.setAppName(BuildFirstDataSet.class.getSimpleName());
 		// Set the config
 		JavaSparkContext sc = new JavaSparkContext(conf);
-
 		// A hack to make sure we're not downloading the whole pdb
 		Properties sysProps = System.getProperties();
 		sysProps.setProperty("PDB_CACHE_DIR", args[0]);

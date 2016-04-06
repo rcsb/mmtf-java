@@ -32,13 +32,17 @@ public class DemoUnpackStructure {
 					int currentGroupTypeIndex = dataApi.getGroupTypeIndices()[groupIndex];
 					// Loop through the atoms in every group
 					for (int groupAtomIndex=0; groupAtomIndex<dataApi.getNumAtomsInGroup(currentGroupTypeIndex); groupAtomIndex++) {
-						// Use the structureAtomIndex to get total structure info.
+						// Use the structureAtomIndex to get data in the arrays for the whole structue
 						float xCoord = dataApi.getxCoords()[structureAtomIndex];
 						int serialId = dataApi.getAtomIds()[structureAtomIndex];
 						float bFactor = dataApi.getbFactors()[structureAtomIndex];
-						// Use the atomCounter to get group level info
+						// Use the groupAtomIndex to get atom info on the group level
 						String element = dataApi.getGroupElementNames(currentGroupTypeIndex)[groupAtomIndex];
-						System.out.println("Serial id: "+serialId+" X coordinate: "+xCoord+", B-factor: "+bFactor+", element: "+element);
+						// Use the chainIndex to get chain level info
+						String chainId = dataApi.getChainIds()[chainIndex];
+						// Use the currentGroupTypeIndex to get group level info
+						String hetCode = dataApi.getGroupChemCompType(currentGroupTypeIndex);
+						System.out.println("Serial id: "+serialId+" X coordinate: "+xCoord+", B-factor: "+bFactor+", element: "+element+", pdb group code: "+hetCode+", chain id: "+chainId);
 						// Increment the atom index
 						structureAtomIndex++;
 					}

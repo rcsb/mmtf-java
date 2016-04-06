@@ -38,14 +38,14 @@ public class RunLengthDelta {
 		DataInputStream bis = new DataInputStream(new
 				ByteArrayInputStream(inArray));
 		for (int i = 0; i < lengthOfBigIntArr; i++) {
-			// Get the numbers
+			// Read the number from the byte array
 			int getNum = bis.readInt();
-			// Get the number of repeats
+			// Read the number of repeats from the byte array
 			int getCount = bis.readInt();
 			if (getCount < 0) {
 				System.out.println(getCount);
 			}
-			// Get the total count
+			// Add to the total count
 			totCount += getCount;
 			// Fill the number array
 			numArr[i] = getNum;
