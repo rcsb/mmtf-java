@@ -17,7 +17,6 @@ public class ParsingParams {
 
   /**
    * Checks if is parses the internal chain ids.
-   *
    * @return true, if is parses the internal
    */
   public final boolean isParseInternal() {
@@ -26,7 +25,6 @@ public class ParsingParams {
 
   /**
    * Sets whether to parse the internal chain ids.
-   *
    * @param ifParseInternal the new parses the internal
    */
   public final void setParseInternal(final boolean ifParseInternal) {

@@ -38,7 +38,7 @@ public class DecodeStructure {
 	 */
 	public DecodeStructure(byte[] inputByteArr) {
 
-		// Data api
+		// Create the instance of this API
 		dataApi = new SimpleDataApi(inputByteArr);
 
 	}
@@ -46,10 +46,8 @@ public class DecodeStructure {
 
 	/**
 	 * Generate a structure from bytes using a structure inflator.
-	 *
-	 * @param myInBytes the my in bytes
-	 * @param inputStructInflator the input struct inflator
-	 * @param parsingParams the parsing params
+	 * @param inputStructInflator the structure inflator to be used
+	 * @param parsingParams the parsing parameters object to be used when inflating. 
 	 */
 	public final void getStructFromByteArray(final MmtfDecoderInterface inputStructInflator, final ParsingParams parsingParams) {    
 		// Set the inflator
@@ -110,7 +108,7 @@ public class DecodeStructure {
 
 
 	/**
-	 * Function to add ancilliary header information to the structure
+	 * Add ancilliary header information to the structure
 	 */
 	private final void addHeaderInfo() {
 		structInflator.setHeaderInfo(dataApi.getRfree(),dataApi.getRwork(), dataApi.getResolution(), dataApi.getTitle(), dataApi.getExperimentalMethods());		
@@ -119,7 +117,7 @@ public class DecodeStructure {
 
 	/**
 	 * Use the parsing parameters to set the scene.
-	 * @param parsingParams
+	 * @param parsingParams the input parsing parameters object
 	 */
 	private final void useParseParams(ParsingParams parsingParams) {
 		if (parsingParams.isParseInternal()) {
@@ -134,7 +132,7 @@ public class DecodeStructure {
 
 	/**
 	 * Set the chain level information and then loop through the groups
-	 * @param chainIndex
+	 * @param chainIndex the chain index to be created or updated.
 	 */
 	private void addOrUpdateChainInfo(int chainIndex) {
 		// Get the current c
@@ -158,19 +156,17 @@ public class DecodeStructure {
 	}
 
 	/**
-	 * Adds the group.
-	 *
-	 * @param thisGroupNum the this group num
-	 * @param nucAcidList the nuc acid list
-	 * @return the int
+	 * Add a group to the structure - return the number of atoms in the structure.
+	 * @param currentGroupIndex the integer indicating the index of the group to be added.
+	 * @return an integer for the number of atoms in the structure.
 	 */
-	private int addGroup(final int thisGroupNum) {
+	private int addGroup(final int currentGroupIndex) {
 		// Now get the group
-		int groupInd = dataApi.getGroupTypeIndices()[thisGroupNum];
+		int groupInd = dataApi.getGroupTypeIndices()[currentGroupIndex];
 		// Get this info
 		int atomCount = dataApi.getNumAtomsInGroup(groupInd);
-		int currentGroupNumber = dataApi.getGroupIds()[thisGroupNum];
-		char insertionCode = dataApi.getInsCodes()[thisGroupNum];
+		int currentGroupNumber = dataApi.getGroupIds()[currentGroupIndex];
+		char insertionCode = dataApi.getInsCodes()[currentGroupIndex];
 		structInflator.setGroupInfo(dataApi.getGroupName(groupInd), currentGroupNumber, insertionCode,
 				dataApi.getGroupChemCompType(groupInd), atomCount);
 		// A counter for the atom information
@@ -186,9 +182,9 @@ public class DecodeStructure {
 
 	/**
 	 * Add atom level data for a given atom.
-	 * @param currentPdbGroup The group being considered.
-	 * @param atomInfo The list of strings containing atom level information.
-	 * @param currentAtomIndex The index of the current Atom
+	 * @param currentPdbGroup the group being considered.
+	 * @param atomInfo the list of strings containing atom level information.
+	 * @param currentAtomIndex the index of the current Atom
 	 */
 	private void addAtomData(String[] atomNames, String[] elementNames, int[] atomCharges, int currentAtomIndex) {
 		// Now get all the relevant atom level information here
@@ -227,6 +223,7 @@ public class DecodeStructure {
 
 	/**
 	 * Generate inter group bonds
+	 * Bond indices are specified within the whole structure and start at 0.
 	 */
 	private void addInterGroupBonds() {
 		for (int i = 0; i < dataApi.getInterGroupBondOrders().length; i++) {

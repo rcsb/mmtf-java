@@ -27,7 +27,6 @@ public class SimpleDataApi implements MmtfDecodedDataInterface {
 		try {
 			inputData = new ObjectMapper(new MessagePackFactory()).readValue(inputByteArr, MmtfBean.class);
 		} catch (IOException e) {
-			// 
 			System.err.println("Error converting Byte array to message pack. IOError");
 			e.printStackTrace();
 			throw new RuntimeException();
@@ -408,20 +407,6 @@ public class SimpleDataApi implements MmtfDecodedDataInterface {
 		return groupMap[groupInd].getChemCompType();
 	}
 
-
-	/**
-	 * Get a primitive int[] list from a Java List<>;
-	 * @param inArray The input List<> of Integers
-	 * @return A primitive int[].
-	 */
-	private int[] convertToIntList(List<Integer> inArray) {
-		int[] outArray = new int[inArray.size()];
-		for (int i=0; i<inArray.size(); i++) {
-			outArray[i] = inArray.get(i);
-		}
-		return outArray;
-	}
-
 	@Override
 	public String getEntityDescription(int entityInd) {
 		return entityList[entityInd].getDescription();
@@ -469,7 +454,19 @@ public class SimpleDataApi implements MmtfDecodedDataInterface {
 	public double[] getMatrixForTransform(int bioassemblyIndex, int transformationIndex) {
 		return bioAssembly.get(bioassemblyIndex).getTransforms().get(transformationIndex).getTransformation();
 	}
-
+	
+	/**
+	 * Get a primitive int[] list from a Java List<>;
+	 * @param inArray The input List<> of Integers
+	 * @return A primitive int[].
+	 */
+	private int[] convertToIntList(List<Integer> inArray) {
+		int[] outArray = new int[inArray.size()];
+		for (int i=0; i<inArray.size(); i++) {
+			outArray[i] = inArray.get(i);
+		}
+		return outArray;
+	}
 
 
 }
