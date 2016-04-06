@@ -296,7 +296,7 @@ public class ParseFromBiojava {
 						// Make a new group
 						PDBGroup outGroup = new PDBGroup();
 						// Set the one letter code
-						outGroup.setSingleLetterCode(currentGroup.getChemComp().getOne_letter_code());
+						outGroup.setSingleLetterCode(currentGroup.getChemComp().getOne_letter_code().charAt(0));
 						// Set the group type
 						outGroup.setChemCompType(currentGroup.getChemComp().getType());
 						outGroup.setGroupName(atomInfo.remove(0));
@@ -511,8 +511,8 @@ public class ParseFromBiojava {
 			if (hashToCalphaRes.containsKey(calphaHashCode)==false){
 				// Make a new group
 				PDBGroup outGroup = new PDBGroup();
-				outGroup.setSingleLetterCode(currentGroup.getChemComp().getOne_letter_code());
-				// 
+				outGroup.setSingleLetterCode(currentGroup.getChemComp().getOne_letter_code().charAt(0));
+				// Set the chemical component type.
 				outGroup.setChemCompType(currentGroup.getChemComp().getType());
 				outGroup.setGroupName(calphaAtomInfo.remove(0));
 				outGroup.setAtomInfo(calphaAtomInfo);

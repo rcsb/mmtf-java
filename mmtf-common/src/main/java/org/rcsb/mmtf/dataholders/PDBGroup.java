@@ -35,7 +35,7 @@ public class PDBGroup implements Serializable {
   private List<Integer> atomCharges;
 
   /** The single letter code. */
-  private String singleLetterCode;
+  private char singleLetterCode;
 
   /** A string (taken from the chemical component dictionary) indicating 
    * the type of the group. Corresponds to -> http://mmcif.wwpdb.org/dictionaries/mmcif_pdbx.dic/Items/_chem_comp.type.html
@@ -149,7 +149,7 @@ public class PDBGroup implements Serializable {
    *
    * @return the single letter code
    */
-  public final String getSingleLetterCode() {
+  public final char getSingleLetterCode() {
     return singleLetterCode;
   }
 
@@ -158,7 +158,7 @@ public class PDBGroup implements Serializable {
    *
    * @param inputSingleLetterCode the new single letter code
    */
-  public final void setSingleLetterCode(final String inputSingleLetterCode) {
+  public final void setSingleLetterCode(final char inputSingleLetterCode) {
     this.singleLetterCode = inputSingleLetterCode;
   }
 

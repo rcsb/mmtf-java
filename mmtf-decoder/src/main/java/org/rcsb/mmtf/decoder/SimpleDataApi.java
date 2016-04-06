@@ -80,7 +80,7 @@ public class SimpleDataApi implements MmtfDecodedDataInterface {
 			rWork = inputData.getrWork();
 			resolution = inputData.getResolution();
 			title = inputData.getTitle();
-			experimentalMethods = inputData.getExperimentalMethods();
+			experimentalMethods = inputData.getExperimentalMethods().toArray(new String[0]);
 
 
 		}
@@ -183,7 +183,7 @@ public class SimpleDataApi implements MmtfDecodedDataInterface {
 	private String title;
 
 	/** The list of experimental methods. */
-	private List<String> experimentalMethods;
+	private String[] experimentalMethods;
 
 	@Override
 	public float[] getxCoords() {
