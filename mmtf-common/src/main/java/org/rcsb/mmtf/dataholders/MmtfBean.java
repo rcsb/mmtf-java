@@ -143,8 +143,6 @@ public class MmtfBean implements Serializable {
 	/** The deposition date of the structure in ISO time standard format. https://www.cl.cam.ac.uk/~mgk25/iso-time.html */
 	private String depositionDate;
 	
-	/** The release date of the structure in ISO time standard format. https://www.cl.cam.ac.uk/~mgk25/iso-time.html */
-	private String releaseDate;
 
 	/** Constructor to set the default values for floats */
 	public MmtfBean() {
@@ -840,5 +838,6 @@ public class MmtfBean implements Serializable {
 	public void setDepositionDate(String depositionDate) {
 		this.depositionDate = depositionDate;
 	}
+
 
 }

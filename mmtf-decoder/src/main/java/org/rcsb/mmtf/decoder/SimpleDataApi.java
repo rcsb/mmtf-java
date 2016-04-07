@@ -80,8 +80,8 @@ public class SimpleDataApi implements MmtfDecodedDataInterface {
 			resolution = inputData.getResolution();
 			title = inputData.getTitle();
 			experimentalMethods = inputData.getExperimentalMethods().toArray(new String[0]);
-
-
+			// Now get the relase information
+			depositionDate = inputData.getDepositionDate();
 		}
 		catch (IOException ioException){
 			System.err.println("Error reading in byte arrays from message pack");
@@ -183,6 +183,10 @@ public class SimpleDataApi implements MmtfDecodedDataInterface {
 
 	/** The list of experimental methods. */
 	private String[] experimentalMethods;
+	
+	/** The deposition date of hte structure */
+	private String depositionDate;
+	
 
 	@Override
 	public float[] getxCoords() {
@@ -466,6 +470,11 @@ public class SimpleDataApi implements MmtfDecodedDataInterface {
 			outArray[i] = inArray.get(i);
 		}
 		return outArray;
+	}
+
+	@Override
+	public String getDepositionDate() {
+		return depositionDate;
 	}
 
 

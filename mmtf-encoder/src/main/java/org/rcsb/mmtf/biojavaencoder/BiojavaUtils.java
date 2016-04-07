@@ -221,6 +221,7 @@ public class BiojavaUtils {
 		headerStruct.setDescription(header.getDescription());
 		headerStruct.setClassification(header.getClassification());
 		headerStruct.setDepDate(header.getDepDate());
+		//headerStruct.setReleaseDate(header.getReleaseDate());
 		headerStruct.setModDate(header.getModDate());
 		headerStruct.setResolution(header.getResolution());		
 		headerStruct.setrFree(header.getRfree());

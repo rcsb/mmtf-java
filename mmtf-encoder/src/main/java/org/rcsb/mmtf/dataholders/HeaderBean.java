@@ -41,7 +41,8 @@ public class HeaderBean {
 
 	/** The depositon date. */
 	private Date depDate;
-
+	
+	
 	/** The modified date. */
 	private Date modDate;
 
@@ -627,5 +628,6 @@ public class HeaderBean {
 
 	public void setEntityList(Entity[] entityList) {
 		this.entityList = entityList;
-	}	
+	}
+	
 }

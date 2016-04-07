@@ -372,4 +372,13 @@ public interface MmtfDecodedDataInterface {
 	 * @return the list of experimental methods 
 	 */
 	String[] getExperimentalMethods();
+	
+	/**
+	 * Returns the deposition date of the structure as a string
+	 * in ISO time standard format. https://www.cl.cam.ac.uk/~mgk25/iso-time.html
+	 * @return the deposition date of the structure.
+	 */
+	String getDepositionDate();
+	
+	
 }

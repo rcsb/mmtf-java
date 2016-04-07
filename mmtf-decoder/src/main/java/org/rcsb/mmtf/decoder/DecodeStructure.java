@@ -30,14 +30,12 @@ public class DecodeStructure {
 	private int atomCounter = 0;
 	private int lastAtomCount = 0;
 	private Set<String> chainIdSet;
-	private String[] chainList;
 
 	/**
 	 * The constructor requires a byte array to fill the data. This will decompress the arrays using our bespoke methods.
 	 * @param inputByteArr An unentropy encoded byte array with the data as found in the MMTF format
 	 */
 	public DecodeStructure(byte[] inputByteArr) {
-
 		// Create the instance of this API
 		dataApi = new SimpleDataApi(inputByteArr);
 
@@ -95,7 +93,7 @@ public class DecodeStructure {
 			String[] chainIdList = new String[dataApi.getEntityChainIndexList(i).length];
 			int counter = 0;
 			for (int chainInd : dataApi.getEntityChainIndexList(i)) {
-				chainIdList[counter] = chainList[chainInd];
+				chainIdList[counter] = dataApi.getChainIds()[chainInd];
 				counter++;
 			}
 			structInflator.setEntityInfo(chainIdList, dataApi.getEntitySequence(i), dataApi.getEntityDescription(i), dataApi.getEntityType(i));
@@ -107,7 +105,8 @@ public class DecodeStructure {
 	 * Add ancilliary header information to the structure
 	 */
 	private final void addHeaderInfo() {
-		structInflator.setHeaderInfo(dataApi.getRfree(),dataApi.getRwork(), dataApi.getResolution(), dataApi.getTitle(), dataApi.getExperimentalMethods());		
+		structInflator.setHeaderInfo(dataApi.getRfree(),dataApi.getRwork(), dataApi.getResolution(), 
+				dataApi.getTitle(), dataApi.getDepositionDate(), dataApi.getExperimentalMethods());		
 	}
 
 

@@ -125,12 +125,10 @@ public interface MmtfDecoderInterface {
 	 * @param rWork
 	 * @param resolution
 	 * @param title
-// TODO Add date information to the API
-//	 * @param depositionDate 
-//   * @param releaseDate 
+	 * @param depositionDate 
 	 * @param experimnetalMethods
 	 */
-	void setHeaderInfo(float rFree, float rWork, float resolution, String title, String[] experimnetalMethods);
+	void setHeaderInfo(float rFree, float rWork, float resolution, String title, String depositionDate, String[] experimnetalMethods);
 
 
 
