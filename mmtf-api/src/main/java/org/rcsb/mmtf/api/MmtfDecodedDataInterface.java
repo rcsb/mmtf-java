@@ -380,5 +380,9 @@ public interface MmtfDecodedDataInterface {
 	 */
 	String getDepositionDate();
 	
+	/**
+	 * Enter the data as a byte array along with an interface to convert a byte array to an object.
+	 */
+	void setInputData(byte[] byteArray, ByteArrayToObjectConverterInterface byteArrayConverter);
 	
 }

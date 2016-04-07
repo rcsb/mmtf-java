@@ -33,11 +33,11 @@ public class DecodeStructure {
 
 	/**
 	 * The constructor requires a byte array to fill the data. This will decompress the arrays using our bespoke methods.
-	 * @param inputByteArr An unentropy encoded byte array with the data as found in the MMTF format
+	 * @param byteArray An unentropy encoded byte array with the data as found in the MMTF format
 	 */
-	public DecodeStructure(byte[] inputByteArr) {
+	public DecodeStructure(byte[] byteArray) {
 		// Create the instance of this API
-		dataApi = new SimpleDataApi(inputByteArr);
+		dataApi = new SimpleDataApi(new ByteArrayMessagePackConverter().convert(byteArray));
 
 	}
 

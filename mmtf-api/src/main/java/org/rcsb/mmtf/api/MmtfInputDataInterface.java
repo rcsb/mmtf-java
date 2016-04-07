@@ -1,11 +1,11 @@
 package org.rcsb.mmtf.api;
 
 /**
- *
+ * An interface to take the data from another data structure and insert it into the MmmtfDecodedApi.
  * @author Anthony Bradley
  * @author Jose Duarte
  */
-public interface MmtfInitialDataInterface {
+public interface MmtfInputDataInterface {
 
 	/**
 	 * Sets an array containing the X coordinates of the atoms in Angstroms.
@@ -360,5 +360,9 @@ public interface MmtfInitialDataInterface {
 	 */
 	void setDepositionDate(String depositionDate);
 	
+	/**
+	 * Returns the data as a decoded data interface. To then be encoded.
+	 */
+	MmtfDecodedDataInterface getDataAsDecodedDataInterface();
 	
 }

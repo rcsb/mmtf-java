@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.msgpack.jackson.dataformat.MessagePackFactory;
+import org.rcsb.mmtf.api.ByteArrayToObjectConverterInterface;
 import org.rcsb.mmtf.api.MmtfDecodedDataInterface;
 import org.rcsb.mmtf.arraydecoders.DeltaDecompress;
 import org.rcsb.mmtf.arraydecoders.RunLengthDecodeInt;
@@ -15,22 +15,10 @@ import org.rcsb.mmtf.dataholders.Entity;
 import org.rcsb.mmtf.dataholders.MmtfBean;
 import org.rcsb.mmtf.dataholders.PDBGroup;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 public class SimpleDataApi implements MmtfDecodedDataInterface {
 
 
-	public SimpleDataApi(byte[] inputByteArr) {
-
-		// TODO Extract this from the instantiation of the object.
-		MmtfBean inputData = null;
-		try {
-			inputData = new ObjectMapper(new MessagePackFactory()).readValue(inputByteArr, MmtfBean.class);
-		} catch (IOException e) {
-			System.err.println("Error converting Byte array to message pack. IOError");
-			e.printStackTrace();
-			throw new RuntimeException();
-		}
+	public SimpleDataApi(MmtfBean inputData) {
 
 		// Get the decompressors to build in the data structure
 		DeltaDecompress deltaDecompress = new DeltaDecompress();
@@ -474,6 +462,12 @@ public class SimpleDataApi implements MmtfDecodedDataInterface {
 	@Override
 	public String getDepositionDate() {
 		return depositionDate;
+	}
+
+	@Override
+	public void setInputData(byte[] byteArray, ByteArrayToObjectConverterInterface byteArrayConverter) {
+		// TODO Auto-generated method stub
+		
 	}
 
 
