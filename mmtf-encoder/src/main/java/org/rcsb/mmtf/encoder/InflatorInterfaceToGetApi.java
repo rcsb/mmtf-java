@@ -170,246 +170,209 @@ public class InflatorInterfaceToGetApi implements MmtfDecodedDataInterface, Mmtf
 
 	@Override
 	public int getNumAtomsInGroup(int groupInd) {
-		return groupMap[groupList[groupInd]].getAtomChargeList().size();
+		return groupMap[groupList[groupInd]].getAtomChargeList().length;
 	}
 
 	@Override
 	public String[] getGroupAtomNames(int groupInd) {
-		groupMap[groupList[groupInd]].getAtomNames();
+		return groupMap[groupList[groupInd]].getAtomNameList();
 	}
 
 	@Override
 	public String[] getGroupElementNames(int groupInd) {
-		groupMap[groupList[groupInd]].getElementNames();
+		return  groupMap[groupList[groupInd]].getElementList();
 
 	}
 
 	@Override
 	public int[] getGroupBondOrders(int groupInd) {
-		// TODO Auto-generated method stub
-		return null;
+		return  groupMap[groupList[groupInd]].getBondOrderList();
+
 	}
 
 	@Override
 	public int[] getGroupBondIndices(int groupInd) {
-		// TODO Auto-generated method stub
-		return null;
+		return  groupMap[groupList[groupInd]].getBondAtomList();
 	}
 
 	@Override
 	public int[] getGroupAtomCharges(int groupInd) {
-		// TODO Auto-generated method stub
-		return null;
+		return  groupMap[groupList[groupInd]].getAtomChargeList();
 	}
 
 	@Override
 	public char getGroupSingleLetterCode(int groupInd) {
-		// TODO Auto-generated method stub
-		return 0;
+		return  groupMap[groupList[groupInd]].getSingleLetterCode();
 	}
 
 	@Override
 	public String getGroupChemCompType(int groupInd) {
-		// TODO Auto-generated method stub
-		return null;
+		return groupMap[groupList[groupInd]].getChemCompType();
 	}
 
 	@Override
 	public int[] getGroupTypeIndices() {
-		// TODO Auto-generated method stub
-		return null;
+		return groupList;
 	}
 
 	@Override
 	public int[] getGroupSequenceIndices() {
-		// TODO Auto-generated method stub
-		return null;
+		return seqResGroupList;
 	}
 
 	@Override
 	public String[] getChainIds() {
-		// TODO Auto-generated method stub
-		return null;
+		return chainList;
 	}
 
 	@Override
 	public String[] getChainNames() {
-		// TODO Auto-generated method stub
-		return null;
+		return publicChainIds;
 	}
 
 	@Override
 	public int[] getChainsPerModel() {
-		// TODO Auto-generated method stub
-		return null;
+		return chainsPerModel;
 	}
 
 	@Override
 	public int[] getGroupsPerChain() {
-		// TODO Auto-generated method stub
-		return null;
+		return groupsPerChain;
 	}
 
 	@Override
 	public String getSpaceGroup() {
-		// TODO Auto-generated method stub
-		return null;
+		return spaceGroup;
 	}
 
 	@Override
 	public float[] getUnitCell() {
-		// TODO Auto-generated method stub
-		return null;
+		return unitCell;
 	}
 
 	@Override
 	public int getNumBioassemblies() {
-		// TODO Auto-generated method stub
-		return 0;
+		return bioAssembly.size();
 	}
 
 	@Override
 	public int getNumTransInBioassembly(int bioassemblyIndex) {
-		// TODO Auto-generated method stub
-		return 0;
+		return bioAssembly.get(bioassemblyIndex).getTransforms().size();
 	}
 
 	@Override
 	public int[] getChainIndexListForTransform(int bioassemblyIndex, int transformationIndex) {
-		// TODO Auto-generated method stub
-		return null;
+		return bioAssembly.get(bioassemblyIndex).getTransforms().get(transformationIndex).getChainIndexList();
 	}
 
 	@Override
 	public double[] getMatrixForTransform(int bioassemblyIndex, int transformationIndex) {
-		// TODO Auto-generated method stub
-		return null;
+		return bioAssembly.get(bioassemblyIndex).getTransforms().get(transformationIndex).getTransformation();
 	}
 
 	@Override
 	public int[] getInterGroupBondIndices() {
-		// TODO Auto-generated method stub
-		return null;
+		return interGroupBondIndices;
 	}
 
 	@Override
 	public int[] getInterGroupBondOrders() {
-		// TODO Auto-generated method stub
-		return null;
+		return interGroupBondOrders;
 	}
 
 	@Override
 	public String getMmtfVersion() {
-		// TODO Auto-generated method stub
-		return null;
+		return mmtfVersion;
 	}
 
 	@Override
 	public String getMmtfProducer() {
-		// TODO Auto-generated method stub
-		return null;
+		return mmtfProducer;
 	}
 
 	@Override
 	public int getNumEntities() {
-		// TODO Auto-generated method stub
-		return 0;
+		return entityList.length;
 	}
 
 	@Override
 	public String getEntityDescription(int entityInd) {
-		// TODO Auto-generated method stub
-		return null;
+		return entityList[entityInd].getDescription();
 	}
 
 	@Override
 	public String getEntityType(int entityInd) {
-		// TODO Auto-generated method stub
-		return null;
+		return entityList[entityInd].getType();
+
 	}
 
 	@Override
 	public int[] getEntityChainIndexList(int entityInd) {
-		// TODO Auto-generated method stub
-		return null;
+		return entityList[entityInd].getChainIndexList();
 	}
 
 	@Override
 	public String getEntitySequence(int entityInd) {
-		// TODO Auto-generated method stub
-		return null;
+		return entityList[entityInd].getSequence();
 	}
 
 	@Override
 	public String getStructureId() {
-		// TODO Auto-generated method stub
-		return null;
+		return pdbId;
 	}
 
 	@Override
 	public int getNumModels() {
-		// TODO Auto-generated method stub
-		return 0;
+		return chainsPerModel.length;
 	}
 
 	@Override
 	public int getNumChains() {
-		// TODO Auto-generated method stub
-		return 0;
+		int sum = 0;
+		for (int numChainsInModel : chainsPerModel) {
+			sum+=numChainsInModel;
+		}
+		return sum;
 	}
 
 	@Override
 	public int getNumGroups() {
-		// TODO Auto-generated method stub
-		return 0;
+		return insertionCodeList.length;
 	}
 
 	@Override
 	public int getNumAtoms() {
-		// TODO Auto-generated method stub
-		return 0;
+		return cartnX.length;
 	}
 
 	@Override
 	public float getRfree() {
-		// TODO Auto-generated method stub
-		return 0;
+		return rFree;
 	}
 
 	@Override
 	public float getRwork() {
-		// TODO Auto-generated method stub
-		return 0;
+		return rWork;
 	}
 
 	@Override
 	public float getResolution() {
-		// TODO Auto-generated method stub
-		return 0;
+		return resolution;
 	}
 
 	@Override
 	public String getTitle() {
-		// TODO Auto-generated method stub
-		return null;
+		return title;
 	}
 
 	@Override
 	public String[] getExperimentalMethods() {
-		// TODO Auto-generated method stub
-		return null;
+		return experimentalMethods;
 	}
 
 	@Override
 	public String getDepositionDate() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void setInputData(byte[] byteArray, ByteArrayToObjectConverterInterface byteArrayConverter) {
-		// TODO Auto-generated method stub
-		
+		return depositionDate;
 	}
 	
 	
