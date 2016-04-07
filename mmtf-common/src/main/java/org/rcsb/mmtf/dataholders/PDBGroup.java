@@ -1,8 +1,6 @@
 package org.rcsb.mmtf.dataholders;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -22,21 +20,21 @@ public class PDBGroup implements Serializable {
 
   /** The atom names. A list of strings indicating
    * the atom names (e.g. CA for C-alpha). */
-  private List<String> atomNameList;
+  private String[] atomNameList;
 
   /** The element names. A list of strings indicating
    * the element names (e.g. Ca for Calcium). */
-  private List<String> elementList;
+  private String[] elementList;
   
   /** The bond orders. A list of integers indicating the bond orders*/
-  private List<Integer> bondOrderList;
+  private int[] bondOrderList;
 
   /** The bond indices (in pairs).
    * (e.g. 0,1 means there is bond between atom 0 and 1).*/
-  private List<Integer> bondAtomList;
+  private int[] bondAtomList;
 
   /** The atom charges. */
-  private List<Integer> atomChargeList;
+  private int[] atomChargeList;
 
   /** The single letter code. */
   private char singleLetterCode;
@@ -46,16 +44,6 @@ public class PDBGroup implements Serializable {
    */
   private String chemCompType;
   
-  /**
-   * Constructor for the PDB group. Makes empty lists.
-   */
-  public PDBGroup(){
-    groupName = new String();
-    atomNameList = new ArrayList<String>();
-    bondOrderList = new ArrayList<Integer>();
-    bondAtomList = new ArrayList<Integer>();
-    atomChargeList = new ArrayList<Integer>();
-  }
   
   /**
    * Gets the atom info.
@@ -63,7 +51,7 @@ public class PDBGroup implements Serializable {
    * @return the atom info
    */
   // Generic getter and setter functions
-  public final List<String> getAtomNameList() {
+  public String[] getAtomNameList() {
     return atomNameList;
   }
 
@@ -72,7 +60,7 @@ public class PDBGroup implements Serializable {
    *
    * @param inputAtomInfo the new atom info
    */
-  public final void setAtomNameList(final List<String> inputAtomInfo) {
+  public void setAtomNameList(String[] inputAtomInfo) {
     this.atomNameList = inputAtomInfo;
   }
 
@@ -81,7 +69,7 @@ public class PDBGroup implements Serializable {
    *
    * @return the bond orders
    */
-  public final List<Integer> getBondOrderList() {
+  public int[] getBondOrderList() {
     return bondOrderList;
   }
 
@@ -90,7 +78,7 @@ public class PDBGroup implements Serializable {
    *
    * @param inputBondOrders the new bond orders
    */
-  public final void setBondOrderList(final List<Integer> inputBondOrders) {
+  public void setBondOrderList(int[] inputBondOrders) {
     this.bondOrderList = inputBondOrders;
   }
 
@@ -99,7 +87,7 @@ public class PDBGroup implements Serializable {
    *
    * @return the bond indices
    */
-  public final List<Integer> getBondAtomList() {
+  public int[] getBondAtomList() {
     return bondAtomList;
   }
 
@@ -108,7 +96,7 @@ public class PDBGroup implements Serializable {
    *
    * @param inputBondIndices the new bond indices
    */
-  public final void setBondAtomList(final List<Integer> inputBondIndices) {
+  public void setBondAtomList(int[] inputBondIndices) {
     this.bondAtomList = inputBondIndices;
   }
 
@@ -117,7 +105,7 @@ public class PDBGroup implements Serializable {
    *
    * @return the group name
    */
-  public final String getGroupName() {
+  public String getGroupName() {
     return groupName;
   }
 
@@ -126,7 +114,7 @@ public class PDBGroup implements Serializable {
    *
    * @param resName the new group name
    */
-  public final void setGroupName(final String resName) {
+  public void setGroupName(String resName) {
     this.groupName = resName;
   }
 
@@ -135,7 +123,7 @@ public class PDBGroup implements Serializable {
    *
    * @return the atom charges
    */
-  public final List<Integer> getAtomChargeList() {
+  public int[] getAtomChargeList() {
     return atomChargeList;
   }
 
@@ -144,7 +132,7 @@ public class PDBGroup implements Serializable {
    *
    * @param inputAtomCharges the new atom charges
    */
-  public final void setAtomChargeList(final List<Integer> inputAtomCharges) {
+  public void setAtomChargeList(int[] inputAtomCharges) {
     this.atomChargeList = inputAtomCharges;
   }
 
@@ -153,7 +141,7 @@ public class PDBGroup implements Serializable {
    *
    * @return the single letter code
    */
-  public final char getSingleLetterCode() {
+  public char getSingleLetterCode() {
     return singleLetterCode;
   }
 
@@ -162,7 +150,7 @@ public class PDBGroup implements Serializable {
    *
    * @param inputSingleLetterCode the new single letter code
    */
-  public final void setSingleLetterCode(final char inputSingleLetterCode) {
+  public void setSingleLetterCode(char inputSingleLetterCode) {
     this.singleLetterCode = inputSingleLetterCode;
   }
 
@@ -183,14 +171,14 @@ public class PDBGroup implements Serializable {
 /**
  * @return the elementList
  */
-public List<String> getElementList() {
+public String[] getElementList() {
 	return elementList;
 }
 
 /**
  * @param elementList the elementList to set
  */
-public void setElementList(List<String> elementList) {
+public void setElementList(String[] elementList) {
 	this.elementList = elementList;
 }
 }
