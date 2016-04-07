@@ -24,12 +24,6 @@ public interface MmtfDecoderInterface {
 	void finalizeStructure();
 
 	/**
-	 * Sets the number of models.
-	 * @param modelCount Number of models
-	 */
-	void setModelCount(int modelCount);
-
-	/**
 	 * Sets the number of chains for a given model.
 	 * @param modelId identifier of the model within the structure
 	 * @param chainCount total number of chains within this model
@@ -45,26 +39,27 @@ public interface MmtfDecoderInterface {
 	void setChainInfo(String chainId, String chainName, int groupCount);
 
 	/**
-	 * Sets the entity level annotation for a chain(s). ChainIds is a list of strings that indicate the list of chains this information
+	 * Sets the entity level annotation for a chain(s). ChainIds is a list of integers that indicate the chains this information
 	 * refers to. Sequence is the one letter amino acid sequence. Description and title are both free forms strings describing the entity and 
 	 * acting as a title for the entity.
-	 * @param chainIds
-	 * @param sequence
-	 * @param description
+	 * @param chainIndices the indices of the chain this refers to.
+	 * @param sequence the full sequence of the entity
+	 * @param description the text description of the entity
 	 * @param title
 	 */
-	void setEntityInfo(String[] chainIds, String sequence, String description, String title);
+	void setEntityInfo(int[] chainIndices, String sequence, String description, String title);
 
 	/**
 	 * Sets the information for a given group / residue with atomic data.
 	 * @param groupName 3 letter code name of this group/residue
 	 * @param groupNumber sequence position of this group
 	 * @param insertionCode the one letter insertion code
-	 * @param polymerType a string indicating the type of group (as found in the chemcomp dictionary. Empty string if none available.
+	 * @param groupType a string indicating the type of group (as found in the chemcomp dictionary. Empty string if none available.
 	 * @param atomCount the number of atoms in the group
+	 * @param singleLetterCode the single letter code of the group
 	 */
 	void setGroupInfo(String groupName, int groupNumber, char insertionCode,
-			String polymerType, int atomCount);
+			String groupType, int atomCount, char singleLetterCode);
 
 
 	/**

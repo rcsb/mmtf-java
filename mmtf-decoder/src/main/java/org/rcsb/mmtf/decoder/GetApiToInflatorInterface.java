@@ -94,7 +94,7 @@ public class GetApiToInflatorInterface {
 				chainIdList[counter] = dataApi.getChainIds()[chainInd];
 				counter++;
 			}
-			structInflator.setEntityInfo(chainIdList, dataApi.getEntitySequence(i), dataApi.getEntityDescription(i), dataApi.getEntityType(i));
+			structInflator.setEntityInfo(dataApi.getEntityChainIndexList(i), dataApi.getEntitySequence(i), dataApi.getEntityDescription(i), dataApi.getEntityType(i));
 		}		
 	}
 
@@ -147,7 +147,7 @@ public class GetApiToInflatorInterface {
 		int currentGroupNumber = dataApi.getGroupIds()[currentGroupIndex];
 		char insertionCode = dataApi.getInsCodes()[currentGroupIndex];
 		structInflator.setGroupInfo(dataApi.getGroupName(groupInd), currentGroupNumber, insertionCode,
-				dataApi.getGroupChemCompType(groupInd), atomCount);
+				dataApi.getGroupChemCompType(groupInd), atomCount, dataApi.getGroupSingleLetterCode(groupInd));
 		// A counter for the atom information
 		atomCounter = 0;
 		// Now read the next atoms

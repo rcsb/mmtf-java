@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.rcsb.mmtf.api.ByteArrayToObjectConverterInterface;
 import org.rcsb.mmtf.api.MmtfDecodedDataInterface;
 import org.rcsb.mmtf.arraydecoders.DeltaDecompress;
 import org.rcsb.mmtf.arraydecoders.RunLengthDecodeInt;
@@ -347,47 +346,34 @@ public class BeanToGetApi implements MmtfDecodedDataInterface {
 	}
 
 	public int getNumAtomsInGroup(int groupInd) {
-		return groupMap[groupInd].getAtomChargeList().size();
+		return groupMap[groupInd].getAtomChargeList().length;
 	}
 
 	@Override
 	public String[] getGroupAtomNames(int groupInd) {
-		List<String> atomInfo =  groupMap[groupInd].getAtomNameList();
-		String[] outList = new String[atomInfo.size()/2];
-		int counter = 0;
-		for (int i=1; i<atomInfo.size(); i+=2){
-			outList[counter] = atomInfo.get(i);
-			counter++;
-		}
-		return outList;
+		return groupMap[groupInd].getAtomNameList();
 	}
 
 	@Override
 	public String[] getGroupElementNames(int groupInd) {
-		List<String> atomInfo =  groupMap[groupInd].getAtomNameList();
-		String[] outList = new String[atomInfo.size()/2];
-		int counter = 0;
-		for (int i=0; i<atomInfo.size(); i+=2){
-			outList[counter] = atomInfo.get(i);
-			counter++;
-		}
-		return outList;
+		return groupMap[groupInd].getElementList();
+
 	}
 
 	@Override
 	public int[] getGroupBondOrders(int groupInd) {
-		return convertToIntList(groupMap[groupInd].getBondOrderList());
+		return groupMap[groupInd].getBondOrderList();
 
 	}
 
 	@Override
 	public int[] getGroupBondIndices(int groupInd) {
-		return convertToIntList(groupMap[groupInd].getBondAtomList());
+		return groupMap[groupInd].getBondAtomList();
 	}
 
 	@Override
 	public int[] getGroupAtomCharges(int groupInd) {
-		return convertToIntList(groupMap[groupInd].getAtomChargeList());
+		return groupMap[groupInd].getAtomChargeList();
 	}
 
 	@Override
@@ -447,29 +433,10 @@ public class BeanToGetApi implements MmtfDecodedDataInterface {
 	public double[] getMatrixForTransform(int bioassemblyIndex, int transformationIndex) {
 		return bioAssembly.get(bioassemblyIndex).getTransforms().get(transformationIndex).getTransformation();
 	}
-	
-	/**
-	 * Get a primitive int[] list from a Java List<>;
-	 * @param inArray The input List<> of Integers
-	 * @return A primitive int[].
-	 */
-	private int[] convertToIntList(List<Integer> inArray) {
-		int[] outArray = new int[inArray.size()];
-		for (int i=0; i<inArray.size(); i++) {
-			outArray[i] = inArray.get(i);
-		}
-		return outArray;
-	}
 
 	@Override
 	public String getDepositionDate() {
 		return depositionDate;
-	}
-
-	@Override
-	public void setInputData(byte[] byteArray, ByteArrayToObjectConverterInterface byteArrayConverter) {
-		// TODO Auto-generated method stub
-		
 	}
 
 

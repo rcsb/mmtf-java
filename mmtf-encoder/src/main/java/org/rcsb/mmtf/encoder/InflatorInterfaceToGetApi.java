@@ -3,10 +3,10 @@ package org.rcsb.mmtf.encoder;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.rcsb.mmtf.api.ByteArrayToObjectConverterInterface;
 import org.rcsb.mmtf.api.MmtfDecodedDataInterface;
 import org.rcsb.mmtf.api.MmtfDecoderInterface;
 import org.rcsb.mmtf.dataholders.BioAssemblyData;
+import org.rcsb.mmtf.dataholders.BioAssemblyTrans;
 import org.rcsb.mmtf.dataholders.Entity;
 import org.rcsb.mmtf.dataholders.PDBGroup;
 
@@ -17,7 +17,7 @@ import org.rcsb.mmtf.dataholders.PDBGroup;
  */
 public class InflatorInterfaceToGetApi implements MmtfDecodedDataInterface, MmtfDecoderInterface {
 
-	
+
 	/** The X coordinates */
 	private float[] cartnX;
 
@@ -46,7 +46,7 @@ public class InflatorInterfaceToGetApi implements MmtfDecodedDataInterface, Mmtf
 	private int[] groupNum;
 
 	/** The group map. */
-	private PDBGroup[] groupMap;
+	private List<PDBGroup> groupMap;
 
 	/** The group list. */
 	private int[] groupList;
@@ -107,16 +107,31 @@ public class InflatorInterfaceToGetApi implements MmtfDecodedDataInterface, Mmtf
 
 	/** The list of experimental methods. */
 	private String[] experimentalMethods;
-	
+
 	/** The deposition date of hte structure */
 	private String depositionDate;
-	
-	
-	
+
+	/** The total number of models */
+	private int numModels;
+
 	/** The atom counter */
-	int atomCounter = 0;
-	
-	
+	int atomIndex = 0;
+	/** The atom counter within a group*/
+	int groupAtomIndex = 0;
+	/** The group counter */
+	int groupIndex = 0;
+	/** The chain counter */
+	int chainIndex = 0;
+	/** The model counter */
+	int modelIndex = 0;
+	/** The entity counter */
+	int entityIndex = 0;
+	/** Add the atom information for the current group */
+	PDBGroup pdbGroup;
+	/** A List for Entities as the number of entities is not defined*/
+	List<Entity> entities = new ArrayList<>();
+
+
 	@Override
 	public float[] getxCoords() {
 		return cartnX;
@@ -165,50 +180,51 @@ public class InflatorInterfaceToGetApi implements MmtfDecodedDataInterface, Mmtf
 
 	@Override
 	public String getGroupName(int groupInd) {
-		return groupMap[groupList[groupInd]].getGroupName();
+		return getGroup(groupInd).getGroupName();
 	}
 
 	@Override
 	public int getNumAtomsInGroup(int groupInd) {
-		return groupMap[groupList[groupInd]].getAtomChargeList().length;
+		return getGroup(groupInd).getAtomChargeList().length;
 	}
 
 	@Override
 	public String[] getGroupAtomNames(int groupInd) {
-		return groupMap[groupList[groupInd]].getAtomNameList();
+		return getGroup(groupInd).getAtomNameList();
 	}
 
 	@Override
 	public String[] getGroupElementNames(int groupInd) {
-		return  groupMap[groupList[groupInd]].getElementList();
+		return getGroup(groupInd).getElementList();
 
 	}
 
 	@Override
 	public int[] getGroupBondOrders(int groupInd) {
-		return  groupMap[groupList[groupInd]].getBondOrderList();
+		return getGroup(groupInd).getBondOrderList();
 
 	}
 
 	@Override
 	public int[] getGroupBondIndices(int groupInd) {
-		return  groupMap[groupList[groupInd]].getBondAtomList();
+		return getGroup(groupInd).getBondAtomList();
 	}
 
 	@Override
 	public int[] getGroupAtomCharges(int groupInd) {
-		return  groupMap[groupList[groupInd]].getAtomChargeList();
+		return getGroup(groupInd).getAtomChargeList();
 	}
 
 	@Override
 	public char getGroupSingleLetterCode(int groupInd) {
-		return  groupMap[groupList[groupInd]].getSingleLetterCode();
+		return getGroup(groupInd).getSingleLetterCode();
 	}
 
 	@Override
 	public String getGroupChemCompType(int groupInd) {
-		return groupMap[groupList[groupInd]].getChemCompType();
+		return getGroup(groupInd).getChemCompType();
 	}
+
 
 	@Override
 	public int[] getGroupTypeIndices() {
@@ -323,7 +339,7 @@ public class InflatorInterfaceToGetApi implements MmtfDecodedDataInterface, Mmtf
 
 	@Override
 	public int getNumModels() {
-		return chainsPerModel.length;
+		return numModels;
 	}
 
 	@Override
@@ -374,95 +390,152 @@ public class InflatorInterfaceToGetApi implements MmtfDecodedDataInterface, Mmtf
 	public String getDepositionDate() {
 		return depositionDate;
 	}
-	
-	
+
+
 	// Now provide the capability to fill this data.
 	@Override
 	public void initStructure(int totalNumAtoms, int totalNumGroups, int totalNumChains, int totalNumModels,
 			String structureId) {
+		// Intitialise the atom level arrays
 		cartnX = new float[totalNumAtoms];
 		cartnY= new float[totalNumAtoms];
 		cartnZ = new float[totalNumAtoms];
 		occupancy = new float[totalNumAtoms];
 		bFactor = new float[totalNumAtoms];
-		atomId = new int[totalNumAtoms];
-		altId = new char[totalNumAtoms];
-		insertionCodeList = new char[totalNumAtoms];
-		
-		
+		atomId = new int[totalNumAtoms];		
+		// Initialise the group level data
+		altId = new char[totalNumGroups];
+		insertionCodeList = new char[totalNumGroups];
+		groupList = new int[totalNumGroups];
+		// Intialise the chain level data 	 	
+		// Initialise the model level information
+		numModels = totalNumModels;
+		// Set the name
+		pdbId = structureId;
+
 	}
 
 	@Override
 	public void finalizeStructure() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void setModelCount(int modelCount) {
-		// TODO Auto-generated method stub
-		this.modelCount=modelCount;
+		// Convert the entities array to a list
+		entityList = entities.toArray(new Entity[0]);
 	}
 
 	@Override
 	public void setModelInfo(int modelId, int chainCount) {
-		// TODO Auto-generated method stub
-		
+		chainsPerModel[modelIndex] = chainCount;
 		modelIndex++;
 	}
 
 	@Override
 	public void setChainInfo(String chainId, String chainName, int groupCount) {
-		// TODO Auto-generated method stub
-		
+		chainList[chainIndex] = chainId;
+		publicChainIds[chainIndex] = chainName;
+		groupsPerChain[chainIndex] = groupCount;
 		chainIndex++;
 	}
 
 	@Override
-	public void setEntityInfo(String[] chainIds, String sequence, String description, String title) {
-		// TODO Auto-generated method stub
-		
+	public void setEntityInfo(int[] chainIndices, String sequence, String description, String title) {	
+		Entity entity = new Entity();
+		entity.setChainIndexList(chainIndices);
+		entity.setSequence(sequence);
+		entity.setDescription(description);
+		entity.setType(title);
+		// Add this entity
+		entities.add(entity);
 		entityIndex++;
 	}
 
 	@Override
-	public void setGroupInfo(String groupName, int groupNumber, char insertionCode, String polymerType, int atomCount) {
-		// TODO Auto-generated method stub
+	public void setGroupInfo(String groupName, int groupNumber, char insertionCode, String polymerType, int atomCount, char singleAtomCode) {
+		// If it's not the first go
+		if(pdbGroup!=null) {
+			// Now add this to the list or find it in the list 
+			if (!groupMap.contains(pdbGroup)) {
+				groupMap.add(pdbGroup);
+			}
+			// Add this index to the group list
+			groupList[groupIndex-1] = groupMap.indexOf(pdbGroup);
+		}
+		// Make a new PDBGroup to store the repeated information
+		pdbGroup = new PDBGroup();
+		pdbGroup.setAtomChargeList(new int[atomCount]);
+		pdbGroup.setAtomNameList(new String[atomCount]);
+		pdbGroup.setBondAtomList(new int[atomCount]);
+		pdbGroup.setBondOrderList(new int[atomCount]);
+		pdbGroup.setChemCompType(polymerType);
+		pdbGroup.setElementList(new String[atomCount]);
+		pdbGroup.setGroupName(groupName);
+		pdbGroup.setSingleLetterCode(insertionCode);
+		groupAtomIndex=0;
 		
+		
+		// Store the group level data
+		groupNum[groupIndex] = groupNumber;
 		groupIndex++;
 	}
 
 	@Override
 	public void setAtomInfo(String atomName, int serialNumber, char alternativeLocationId, float x, float y, float z,
 			float occupancy, float temperatureFactor, String element, int charge) {
-
-		
+		// Set the group level data
+		pdbGroup.getAtomChargeList()[groupAtomIndex] = charge;
+		pdbGroup.getAtomNameList()[groupAtomIndex] = atomName;
+		pdbGroup.getElementList()[groupAtomIndex] = element;
+		// Set the atom level data
+		cartnX[atomIndex] = x;
+		cartnY[atomIndex] = y;
+		cartnZ[atomIndex] = z;
+		this.occupancy[atomIndex] = occupancy;
+		bFactor[atomIndex] = temperatureFactor;
+		atomId[atomIndex] = serialNumber;
+		altId[atomIndex] = alternativeLocationId;
+		// Increment both counters
+		groupAtomIndex++;
 		atomIndex++;
-		
 	}
 
 	@Override
-	public void setBioAssemblyTrans(int bioAssemblyIndex, int[] inputChainIndices, double[] inputTransform) {
-		// TODO Auto-generated method stub
-		
+	public void setBioAssemblyTrans(int bioAssemblyIndex, int[] chainIndices, double[] transform) {
+		BioAssemblyData bioAssemblyData;
+		List<BioAssemblyTrans> bioAssemblyTranList;
+		if (bioAssembly.size()>bioAssemblyIndex) {
+			bioAssemblyTranList = bioAssembly.get(bioAssemblyIndex).getTransforms();
+		}
+		else{
+			bioAssemblyData = new BioAssemblyData();
+			bioAssemblyTranList = new ArrayList<>();
+			bioAssemblyData.setTransforms(bioAssemblyTranList);
+			bioAssembly.add(bioAssemblyData);
+		}
+		BioAssemblyTrans bioAssemblyTrans = new BioAssemblyTrans();
+		bioAssemblyTrans.setChainIndexList(chainIndices);
+		bioAssemblyTrans.setTransformation(transform);
 	}
 
 	@Override
 	public void setXtalInfo(String spaceGroup, float[] unitCell) {
-		// TODO Auto-generated method stub
-		
+		this.spaceGroup = spaceGroup;
+		this.unitCell = unitCell;
 	}
 
 	@Override
-	public void setGroupBond(int thisBondIndOne, int thisBondIndTwo, int thisBondOrder) {
-		// TODO Auto-generated method stub
-		
+	public void setGroupBond(int firstAtomIndex, int secondAtomIndex, int bondOrder) {
+		// Set the bond indices
+		pdbGroup.getBondAtomList()[groupAtomIndex*2] = firstAtomIndex;
+		pdbGroup.getBondAtomList()[groupAtomIndex*2+1] = secondAtomIndex;
+		// Set the bond order
+		pdbGroup.getBondOrderList()[groupAtomIndex] = bondOrder;
 	}
 
 	@Override
-	public void setInterGroupBond(int thisBondIndOne, int thisBondIndTwo, int thisBondOrder) {
-		// TODO Auto-generated method stub
-		
+	public void setInterGroupBond(int firstAtomIndex, int secondAtomIndex, int bondOrder) {
+		// Set the bond indices
+		interGroupBondIndices[atomIndex*2] = firstAtomIndex;
+		interGroupBondIndices[atomIndex*2+1] = secondAtomIndex;
+		// Set the bond order
+		interGroupBondOrders[atomIndex] = bondOrder;
 	}
 
 	@Override
@@ -474,7 +547,11 @@ public class InflatorInterfaceToGetApi implements MmtfDecodedDataInterface, Mmtf
 		this.title = title;
 		this.depositionDate = depositionDate;
 		this.experimentalMethods = experimnetalMethods;
-		
+
+	}
+
+	private PDBGroup getGroup(int groupInd) {
+		return groupMap.get(groupList[groupInd]);
 	}
 
 }
