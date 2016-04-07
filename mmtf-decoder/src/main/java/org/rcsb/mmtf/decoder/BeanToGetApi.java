@@ -8,23 +8,26 @@ import org.rcsb.mmtf.api.ByteArrayToObjectConverterInterface;
 import org.rcsb.mmtf.api.MmtfDecodedDataInterface;
 import org.rcsb.mmtf.arraydecoders.DeltaDecompress;
 import org.rcsb.mmtf.arraydecoders.RunLengthDecodeInt;
-import org.rcsb.mmtf.arraydecoders.RunLengthDecodeString;
 import org.rcsb.mmtf.arraydecoders.RunLengthDelta;
 import org.rcsb.mmtf.dataholders.BioAssemblyData;
 import org.rcsb.mmtf.dataholders.Entity;
 import org.rcsb.mmtf.dataholders.MmtfBean;
 import org.rcsb.mmtf.dataholders.PDBGroup;
 
-public class SimpleDataApi implements MmtfDecodedDataInterface {
+/**
+ * Takes an input MMTF bean and converts to a data API.
+ * @author Anthony Bradley
+ *
+ */
+public class BeanToGetApi implements MmtfDecodedDataInterface {
 
 
-	public SimpleDataApi(MmtfBean inputData) {
+	public BeanToGetApi(MmtfBean inputData) {
 
 		// Get the decompressors to build in the data structure
 		DeltaDecompress deltaDecompress = new DeltaDecompress();
 		RunLengthDelta intRunLengthDelta = new RunLengthDelta();
 		RunLengthDecodeInt intRunLength = new RunLengthDecodeInt();
-		RunLengthDecodeString stringRunlength = new RunLengthDecodeString();
 		
 		// Get the data
 		try {
@@ -36,9 +39,9 @@ public class SimpleDataApi implements MmtfDecodedDataInterface {
 			bFactor =  DecoderUtils.convertIntsToFloats(deltaDecompress.decompressByteArray(inputData.getbFactorBig(),inputData.getbFactorSmall()), MmtfBean.OCCUPANCY_BFACTOR_DIVIDER);
 			occupancy = DecoderUtils.convertIntsToFloats(intRunLength.decompressByteArray(inputData.getOccupancyList()), MmtfBean.OCCUPANCY_BFACTOR_DIVIDER);
 			atomId = intRunLengthDelta.decompressByteArray(inputData.getAtomIdList());
-			altId = stringRunlength.intArrayToCharArray(inputData.getAltLocList());
+			altId = ArrayDecoders.runLengthDecodeStrings(inputData.getAltLocList());
 			// Get the insertion code
-			insertionCodeList = stringRunlength.intArrayToCharArray(inputData.getInsCodeList());
+			insertionCodeList = ArrayDecoders.runLengthDecodeStrings(inputData.getInsCodeList());
 			// Get the groupNumber
 			groupNum = intRunLengthDelta.decompressByteArray(
 					inputData.getGroupIdList());
@@ -76,7 +79,6 @@ public class SimpleDataApi implements MmtfDecodedDataInterface {
 			throw new RuntimeException();
 		}
 	}
-
 
 	/** The X coordinates */
 	private float[] cartnX;
@@ -345,12 +347,12 @@ public class SimpleDataApi implements MmtfDecodedDataInterface {
 	}
 
 	public int getNumAtomsInGroup(int groupInd) {
-		return groupMap[groupInd].getAtomCharges().size();
+		return groupMap[groupInd].getAtomChargeList().size();
 	}
 
 	@Override
 	public String[] getGroupAtomNames(int groupInd) {
-		List<String> atomInfo =  groupMap[groupInd].getAtomInfo();
+		List<String> atomInfo =  groupMap[groupInd].getAtomNameList();
 		String[] outList = new String[atomInfo.size()/2];
 		int counter = 0;
 		for (int i=1; i<atomInfo.size(); i+=2){
@@ -362,7 +364,7 @@ public class SimpleDataApi implements MmtfDecodedDataInterface {
 
 	@Override
 	public String[] getGroupElementNames(int groupInd) {
-		List<String> atomInfo =  groupMap[groupInd].getAtomInfo();
+		List<String> atomInfo =  groupMap[groupInd].getAtomNameList();
 		String[] outList = new String[atomInfo.size()/2];
 		int counter = 0;
 		for (int i=0; i<atomInfo.size(); i+=2){
@@ -374,18 +376,18 @@ public class SimpleDataApi implements MmtfDecodedDataInterface {
 
 	@Override
 	public int[] getGroupBondOrders(int groupInd) {
-		return convertToIntList(groupMap[groupInd].getBondOrders());
+		return convertToIntList(groupMap[groupInd].getBondOrderList());
 
 	}
 
 	@Override
 	public int[] getGroupBondIndices(int groupInd) {
-		return convertToIntList(groupMap[groupInd].getBondIndices());
+		return convertToIntList(groupMap[groupInd].getBondAtomList());
 	}
 
 	@Override
 	public int[] getGroupAtomCharges(int groupInd) {
-		return convertToIntList(groupMap[groupInd].getAtomCharges());
+		return convertToIntList(groupMap[groupInd].getAtomChargeList());
 	}
 
 	@Override

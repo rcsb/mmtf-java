@@ -26,11 +26,11 @@
 			<artifactId>mmtf-common</artifactId>
 			<version>0.0.1-alpha4-SNAPSHOT</version>
 		</dependency>
-		<dependency>
-			<groupId>org.biojava</groupId>
-			<artifactId>biojava-structure</artifactId>
-            <version>5.0.0-SNAPSHOT</version>
-		</dependency>
+        <dependency>
+            <groupId>org.rcsb</groupId>
+            <artifactId>mmtf-api</artifactId>
+            <version>0.0.1-alpha4-SNAPSHOT</version>
+        </dependency>
 		<dependency>
 			<groupId>org.msgpack</groupId>
 			<artifactId>jackson-dataformat-msgpack</artifactId>

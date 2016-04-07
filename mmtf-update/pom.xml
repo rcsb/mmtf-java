@@ -16,21 +16,11 @@
 	</properties>
 
 	<dependencies>
-		<dependency>
-			<groupId>org.rcsb</groupId>
-			<artifactId>mmtf-api</artifactId>
-			<version>0.0.1-alpha4-SNAPSHOT</version>
-		</dependency>
-		<dependency>
-			<groupId>org.rcsb</groupId>
-			<artifactId>mmtf-encoder</artifactId>
-			<version>0.0.1-alpha4-SNAPSHOT</version>
-		</dependency>
-		<dependency>
-			<groupId>org.rcsb</groupId>
-			<artifactId>mmtf-common</artifactId>
-			<version>0.0.1-alpha4-SNAPSHOT</version>
-		</dependency>
+        <dependency>
+            <groupId>org.biojava</groupId>
+            <artifactId>biojava-structure</artifactId>
+            <version>5.0.0-SNAPSHOT</version>
+        </dependency>
 		<!-- junit managed by parent pom, don't set version or scope here -->
 		<dependency>
 			<groupId>junit</groupId>
@@ -55,12 +45,6 @@
 		<dependency>
 			<groupId>org.apache.logging.log4j</groupId>
 			<artifactId>log4j-core</artifactId>
-		</dependency>
-		
-		<dependency>
-			<groupId>org.biojava</groupId>
-			<artifactId>biojava-structure</artifactId>
-			<version>5.0.0-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.spark</groupId>

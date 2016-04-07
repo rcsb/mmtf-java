@@ -272,7 +272,7 @@ public class BiojavaEncoderImpl implements EncoderInterface {
 						// Set the group type
 						outGroup.setChemCompType(currentGroup.getChemComp().getType());
 						outGroup.setGroupName(groupInfo.remove(0));
-						outGroup.setAtomInfo(groupInfo);
+						outGroup.setAtomNameList(groupInfo);
 						// Now get the bond list (lengths, orders and indices)
 						createBondList(atomsInThisGroup, outGroup); 
 						getCharges(atomsInThisGroup, outGroup);
@@ -281,12 +281,12 @@ public class BiojavaEncoderImpl implements EncoderInterface {
 						hashToRes.put(hashCode, resCounter);
 						bioStruct.getResOrder().add(resCounter);
 						resCounter+=1;
-						numBonds = outGroup.getBondOrders().size();
+						numBonds = outGroup.getBondOrderList().size();
 					}
 					else{
 						// Add this to the residue order
 						bioStruct.getResOrder().add(hashToRes.get(hashCode));	
-						numBonds = bioStructMap.get(hashToRes.get(hashCode)).getBondOrders().size();
+						numBonds = bioStructMap.get(hashToRes.get(hashCode)).getBondOrderList().size();
 					}
 					// Add the number of bonds 
 					bondCounter+=numBonds;
@@ -406,7 +406,7 @@ public class BiojavaEncoderImpl implements EncoderInterface {
 				// Set the chemical component type.
 				outGroup.setChemCompType(currentGroup.getChemComp().getType());
 				outGroup.setGroupName(calphaAtomInfo.remove(0));
-				outGroup.setAtomInfo(calphaAtomInfo);
+				outGroup.setAtomNameList(calphaAtomInfo);
 				// Now get the bond list (lengths, orders and indices) and atom charges
 				List<Integer> bondIndices = new ArrayList<Integer>();
 				List<Integer> bondOrders = new ArrayList<Integer>();
@@ -431,9 +431,9 @@ public class BiojavaEncoderImpl implements EncoderInterface {
 					}
 				}
 				// Now set them
-				outGroup.setBondIndices(bondIndices);
-				outGroup.setBondOrders(bondOrders);
-				outGroup.setAtomCharges(atomCharges);
+				outGroup.setBondAtomList(bondIndices);
+				outGroup.setBondOrderList(bondOrders);
+				outGroup.setAtomChargeList(atomCharges);
 				// 
 				calphaHashCodeToGroupMap.put(calphaResCounter, outGroup);
 				hashToCalphaRes.put(calphaHashCode, calphaResCounter);
@@ -511,7 +511,7 @@ public class BiojavaEncoderImpl implements EncoderInterface {
 	 */
 	private void getCharges(List<Atom> inputAtoms, PDBGroup pdbGroup) {
 		for(Atom a: inputAtoms){
-			pdbGroup.getAtomCharges().add((int) a.getCharge());
+			pdbGroup.getAtomChargeList().add((int) a.getCharge());
 		}
 
 	}
@@ -641,8 +641,8 @@ public class BiojavaEncoderImpl implements EncoderInterface {
 				}
 			}
 		}
-		pdbGroup.setBondOrders(bondOrder);
-		pdbGroup.setBondIndices(bondList);
+		pdbGroup.setBondOrderList(bondOrder);
+		pdbGroup.setBondAtomList(bondList);
 	}
 
 

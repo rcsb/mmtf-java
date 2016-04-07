@@ -12,8 +12,8 @@ import org.biojava.nbio.structure.align.util.AtomCache;
 import org.biojava.nbio.structure.io.FileParsingParameters;
 import org.biojava.nbio.structure.io.mmtf.MmtfStructureDecoder;
 import org.rcsb.mmtf.biojavaencoder.BiojavaEncoderImpl;
-import org.rcsb.mmtf.decoder.DecodeStructure;
-import org.rcsb.mmtf.encoder.EncodeStructure;
+import org.rcsb.mmtf.decoder.GetApiToInflatorInterface;
+import org.rcsb.mmtf.encoder.GetApiToBean;
 import org.rcsb.mmtf.testutils.CheckOnBiojava;
 import org.rcsb.mmtf.testutils.CheckOnRawApi;
 
@@ -64,7 +64,7 @@ public class TestingUtils {
 	    params.setUseInternalChainId(true);
 	    cache.setFileParsingParams(params);
 	    StructureIO.setAtomCache(cache);
-	    EncodeStructure es = new EncodeStructure();
+	    GetApiToBean es = new GetApiToBean();
 	    Structure mmcifStruct = StructureIO.getStructure(pdbId);
 	    FileUtils.writeByteArrayToFile(new File("pathname"), es.encodeFromPdbId(pdbId, new BiojavaEncoderImpl()));
 	    byte[] inArr = FileUtils.readFileToByteArray(new File("pathname"));
@@ -73,7 +73,7 @@ public class TestingUtils {
 	    checkRaw.checkRawDataConsistency(mmcifStruct, params);
 	    // Now decode the data and return this new structure
 	    MmtfStructureDecoder bjsi = new MmtfStructureDecoder();
-	    DecodeStructure decodeStructure = new DecodeStructure(inArr);
+	    GetApiToInflatorInterface decodeStructure = new GetApiToInflatorInterface(inArr);
 	    decodeStructure.getStructFromByteArray(bjsi);
 	    Structure struct = bjsi.getStructure();
 	    // Revert back

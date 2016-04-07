@@ -77,7 +77,6 @@ public class TestDecoderUtils {
 
 	@Test
 	public void bytesToByteIntsTests() throws IOException {
-
 		// The input byte array of one byte integers
 		byte[] inputByteArr = new byte[NUM_EXAMPLES];
 		int[] testIntArr = new int[NUM_EXAMPLES];

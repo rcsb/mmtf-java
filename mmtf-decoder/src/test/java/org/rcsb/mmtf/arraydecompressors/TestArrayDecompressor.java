@@ -9,7 +9,7 @@ import java.nio.ByteBuffer;
 import org.junit.Test;
 import org.rcsb.mmtf.arraydecoders.DeltaDecompress;
 import org.rcsb.mmtf.arraydecoders.RunLengthDecodeInt;
-import org.rcsb.mmtf.arraydecoders.RunLengthDecodeString;
+import org.rcsb.mmtf.decoder.ArrayDecoders;
 
 import static org.junit.Assert.assertArrayEquals;
 
@@ -48,8 +48,7 @@ public class TestArrayDecompressor {
 	public final void runLenghtDecodeStringTest() {
 		int[] inputData =  {66,4,63,2,67,1};
 		char[] outPutDataTest = {'B','B','B','B','?','?','C'};
-		RunLengthDecodeString runLengthDecodeString = new RunLengthDecodeString();
-		char[] outPutData = runLengthDecodeString.intArrayToCharArray(inputData);
+		char[] outPutData = ArrayDecoders.runLengthDecodeStrings(inputData);
 		assertArrayEquals(outPutDataTest, outPutData);
 	}
 

@@ -11,7 +11,7 @@ import org.biojava.nbio.structure.Structure;
 import org.biojava.nbio.structure.StructureImpl;
 import org.biojava.nbio.structure.io.mmtf.MmtfStructureDecoder;
 import org.rcsb.mmtf.biojavaencoder.BiojavaUtils;
-import org.rcsb.mmtf.decoder.DecodeStructure;
+import org.rcsb.mmtf.decoder.GetApiToInflatorInterface;
 
 /**
  * A class to preserve the log if the functions in mappers. 
@@ -33,7 +33,7 @@ public class MapperUtils implements Serializable{
 		MmtfStructureDecoder bjs = new MmtfStructureDecoder();
 		Structure newStruct;
 		try{
-			DecodeStructure ds = new DecodeStructure(inputByteArr);
+			GetApiToInflatorInterface ds = new GetApiToInflatorInterface(inputByteArr);
 		ds.getStructFromByteArray(bjs);
 		newStruct = bjs.getStructure();
 		newStruct.setPDBCode(pdbCodePlus.substring(0,4));}
