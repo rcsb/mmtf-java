@@ -23,7 +23,7 @@ public class RunLengthDecodeInt {
 	 * @throws IOException the byte array does not contain the
 	 * information requested.
 	 */
-	public final int[] decompressByteArray(final byte[] inArray) throws IOException {
+	public int[] decompressByteArray(byte[] inArray) throws IOException {
 		// The length of each of the 4 byte integer arrays
 		int lengthOfBigIntArr = inArray.length / (BIG_INT_BYTES * 2);
 		// Array to store all the different numbers

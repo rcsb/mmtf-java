@@ -10,8 +10,6 @@ public class TestArrayCompressors {
 
 	@Test
 	public void deltaTest() {
-		// Generate the array
-		
 		// Create the two arrays
 		ArrayList<Integer> inArray = new ArrayList<Integer>();
 		ArrayList<Integer> testArray = new ArrayList<Integer>();
