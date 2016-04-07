@@ -22,7 +22,6 @@ public class TestDecoderUtils {
 	private static final int NUM_EXAMPLES = 100;
 	private static final int MAX_CHARS_PER_CHAIN = 4;
 
-	private DecoderUtils decoderUtils = new DecoderUtils();
 	private Random randGenerator = new Random();
 
 	@Test
@@ -52,7 +51,7 @@ public class TestDecoderUtils {
 		int counter = 0;
 		byte[] testByteArr = bos.toByteArray();
 		for(String testChainId : testList){
-			assertEquals(testChainId, decoderUtils.getChainId(testByteArr, counter));
+			assertEquals(testChainId, DecoderUtils.getChainId(testByteArr, counter));
 			counter += 1;
 		}
 
@@ -71,7 +70,7 @@ public class TestDecoderUtils {
 			testIntArr[i] = currInt;
 		}
 		// Now check they are the same
-		assertArrayEquals(testIntArr, decoderUtils.bytesToInts(bos.toByteArray()));
+		assertArrayEquals(testIntArr, DecoderUtils.bytesToInts(bos.toByteArray()));
 
 
 	}
@@ -88,14 +87,14 @@ public class TestDecoderUtils {
 			inputByteArr[i] = (byte) currInt;
 			testIntArr[i] = currInt;
 		}
-		assertArrayEquals(testIntArr, decoderUtils.bytesToByteInts(inputByteArr));
+		assertArrayEquals(testIntArr, DecoderUtils.bytesToByteInts(inputByteArr));
 	}
 
 	@Test 
 	public void convertIntToFloatTest() {
 	   int[] inputData = {10213, 20303, 102, 183, 1021};
 	   float[] outPutData = {(float) 10.213, (float) 20.303, (float) 0.102, (float) 0.183, (float) 1.021};
-	   float [] outPutToTest = decoderUtils.convertIntsToFloats(inputData, (float) 1000.0);
+	   float [] outPutToTest = DecoderUtils.convertIntsToFloats(inputData, (float) 1000.0);
 	   // Test they are the same length
 	   assertEquals(outPutData.length, outPutToTest.length);
 	   assertTrue(Arrays.equals(outPutData, outPutToTest));

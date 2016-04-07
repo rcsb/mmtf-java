@@ -10,7 +10,7 @@ public class ArrayDecoders {
 
 	}
 
-
+	
 	public static int[] runLengthDecodeIntegers(int[] integerArray) {
 		return integerArray;
 
