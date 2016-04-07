@@ -15,11 +15,6 @@ import java.util.Map;
 import java.util.zip.GZIPOutputStream;
 
 import org.msgpack.jackson.dataformat.MessagePackFactory;
-import org.rcsb.mmtf.arrayencoders.FindDeltas;
-import org.rcsb.mmtf.arrayencoders.IntArrayCompressor;
-import org.rcsb.mmtf.arrayencoders.RunLengthEncode;
-import org.rcsb.mmtf.arrayencoders.RunLengthEncodeString;
-import org.rcsb.mmtf.arrayencoders.StringArrayCompressor;
 import org.rcsb.mmtf.biocompressors.BioCompressor;
 import org.rcsb.mmtf.biocompressors.CompressDoubles;
 import org.rcsb.mmtf.dataholders.BioDataStruct;
@@ -54,11 +49,6 @@ public class EncoderUtils implements Serializable {
 	/** A converter of doubles to ints. */
 	private BioCompressor doublesToInts = new CompressDoubles();
 
-	/** The delta compressor of arrays. */
-	private IntArrayCompressor deltaComp = new FindDeltas();
-
-	/** The run length compressor of arrays. */
-	private IntArrayCompressor runLengthComp = new RunLengthEncode();
 
 	/**
 	 * Take a list of integers (as List<Integer>) and return as byte array.
@@ -123,7 +113,7 @@ public class EncoderUtils implements Serializable {
 		// Set the entity information
 		outputMmtfBean.setEntityList(inHeader.getEntityList());
 		// Get the seqres information
-		outputMmtfBean.setSequenceIdList(encoderUtils.integersToBytes(runLengthComp.compressIntArray(deltaComp.compressIntArray(inHeader.getSeqResGroupIds()))));
+		outputMmtfBean.setSequenceIdList(encoderUtils.integersToBytes(ArrayEncoders.runlengthEncodeIntegers(ArrayEncoders.deltaEncode(inHeader.getSeqResGroupIds()))));
 		outputMmtfBean.setExperimentalMethods(inHeader.getExperimentalMethods());
 		// Now get this list
 		outputMmtfBean.setBondAtomList(encoderUtils.integersToBytes(inStruct.getInterGroupBondInds()));
@@ -368,25 +358,24 @@ public class EncoderUtils implements Serializable {
 		List<Integer> cartnY = inStruct.get_atom_site_Cartn_yInt();
 		List<Integer> cartnZ = inStruct.get_atom_site_Cartn_zInt();
 		// Get the number of models
-		inStruct.set_atom_site_Cartn_xInt(deltaComp.compressIntArray(cartnX));
-		inStruct.set_atom_site_Cartn_yInt(deltaComp.compressIntArray(cartnY));
-		inStruct.set_atom_site_Cartn_zInt(deltaComp.compressIntArray(cartnZ));		
+		inStruct.set_atom_site_Cartn_xInt(ArrayEncoders.deltaEncode(cartnX));
+		inStruct.set_atom_site_Cartn_yInt(ArrayEncoders.deltaEncode(cartnY));
+		inStruct.set_atom_site_Cartn_zInt(ArrayEncoders.deltaEncode(cartnZ));		
 		// Compress the b factors using delta compression.
-		inStruct.set_atom_site_B_iso_or_equivInt(deltaComp.compressIntArray(inStruct.get_atom_site_B_iso_or_equivInt()));
+		inStruct.set_atom_site_B_iso_or_equivInt(ArrayEncoders.deltaEncode(inStruct.get_atom_site_B_iso_or_equivInt()));
 		// Run length compress the occupanct
-		inStruct.set_atom_site_occupancyInt(runLengthComp.compressIntArray(inStruct.get_atom_site_occupancyInt()));
+		inStruct.set_atom_site_occupancyInt(ArrayEncoders.runlengthEncodeIntegers(inStruct.get_atom_site_occupancyInt()));
 		// Now the sequential numbers - huge gain - new order of good compressors
 		// Now runlength encode the residue order
 		inStruct.setResOrder(inStruct.getResOrder());
 		// Check for negative counters
-		inStruct.set_atom_site_auth_seq_id(runLengthComp.compressIntArray(deltaComp.compressIntArray(inStruct.get_atom_site_auth_seq_id())));
-		inStruct.set_atom_site_label_entity_poly_seq_num(runLengthComp.compressIntArray(deltaComp.compressIntArray(inStruct.get_atom_site_label_entity_poly_seq_num())));
-		inStruct.set_atom_site_id(runLengthComp.compressIntArray(deltaComp.compressIntArray(inStruct.get_atom_site_id())));
+		inStruct.set_atom_site_auth_seq_id(ArrayEncoders.runlengthEncodeIntegers(ArrayEncoders.deltaEncode(inStruct.get_atom_site_auth_seq_id())));
+		inStruct.set_atom_site_label_entity_poly_seq_num(ArrayEncoders.runlengthEncodeIntegers(ArrayEncoders.deltaEncode(inStruct.get_atom_site_label_entity_poly_seq_num())));
+		inStruct.set_atom_site_id(ArrayEncoders.runlengthEncodeIntegers(ArrayEncoders.deltaEncode(inStruct.get_atom_site_id())));
 		// Now run length decode the strings
-		StringArrayCompressor stringRunEncode = new RunLengthEncodeString();
-		inStruct.set_atom_site_label_alt_id(stringRunEncode.compressStringArray((ArrayList<String>) inStruct.get_atom_site_label_alt_id()));
+		inStruct.set_atom_site_label_alt_id(ArrayEncoders.runlengthEncodeStrings(inStruct.get_atom_site_label_alt_id()));
 		//inStruct.set_atom_site_label_entity_id(stringRunEncode.compressStringArray((ArrayList<String>) inStruct.get_atom_site_label_entity_id()));
-		inStruct.set_atom_site_pdbx_PDB_ins_code(stringRunEncode.compressStringArray((ArrayList<String>) inStruct.get_atom_site_pdbx_PDB_ins_code()));
+		inStruct.set_atom_site_pdbx_PDB_ins_code(ArrayEncoders.runlengthEncodeStrings(inStruct.get_atom_site_pdbx_PDB_ins_code()));
 		return inStruct;
 	}
 
@@ -429,19 +418,19 @@ public class EncoderUtils implements Serializable {
 		List<Integer> cartnY = calphaData.getCartn_y();
 		List<Integer> cartnZ = calphaData.getCartn_z();
 		// Now add the X coords
-		List<byte[]> bigAndLittleX = splitListIntsToByteArrays(deltaComp.compressIntArray(cartnX));
+		List<byte[]> bigAndLittleX = splitListIntsToByteArrays(ArrayEncoders.deltaEncode(cartnX));
 		calphaOut.setxCoordBig(bigAndLittleX.get(0));
 		calphaOut.setxCoordSmall(bigAndLittleX.get(1));
 		//  No add they Y coords
-		List<byte[]> bigAndLittleY = splitListIntsToByteArrays(deltaComp.compressIntArray(cartnY));
+		List<byte[]> bigAndLittleY = splitListIntsToByteArrays(ArrayEncoders.deltaEncode(cartnY));
 		calphaOut.setyCoordBig(bigAndLittleY.get(0));
 		calphaOut.setyCoordSmall(bigAndLittleY.get(1));
 		// Now add the Z coords
-		List<byte[]> bigAndLittleZ = splitListIntsToByteArrays(deltaComp.compressIntArray(cartnZ));
+		List<byte[]> bigAndLittleZ = splitListIntsToByteArrays(ArrayEncoders.deltaEncode(cartnZ));
 		calphaOut.setzCoordBig(bigAndLittleZ.get(0));
 		calphaOut.setzCoordSmall(bigAndLittleZ.get(1));	
 		// THESE ONES CAN BE RUN LENGTH ON DELTA
-		calphaOut.setGroupIdList(cm.integersToBytes(runLengthComp.compressIntArray(deltaComp.compressIntArray(calphaData.get_atom_site_auth_seq_id()))));
+		calphaOut.setGroupIdList(cm.integersToBytes(ArrayEncoders.runlengthEncodeIntegers(ArrayEncoders.deltaEncode(calphaData.get_atom_site_auth_seq_id()))));
 		return calphaOut;
 	}
 

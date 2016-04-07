@@ -1,13 +1,9 @@
-package org.rcsb.mmtf.arraycompressors;
+package org.rcsb.mmtf.encoder;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Test;
-import org.rcsb.mmtf.arrayencoders.FindDeltas;
-import org.rcsb.mmtf.arrayencoders.RunLengthEncode;
-import org.rcsb.mmtf.arrayencoders.RunLengthEncodeString;
-
 import static org.junit.Assert.*;
 
 public class TestArrayCompressors {
@@ -15,7 +11,7 @@ public class TestArrayCompressors {
 	@Test
 	public void deltaTest() {
 		// Generate the array
-		FindDeltas fd = new FindDeltas();
+		
 		// Create the two arrays
 		ArrayList<Integer> inArray = new ArrayList<Integer>();
 		ArrayList<Integer> testArray = new ArrayList<Integer>();
@@ -29,7 +25,7 @@ public class TestArrayCompressors {
 			}
 		}
 		// Compress it
-		List<Integer> deltadArray = fd.compressIntArray(inArray);
+		List<Integer> deltadArray = ArrayEncoders.deltaEncode(inArray);
 		// Now check 
 		assertEquals(deltadArray, testArray);
 
@@ -38,7 +34,6 @@ public class TestArrayCompressors {
 	@Test
 	public void runLengthTest() {
 		// Generate the array
-		RunLengthEncode rle = new RunLengthEncode();
 		// Create the two arrays
 		List<Integer> inArray = new ArrayList<Integer>();
 		List<Integer> testArray = new ArrayList<Integer>();
@@ -51,7 +46,7 @@ public class TestArrayCompressors {
 		}
 		testArray.add(length);
 		// Compress it
-		List<Integer> runlenghtdArray = rle.compressIntArray(inArray);
+		List<Integer> runlenghtdArray = ArrayEncoders.runlengthEncodeIntegers(inArray);
 		// Now check 
 		assertEquals(runlenghtdArray, testArray);
 	}
@@ -61,7 +56,6 @@ public class TestArrayCompressors {
 	@Test
 	public void runLengthStringTest() {
 		// Generate the array
-		RunLengthEncodeString rle = new RunLengthEncodeString();
 		// Create the two arrays
 		ArrayList<String> inArray = new ArrayList<String>();
 		ArrayList<String> testArray = new ArrayList<String>();
@@ -74,7 +68,7 @@ public class TestArrayCompressors {
 		}
 		testArray.add(Integer.toString(length));
 		// Compress it
-		List<String> runlenghtdArray = rle.compressStringArray(inArray);
+		List<String> runlenghtdArray = ArrayEncoders.runlengthEncodeStrings(inArray);
 		// Now check 
 		assertEquals(runlenghtdArray, testArray);
 	}
