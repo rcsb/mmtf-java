@@ -218,15 +218,15 @@ public interface MmtfDecodedDataInterface {
 
 	/**
 	 * Returns the number of transformations in a given bioassembly.
-	 * @param an integer specifying the bioassembly index (zero indexed).
+	 * @param bioassemblyIndex an integer specifying the bioassembly index (zero indexed).
 	 * @return an integer specifying of transformations in a given bioassembly.
 	 */
 	int getNumTransInBioassembly(int bioassemblyIndex);
 	
 	/**
 	 * Returns the list of chain indices for the given transformation for the given bioassembly.
-	 * @param an integer specifying the bioassembly index (zero indexed).
-	 * @param an integer specifying the  index (zero indexed) for the desired transformation.
+	 * @param bioassemblyIndex an integer specifying the bioassembly index (zero indexed).
+	 * @param transformationIndex an integer specifying the  index (zero indexed) for the desired transformation.
 	 * @return a list of indices showing the chains involved in this transformation.
 	 */
 	int[] getChainIndexListForTransform(int bioassemblyIndex, int transformationIndex);
@@ -236,8 +236,8 @@ public interface MmtfDecodedDataInterface {
 	 * Returns a 4x4 transformation matrix for the given transformation for the given bioassembly.
 	 * It is row-packed as per the convention of vecmath. (The first four elements are in the first row of the
 	 * overall matrix).
-	 * @param an integer specifying the bioassembly index (zero indexed).
-	 * @param an integer specifying the  index for the desired transformation (zero indexed).
+	 * @param bioassemblyIndex an integer specifying the bioassembly index (zero indexed).
+	 * @param transformationIndex an integer specifying the  index for the desired transformation (zero indexed).
 	 * @return the transformation matrix for this transformation.
 	 */
 	double[] getMatrixForTransform(int bioassemblyIndex, int transformationIndex);
@@ -252,7 +252,7 @@ public interface MmtfDecodedDataInterface {
 
 	/**
 	 * Returns an array of bond orders (1,2,3) of inter-group bonds with length <em>number of inter-group bonds</em>
-	 * @return
+	 * @return the bond orders for bonds within a group
 	 */
 	int[] getInterGroupBondOrders();
 
@@ -278,28 +278,28 @@ public interface MmtfDecodedDataInterface {
 	/**
 	 * Returns the entity description (as defined in mmCIF dictionary) 
 	 * for the entity specified by the index.
-	 * @param the index of the specified entity.
+	 * @param entityInd the index of the specified entity.
 	 * @return the description of the entity
 	 */
     String getEntityDescription(int entityInd);
     
 	/**
 	 * Returns the entity type (polymer, non-polymer, water) for the entity specified by the index.
-	 * @param the index of the specified entity.
+	 * @param entityInd the index of the specified entity.
 	 * @return the entity type (polymer, non-polymer, water)
 	 */ 
     String getEntityType(int entityInd);
     
 	/**
 	 * Returns the chain indices for the entity specified by the index.
-	 * @param the index of the specified entity.
+	 * @param entityInd the index of the specified entity.
 	 * @return the chain index list - referencing the entity to the chains.
 	 */    
     int[] getEntityChainIndexList(int entityInd);
     
 	/**
 	 * Returns the sequence for the entity specified by the index.
-	 * @param the index of the specified entity.
+	 * @param entityInd the index of the specified entity.
 	 * @return the one letter sequence for this entity. Empty string if no sequence is applicable.
 	 */
     String getEntitySequence(int entityInd);
