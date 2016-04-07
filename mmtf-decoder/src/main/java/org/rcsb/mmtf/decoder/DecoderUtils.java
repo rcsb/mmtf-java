@@ -18,7 +18,7 @@ public class DecoderUtils {
 	 * @param chainIndex the index of the chain for which the id is required.
 	 * @return a String of the chain id for the given chain.
 	 */
-	public final String getChainId(final byte[] chainList, final int chainIndex) {
+	public static String getChainId(byte[] chainList,int chainIndex) {
 		int incrementor = 0;
 		StringBuilder sb = new StringBuilder();
 		byte chainIdOne = chainList[chainIndex * MAX_CHARS_PER_CHAIN_ENTRY + incrementor];
@@ -44,13 +44,13 @@ public class DecoderUtils {
 
 	/**
 	 * Convert a byte array (each four byte encodes a different integer)  to an integer array.
-	 * @param inArray the input byte array
+	 * @param byteArray the input byte array
 	 * @return the decoded integer array
 	 * @throws IOException due to byte array not being accesible
 	 */
-	public final int[] bytesToInts(final byte[] inArray) throws IOException {
-		DataInputStream bis = new DataInputStream(new ByteArrayInputStream(inArray));
-		int numIntsInArr = inArray.length / NUM_BYTES_IN_INT;
+	public static int[] bytesToInts(byte[] byteArray) throws IOException {
+		DataInputStream bis = new DataInputStream(new ByteArrayInputStream(byteArray));
+		int numIntsInArr = byteArray.length / NUM_BYTES_IN_INT;
 		// Define an array to return
 		int[] outArray = new int[numIntsInArr];
 		for (int i = 0; i < numIntsInArr; i++) {
@@ -61,15 +61,15 @@ public class DecoderUtils {
 
 	/**
 	 * Convert a byte array (each byte encodes a different integer) to an integer array.
-	 * @param inArray the input byte array
+	 * @param byteArray the input byte array
 	 * @return the decoded integer array
 	 * @throws IOException due to byte array not being accesible
 	 */
-	public final int[] bytesToByteInts(final byte[] inArray) throws IOException {
-		DataInputStream bis = new DataInputStream(new ByteArrayInputStream(inArray));
+	public static int[] bytesToByteInts(byte[] byteArray) throws IOException {
+		DataInputStream bis = new DataInputStream(new ByteArrayInputStream(byteArray));
 		// Define an array to return
-		int[] outArray = new int[inArray.length];
-		for (int i = 0; i < inArray.length; i++) {
+		int[] outArray = new int[byteArray.length];
+		for (int i = 0; i < byteArray.length; i++) {
 			outArray[i] = (int) bis.readByte();
 		}
 		return outArray;
@@ -82,7 +82,7 @@ public class DecoderUtils {
 	 * @param currentChainList the byte array of the chain list input. Each chain takes up 4 bytes.
 	 * @return the string array of the parsed chain ids
 	 */
-	public final String[] decodeChainList(byte[] currentChainList) {
+	public static String[] decodeChainList(byte[] currentChainList) {
 		int outputLength = currentChainList.length/4;
 		String[] outArray = new String[outputLength];
 		for (int i = 0; i < outputLength; i++){
@@ -97,7 +97,7 @@ public class DecoderUtils {
 	 * @param floatDivider the float divider to divide the integers by.
 	 * @return a float array converted from the input.
 	 */
-	public final float[] convertIntsToFloats(int[] inputIntArray, float floatDivider) {
+	public static float[] convertIntsToFloats(int[] inputIntArray, float floatDivider) {
 		// Assign the output array to write
 		float[] outArray = new float[inputIntArray.length];
 		for (int i=0; i<inputIntArray.length; i++) {

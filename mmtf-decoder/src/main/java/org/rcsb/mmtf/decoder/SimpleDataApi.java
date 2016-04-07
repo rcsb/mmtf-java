@@ -37,17 +37,16 @@ public class SimpleDataApi implements MmtfDecodedDataInterface {
 		RunLengthDelta intRunLengthDelta = new RunLengthDelta();
 		RunLengthDecodeInt intRunLength = new RunLengthDecodeInt();
 		RunLengthDecodeString stringRunlength = new RunLengthDecodeString();
-		DecoderUtils decoderUtils = new DecoderUtils();
-
+		
 		// Get the data
 		try {
-			groupList = decoderUtils.bytesToInts(inputData.getGroupTypeList());
+			groupList = DecoderUtils.bytesToInts(inputData.getGroupTypeList());
 			// Read the byte arrays as int arrays
-			cartnX = decoderUtils.convertIntsToFloats(deltaDecompress.decompressByteArray(inputData.getxCoordBig(), inputData.getxCoordSmall()), MmtfBean.COORD_DIVIDER);
-			cartnY = decoderUtils.convertIntsToFloats(deltaDecompress.decompressByteArray(inputData.getyCoordBig(), inputData.getyCoordSmall()), MmtfBean.COORD_DIVIDER);
-			cartnZ = decoderUtils.convertIntsToFloats(deltaDecompress.decompressByteArray(inputData.getzCoordBig(), inputData.getzCoordSmall()), MmtfBean.COORD_DIVIDER);
-			bFactor =  decoderUtils.convertIntsToFloats(deltaDecompress.decompressByteArray(inputData.getbFactorBig(),inputData.getbFactorSmall()), MmtfBean.OCCUPANCY_BFACTOR_DIVIDER);
-			occupancy = decoderUtils.convertIntsToFloats(intRunLength.decompressByteArray(inputData.getOccupancyList()), MmtfBean.OCCUPANCY_BFACTOR_DIVIDER);
+			cartnX = DecoderUtils.convertIntsToFloats(deltaDecompress.decompressByteArray(inputData.getxCoordBig(), inputData.getxCoordSmall()), MmtfBean.COORD_DIVIDER);
+			cartnY = DecoderUtils.convertIntsToFloats(deltaDecompress.decompressByteArray(inputData.getyCoordBig(), inputData.getyCoordSmall()), MmtfBean.COORD_DIVIDER);
+			cartnZ = DecoderUtils.convertIntsToFloats(deltaDecompress.decompressByteArray(inputData.getzCoordBig(), inputData.getzCoordSmall()), MmtfBean.COORD_DIVIDER);
+			bFactor =  DecoderUtils.convertIntsToFloats(deltaDecompress.decompressByteArray(inputData.getbFactorBig(),inputData.getbFactorSmall()), MmtfBean.OCCUPANCY_BFACTOR_DIVIDER);
+			occupancy = DecoderUtils.convertIntsToFloats(intRunLength.decompressByteArray(inputData.getOccupancyList()), MmtfBean.OCCUPANCY_BFACTOR_DIVIDER);
 			atomId = intRunLengthDelta.decompressByteArray(inputData.getAtomIdList());
 			altId = stringRunlength.intArrayToCharArray(inputData.getAltLocList());
 			// Get the insertion code
@@ -62,13 +61,13 @@ public class SimpleDataApi implements MmtfDecodedDataInterface {
 			chainsPerModel = inputData.getChainsPerModel();
 			groupsPerChain = inputData.getGroupsPerChain();
 			// Get the internal and public facing chain ids
-			publicChainIds = decoderUtils.decodeChainList(inputData.getChainNameList());
-			chainList = decoderUtils.decodeChainList(inputData.getChainIdList());
+			publicChainIds = DecoderUtils.decodeChainList(inputData.getChainNameList());
+			chainList = DecoderUtils.decodeChainList(inputData.getChainIdList());
 			spaceGroup = inputData.getSpaceGroup();
 			unitCell = inputData.getUnitCell();
 			bioAssembly  = inputData.getBioAssemblyList();
-			interGroupBondIndices = decoderUtils.bytesToInts(inputData.getBondAtomList());
-			interGroupBondOrders = decoderUtils.bytesToByteInts(inputData.getBondOrderList());
+			interGroupBondIndices = DecoderUtils.bytesToInts(inputData.getBondAtomList());
+			interGroupBondOrders = DecoderUtils.bytesToByteInts(inputData.getBondOrderList());
 			mmtfVersion = inputData.getMmtfVersion();
 			mmtfProducer = inputData.getMmtfProducer();
 			entityList = inputData.getEntityList();
