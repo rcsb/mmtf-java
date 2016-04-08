@@ -139,7 +139,7 @@ public class GetApiToInflatorInterface {
 	 * @param currentGroupIndex the integer indicating the index of the group to be added.
 	 * @return an integer for the number of atoms in the structure.
 	 */
-	private int addGroup(final int currentGroupIndex) {
+	private int addGroup(int currentGroupIndex) {
 		// Now get the group
 		int groupInd = dataApi.getGroupTypeIndices()[currentGroupIndex];
 		// Get this info
@@ -147,7 +147,8 @@ public class GetApiToInflatorInterface {
 		int currentGroupNumber = dataApi.getGroupIds()[currentGroupIndex];
 		char insertionCode = dataApi.getInsCodes()[currentGroupIndex];
 		structInflator.setGroupInfo(dataApi.getGroupName(groupInd), currentGroupNumber, insertionCode,
-				dataApi.getGroupChemCompType(groupInd), atomCount, dataApi.getGroupSingleLetterCode(groupInd));
+				dataApi.getGroupChemCompType(groupInd), atomCount, dataApi.getGroupSingleLetterCode(groupInd),
+				dataApi.getGroupSequenceIndices()[currentGroupIndex]);
 		// A counter for the atom information
 		atomCounter = 0;
 		// Now read the next atoms

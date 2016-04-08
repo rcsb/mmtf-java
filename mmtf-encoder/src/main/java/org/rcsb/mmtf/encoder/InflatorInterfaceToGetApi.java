@@ -406,6 +406,7 @@ public class InflatorInterfaceToGetApi implements MmtfDecodedDataInterface, Mmtf
 		// Initialise the group level data
 		altId = new char[totalNumGroups];
 		insertionCodeList = new char[totalNumGroups];
+		seqResGroupList = new int[totalNumGroups];
 		groupList = new int[totalNumGroups];
 		// Intialise the chain level data 	 	
 		// Initialise the model level information
@@ -448,7 +449,8 @@ public class InflatorInterfaceToGetApi implements MmtfDecodedDataInterface, Mmtf
 	}
 
 	@Override
-	public void setGroupInfo(String groupName, int groupNumber, char insertionCode, String polymerType, int atomCount, char singleAtomCode) {
+	public void setGroupInfo(String groupName, int groupNumber, char insertionCode, String polymerType, 
+			int atomCount, char singleAtomCode, int sequenceIndex) {
 		// If it's not the first go
 		if(pdbGroup!=null) {
 			// Now add this to the list or find it in the list 
@@ -473,6 +475,7 @@ public class InflatorInterfaceToGetApi implements MmtfDecodedDataInterface, Mmtf
 		
 		// Store the group level data
 		groupNum[groupIndex] = groupNumber;
+		seqResGroupList[groupIndex] = sequenceIndex;
 		groupIndex++;
 	}
 

@@ -57,9 +57,10 @@ public interface MmtfDecoderInterface {
 	 * @param groupType a string indicating the type of group (as found in the chemcomp dictionary. Empty string if none available.
 	 * @param atomCount the number of atoms in the group
 	 * @param singleLetterCode the single letter code of the group
+	 * @param sequenceIndex the index of this group in the sequence
 	 */
 	void setGroupInfo(String groupName, int groupNumber, char insertionCode,
-			String groupType, int atomCount, char singleLetterCode);
+			String groupType, int atomCount, char singleLetterCode, int sequenceIndex);
 
 
 	/**
