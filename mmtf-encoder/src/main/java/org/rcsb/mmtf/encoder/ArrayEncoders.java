@@ -3,6 +3,8 @@ package org.rcsb.mmtf.encoder;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.rcsb.mmtf.utils.CodecUtils;
+
 /**
  * A class of methods that can be used to encode arrays.
  * @author Anthony Bradley
@@ -10,87 +12,44 @@ import java.util.List;
  */
 public class ArrayEncoders {
 
-	
-	  public static List<Integer> deltaEncode(final List<Integer> inArray) {
-		    List<Integer> outArray =  new ArrayList<Integer>();
-		    int oldInt = 0;
-		    for (int i = 0; i < inArray.size(); i++) {
-		      // Get the value out here
-		      int numInt = inArray.get(i);
-		      // TODO Remove the if statement.
-		      if (i==0){
-		        oldInt = numInt;
-		        outArray.add(numInt);
-		      }
-		      else{
-		        int this_int = numInt - oldInt;
-		        outArray.add((int) this_int);
-		        oldInt = numInt;
-		      }
-		    }
-		    return outArray;
-		  }
-	  
-	  
-	  public static  List<Integer> runlengthEncodeIntegers(List<Integer> inArray) {
-
-			List<Integer> outArray =  new ArrayList<Integer>();
-			int oldVal = 0;
-			boolean inSwitch = false;
-			int counter = 0;
-			// Loop through the vals
-			for (int i = 0; i < inArray.size(); i++) {
-				// Get the value out here
-				int num_int = inArray.get(i);
-				if(inSwitch==false){
-					inSwitch=true;
-					// If it's a new number add it to the array
-					outArray.add(num_int);
-					counter=1;
-					oldVal=num_int;	
-				}
-				else if (num_int!=oldVal){
-					// Add the counter to the array
-					outArray.add(counter);
-					if(counter<0){
-						System.out.println("THIS ERROR - "+counter);	
-					}
-					// If it's a new number add it to the array
-					outArray.add(num_int);
-					counter=1;
-					oldVal=num_int;
-				}
-				else{
-					counter+=1;
-				}
-			}
-			outArray.add(counter);
-			return outArray;
+	/**
+	 * Delta encode an array of integers.
+	 * @param intArray the input array
+	 * @return the encoded array
+	 */
+	public static int[] deltaEncode(int[] intArray) {
+		int[] out = new int[intArray.length];
+		System.arraycopy(intArray, 0, out, 0, intArray.length);
+		for (int i = out.length-1; i > 0; i--) {
+			out[i] = out[i] - out[i-1];
 		}
-	  
-	  
-	  public static List<String> runlengthEncodeStrings(List<String> inArray) {
-		    List<String> outArray =  new ArrayList<String>();
-		    String oldVal = "";
-		    int counter = 0;
-		    // Loop through the vals
-		    for (int i = 0; i < inArray.size(); i++) {
-		      // Get the value out here
-		      String inString = inArray.get(i);
-		      if (inString != oldVal){
-		        if(oldVal != ""){
-		          // Add the counter to the array
-		          outArray.add(Integer.toString(counter));
-		        }
-		        // If it's a new number add it to the array
-		        outArray.add(inString);
-		        counter = 1;
-		        oldVal = inString;
-		      } else {
-		        counter += 1;
-		      }
-		    }
-		    outArray.add(Integer.toString(counter));
-		    return outArray;
-		  }
+		return out;
+	}
+
+	/**
+	 * Run length encode an array of integers.
+	 * @param intArray the input array
+	 * @return the encoded integer array
+	 */
+	public static int[] runlengthEncode(int[] intArray) {
+		// We don't know the length so use
+		List<Integer> outList = new ArrayList<>();
+		int lastInt = intArray[0];
+		int counter = 1;
+		for (int i=1; i<intArray.length; i++) {
+			if (intArray[i]==lastInt){
+				counter++;
+			}
+			else{
+				// Add the integer that's being 
+				// encoded and the number of repeats
+				outList.add(lastInt);
+				outList.add(counter);
+				// Reset the counter
+				counter=0;
+				lastInt = intArray[i];
+			}
+		}
+		return CodecUtils.convertToIntArray(outList);
+	}
 }

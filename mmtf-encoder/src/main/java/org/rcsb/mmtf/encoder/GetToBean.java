@@ -8,11 +8,11 @@ import org.rcsb.mmtf.dataholders.MmtfBean;
  * @author Anthony Bradley
  *
  */
-public class GetApiToBean {
+public class GetToBean {
 	
 	private MmtfBean mmtfBean;
 	
-	public GetApiToBean(MmtfDecodedDataInterface mmtfDecodedDataInterface) {
+	public GetToBean(MmtfDecodedDataInterface mmtfDecodedDataInterface) {
 		
 		// DO THE ENCODING LOGIC HERE -> CONVERTING TO AN MMTF BEAN
 	}

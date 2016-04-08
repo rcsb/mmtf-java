@@ -1,19 +1,14 @@
-package org.rcsb.mmtf.sedeserializers;
+package org.rcsb.mmtf.deserializers;
 
 import java.io.IOException;
 
 import org.msgpack.jackson.dataformat.MessagePackFactory;
-import org.rcsb.mmtf.api.SerializerInterface;
+import org.rcsb.mmtf.api.DeserializerInterface;
 import org.rcsb.mmtf.dataholders.MmtfBean;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-/**
- * Class to covert a byte array to an object using message pack conversion.
- * @author Anthony Bradley
- *
- */
-public class ByteArrayMessagePackConverter implements SerializerInterface {
+public class MessagePackDeserializer implements DeserializerInterface {
 
 	@Override
 	public MmtfBean deserialize(byte[] byteArray) {
@@ -27,12 +22,4 @@ public class ByteArrayMessagePackConverter implements SerializerInterface {
 		}
 		return mmtfBean;
 	}
-	
-	@Override
-	public byte[] serialize(MmtfBean mmtfBean) {
-		return new byte[0];
-		
-	}
-
-
 }

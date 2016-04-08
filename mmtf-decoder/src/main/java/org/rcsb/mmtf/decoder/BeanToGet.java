@@ -18,15 +18,10 @@ import org.rcsb.mmtf.dataholders.PDBGroup;
  * @author Anthony Bradley
  *
  */
-public class BeanToGetApi implements MmtfDecodedDataInterface {
+public class BeanToGet implements MmtfDecodedDataInterface {
 
 
-	public BeanToGetApi(MmtfBean inputData) {
-
-		// Get the decompressors to build in the data structure
-		DeltaDecompress deltaDecompress = new DeltaDecompress();
-		RunLengthDelta intRunLengthDelta = new RunLengthDelta();
-		RunLengthDecodeInt intRunLength = new RunLengthDecodeInt();
+	public BeanToGet(MmtfBean inputData) {
 		
 		// Get the data
 		try {

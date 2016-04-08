@@ -13,8 +13,8 @@ import java.nio.file.Paths;
 import java.util.zip.GZIPInputStream;
 
 import org.rcsb.mmtf.api.MmtfDecodedDataInterface;
-import org.rcsb.mmtf.decoder.BeanToGetApi;
-import org.rcsb.mmtf.sedeserializers.ByteArrayMessagePackConverter;
+import org.rcsb.mmtf.decoder.BeanToGet;
+import org.rcsb.mmtf.deserializers.MessagePackDeserializer;
 
 /**
  * Some helper functions and utility functions to get structures from BioJava.
@@ -63,10 +63,10 @@ public class HandleIO {
 		boolean isFile = getFile(basePath, inputCode);
 		// If it's a file on the file system - get it
 		if (isFile) {
-			return new BeanToGetApi(new ByteArrayMessagePackConverter().deserialize(getFromFileSystem(basePath, inputCode)));
+			return new BeanToGet(new MessagePackDeserializer().deserialize(getFromFileSystem(basePath, inputCode)));
 		}
 		try {
-			return new BeanToGetApi(new ByteArrayMessagePackConverter().deserialize(getFromUrl(inputCode)));
+			return new BeanToGet(new MessagePackDeserializer().deserialize(getFromUrl(inputCode)));
 		} catch (IOException e) {
 			e.printStackTrace();
 			throw new RuntimeException(e);

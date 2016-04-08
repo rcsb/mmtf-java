@@ -15,7 +15,7 @@ import org.rcsb.mmtf.dataholders.PDBGroup;
  * @author Anthony Bradley
  *
  */
-public class InflatorInterfaceToGetApi implements MmtfDecodedDataInterface, MmtfDecoderInterface {
+public class InflatorToGet implements MmtfDecodedDataInterface, MmtfDecoderInterface {
 
 
 	/** The X coordinates */

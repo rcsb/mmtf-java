@@ -13,7 +13,7 @@ import org.biojava.nbio.structure.Group;
 import org.biojava.nbio.structure.Structure;
 import org.biojava.nbio.structure.io.FileParsingParameters;
 import org.rcsb.mmtf.api.MmtfDecodedDataInterface;
-import org.rcsb.mmtf.decoder.BeanToGetApi;
+import org.rcsb.mmtf.decoder.BeanToGet;
 
 /**
  * Class to test the raw API
@@ -23,7 +23,7 @@ import org.rcsb.mmtf.decoder.BeanToGetApi;
 public class CheckOnRawApi {
 	MmtfDecodedDataInterface dataApi;
 	public CheckOnRawApi(byte[] inputData) {
-		dataApi = new BeanToGetApi(inputData);
+		dataApi = new BeanToGet(inputData);
 	}
 
 	/**

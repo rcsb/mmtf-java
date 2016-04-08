@@ -5,7 +5,7 @@ import java.util.Set;
 
 import org.rcsb.mmtf.api.MmtfDecodedDataInterface;
 import org.rcsb.mmtf.api.MmtfDecoderInterface;
-import org.rcsb.mmtf.sedeserializers.ByteArrayMessagePackConverter;
+import org.rcsb.mmtf.deserializers.MessagePackDeserializer;
 
 /**
  * Decode an MMTF structure using a structure inflator. 
@@ -14,7 +14,7 @@ import org.rcsb.mmtf.sedeserializers.ByteArrayMessagePackConverter;
  * @author Anthony Bradley
  *
  */
-public class GetApiToInflatorInterface {
+public class GetToInflator {
 
 
 
@@ -36,9 +36,9 @@ public class GetApiToInflatorInterface {
 	 * The constructor requires a byte array to fill the data. This will decompress the arrays using our bespoke methods.
 	 * @param byteArray An unentropy encoded byte array with the data as found in the MMTF format
 	 */
-	public GetApiToInflatorInterface(byte[] byteArray) {
+	public GetToInflator(byte[] byteArray) {
 		// Create the instance of this API
-		dataApi = new BeanToGetApi(new ByteArrayMessagePackConverter().deserialize(byteArray));
+		dataApi = new BeanToGet(new MessagePackDeserializer().deserialize(byteArray));
 	}
 
 	/**
