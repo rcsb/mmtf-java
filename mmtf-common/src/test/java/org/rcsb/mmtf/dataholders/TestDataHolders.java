@@ -31,14 +31,6 @@ public class TestDataHolders {
 		assertTrue(testClass(MmtfBean.class));
 		// This one fails - make sure it still does
 		assertFalse(testClass(BioAssemblyData.class));
-		// The bean to store calpha data
-		assertTrue(testClass(CalphaDistBean.class));
-		// Now consider the no float data stucuture class
-		assertTrue(testClass(NoFloatDataStruct.class));
-		// Now consider the no bio data structure bean
-		assertTrue(testClass(BioDataStructBean.class));
-		// And the calpha bean
-		assertTrue(testClass(CalphaBean.class));
 		// Now test round tripping data
 		testDataRoundTrip(MmtfBean.class);
 		// Now check that the failure bean fails this
