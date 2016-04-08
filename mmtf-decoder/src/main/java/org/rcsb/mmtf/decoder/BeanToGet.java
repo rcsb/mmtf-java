@@ -5,9 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.rcsb.mmtf.api.MmtfDecodedDataInterface;
-import org.rcsb.mmtf.arraydecoders.DeltaDecompress;
-import org.rcsb.mmtf.arraydecoders.RunLengthDecodeInt;
-import org.rcsb.mmtf.arraydecoders.RunLengthDelta;
 import org.rcsb.mmtf.dataholders.BioAssemblyData;
 import org.rcsb.mmtf.dataholders.Entity;
 import org.rcsb.mmtf.dataholders.MmtfBean;
@@ -20,39 +17,72 @@ import org.rcsb.mmtf.dataholders.PDBGroup;
  */
 public class BeanToGet implements MmtfDecodedDataInterface {
 
-
 	public BeanToGet(MmtfBean inputData) {
-		
+
 		// Get the data
 		try {
-			groupList = DecoderUtils.bytesToInts(inputData.getGroupTypeList());
-			// Read the byte arrays as int arrays
-			cartnX = DecoderUtils.convertIntsToFloats(deltaDecompress.decompressByteArray(inputData.getxCoordBig(), inputData.getxCoordSmall()), MmtfBean.COORD_DIVIDER);
-			cartnY = DecoderUtils.convertIntsToFloats(deltaDecompress.decompressByteArray(inputData.getyCoordBig(), inputData.getyCoordSmall()), MmtfBean.COORD_DIVIDER);
-			cartnZ = DecoderUtils.convertIntsToFloats(deltaDecompress.decompressByteArray(inputData.getzCoordBig(), inputData.getzCoordSmall()), MmtfBean.COORD_DIVIDER);
-			bFactor =  DecoderUtils.convertIntsToFloats(deltaDecompress.decompressByteArray(inputData.getbFactorBig(),inputData.getbFactorSmall()), MmtfBean.OCCUPANCY_BFACTOR_DIVIDER);
-			occupancy = DecoderUtils.convertIntsToFloats(intRunLength.decompressByteArray(inputData.getOccupancyList()), MmtfBean.OCCUPANCY_BFACTOR_DIVIDER);
-			atomId = intRunLengthDelta.decompressByteArray(inputData.getAtomIdList());
-			altId = ArrayDecoders.runLengthDecodeStrings(inputData.getAltLocList());
-			// Get the insertion code
-			insertionCodeList = ArrayDecoders.runLengthDecodeStrings(inputData.getInsCodeList());
+			groupList = ArrayConverters.convertByteToIntegers(inputData.getGroupTypeList());
+			// Decode the coordinate  and B-factor arrays.
+			cartnX = ArrayConverters.convertIntsToFloats(
+					ArrayDecoders.deltaDecode(
+							ArrayConverters.combineIntegers(
+									ArrayConverters.convertTwoByteToIntegers(inputData.getxCoordBig()),
+									ArrayConverters.convertFourByteToIntegers(inputData.getxCoordSmall()))),
+					MmtfBean.COORD_DIVIDER);
+			cartnY = ArrayConverters.convertIntsToFloats(
+					ArrayDecoders.deltaDecode(
+							ArrayConverters.combineIntegers(
+									ArrayConverters.convertTwoByteToIntegers(inputData.getyCoordBig()),
+									ArrayConverters.convertFourByteToIntegers(inputData.getyCoordSmall()))),
+					MmtfBean.COORD_DIVIDER);
+			cartnZ = ArrayConverters.convertIntsToFloats(
+					ArrayDecoders.deltaDecode(
+							ArrayConverters.combineIntegers(
+									ArrayConverters.convertTwoByteToIntegers(inputData.getzCoordBig()),
+									ArrayConverters.convertFourByteToIntegers(inputData.getzCoordSmall()))),
+					MmtfBean.COORD_DIVIDER);
+			bFactor = ArrayConverters.convertIntsToFloats(
+					ArrayDecoders.deltaDecode(
+							ArrayConverters.combineIntegers(
+									ArrayConverters.convertTwoByteToIntegers(inputData.getbFactorBig()),
+									ArrayConverters.convertFourByteToIntegers(inputData.getbFactorSmall()))),
+					MmtfBean.OCCUPANCY_BFACTOR_DIVIDER);
+			// Run length decode the occupancy array
+			occupancy = ArrayConverters.convertIntsToFloats(
+					ArrayDecoders.runlengthDecode(
+							ArrayConverters.convertFourByteToIntegers(inputData.getOccupancyList())), 
+					MmtfBean.OCCUPANCY_BFACTOR_DIVIDER);
+			// Run length and delta 
+			atomId = ArrayDecoders.deltaDecode(
+					ArrayDecoders.runlengthDecode(
+							ArrayConverters.convertFourByteToIntegers(inputData.getAtomIdList())));
+			// Run length encoded
+			altId = ArrayConverters.convertIntegerToChar(
+					ArrayDecoders.runlengthDecode(inputData.getAltLocList()));
+			insertionCodeList = ArrayConverters.convertIntegerToChar(
+					ArrayDecoders.runlengthDecode(inputData.getInsCodeList()));
+
 			// Get the groupNumber
-			groupNum = intRunLengthDelta.decompressByteArray(
+			groupNum = ArrayConverters.convertByteToIntegers(
 					inputData.getGroupIdList());
+			// Get the group map (all the unique groups in the structure).
 			groupMap = inputData.getGroupList();
 			// Get the seqRes groups
-			seqResGroupList = intRunLengthDelta.decompressByteArray(inputData.getSequenceIdList());
+			seqResGroupList = ArrayDecoders.deltaDecode(
+					ArrayDecoders.runlengthDecode(
+							ArrayConverters.convertFourByteToIntegers(
+									inputData.getSequenceIdList())));
 			// Get the number of chains per model
 			chainsPerModel = inputData.getChainsPerModel();
 			groupsPerChain = inputData.getGroupsPerChain();
 			// Get the internal and public facing chain ids
-			publicChainIds = DecoderUtils.decodeChainList(inputData.getChainNameList());
-			chainList = DecoderUtils.decodeChainList(inputData.getChainIdList());
+			publicChainIds = ArrayConverters.decodeChainList(inputData.getChainNameList());
+			chainList = ArrayConverters.decodeChainList(inputData.getChainIdList());
 			spaceGroup = inputData.getSpaceGroup();
 			unitCell = inputData.getUnitCell();
 			bioAssembly  = inputData.getBioAssemblyList();
-			interGroupBondIndices = DecoderUtils.bytesToInts(inputData.getBondAtomList());
-			interGroupBondOrders = DecoderUtils.bytesToByteInts(inputData.getBondOrderList());
+			interGroupBondIndices = ArrayConverters.convertFourByteToIntegers(inputData.getBondAtomList());
+			interGroupBondOrders = ArrayConverters.convertByteToIntegers(inputData.getBondOrderList());
 			mmtfVersion = inputData.getMmtfVersion();
 			mmtfProducer = inputData.getMmtfProducer();
 			entityList = inputData.getEntityList();
@@ -166,10 +196,10 @@ public class BeanToGet implements MmtfDecodedDataInterface {
 
 	/** The list of experimental methods. */
 	private String[] experimentalMethods;
-	
+
 	/** The deposition date of hte structure */
 	private String depositionDate;
-	
+
 
 	@Override
 	public float[] getxCoords() {
