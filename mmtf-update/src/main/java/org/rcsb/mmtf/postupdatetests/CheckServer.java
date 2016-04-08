@@ -8,7 +8,7 @@ import org.biojava.nbio.structure.StructureException;
 import org.biojava.nbio.structure.StructureIO;
 import org.biojava.nbio.structure.align.util.AtomCache;
 import org.biojava.nbio.structure.io.FileParsingParameters;
-import org.biojava.nbio.structure.io.mmtf.MmtfStructureDecoder;
+import org.biojava.nbio.structure.io.mmtf.MmtfStructureReader;
 import org.rcsb.mmtf.biojavaencoder.BiojavaUtils;
 import org.rcsb.mmtf.examples.HandleIO;
 import org.rcsb.mmtf.testutils.CheckOnBiojava;
@@ -65,7 +65,7 @@ public class CheckServer {
 	private void testParsing(String inputPdb, String inputUrl) throws IOException {
 		System.out.println("TESTING: "+inputPdb);
 		byte[] inputByteArr = handleIo.getFromUrl(inputPdb, inputUrl);
-		Structure mmtfStruct = MmtfStructureDecoder.getBiojavaStruct(inputByteArr);
+		Structure mmtfStruct = MmtfStructureReader.getBiojavaStruct(inputByteArr);
 		// Now parse from the MMCIF file
 		Structure mmcifStruct;
 		try {

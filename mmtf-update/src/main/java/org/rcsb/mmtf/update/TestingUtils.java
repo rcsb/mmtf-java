@@ -10,7 +10,7 @@ import org.biojava.nbio.structure.StructureException;
 import org.biojava.nbio.structure.StructureIO;
 import org.biojava.nbio.structure.align.util.AtomCache;
 import org.biojava.nbio.structure.io.FileParsingParameters;
-import org.biojava.nbio.structure.io.mmtf.MmtfStructureDecoder;
+import org.biojava.nbio.structure.io.mmtf.MmtfStructureReader;
 import org.rcsb.mmtf.biojavaencoder.BiojavaEncoderImpl;
 import org.rcsb.mmtf.decoder.GetApiToInflatorInterface;
 import org.rcsb.mmtf.encoder.GetApiToBean;
@@ -72,7 +72,7 @@ public class TestingUtils {
 	    CheckOnRawApi checkRaw = new CheckOnRawApi(inArr);
 	    checkRaw.checkRawDataConsistency(mmcifStruct, params);
 	    // Now decode the data and return this new structure
-	    MmtfStructureDecoder bjsi = new MmtfStructureDecoder();
+	    MmtfStructureReader bjsi = new MmtfStructureReader();
 	    GetApiToInflatorInterface decodeStructure = new GetApiToInflatorInterface(inArr);
 	    decodeStructure.getStructFromByteArray(bjsi);
 	    Structure struct = bjsi.getStructure();
