@@ -1,7 +1,10 @@
-package org.rcsb.mmtf.dataholders;
+package org.rcsb.mmtf.sedeserializers;
 
 import java.util.List;
 import java.util.Map;
+
+import org.rcsb.mmtf.dataholders.BioAssemblyData;
+import org.rcsb.mmtf.dataholders.PDBGroup;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 

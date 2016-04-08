@@ -7,11 +7,11 @@ import java.util.List;
 
 import org.apache.spark.api.java.function.PairFlatMapFunction;
 import org.rcsb.mmtf.biojavaencoder.BiojavaEncoderImpl;
-import org.rcsb.mmtf.dataholders.BioDataStruct;
-import org.rcsb.mmtf.dataholders.CalphaDistBean;
-import org.rcsb.mmtf.dataholders.HeaderBean;
 import org.rcsb.mmtf.encoder.EncoderInterface;
 import org.rcsb.mmtf.encoder.EncoderUtils;
+import org.rcsb.mmtf.sedeserializers.BioDataStruct;
+import org.rcsb.mmtf.sedeserializers.CalphaDistBean;
+import org.rcsb.mmtf.sedeserializers.HeaderBean;
 
 import scala.Tuple2;
 
