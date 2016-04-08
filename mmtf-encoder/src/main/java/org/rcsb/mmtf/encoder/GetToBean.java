@@ -78,15 +78,15 @@ public class GetToBean {
 
 		// Get the groupNumber
 		mmtfBean.setGroupIdList(ArrayConverters.convertIntegersToFourByte(
-				mmtfDecodedDataInterface.getGroupTypeIndices()));
-
-		// Get the group map (all the unique groups in the structure).
-		mmtfBean.setGroupList(EncoderUtils.generateGroupMap(mmtfDecodedDataInterface));
-		// Get the seqRes groups
-		mmtfBean.setGroupIdList(ArrayConverters.convertIntegersToFourByte(
 				ArrayEncoders.deltaEncode(
 						ArrayEncoders.runlengthEncode(
 								mmtfDecodedDataInterface.getGroupIds()))));
+
+		// Get the group map (all the unique groups in the structure).
+		mmtfBean.setGroupList(EncoderUtils.generateGroupMap(mmtfDecodedDataInterface));
+		// Get the indices for the groups mapping to the sequence
+		mmtfBean.setSequenceIdList(ArrayConverters.convertIntegersToFourByte(
+				mmtfDecodedDataInterface.getGroupSequenceIndices()));
 		// Get the number of chains per model
 		mmtfBean.setChainsPerModel(mmtfDecodedDataInterface.getChainsPerModel());
 		mmtfBean.setGroupsPerChain(mmtfDecodedDataInterface.getGroupsPerChain());
@@ -120,6 +120,9 @@ public class GetToBean {
 		mmtfBean.setExperimentalMethods(mmtfDecodedDataInterface.getExperimentalMethods());
 		// Now get the relase information
 		mmtfBean.setDepositionDate(mmtfDecodedDataInterface.getDepositionDate());
+		// 
+		mmtfBean.setSequenceIdList(ArrayConverters.convertIntegersToFourByte(
+				mmtfDecodedDataInterface.getGroupSequenceIndices()));
 	}
 
 	public MmtfBean getMmtfBean() {
