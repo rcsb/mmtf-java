@@ -59,7 +59,7 @@ public class GetToBean {
 		mmtfBean.setbFactorSmall(ArrayConverters.convertIntegersToTwoBytes(bFactor.get(1)));
 
 
-		// Run length decode the occupancy array
+		// Run length encode the occupancy array
 		mmtfBean.setOccupancyList(ArrayConverters.convertIntegersToFourByte(
 				ArrayEncoders.runlengthEncode(
 						ArrayConverters.convertFloatsToInts(
@@ -76,53 +76,48 @@ public class GetToBean {
 		mmtfBean.setInsCodeList(ArrayEncoders.runlengthEncode(
 				ArrayConverters.convertCharToIntegers(mmtfDecodedDataInterface.getInsCodes())));
 
-		// Get the groupNumber
+		// Set the groupNumber
 		mmtfBean.setGroupIdList(ArrayConverters.convertIntegersToFourByte(
 				ArrayEncoders.deltaEncode(
 						ArrayEncoders.runlengthEncode(
 								mmtfDecodedDataInterface.getGroupIds()))));
 
-		// Get the group map (all the unique groups in the structure).
+		// Set the group map (all the unique groups in the structure).
 		mmtfBean.setGroupList(EncoderUtils.generateGroupMap(mmtfDecodedDataInterface));
-		// Get the indices for the groups mapping to the sequence
+		// Set the indices for the groups mapping to the sequence
 		mmtfBean.setSequenceIdList(ArrayConverters.convertIntegersToFourByte(
 				mmtfDecodedDataInterface.getGroupSequenceIndices()));
-		// Get the number of chains per model
+		// Set the number of chains per model
 		mmtfBean.setChainsPerModel(mmtfDecodedDataInterface.getChainsPerModel());
 		mmtfBean.setGroupsPerChain(mmtfDecodedDataInterface.getGroupsPerChain());
-		// Get the internal and public facing chain ids
+		// Set the internal and public facing chain ids
 		mmtfBean.setChainNameList(ArrayConverters.encodeChainList(mmtfDecodedDataInterface.getChainNames()));
 		mmtfBean.setChainIdList(ArrayConverters.encodeChainList(mmtfDecodedDataInterface.getChainIds()));
-
+		// Set the space group information
 		mmtfBean.setSpaceGroup(mmtfDecodedDataInterface.getSpaceGroup());
 		mmtfBean.setUnitCell(mmtfDecodedDataInterface.getUnitCell());
-		
+		// Set the bioassembly and entity information
 		mmtfBean.setBioAssemblyList(
 				EncoderUtils.generateBioassemblies(mmtfDecodedDataInterface));
 		mmtfBean.setEntityList(
 				EncoderUtils.generateEntityList(mmtfDecodedDataInterface)
 				);
-		
+		// Set the bond orders and indcices
 		mmtfBean.setBondOrderList(ArrayConverters.convertIntegersToFourByte(
 				mmtfDecodedDataInterface.getInterGroupBondOrders()));
 		mmtfBean.setBondAtomList(ArrayConverters.convertIntegersToFourByte(
 				mmtfDecodedDataInterface.getInterGroupBondIndices()));
-		
+		// Set the version and producer information
 		mmtfBean.setMmtfVersion(mmtfDecodedDataInterface.getMmtfVersion());
 		mmtfBean.setMmtfProducer(mmtfDecodedDataInterface.getMmtfProducer());
 		mmtfBean.setStructureId(mmtfDecodedDataInterface.getStructureId());
-		// Now get the header data
+		// Set some header data
 		mmtfBean.setrFree(mmtfDecodedDataInterface.getRfree());
-		// Optional fields
 		mmtfBean.setrWork(mmtfDecodedDataInterface.getRwork());
 		mmtfBean.setResolution(mmtfDecodedDataInterface.getResolution());
 		mmtfBean.setTitle(mmtfDecodedDataInterface.getTitle());
 		mmtfBean.setExperimentalMethods(mmtfDecodedDataInterface.getExperimentalMethods());
-		// Now get the relase information
 		mmtfBean.setDepositionDate(mmtfDecodedDataInterface.getDepositionDate());
-		// 
-		mmtfBean.setSequenceIdList(ArrayConverters.convertIntegersToFourByte(
-				mmtfDecodedDataInterface.getGroupSequenceIndices()));
 	}
 
 	public MmtfBean getMmtfBean() {
