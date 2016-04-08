@@ -46,7 +46,7 @@ public class TestArrayConverters {
 	@Test
 	public final void oneByteToIntegersTest() throws IOException {
 		int[] testIntArray = {12,123,24};
-		byte[] byteArray = getByteArray(testIntArray,1);
+		byte[] byteArray = {(byte) 12, (byte) 123, (byte) 24};
 		int[] intArray = ArrayConverters.convertByteToIntegers(byteArray);
 		assertArrayEquals(testIntArray, intArray);
 	}

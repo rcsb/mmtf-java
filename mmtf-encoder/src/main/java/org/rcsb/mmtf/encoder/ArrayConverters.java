@@ -64,7 +64,7 @@ public class ArrayConverters {
 		DataOutputStream dos = new DataOutputStream(baos);
 		for(int i=0; i < intArray.length; ++i)
 		{
-			dos.writeShort(intArray[i]);
+			dos.writeInt(intArray[i]);
 		}
 
 		return baos.toByteArray();

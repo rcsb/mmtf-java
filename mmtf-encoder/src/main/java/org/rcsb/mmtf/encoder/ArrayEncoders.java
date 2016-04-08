@@ -50,6 +50,10 @@ public class ArrayEncoders {
 				lastInt = intArray[i];
 			}
 		}
+		// Now add the last two
+		outList.add(lastInt);
+		outList.add(counter+1);
+
 		return CodecUtils.convertToIntArray(outList);
 	}
 }
