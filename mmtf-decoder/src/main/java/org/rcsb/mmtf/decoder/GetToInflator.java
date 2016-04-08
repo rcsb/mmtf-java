@@ -6,7 +6,7 @@ import java.util.Set;
 
 import org.rcsb.mmtf.api.MmtfDecodedDataInterface;
 import org.rcsb.mmtf.api.MmtfDecoderInterface;
-import org.rcsb.mmtf.deserializers.MessagePackDeserializer;
+import org.rcsb.mmtf.api.MmtfReader;
 
 /**
  * Decode an MMTF structure using a structure inflator. 
@@ -15,9 +15,7 @@ import org.rcsb.mmtf.deserializers.MessagePackDeserializer;
  * @author Anthony Bradley
  *
  */
-public class GetToInflator {
-
-
+public class GetToInflator implements MmtfReader {
 
 	/** The struct inflator. */
 	private MmtfDecoderInterface structInflator;
@@ -38,21 +36,19 @@ public class GetToInflator {
 	 * @param byteArray An unentropy encoded byte array with the data as found in the MMTF format
 	 * @throws IOException 
 	 */
-	public GetToInflator(byte[] byteArray) throws IOException {
-		// Create the instance of this API
-		dataApi = new BeanToGet(new MessagePackDeserializer().deserialize(byteArray));
+	public GetToInflator() throws IOException {
+
 	}
 
 	/**
-	 * Generate a structure from bytes using a structure inflator.
-	 * @param inputStructInflator the structure inflator to be used
-	 * @param parsingParams the parsing parameters object to be used when inflating. 
+	 * Passes data from the data interface to the inflator interface.
 	 */
-	public final void getStructFromByteArray(final MmtfDecoderInterface inputStructInflator) {    
-		// Set the inflator
-		structInflator = inputStructInflator;
+	public void read(MmtfDecodedDataInterface inputApi, MmtfDecoderInterface inputInflator){
+		// Set the api and the inflator
+		dataApi = inputApi;
+		structInflator = inputInflator;
 		// Do any required preparation
-		inputStructInflator.initStructure(dataApi.getNumAtoms(), dataApi.getNumGroups(), dataApi.getNumChains(), dataApi.getNumModels(), dataApi.getStructureId());
+		structInflator.initStructure(dataApi.getNumAtoms(), dataApi.getNumGroups(), dataApi.getNumChains(), dataApi.getNumModels(), dataApi.getStructureId());
 		// Now add the atom information
 		addAtomicInformation();
 		// Now add the header information.
@@ -68,7 +64,7 @@ public class GetToInflator {
 		// Now do any required cleanup
 		structInflator.finalizeStructure();
 	}
-
+	
 	/**
 	 * Add the main atomic information to the data model
 	 */
@@ -234,6 +230,7 @@ public class GetToInflator {
 			}
 		}
 	}
+
 
 
 
