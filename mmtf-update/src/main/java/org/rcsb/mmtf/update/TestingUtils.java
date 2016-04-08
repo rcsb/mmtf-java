@@ -11,7 +11,6 @@ import org.biojava.nbio.structure.StructureIO;
 import org.biojava.nbio.structure.align.util.AtomCache;
 import org.biojava.nbio.structure.io.FileParsingParameters;
 import org.biojava.nbio.structure.io.mmtf.MmtfStructureReader;
-import org.rcsb.mmtf.biojavaencoder.BiojavaEncoderImpl;
 import org.rcsb.mmtf.decoder.GetApiToInflatorInterface;
 import org.rcsb.mmtf.encoder.GetApiToBean;
 import org.rcsb.mmtf.testutils.CheckOnBiojava;

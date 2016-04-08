@@ -20,8 +20,8 @@ import org.biojava.nbio.structure.StructureIO;
 import org.biojava.nbio.structure.io.mmcif.model.ChemComp;
 import org.biojava.nbio.structure.io.mmcif.model.ChemCompAtom;
 import org.biojava.nbio.structure.io.mmcif.model.ChemCompBond;
+import org.biojava.nbio.structure.io.mmtf.MmtfUtils;
 import org.biojava.nbio.structure.rcsb.GetRepresentatives;
-import org.rcsb.mmtf.biojavaencoder.BiojavaUtils;
 
 public class CheckBonds {
 
@@ -34,11 +34,10 @@ public class CheckBonds {
 	public void testAllConsistency() throws IOException, StructureException {
 
 		// Set up biojava
-		BiojavaUtils biojavaUtils = new BiojavaUtils();
-		biojavaUtils.setUpBioJava();
+		MmtfUtils.setUpBioJava();
 		for (String testCase : GetRepresentatives.getAll()) {
 			Structure structure = StructureIO.getStructure(testCase);
-			biojavaUtils.fixMicroheterogenity(structure);
+			MmtfUtils.fixMicroheterogenity(structure);
 			checkIfBondsExist(structure);
 		}
 	}

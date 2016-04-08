@@ -1,9 +1,9 @@
-package org.rcsb.mmtf.decoder;
+package org.rcsb.mmtf.sedeserializers;
 
 import java.io.IOException;
 
 import org.msgpack.jackson.dataformat.MessagePackFactory;
-import org.rcsb.mmtf.api.ByteArrayToObjectConverterInterface;
+import org.rcsb.mmtf.api.SerializerInterface;
 import org.rcsb.mmtf.dataholders.MmtfBean;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -13,10 +13,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  * @author Anthony Bradley
  *
  */
-public class ByteArrayMessagePackConverter implements ByteArrayToObjectConverterInterface {
+public class ByteArrayMessagePackConverter implements SerializerInterface {
 
 	@Override
-	public MmtfBean convert(byte[] byteArray) {
+	public MmtfBean deserialize(byte[] byteArray) {
 		MmtfBean mmtfBean = null;
 		try {
 			mmtfBean = new ObjectMapper(new MessagePackFactory()).readValue(byteArray, MmtfBean.class);
@@ -27,5 +27,12 @@ public class ByteArrayMessagePackConverter implements ByteArrayToObjectConverter
 		}
 		return mmtfBean;
 	}
+	
+	@Override
+	public byte[] serialize(MmtfBean mmtfBean) {
+		return new byte[0];
+		
+	}
+
 
 }

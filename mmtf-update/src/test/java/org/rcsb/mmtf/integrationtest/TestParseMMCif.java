@@ -11,16 +11,13 @@ import org.biojava.nbio.structure.StructureException;
 import org.biojava.nbio.structure.StructureIO;
 import org.biojava.nbio.structure.align.util.AtomCache;
 import org.biojava.nbio.structure.io.FileParsingParameters;
+import org.biojava.nbio.structure.io.mmtf.MmtfUtils;
 import org.junit.Test;
-import org.rcsb.mmtf.biojavaencoder.BiojavaUtils;
-import org.rcsb.mmtf.dataholders.BiojavaEncoderImpl;
-import org.rcsb.mmtf.dataholders.EncoderInterface;
 import org.rcsb.mmtf.dataholders.MmtfBean;
 import org.rcsb.mmtf.dataholders.PDBGroup;
 import org.rcsb.mmtf.encoder.EncoderUtils;
 import org.rcsb.mmtf.update.IntegrationTestUtils;
 import org.rcsb.mmtf.update.TestingUtils;
-import org.unitils.reflectionassert.ReflectionAssert;
 
 /**
  * Tests to see if parsing using Biojava using mmCIF and mmtf produces the same data structure.
@@ -35,8 +32,7 @@ public class TestParseMMCif {
 
 	public TestParseMMCif(){
 		// Set up biojava
-		BiojavaUtils biojavaUtils = new BiojavaUtils();
-		cache = biojavaUtils.setUpBioJava();
+		cache = MmtfUtils.setUpBioJava();
 		params = cache.getFileParsingParams();
 	}
 
@@ -69,10 +65,7 @@ public class TestParseMMCif {
 		// Utility functions for encoding stuff
 		EncoderUtils eu = new EncoderUtils();
 		// Get the utility class to get the structures
-		EncoderInterface parsedDataStruct = new BiojavaEncoderImpl();
-		Map<Integer, PDBGroup> totMap = new HashMap<Integer, PDBGroup>();
-		// Parse the data into the basic data structure
-		parsedDataStruct.generateDataStructuresFromPdbId(pdbId, totMap);
+		
 		MmtfBean mmtfBean = null;
 		// Compress the data and get it back out
 		mmtfBean = eu.compressToMmtfBean(parsedDataStruct.getBioStruct(), parsedDataStruct.getHeaderStruct());

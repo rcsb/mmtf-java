@@ -5,6 +5,7 @@ import java.util.Set;
 
 import org.rcsb.mmtf.api.MmtfDecodedDataInterface;
 import org.rcsb.mmtf.api.MmtfDecoderInterface;
+import org.rcsb.mmtf.sedeserializers.ByteArrayMessagePackConverter;
 
 /**
  * Decode an MMTF structure using a structure inflator. 
@@ -37,7 +38,7 @@ public class GetApiToInflatorInterface {
 	 */
 	public GetApiToInflatorInterface(byte[] byteArray) {
 		// Create the instance of this API
-		dataApi = new BeanToGetApi(new ByteArrayMessagePackConverter().convert(byteArray));
+		dataApi = new BeanToGetApi(new ByteArrayMessagePackConverter().deserialize(byteArray));
 	}
 
 	/**

@@ -9,7 +9,7 @@ import java.util.List;
 import org.biojava.nbio.structure.StructureException;
 import org.biojava.nbio.structure.align.util.AtomCache;
 import org.biojava.nbio.structure.io.FileParsingParameters;
-import org.rcsb.mmtf.biojavaencoder.BiojavaUtils;
+import org.biojava.nbio.structure.io.mmtf.MmtfUtils;
 import org.rcsb.mmtf.update.ServerUtils;
 import org.rcsb.mmtf.update.TestingUtils;
 import org.rcsb.mmtf.update.WeeklyUpdateUtils;
@@ -37,9 +37,8 @@ public class DataConsistencyCheck {
 
 
 		// Set up the atom cache etc
-	  	BiojavaUtils biojavaUtils = new BiojavaUtils();
 	  	ServerUtils serverUtils = new ServerUtils();
-	  	AtomCache cache = biojavaUtils.setUpBioJava(args[3]);
+	  	AtomCache cache = MmtfUtils.setUpBioJava(args[3]);
 	  	// Now get the list of PDB ids to ignore
 	  	List<String> ignoreList = new ArrayList<>();
 	  	for (int i=4; i<args.length; i++) {
