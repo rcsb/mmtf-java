@@ -1,5 +1,7 @@
 package org.rcsb.mmtf.examples;
 
+import java.io.IOException;
+
 import org.rcsb.mmtf.api.MmtfDecodedDataInterface;
 
 /**
@@ -12,8 +14,9 @@ public class DemoUnpackStructure {
 	/**
 	 * Main function to run the demo class
 	 * @param args no args required
+	 * @throws IOException 
 	 */
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 		// Create an instance of the handle IO class
 		HandleIO handleIO = new HandleIO();
 		// The index of a given chain

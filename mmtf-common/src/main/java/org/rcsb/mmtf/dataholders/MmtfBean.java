@@ -126,7 +126,7 @@ public class MmtfBean implements Serializable {
 	private byte[] sequenceIdList;
 
 	/** The experimental method(s). */
-	private List<String> experimentalMethods;
+	private String[] experimentalMethods;
 
 	/** The resolution in Angstrom. Null if not applicable*/
 	private float resolution;
@@ -784,14 +784,14 @@ public class MmtfBean implements Serializable {
 	/**
 	 * @return the experimental methods
 	 */
-	public List<String> getExperimentalMethods() {
+	public String[] getExperimentalMethods() {
 		return experimentalMethods;
 	}
 
 	/**
 	 * @param experimentalMethods the experimental methods to set
 	 */
-	public void setExperimentalMethods(List<String> experimentalMethods) {
+	public void setExperimentalMethods(String[] experimentalMethods) {
 		this.experimentalMethods = experimentalMethods;
 	}
 
@@ -838,6 +838,7 @@ public class MmtfBean implements Serializable {
 	public void setDepositionDate(String depositionDate) {
 		this.depositionDate = depositionDate;
 	}
+
 
 
 }

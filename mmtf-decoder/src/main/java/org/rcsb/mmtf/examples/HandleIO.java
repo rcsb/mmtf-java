@@ -57,8 +57,9 @@ public class HandleIO {
 	 * Gets the data API from a url.
 	 * @param inputCode the input code
 	 * @return 
+	 * @throws IOException 
 	 */
-	public final MmtfDecodedDataInterface getDataApiFromUrlOrFile(final String inputCode) {
+	public final MmtfDecodedDataInterface getDataApiFromUrlOrFile(final String inputCode) throws IOException {
 		String basePath = getBasePath();
 		boolean isFile = getFile(basePath, inputCode);
 		// If it's a file on the file system - get it

@@ -11,7 +11,7 @@ import org.rcsb.mmtf.dataholders.Entity;
 import org.rcsb.mmtf.dataholders.PDBGroup;
 
 /**
- * A class for the encoding data api.
+ * A class to move data from the DecoderInterface to the DecodedDataInterface
  * @author Anthony Bradley
  *
  */

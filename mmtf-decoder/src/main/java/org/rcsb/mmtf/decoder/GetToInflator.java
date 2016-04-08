@@ -1,5 +1,6 @@
 package org.rcsb.mmtf.decoder;
 
+import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -35,8 +36,9 @@ public class GetToInflator {
 	/**
 	 * The constructor requires a byte array to fill the data. This will decompress the arrays using our bespoke methods.
 	 * @param byteArray An unentropy encoded byte array with the data as found in the MMTF format
+	 * @throws IOException 
 	 */
-	public GetToInflator(byte[] byteArray) {
+	public GetToInflator(byte[] byteArray) throws IOException {
 		// Create the instance of this API
 		dataApi = new BeanToGet(new MessagePackDeserializer().deserialize(byteArray));
 	}

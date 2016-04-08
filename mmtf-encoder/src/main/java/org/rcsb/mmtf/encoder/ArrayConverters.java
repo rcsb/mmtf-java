@@ -69,6 +69,21 @@ public class ArrayConverters {
 
 		return baos.toByteArray();
 	}
+	
+	/**
+	 * Convert a float array to an integer array by multiplying by a float.
+	 * @param intArray the input integer array to be divided
+	 * @param floatDivider the float divider to divide the integers by.
+	 * @return a float array converted from the input.
+	 */
+	public static int[] convertFloatsToInts(float[] floatArray, float floatMultiplier) {
+		// Assign the output array to write
+		int[] outArray = new int[floatArray.length];
+		for (int i=0; i<floatArray.length; i++) {
+			outArray[i] = (int) Math.round(floatArray[i] * floatMultiplier);
+		}
+		return outArray;
+	}
 
 	/**
 	 * Convert an input array of integers to two arrays. The first output array is a 
@@ -121,5 +136,49 @@ public class ArrayConverters {
 			outArray[i] = charArray[i];
 		}
 		return outArray;
+	}
+
+	
+	public static byte[] encodeChainList(String[] chainNames) {
+		byte[] outArr = new byte[chainNames.length*4];
+		for(int i=0; i<chainNames.length;i++) {
+			setChainId(chainNames[i], outArr, i);
+		}
+		return outArr;
+	}
+	
+
+	/**
+	 * Add the String chain id to a byte array
+	 * @param chainId the chain id string
+	 * @param byteArr the byte array to add to
+	 * @param chainIndex the index of this chain
+	 */
+	private static void setChainId(String chainId, byte[] byteArr, int chainIndex) {
+		// A char array to store the chars
+		char[] outChar = new char[4];
+		// The lenght of this chain id
+		int chainIdLen =  chainId.length();
+		chainId.getChars(0, chainIdLen, outChar, 0);
+		// Set the bytrarray - chain ids can be up to 4 chars - pad with empty bytes
+		byteArr[chainIndex*4+0] = (byte) outChar[0];
+		if(chainIdLen>1){
+			byteArr[chainIndex*4+1] = (byte) outChar[1];
+		}
+		else{
+			byteArr[chainIndex*4+1] = (byte) 0;
+		}
+		if(chainIdLen>2){
+			byteArr[chainIndex*4+2] = (byte) outChar[2];
+		}				
+		else{
+			byteArr[chainIndex*4+2] = (byte) 0;
+		}
+		if(chainIdLen>3){
+			byteArr[chainIndex*4+3] = (byte) outChar[3];
+		}				
+		else{
+			byteArr[chainIndex*4+3] =  (byte) 0;
+		}		
 	}
 }
