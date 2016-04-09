@@ -4,20 +4,14 @@ import static org.junit.Assert.assertNotEquals;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
-import java.util.HashMap;
-import java.util.Map;
 
 import org.biojava.nbio.structure.StructureException;
-import org.biojava.nbio.structure.StructureIO;
-import org.biojava.nbio.structure.align.util.AtomCache;
-import org.biojava.nbio.structure.io.FileParsingParameters;
-import org.biojava.nbio.structure.io.mmtf.MmtfUtils;
+import org.biojava.nbio.structure.io.mmtf.MmtfActions;
 import org.junit.Test;
 import org.rcsb.mmtf.dataholders.MmtfBean;
-import org.rcsb.mmtf.dataholders.PDBGroup;
-import org.rcsb.mmtf.encoder.EncoderUtils;
 import org.rcsb.mmtf.update.IntegrationTestUtils;
 import org.rcsb.mmtf.update.TestingUtils;
+import org.unitils.reflectionassert.ReflectionAssert;
 
 /**
  * Tests to see if parsing using Biojava using mmCIF and mmtf produces the same data structure.
@@ -26,33 +20,10 @@ import org.rcsb.mmtf.update.TestingUtils;
  */
 public class TestParseMMCif {
 
-	private AtomCache cache;
-	private FileParsingParameters params;
-	private TestingUtils testingUtils = new TestingUtils();
-
-	public TestParseMMCif(){
-		// Set up biojava
-		cache = MmtfUtils.setUpBioJava();
-		params = cache.getFileParsingParams();
-	}
-
-
 	@Test
-	public void testAsymChainIds() throws IOException, StructureException, IllegalAccessException, InvocationTargetException {
-		// Set the params
-		params.setUseInternalChainId(true);
-		cache.setFileParsingParams(params);
-		StructureIO.setAtomCache(cache);
-		testingUtils.testAll(IntegrationTestUtils.TEST_CASES, params, cache);
-	}
-
-	@Test
-	public void testAuthChainIds() throws IOException, StructureException, IllegalAccessException, InvocationTargetException {
-		// Set the param
-		params.setUseInternalChainId(false);
-		cache.setFileParsingParams(params);
-		StructureIO.setAtomCache(cache);
-		testingUtils.testAll(IntegrationTestUtils.TEST_CASES, params, cache);
+	public void testAll() throws IOException, StructureException, IllegalAccessException, InvocationTargetException {
+		TestingUtils.testList(IntegrationTestUtils.TEST_CASES);
+		testDataComplete("4cup");
 	}
 	
 	/**
@@ -60,15 +31,9 @@ public class TestParseMMCif {
 	 * @throws StructureException 
 	 * @throws IOException 
 	 */
-	private void testDataComplete(String pdbId) throws IOException {
-
-		// Utility functions for encoding stuff
-		EncoderUtils eu = new EncoderUtils();
-		// Get the utility class to get the structures
-		
-		MmtfBean mmtfBean = null;
-		// Compress the data and get it back out
-		mmtfBean = eu.compressToMmtfBean(parsedDataStruct.getBioStruct(), parsedDataStruct.getHeaderStruct());
+	private void testDataComplete(String pdbId) throws IOException, StructureException {
+		// Get an mmtfBean 
+		MmtfBean mmtfBean = MmtfActions.getBean(pdbId);
 		// Make sure all fields are re-populated
 		ReflectionAssert.assertPropertiesNotNull("Some properties are null in mmtf generated from biojava object",  mmtfBean);
 		// Now check the standard ones have been set

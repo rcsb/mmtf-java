@@ -9,9 +9,8 @@ import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.biojava.nbio.structure.Structure;
 import org.biojava.nbio.structure.StructureImpl;
-import org.biojava.nbio.structure.io.mmtf.MmtfStructureReader;
-import org.rcsb.mmtf.biojavaencoder.BiojavaUtils;
-import org.rcsb.mmtf.decoder.GetToInflator;
+import org.biojava.nbio.structure.io.mmtf.MmtfActions;
+import org.biojava.nbio.structure.io.mmtf.MmtfUtils;
 
 /**
  * A class to preserve the log if the functions in mappers. 
@@ -30,13 +29,10 @@ public class MapperUtils implements Serializable{
 	 * @return
 	 */
 	public Structure byteArrToBiojavaStruct(String pdbCodePlus, byte[] inputByteArr) { 
-		MmtfStructureReader bjs = new MmtfStructureReader();
 		Structure newStruct;
 		try{
-			GetToInflator ds = new GetToInflator(inputByteArr);
-		ds.getStructFromByteArray(bjs);
-		newStruct = bjs.getStructure();
-		newStruct.setPDBCode(pdbCodePlus.substring(0,4));}
+			newStruct = MmtfActions.getBiojavaStruct(inputByteArr);
+		}
 		catch(Exception e){
 			System.out.println(e);
 			System.out.println(pdbCodePlus);
@@ -52,12 +48,10 @@ public class MapperUtils implements Serializable{
 	 * @return
 	 */
 	public JavaPairRDD<Text, BytesWritable> generateRDD(JavaSparkContext sparkContext, List<String> inputList, String inputUrl) {
-		// Set up Biojava appropriateyl
-		BiojavaUtils biojavaUtils = new BiojavaUtils();
-		biojavaUtils.setUpBioJava(inputUrl);
+		// Set up Biojava appropriateyl	
+		MmtfUtils.setUpBioJava();
 		return sparkContext.parallelize(inputList)
-		.mapToPair(new PdbIdToDataStruct())
-		.flatMapToPair(new DataStructToByteArrs())
+		.mapToPair(new PdbIdToMmtf())
 		.mapToPair(new StringByteToTextByteWriter());
 	}
 }

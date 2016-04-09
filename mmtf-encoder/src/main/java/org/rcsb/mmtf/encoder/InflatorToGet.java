@@ -129,7 +129,7 @@ public class InflatorToGet implements MmtfDecodedDataInterface, MmtfDecoderInter
 	/** Add the atom information for the current group */
 	PDBGroup pdbGroup;
 	/** A List for Entities as the number of entities is not defined*/
-	List<Entity> entities = new ArrayList<>();
+	List<Entity> entities;
 
 
 	@Override
@@ -394,8 +394,8 @@ public class InflatorToGet implements MmtfDecodedDataInterface, MmtfDecoderInter
 
 	// Now provide the capability to fill this data.
 	@Override
-	public void initStructure(int totalNumAtoms, int totalNumGroups, int totalNumChains, int totalNumModels,
-			String structureId) {
+	public void initStructure(int totalNumAtoms, int totalNumGroups, 
+			int totalNumChains, int totalNumModels, String structureId) {
 		// Intitialise the atom level arrays
 		cartnX = new float[totalNumAtoms];
 		cartnY= new float[totalNumAtoms];
@@ -409,11 +409,16 @@ public class InflatorToGet implements MmtfDecodedDataInterface, MmtfDecoderInter
 		seqResGroupList = new int[totalNumGroups];
 		groupList = new int[totalNumGroups];
 		// Intialise the chain level data 	 	
+		chainList = new String[totalNumChains];
+		publicChainIds = new String[totalNumChains];
+		groupsPerChain = new int[totalNumChains];
 		// Initialise the model level information
 		numModels = totalNumModels;
 		// Set the name
 		pdbId = structureId;
-
+		bioAssembly = new ArrayList<>();
+		entities = new ArrayList<>();
+		chainsPerModel = new int[totalNumModels];
 	}
 
 	@Override
@@ -471,8 +476,6 @@ public class InflatorToGet implements MmtfDecodedDataInterface, MmtfDecoderInter
 		pdbGroup.setGroupName(groupName);
 		pdbGroup.setSingleLetterCode(insertionCode);
 		groupAtomIndex=0;
-		
-		
 		// Store the group level data
 		groupNum[groupIndex] = groupNumber;
 		seqResGroupList[groupIndex] = sequenceIndex;
@@ -503,7 +506,7 @@ public class InflatorToGet implements MmtfDecodedDataInterface, MmtfDecoderInter
 	public void setBioAssemblyTrans(int bioAssemblyIndex, int[] chainIndices, double[] transform) {
 		BioAssemblyData bioAssemblyData;
 		List<BioAssemblyTrans> bioAssemblyTranList;
-		if (bioAssembly.size()>bioAssemblyIndex) {
+		if (bioAssembly.size()<bioAssemblyIndex) {
 			bioAssemblyTranList = bioAssembly.get(bioAssemblyIndex).getTransforms();
 		}
 		else{

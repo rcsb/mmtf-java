@@ -4,6 +4,7 @@ import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,6 +15,7 @@ import org.biojava.nbio.structure.Structure;
 import org.biojava.nbio.structure.io.FileParsingParameters;
 import org.rcsb.mmtf.api.MmtfDecodedDataInterface;
 import org.rcsb.mmtf.decoder.BeanToGet;
+import org.rcsb.mmtf.deserializers.MessagePackDeserializer;
 
 /**
  * Class to test the raw API
@@ -22,8 +24,8 @@ import org.rcsb.mmtf.decoder.BeanToGet;
  */
 public class CheckOnRawApi {
 	MmtfDecodedDataInterface dataApi;
-	public CheckOnRawApi(byte[] inputData) {
-		dataApi = new BeanToGet(inputData);
+	public CheckOnRawApi(byte[] inputData) throws IOException {
+		dataApi = new BeanToGet(new MessagePackDeserializer().deserialize(inputData));
 	}
 
 	/**

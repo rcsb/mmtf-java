@@ -7,8 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.biojava.nbio.structure.StructureException;
-import org.biojava.nbio.structure.align.util.AtomCache;
-import org.biojava.nbio.structure.io.FileParsingParameters;
 import org.biojava.nbio.structure.io.mmtf.MmtfUtils;
 import org.rcsb.mmtf.update.ServerUtils;
 import org.rcsb.mmtf.update.TestingUtils;
@@ -38,14 +36,13 @@ public class DataConsistencyCheck {
 
 		// Set up the atom cache etc
 	  	ServerUtils serverUtils = new ServerUtils();
-	  	AtomCache cache = MmtfUtils.setUpBioJava(args[3]);
+	  	MmtfUtils.setUpBioJava(args[3]);
 	  	// Now get the list of PDB ids to ignore
 	  	List<String> ignoreList = new ArrayList<>();
 	  	for (int i=4; i<args.length; i++) {
 	  		ignoreList.add(args[i]);
 	  	}
 	  	
-	  	FileParsingParameters params = cache.getFileParsingParams();	  	
 	  	
 		// Get the data
 		WeeklyUpdateUtils weeklyUpdate = new WeeklyUpdateUtils();
@@ -56,8 +53,7 @@ public class DataConsistencyCheck {
 			urlList[i] = args[1] + serverUtils.generateDataExtension(listToAdd.get(i));
 		}
 		String outPutFile = args[2];
-		TestingUtils testingUtils = new TestingUtils();
-		testingUtils.testAll(urlList, params, cache);
+		TestingUtils.testList(urlList);
 		File f = new File(outPutFile);
 		f.getParentFile().mkdirs(); 
 		f.createNewFile();

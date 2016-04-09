@@ -5,8 +5,8 @@ import java.io.IOException;
 import org.biojava.nbio.structure.Structure;
 import org.biojava.nbio.structure.StructureException;
 import org.biojava.nbio.structure.StructureIO;
+import org.biojava.nbio.structure.io.mmtf.MmtfUtils;
 import org.junit.Test;
-import org.rcsb.mmtf.biojavaencoder.BiojavaUtils;
 import org.rcsb.mmtf.testutils.CheckBonds;
 import org.rcsb.mmtf.update.IntegrationTestUtils;
 
@@ -28,8 +28,7 @@ public class TestBonds {
 	public void testBondConsistency() throws IOException, StructureException {
 		CheckBonds testUtils = new CheckBonds();
 		// Set up biojava
-		BiojavaUtils biojavaUtils = new BiojavaUtils();
-		biojavaUtils.setUpBioJava();
+		MmtfUtils.setUpBioJava();
 		for (String testCase : IntegrationTestUtils.TEST_CASES) {
 			Structure structure = StructureIO.getStructure(testCase);
 			testUtils.checkIfBondsExist(structure);
