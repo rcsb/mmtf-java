@@ -82,7 +82,6 @@ public interface MmtfDecodedDataInterface {
 	 */
 	int[] getGroupIds();
 
-
 	/**
 	 * Returns the group name for the group specified in {@link #getGroupTypeIndices()}.
 	 * to link groups to the 3 letter group name, e.g. HIS.
@@ -317,6 +316,12 @@ public interface MmtfDecodedDataInterface {
 	 */
 	int getNumModels();
 
+	/**
+	 * Returns the total number of bonds in the structure
+	 * @resturn the number of bonds
+	 */
+	int getNumBonds();
+	
 	/**
 	 * Returns the number of chains (for all models) in the structure.
 	 * @return the number of chains for all models

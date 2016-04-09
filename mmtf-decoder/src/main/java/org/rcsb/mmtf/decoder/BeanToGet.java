@@ -23,26 +23,26 @@ public class BeanToGet implements MmtfDecodedDataInterface {
 		cartnX = ArrayConverters.convertIntsToFloats(
 				ArrayDecoders.deltaDecode(
 						ArrayConverters.combineIntegers(
-								ArrayConverters.convertTwoByteToIntegers(inputData.getxCoordBig()),
-								ArrayConverters.convertFourByteToIntegers(inputData.getxCoordSmall()))),
+								ArrayConverters.convertTwoByteToIntegers(inputData.getxCoordSmall()),
+								ArrayConverters.convertFourByteToIntegers(inputData.getxCoordBig()))),
 				MmtfBean.COORD_DIVIDER);
 		cartnY = ArrayConverters.convertIntsToFloats(
 				ArrayDecoders.deltaDecode(
 						ArrayConverters.combineIntegers(
-								ArrayConverters.convertTwoByteToIntegers(inputData.getyCoordBig()),
-								ArrayConverters.convertFourByteToIntegers(inputData.getyCoordSmall()))),
+								ArrayConverters.convertTwoByteToIntegers(inputData.getyCoordSmall()),
+								ArrayConverters.convertFourByteToIntegers(inputData.getyCoordBig()))),
 				MmtfBean.COORD_DIVIDER);
 		cartnZ = ArrayConverters.convertIntsToFloats(
 				ArrayDecoders.deltaDecode(
 						ArrayConverters.combineIntegers(
-								ArrayConverters.convertTwoByteToIntegers(inputData.getzCoordBig()),
-								ArrayConverters.convertFourByteToIntegers(inputData.getzCoordSmall()))),
+								ArrayConverters.convertTwoByteToIntegers(inputData.getzCoordSmall()),
+								ArrayConverters.convertFourByteToIntegers(inputData.getzCoordBig()))),
 				MmtfBean.COORD_DIVIDER);
 		bFactor = ArrayConverters.convertIntsToFloats(
 				ArrayDecoders.deltaDecode(
 						ArrayConverters.combineIntegers(
-								ArrayConverters.convertTwoByteToIntegers(inputData.getbFactorBig()),
-								ArrayConverters.convertFourByteToIntegers(inputData.getbFactorSmall()))),
+								ArrayConverters.convertTwoByteToIntegers(inputData.getbFactorSmall()),
+								ArrayConverters.convertFourByteToIntegers(inputData.getbFactorBig()))),
 				MmtfBean.OCCUPANCY_BFACTOR_DIVIDER);
 		// Run length decode the occupancy array
 		occupancy = ArrayConverters.convertIntsToFloats(
@@ -66,9 +66,8 @@ public class BeanToGet implements MmtfDecodedDataInterface {
 		groupMap = inputData.getGroupList();
 		// Get the seqRes groups
 		seqResGroupList = ArrayDecoders.deltaDecode(
-				ArrayDecoders.runlengthDecode(
 						ArrayConverters.convertFourByteToIntegers(
-								inputData.getSequenceIdList())));
+								inputData.getSequenceIdList()));
 		// Get the number of chains per model
 		chainsPerModel = inputData.getChainsPerModel();
 		groupsPerChain = inputData.getGroupsPerChain();
@@ -453,6 +452,15 @@ public class BeanToGet implements MmtfDecodedDataInterface {
 	@Override
 	public String getDepositionDate() {
 		return depositionDate;
+	}
+
+	@Override
+	public int getNumBonds() {
+		int numIntergroupBonds = interGroupBondOrders.length;
+		for(int groupIndex : groupList) {
+			numIntergroupBonds+=groupMap[groupIndex].getBondOrderList().length;
+		}
+		return numIntergroupBonds;
 	}
 
 

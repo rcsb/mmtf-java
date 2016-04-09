@@ -18,6 +18,7 @@ public class GetToBean {
 	private MmtfBean mmtfBean;
 
 	public GetToBean(MmtfDecodedDataInterface mmtfDecodedDataInterface) throws IOException {
+		mmtfBean = new MmtfBean();
 		// Set the group types
 		mmtfBean.setGroupTypeList(
 				ArrayConverters.convertIntegersToFourByte(

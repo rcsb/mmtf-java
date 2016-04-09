@@ -48,7 +48,8 @@ public class GetToInflator implements MmtfReader {
 		dataApi = inputApi;
 		structInflator = inputInflator;
 		// Do any required preparation
-		structInflator.initStructure(dataApi.getNumAtoms(), dataApi.getNumGroups(), dataApi.getNumChains(), dataApi.getNumModels(), dataApi.getStructureId());
+		structInflator.initStructure(dataApi.getNumBonds(), dataApi.getNumAtoms(), dataApi.getNumGroups(), 
+				dataApi.getNumChains(), dataApi.getNumModels(), dataApi.getStructureId());
 		// Now add the atom information
 		addAtomicInformation();
 		// Now add the header information.
@@ -146,7 +147,7 @@ public class GetToInflator implements MmtfReader {
 		int currentGroupNumber = dataApi.getGroupIds()[currentGroupIndex];
 		char insertionCode = dataApi.getInsCodes()[currentGroupIndex];
 		structInflator.setGroupInfo(dataApi.getGroupName(groupInd), currentGroupNumber, insertionCode,
-				dataApi.getGroupChemCompType(groupInd), atomCount, dataApi.getGroupSingleLetterCode(groupInd),
+				dataApi.getGroupChemCompType(groupInd), atomCount, dataApi.getNumBonds(), dataApi.getGroupSingleLetterCode(groupInd),
 				dataApi.getGroupSequenceIndices()[currentGroupIndex]);
 		// A counter for the atom information
 		atomCounter = 0;

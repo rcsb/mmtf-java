@@ -21,12 +21,11 @@ public class FtpServerTest {
 	public static void main(String[] args) throws IOException {
 		String url = args[0];
 		String outPutFile = args[1];
-		ServerUtils serverUtils = new ServerUtils();
 		FtpServerTest ftpServerTest = new FtpServerTest();
 		PullFtpData pullFtpData = new PullFtpData(url);
 		// Get the host and port
 		// First check we can ping the server
-		assertTrue(serverUtils.pingServer(url));
+		assertTrue(ServerUtils.pingServer(url));
 		// Check this is not empty
 		String[] currentEntries;
 		currentEntries = pullFtpData.getAllCurrentEntries();

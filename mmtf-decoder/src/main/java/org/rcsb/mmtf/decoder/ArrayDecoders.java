@@ -33,7 +33,7 @@ public class ArrayDecoders {
 	 * @return the decoded integer array
 	 */
 	public static int[] runlengthDecode(int[] integerArray) {
-		// We don't know the lenght so need a List 
+		// We don't know the length so need a List 
 		List<Integer> outList = new ArrayList<>();
 		for (int i=0; i<integerArray.length; i+=2) {
 			int currentInt = integerArray[i];

@@ -130,6 +130,7 @@ public class InflatorToGet implements MmtfDecodedDataInterface, MmtfDecoderInter
 	PDBGroup pdbGroup;
 	/** A List for Entities as the number of entities is not defined*/
 	List<Entity> entities;
+	int totalNumBonds;
 
 
 	@Override
@@ -394,17 +395,23 @@ public class InflatorToGet implements MmtfDecodedDataInterface, MmtfDecoderInter
 
 	// Now provide the capability to fill this data.
 	@Override
-	public void initStructure(int totalNumAtoms, int totalNumGroups, 
+	public void initStructure(int totalNumBonds, int totalNumAtoms, int totalNumGroups, 
 			int totalNumChains, int totalNumModels, String structureId) {
+		this.totalNumBonds = totalNumBonds;
+		// Intitialise the bond level info
+		interGroupBondIndices = new int[totalNumBonds*2];
+		interGroupBondOrders = new int[totalNumBonds];
 		// Intitialise the atom level arrays
 		cartnX = new float[totalNumAtoms];
 		cartnY= new float[totalNumAtoms];
 		cartnZ = new float[totalNumAtoms];
 		occupancy = new float[totalNumAtoms];
 		bFactor = new float[totalNumAtoms];
-		atomId = new int[totalNumAtoms];		
+		atomId = new int[totalNumAtoms];	
+		altId = new char[totalNumAtoms];
 		// Initialise the group level data
-		altId = new char[totalNumGroups];
+		groupNum = new int[totalNumGroups];
+		groupMap = new ArrayList<>();
 		insertionCodeList = new char[totalNumGroups];
 		seqResGroupList = new int[totalNumGroups];
 		groupList = new int[totalNumGroups];
@@ -455,7 +462,7 @@ public class InflatorToGet implements MmtfDecodedDataInterface, MmtfDecoderInter
 
 	@Override
 	public void setGroupInfo(String groupName, int groupNumber, char insertionCode, String polymerType, 
-			int atomCount, char singleAtomCode, int sequenceIndex) {
+			int atomCount, int bondCount, char singleAtomCode, int sequenceIndex) {
 		// If it's not the first go
 		if(pdbGroup!=null) {
 			// Now add this to the list or find it in the list 
@@ -469,8 +476,8 @@ public class InflatorToGet implements MmtfDecodedDataInterface, MmtfDecoderInter
 		pdbGroup = new PDBGroup();
 		pdbGroup.setAtomChargeList(new int[atomCount]);
 		pdbGroup.setAtomNameList(new String[atomCount]);
-		pdbGroup.setBondAtomList(new int[atomCount]);
-		pdbGroup.setBondOrderList(new int[atomCount]);
+		pdbGroup.setBondAtomList(new int[bondCount*2]);
+		pdbGroup.setBondOrderList(new int[bondCount]);
 		pdbGroup.setChemCompType(polymerType);
 		pdbGroup.setElementList(new String[atomCount]);
 		pdbGroup.setGroupName(groupName);
@@ -558,6 +565,12 @@ public class InflatorToGet implements MmtfDecodedDataInterface, MmtfDecoderInter
 
 	private PDBGroup getGroup(int groupInd) {
 		return groupMap.get(groupList[groupInd]);
+	}
+
+
+	@Override
+	public int getNumBonds() {
+		return totalNumBonds;
 	}
 
 }

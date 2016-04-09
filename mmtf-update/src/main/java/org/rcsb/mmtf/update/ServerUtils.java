@@ -16,7 +16,7 @@ public class ServerUtils {
 	 * @return
 	 * @throws MalformedURLException 
 	 */
-	public boolean pingServer(String urlInput) throws MalformedURLException {
+	public static boolean pingServer(String urlInput) throws MalformedURLException {
 		URL thisUrl = new URL(urlInput);
 		String host = thisUrl.getHost();
 		int port = thisUrl.getPort();

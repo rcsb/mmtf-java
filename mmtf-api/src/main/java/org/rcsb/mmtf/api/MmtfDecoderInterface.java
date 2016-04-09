@@ -10,13 +10,15 @@ public interface MmtfDecoderInterface {
 	/**
 	 * Used before any additions to do any required pre-processing.
 	 * For example the user could use this to specify the amount of memory to be allocated.
+	 * @param totalNumBonds the total number of bonds in the structure
 	 * @param totalNumAtoms the total number of atoms found in the data.
 	 * @param totalNumGroups the total number of groups found in the data.
 	 * @param totalNumChains the total number of chains found in the data.
 	 * @param totalNumModels the total number of models found in the data.
 	 * @param structureId an identifier for the structure (e.g. PDB id).
 	 */
-	void initStructure(int totalNumAtoms, int totalNumGroups, int totalNumChains, int totalNumModels, String structureId);
+	void initStructure(int totalNumBonds, int totalNumAtoms, int totalNumGroups, int totalNumChains, 
+			int totalNumModels, String structureId);
 
 	/**
 	 * A generic function to be used at the end of all data addition to do required cleanup on the structure
@@ -56,11 +58,12 @@ public interface MmtfDecoderInterface {
 	 * @param insertionCode the one letter insertion code
 	 * @param groupType a string indicating the type of group (as found in the chemcomp dictionary. Empty string if none available.
 	 * @param atomCount the number of atoms in the group
+	 * @param bondCount the number of unique bonds in the group
 	 * @param singleLetterCode the single letter code of the group
 	 * @param sequenceIndex the index of this group in the sequence
 	 */
 	void setGroupInfo(String groupName, int groupNumber, char insertionCode,
-			String groupType, int atomCount, char singleLetterCode, int sequenceIndex);
+			String groupType, int atomCount, int boundCount, char singleLetterCode, int sequenceIndex);
 
 
 	/**

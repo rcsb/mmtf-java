@@ -26,6 +26,7 @@
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
+			<scope>build</scope>
 		</dependency>
 
 		<!-- logging dependencies (managed by parent pom, don't set versions or 

@@ -577,7 +577,7 @@ public class MmtfBean implements Serializable {
 	 *
 	 * @param resOrder the new group type list
 	 */
-	public final void setGroupTypeList(final byte[] resOrder) {
+	public final void setGroupTypeList(byte[] resOrder) {
 		this.groupTypeList = resOrder;
 	}
 
