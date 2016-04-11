@@ -8,7 +8,7 @@ import org.biojava.nbio.structure.StructureIO;
 import org.biojava.nbio.structure.io.mmtf.MmtfUtils;
 import org.junit.Test;
 import org.rcsb.mmtf.testutils.CheckBonds;
-import org.rcsb.mmtf.update.IntegrationTestUtils;
+import org.rcsb.mmtf.testutils.IntegrationTestUtils;
 
 /**
  * Tests to see that all bonds are being generated using Biojava.

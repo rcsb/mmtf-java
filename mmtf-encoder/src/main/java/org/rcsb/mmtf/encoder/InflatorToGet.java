@@ -1,6 +1,7 @@
 package org.rcsb.mmtf.encoder;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import org.rcsb.mmtf.api.MmtfDecodedDataInterface;
@@ -9,6 +10,7 @@ import org.rcsb.mmtf.dataholders.BioAssemblyData;
 import org.rcsb.mmtf.dataholders.BioAssemblyTrans;
 import org.rcsb.mmtf.dataholders.Entity;
 import org.rcsb.mmtf.dataholders.PDBGroup;
+import org.rcsb.mmtf.utils.CodecUtils;
 
 /**
  * A class to move data from the DecoderInterface to the DecodedDataInterface
@@ -73,10 +75,10 @@ public class InflatorToGet implements MmtfDecodedDataInterface, MmtfDecoderInter
 	private List<BioAssemblyData> bioAssembly;
 
 	/** The bond indices for bonds between groups*/
-	private int[] interGroupBondIndices;
+	private List<Integer> interGroupBondIndices;
 
 	/** The bond orders for bonds between groups*/
-	private int[] interGroupBondOrders;
+	private List<Integer> interGroupBondOrders;
 
 	/** The chosen list of chain ids */
 	private String[] chainList;
@@ -113,11 +115,16 @@ public class InflatorToGet implements MmtfDecodedDataInterface, MmtfDecoderInter
 
 	/** The total number of models */
 	private int numModels;
+	
+	/** The secondary structure information */
+	private int[] secStructInfo;
 
 	/** The atom counter */
 	int atomIndex = 0;
 	/** The atom counter within a group*/
 	int groupAtomIndex = 0;
+	/** The current group bond */
+	int groupBondIndex = 0;
 	/** The group counter */
 	int groupIndex = 0;
 	/** The chain counter */
@@ -131,6 +138,7 @@ public class InflatorToGet implements MmtfDecodedDataInterface, MmtfDecoderInter
 	/** A List for Entities as the number of entities is not defined*/
 	List<Entity> entities;
 	int totalNumBonds;
+	List<PDBGroup> pdbGroupList;
 
 
 	@Override
@@ -289,12 +297,12 @@ public class InflatorToGet implements MmtfDecodedDataInterface, MmtfDecoderInter
 
 	@Override
 	public int[] getInterGroupBondIndices() {
-		return interGroupBondIndices;
+		return CodecUtils.convertToIntArray(interGroupBondIndices);
 	}
 
 	@Override
 	public int[] getInterGroupBondOrders() {
-		return interGroupBondOrders;
+		return CodecUtils.convertToIntArray(interGroupBondOrders);
 	}
 
 	@Override
@@ -393,14 +401,13 @@ public class InflatorToGet implements MmtfDecodedDataInterface, MmtfDecoderInter
 	}
 
 
-	// Now provide the capability to fill this data.
 	@Override
 	public void initStructure(int totalNumBonds, int totalNumAtoms, int totalNumGroups, 
 			int totalNumChains, int totalNumModels, String structureId) {
 		this.totalNumBonds = totalNumBonds;
 		// Intitialise the bond level info
-		interGroupBondIndices = new int[totalNumBonds*2];
-		interGroupBondOrders = new int[totalNumBonds];
+		interGroupBondIndices = new ArrayList<>();
+		interGroupBondOrders = new ArrayList<>();
 		// Intitialise the atom level arrays
 		cartnX = new float[totalNumAtoms];
 		cartnY= new float[totalNumAtoms];
@@ -411,9 +418,11 @@ public class InflatorToGet implements MmtfDecodedDataInterface, MmtfDecoderInter
 		altId = new char[totalNumAtoms];
 		// Initialise the group level data
 		groupNum = new int[totalNumGroups];
-		groupMap = new ArrayList<>();
+		// List for storing the group level information
+		pdbGroupList = new ArrayList<>();
 		insertionCodeList = new char[totalNumGroups];
 		seqResGroupList = new int[totalNumGroups];
+		secStructInfo = new int[totalNumGroups];
 		groupList = new int[totalNumGroups];
 		// Intialise the chain level data 	 	
 		chainList = new String[totalNumChains];
@@ -432,6 +441,12 @@ public class InflatorToGet implements MmtfDecodedDataInterface, MmtfDecoderInter
 	public void finalizeStructure() {
 		// Convert the entities array to a list
 		entityList = entities.toArray(new Entity[0]);
+		// Cleanup the group list
+		groupMap = new ArrayList<>(new HashSet<>(pdbGroupList));
+		for(int i=0; i<pdbGroupList.size(); i++){		
+			// Find the index of this groups information.
+			groupList[i] = groupMap.indexOf(pdbGroupList.get(i));
+		}
 	}
 
 	@Override
@@ -462,18 +477,10 @@ public class InflatorToGet implements MmtfDecodedDataInterface, MmtfDecoderInter
 
 	@Override
 	public void setGroupInfo(String groupName, int groupNumber, char insertionCode, String polymerType, 
-			int atomCount, int bondCount, char singleAtomCode, int sequenceIndex) {
-		// If it's not the first go
-		if(pdbGroup!=null) {
-			// Now add this to the list or find it in the list 
-			if (!groupMap.contains(pdbGroup)) {
-				groupMap.add(pdbGroup);
-			}
-			// Add this index to the group list
-			groupList[groupIndex-1] = groupMap.indexOf(pdbGroup);
-		}
+			int atomCount, int bondCount, char singleAtomCode, int sequenceIndex, int secStructType) {
 		// Make a new PDBGroup to store the repeated information
 		pdbGroup = new PDBGroup();
+		pdbGroupList.add(pdbGroup);
 		pdbGroup.setAtomChargeList(new int[atomCount]);
 		pdbGroup.setAtomNameList(new String[atomCount]);
 		pdbGroup.setBondAtomList(new int[bondCount*2]);
@@ -483,9 +490,11 @@ public class InflatorToGet implements MmtfDecodedDataInterface, MmtfDecoderInter
 		pdbGroup.setGroupName(groupName);
 		pdbGroup.setSingleLetterCode(insertionCode);
 		groupAtomIndex=0;
+		groupBondIndex=0;
 		// Store the group level data
 		groupNum[groupIndex] = groupNumber;
 		seqResGroupList[groupIndex] = sequenceIndex;
+		secStructInfo[groupIndex] = secStructType;
 		groupIndex++;
 	}
 
@@ -513,7 +522,7 @@ public class InflatorToGet implements MmtfDecodedDataInterface, MmtfDecoderInter
 	public void setBioAssemblyTrans(int bioAssemblyIndex, int[] chainIndices, double[] transform) {
 		BioAssemblyData bioAssemblyData;
 		List<BioAssemblyTrans> bioAssemblyTranList;
-		if (bioAssembly.size()<bioAssemblyIndex) {
+		if (bioAssembly.size()>bioAssemblyIndex) {
 			bioAssemblyTranList = bioAssembly.get(bioAssemblyIndex).getTransforms();
 		}
 		else{
@@ -525,6 +534,7 @@ public class InflatorToGet implements MmtfDecodedDataInterface, MmtfDecoderInter
 		BioAssemblyTrans bioAssemblyTrans = new BioAssemblyTrans();
 		bioAssemblyTrans.setChainIndexList(chainIndices);
 		bioAssemblyTrans.setTransformation(transform);
+		bioAssemblyTranList.add(bioAssemblyTrans);
 	}
 
 	@Override
@@ -536,19 +546,20 @@ public class InflatorToGet implements MmtfDecodedDataInterface, MmtfDecoderInter
 	@Override
 	public void setGroupBond(int firstAtomIndex, int secondAtomIndex, int bondOrder) {
 		// Set the bond indices
-		pdbGroup.getBondAtomList()[groupAtomIndex*2] = firstAtomIndex;
-		pdbGroup.getBondAtomList()[groupAtomIndex*2+1] = secondAtomIndex;
+		pdbGroup.getBondAtomList()[groupBondIndex*2] = firstAtomIndex;
+		pdbGroup.getBondAtomList()[groupBondIndex*2+1] = secondAtomIndex;
 		// Set the bond order
-		pdbGroup.getBondOrderList()[groupAtomIndex] = bondOrder;
+		pdbGroup.getBondOrderList()[groupBondIndex] = bondOrder;
+		groupBondIndex++;
 	}
 
 	@Override
 	public void setInterGroupBond(int firstAtomIndex, int secondAtomIndex, int bondOrder) {
 		// Set the bond indices
-		interGroupBondIndices[atomIndex*2] = firstAtomIndex;
-		interGroupBondIndices[atomIndex*2+1] = secondAtomIndex;
+		interGroupBondIndices.add(firstAtomIndex);
+		interGroupBondIndices.add(secondAtomIndex);
 		// Set the bond order
-		interGroupBondOrders[atomIndex] = bondOrder;
+		interGroupBondOrders.add(bondOrder);
 	}
 
 	@Override
@@ -564,13 +575,18 @@ public class InflatorToGet implements MmtfDecodedDataInterface, MmtfDecoderInter
 	}
 
 	private PDBGroup getGroup(int groupInd) {
-		return groupMap.get(groupList[groupInd]);
+		return groupMap.get(groupInd);
 	}
 
 
 	@Override
 	public int getNumBonds() {
 		return totalNumBonds;
+	}
+
+	@Override
+	public int[] getSecStructList() {
+		return secStructInfo;
 	}
 
 }

@@ -9,7 +9,7 @@ import org.biojava.nbio.structure.StructureException;
 import org.biojava.nbio.structure.io.mmtf.MmtfActions;
 import org.junit.Test;
 import org.rcsb.mmtf.dataholders.MmtfBean;
-import org.rcsb.mmtf.update.IntegrationTestUtils;
+import org.rcsb.mmtf.testutils.IntegrationTestUtils;
 import org.rcsb.mmtf.update.TestingUtils;
 import org.unitils.reflectionassert.ReflectionAssert;
 

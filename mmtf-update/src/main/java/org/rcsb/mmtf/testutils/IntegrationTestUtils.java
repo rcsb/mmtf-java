@@ -1,4 +1,4 @@
-package org.rcsb.mmtf.update;
+package org.rcsb.mmtf.testutils;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -20,23 +20,21 @@ public class IntegrationTestUtils {
 			"4y60",
 			// Sugar structure
 			"1skm",
-			// Ribosome
-			"4v5a",
-			// Biosynthetic protein
-			"5emg",
 			// Calpha atom is missing (not marked as calpha)
 			"1lpv",
 			// NMR structure with multiple models - one of which has chain missing
 			"1msh",
 			// No ATOM records just HETATM records (in PDB). Opposite true for MMCif. It's a D-Peptide.
 			"1r9v",
+			// Biosynthetic protein
+			"5emg",
 			// Micro heterogenity
 			"4ck4",
+			// Ribosome
+			"4v5a",
 			// Negative residue numbers
-			"5esw",
-//			//A weird case with incorrect residue numbers.
-//			"3th3"
-			};
+			"5esw"
+	};
 
 	public Path returnTempDir() {
 		Path tmpDir;

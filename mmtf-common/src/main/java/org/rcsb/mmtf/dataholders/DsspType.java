@@ -96,5 +96,26 @@ public enum DsspType {
 		// Return a null entry.
 		return DsspType.NULL_ENTRY;
 	}
+	
+	/**
+	 * Creates a new DsspType from an int val
+	 * Returns DsspType.NULL_ENTRY if dsspType is -1 or not one of the supported
+	 * standard types.
+	 * @param dsspType int value , should be an integer value from -1 to 7
+	 * @return an DsspType object
+	 */
+	public static DsspType dsspTypeFromInt(int dsspType)
+	{
+
+		for(DsspType et : DsspType.values())
+		{
+			if(dsspType==et.dsspIndex)
+			{
+				return et;
+			}
+		}
+		// Return a null entry.
+		return DsspType.NULL_ENTRY;
+	}
 
 }

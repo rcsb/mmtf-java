@@ -13,7 +13,7 @@ import org.biojava.nbio.structure.io.mmtf.MmtfUtils;
 import org.rcsb.mmtf.examples.HandleIO;
 import org.rcsb.mmtf.testutils.CheckOnBiojava;
 import org.rcsb.mmtf.testutils.CheckOnRawApi;
-import org.rcsb.mmtf.update.IntegrationTestUtils;
+import org.rcsb.mmtf.testutils.IntegrationTestUtils;
 
 public class CheckServer {
 

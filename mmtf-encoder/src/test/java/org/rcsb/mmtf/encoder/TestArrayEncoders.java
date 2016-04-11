@@ -18,7 +18,7 @@ public class TestArrayEncoders {
 	public final void runLengthDecodeIntTest() {
 		// Allocate the byte array
 		int[] inputData = {15,15,15,100,100,111,111,111,111};
-		int[] outputDataTest =  {15,3,100,1,111,4};
+		int[] outputDataTest =  {15,3,100,2,111,4};
 		int[] outputData = ArrayEncoders.runlengthEncode(inputData);
 		assertArrayEquals(outputDataTest, outputData);
 	}

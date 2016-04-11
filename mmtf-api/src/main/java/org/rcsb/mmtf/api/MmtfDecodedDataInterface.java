@@ -384,5 +384,11 @@ public interface MmtfDecodedDataInterface {
 	 * @return the deposition date of the structure.
 	 */
 	String getDepositionDate();
+
+	/**
+	 * The secondary structure information for the structure as a list of integers
+	 * @return the array of secondary structure informations
+	 */
+	int[] getSecStructList();
 	
 }

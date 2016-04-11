@@ -58,16 +58,16 @@ public class BeanToGet implements MmtfDecodedDataInterface {
 				ArrayDecoders.runlengthDecode(inputData.getAltLocList()));
 		insertionCodeList = ArrayConverters.convertIntegerToChar(
 				ArrayDecoders.runlengthDecode(inputData.getInsCodeList()));
-
 		// Get the groupNumber
-		groupNum = ArrayConverters.convertByteToIntegers(
-				inputData.getGroupIdList());
+		groupNum = ArrayDecoders.deltaDecode(
+				ArrayDecoders.runlengthDecode(
+						ArrayConverters.convertFourByteToIntegers(
+								inputData.getGroupIdList())));
 		// Get the group map (all the unique groups in the structure).
 		groupMap = inputData.getGroupList();
 		// Get the seqRes groups
-		seqResGroupList = ArrayDecoders.deltaDecode(
-						ArrayConverters.convertFourByteToIntegers(
-								inputData.getSequenceIdList()));
+		seqResGroupList = ArrayConverters.convertFourByteToIntegers(
+				inputData.getSequenceIdList());
 		// Get the number of chains per model
 		chainsPerModel = inputData.getChainsPerModel();
 		groupsPerChain = inputData.getGroupsPerChain();
@@ -92,6 +92,7 @@ public class BeanToGet implements MmtfDecodedDataInterface {
 		experimentalMethods = inputData.getExperimentalMethods();
 		// Now get the relase information
 		depositionDate = inputData.getDepositionDate();
+		secStructInfo = ArrayConverters.convertFourByteToIntegers(inputData.getSecStructList());
 	}
 
 	/** The X coordinates */
@@ -189,6 +190,8 @@ public class BeanToGet implements MmtfDecodedDataInterface {
 
 	/** The deposition date of hte structure */
 	private String depositionDate;
+	
+	private int[] secStructInfo;
 
 
 	@Override
@@ -323,7 +326,7 @@ public class BeanToGet implements MmtfDecodedDataInterface {
 
 	@Override
 	public float getRfree() {
-		if (rFree==null) {
+		if (rFree==null|| rFree ==0.0f) {
 			return MmtfBean.UNAVAILABLE_R_VALUE;
 		}
 		return rFree;
@@ -331,7 +334,7 @@ public class BeanToGet implements MmtfDecodedDataInterface {
 
 	@Override
 	public float getResolution() {
-		if (resolution==null) {
+		if (resolution==null || resolution==0.0f) {
 			return MmtfBean.UNAVAILABLE_RESOLUTION_VALUE;
 		}
 		return resolution;
@@ -339,7 +342,7 @@ public class BeanToGet implements MmtfDecodedDataInterface {
 
 	@Override
 	public float getRwork() {
-		if (rWork==null) {
+		if (rWork==null|| rWork ==0.0f) {
 			return MmtfBean.UNAVAILABLE_R_VALUE;
 		}
 		return rWork;
@@ -461,6 +464,11 @@ public class BeanToGet implements MmtfDecodedDataInterface {
 			numIntergroupBonds+=groupMap[groupIndex].getBondOrderList().length;
 		}
 		return numIntergroupBonds;
+	}
+
+	@Override
+	public int[] getSecStructList() {
+		return secStructInfo;
 	}
 
 

@@ -61,9 +61,12 @@ public interface MmtfDecoderInterface {
 	 * @param bondCount the number of unique bonds in the group
 	 * @param singleLetterCode the single letter code of the group
 	 * @param sequenceIndex the index of this group in the sequence
+	 * @param the type of secondary structure used (types are according to DSSP and number to 
+	 * type mappings are defined in the specification)
 	 */
 	void setGroupInfo(String groupName, int groupNumber, char insertionCode,
-			String groupType, int atomCount, int boundCount, char singleLetterCode, int sequenceIndex);
+			String groupType, int atomCount, int boundCount, char singleLetterCode, 
+			int sequenceIndex, int secondaryStructureType);
 
 
 	/**

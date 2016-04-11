@@ -25,6 +25,7 @@ import org.apache.spark.api.java.JavaSparkContext;
 import org.junit.Test;
 import org.rcsb.mmtf.mappers.ByteWriteToByteArr;
 import org.rcsb.mmtf.mappers.StringByteToTextByteWriter;
+import org.rcsb.mmtf.testutils.IntegrationTestUtils;
 
 import scala.Tuple2;
 /**

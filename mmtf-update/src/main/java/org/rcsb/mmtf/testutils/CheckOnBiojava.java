@@ -13,6 +13,7 @@ import java.util.TreeSet;
 import java.util.Map.Entry;
 
 import org.biojava.nbio.structure.Atom;
+import org.biojava.nbio.structure.Bond;
 import org.biojava.nbio.structure.Chain;
 import org.biojava.nbio.structure.EntityInfo;
 import org.biojava.nbio.structure.ExperimentalTechnique;
@@ -35,12 +36,6 @@ public class CheckOnBiojava {
 	 * @return
 	 */
 	private boolean checkIfAtomsSame(Structure structOne, Structure structTwo) {
-		// First check the bioassemblies
-		checkIfBioassemblySame(structOne, structTwo);
-		// Now check the pdb header
-		checkIfHederSame(structOne, structTwo);
-		// Now check the entity information
-		checkIfEntitiesSame(structOne, structTwo);
 		int numModels = structOne.nrModels();
 		if(numModels!=structTwo.nrModels()){
 			System.out.println("Error - diff number models: "+structOne.getPDBCode());
@@ -81,7 +76,7 @@ public class CheckOnBiojava {
 					List<Atom> atomsTwo = new ArrayList<>(groupTwo.getAtoms());
 					if(groupOne.getAltLocs().size()!=0){
 						if(groupTwo.getAltLocs().size()!=groupOne.getAltLocs().size()){
-							System.out.println("Error - diff number alt locs: "+structOne.getPDBCode());
+							System.out.println("Error - diff number alt locs: "+structOne.getPDBCode()+" "+groupOne.getPDBName()+" "+groupOne.getResidueNumber().getSeqNum());
 							System.out.println(groupOne.getAltLocs().size());
 							System.out.println(groupTwo.getAltLocs().size());
 
@@ -138,22 +133,13 @@ public class CheckOnBiojava {
 					for(int l=0;l<atomsOne.size();l++){
 						Atom atomOne = atomsOne.get(l);
 						Atom atomTwo = atomsTwo.get(l);
-						if(atomOne.toPDB().equals(atomTwo.toPDB())){
-
-						}
-						else{
-							// If any of the coords is exactly zero - this is (almost certainly) a +-0.0 issue
-							if (atomOne.getX()*atomOne.getY()*atomOne.getZ()==0.0){
-
-							}
-							else{
-								System.out.println("Error - atoms different: "+structOne.getPDBCode());
-								System.out.println("mmtf -> "+atomOne.toPDB());
-								System.out.println("mmcif -> "+atomTwo.toPDB());
-								return false;
-							}
-
-						}
+						assertTrue(atomOne.getGroup().getPDBName().equals(atomTwo.getGroup().getPDBName()));
+						assertTrue(atomOne.getCharge()==atomTwo.getCharge());
+						assertArrayEquals(atomOne.getCoords(),atomTwo.getCoords(), 0.00001);
+						assertTrue(atomOne.getElement()==atomTwo.getElement());
+						assertTrue(atomOne.getName().equals(atomTwo.getName()));
+						assertTrue(atomOne.getOccupancy()==atomTwo.getOccupancy());
+						assertTrue(atomOne.getTempFactor()==atomTwo.getTempFactor());
 						if(i==0){
 							if(atomOne.getBonds()==null){
 								if(atomTwo.getBonds()!=null){
@@ -168,7 +154,12 @@ public class CheckOnBiojava {
 								System.out.println(atomOne.getBonds().size()+" vs. "+atomTwo.getBonds().size());
 								System.out.println(atomOne);
 								System.out.println(atomTwo);
-
+								for(Bond bond : atomOne.getBonds()) {
+									System.out.println(bond);
+								}
+								for(Bond bond : atomTwo.getBonds()) {
+									System.out.println(bond);
+								}
 								return false;
 							}
 						}
@@ -303,6 +294,12 @@ public class CheckOnBiojava {
 	 * @param mmtfParams 
 	 */
 	public void checkIfStructuresSame(Structure biojavaStruct, Structure structTwo){
+		// First check the bioassemblies
+		checkIfBioassemblySame(biojavaStruct, structTwo);
+		// Now check the pdb header
+		checkIfHederSame(biojavaStruct, structTwo);
+		// Now check the entity information
+		checkIfEntitiesSame(biojavaStruct, structTwo);
 		assertTrue(checkIfAtomsSame(biojavaStruct, structTwo));
 	}
 }

@@ -20,6 +20,7 @@ public class TestingUtils {
 	public static void testList(String[] inputList) throws IOException, StructureException{
 		MmtfUtils.setUpBioJava();
 		for (String pdbId : inputList){
+			System.out.println("Testing: "+pdbId);
 			testSingleStructure(pdbId);
 		}
 	}
@@ -31,11 +32,10 @@ public class TestingUtils {
 	 * @throws StructureException
 	 */
 	public static void testSingleStructure(String pdbId) throws IOException, StructureException {
+		MmtfUtils.setUpBioJava();
 		CheckOnBiojava checkEquiv = new CheckOnBiojava();
-		Structure structure = StructureIO.getStructure(pdbId);
-		checkEquiv.checkIfStructuresSame(structure,MmtfActions.roundTrip(structure));
+		Structure mmcif = StructureIO.getStructure(pdbId);
+		checkEquiv.checkIfStructuresSame(mmcif,MmtfActions.roundTrip(StructureIO.getStructure(pdbId)));
 	}
-
-
 
 }

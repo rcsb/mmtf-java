@@ -28,7 +28,7 @@ public class GetToInflator implements MmtfReader {
 	private int chainCounter = 0;
 	private int groupCounter = 0;
 	private int atomCounter = 0;
-	private int lastAtomCount = 0;
+	private int currentAtomIndex = 0;
 	private Set<String> chainIdSet;
 
 	/**
@@ -75,7 +75,8 @@ public class GetToInflator implements MmtfReader {
 			// A list to check if we need to set or update the chains
 			chainIdSet = new HashSet<>();
 			int totChainsThisModel = chainCounter + modelChains;
-			for (int chainIndex = chainCounter; chainIndex < totChainsThisModel;  chainIndex++) {
+			int lastChainCounter = chainCounter;
+			for (int chainIndex = lastChainCounter; chainIndex < totChainsThisModel;  chainIndex++) {
 				addOrUpdateChainInfo(chainIndex);
 			}
 			modelCounter++;
@@ -125,11 +126,11 @@ public class GetToInflator implements MmtfReader {
 			chainIdSet.add(currentChainId);
 		}
 		int nextInd = groupCounter + groupsThisChain;
+		int lastGroupCount = groupCounter;
 		// Now iteratr over the group
-		for (int currentGroupNumber = groupCounter; currentGroupNumber < nextInd; currentGroupNumber++) {
+		for (int currentGroupNumber = lastGroupCount; currentGroupNumber < nextInd; currentGroupNumber++) {
+			addGroup(currentGroupNumber);
 			groupCounter++;
-			int atomCount = addGroup(currentGroupNumber);
-			lastAtomCount += atomCount;
 		}    
 		chainCounter++;
 	}
@@ -148,12 +149,15 @@ public class GetToInflator implements MmtfReader {
 		char insertionCode = dataApi.getInsCodes()[currentGroupIndex];
 		structInflator.setGroupInfo(dataApi.getGroupName(groupInd), currentGroupNumber, insertionCode,
 				dataApi.getGroupChemCompType(groupInd), atomCount, dataApi.getNumBonds(), dataApi.getGroupSingleLetterCode(groupInd),
-				dataApi.getGroupSequenceIndices()[currentGroupIndex]);
+				dataApi.getGroupSequenceIndices()[currentGroupIndex], dataApi.getSecStructList()[currentGroupIndex]);
 		// A counter for the atom information
 		atomCounter = 0;
 		// Now read the next atoms
-		for (int i = lastAtomCount; i < lastAtomCount + atomCount; i++) {
-			addAtomData(dataApi.getGroupAtomNames(groupInd), dataApi.getGroupElementNames(groupInd), dataApi.getGroupAtomCharges(groupInd), i);  
+		for (int i = 0; i < atomCount; i++) {
+			addAtomData(dataApi.getGroupAtomNames(groupInd), dataApi.getGroupElementNames(groupInd), dataApi.getGroupAtomCharges(groupInd), currentAtomIndex);  
+			currentAtomIndex++;
+			// Now increment the atom counter for this group
+			atomCounter++;
 		}
 		addGroupBonds(dataApi.getGroupBondIndices(groupInd), dataApi.getGroupBondOrders(groupInd));
 		return atomCount;
@@ -166,13 +170,14 @@ public class GetToInflator implements MmtfReader {
 	 * @param atomInfo the list of strings containing atom level information.
 	 * @param currentAtomIndex the index of the current Atom
 	 */
-	private void addAtomData(String[] atomNames, String[] elementNames, int[] atomCharges, int currentAtomIndex) {
+	private void addAtomData(String[] atomNames, String[] elementNames, int[] atomCharges, 
+			int currentAtomIndex) {
 		// Now get all the relevant atom level information here
 		String atomName = atomNames[atomCounter];
 		String element = elementNames[atomCounter];
 		int charge = atomCharges[atomCounter];
-		int serialNumber = dataApi.getAtomIds()[currentAtomIndex];
 		char alternativeLocationId = dataApi.getAltLocIds()[currentAtomIndex];
+		int serialNumber = dataApi.getAtomIds()[currentAtomIndex];
 		float x = dataApi.getxCoords()[currentAtomIndex];
 		float z = dataApi.getzCoords()[currentAtomIndex];
 		float y = dataApi.getyCoords()[currentAtomIndex];
@@ -180,8 +185,6 @@ public class GetToInflator implements MmtfReader {
 		float temperatureFactor = dataApi.getbFactors()[currentAtomIndex];
 		structInflator.setAtomInfo(atomName, serialNumber, alternativeLocationId,
 				x, y, z, occupancy, temperatureFactor, element, charge);
-		// Now increment the atom counter for this group
-		atomCounter++;
 	}
 
 	/**
@@ -195,7 +198,7 @@ public class GetToInflator implements MmtfReader {
 		for (int thisBond = 0; thisBond < bondOrders.length; thisBond++) {
 			int thisBondOrder = bondOrders[thisBond];
 			int thisBondIndOne = bondInds[thisBond * 2];
-			int thisBondIndTwo = bondInds[(thisBond * 2 + 1)];
+			int thisBondIndTwo = bondInds[thisBond * 2 + 1];
 			structInflator.setGroupBond(thisBondIndOne, thisBondIndTwo,
 					thisBondOrder);
 		}    
@@ -205,7 +208,7 @@ public class GetToInflator implements MmtfReader {
 	 * Generate inter group bonds
 	 * Bond indices are specified within the whole structure and start at 0.
 	 */
-	private void addInterGroupBonds() {
+	private void addInterGroupBonds() {	
 		for (int i = 0; i < dataApi.getInterGroupBondOrders().length; i++) {
 			structInflator.setInterGroupBond(dataApi.getInterGroupBondIndices()[i * 2],
 					dataApi.getInterGroupBondIndices()[i * 2 + 1], dataApi.getInterGroupBondOrders()[i]);

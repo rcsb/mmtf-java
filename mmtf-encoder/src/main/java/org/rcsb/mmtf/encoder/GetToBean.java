@@ -7,6 +7,7 @@ import org.rcsb.mmtf.api.MmtfDecodedDataInterface;
 import org.rcsb.mmtf.dataholders.MmtfBean;
 import org.rcsb.mmtf.encoder.ArrayConverters;
 import org.rcsb.mmtf.encoder.ArrayEncoders;
+import org.rcsb.mmtf.gitversion.GetRepoState;
 
 /**
  * Class to take a encode the DecodedDataInterface into the MmtfBean.
@@ -67,7 +68,7 @@ public class GetToBean {
 								mmtfDecodedDataInterface.getOccupancies(),
 								MmtfBean.OCCUPANCY_BFACTOR_DIVIDER))));
 
-		// Run length and delta 
+		// Run length and delta
 		mmtfBean.setAtomIdList(ArrayConverters.convertIntegersToFourByte(
 				ArrayEncoders.runlengthEncode(
 						ArrayEncoders.deltaEncode(mmtfDecodedDataInterface.getAtomIds()))));
@@ -79,8 +80,8 @@ public class GetToBean {
 
 		// Set the groupNumber
 		mmtfBean.setGroupIdList(ArrayConverters.convertIntegersToFourByte(
-				ArrayEncoders.deltaEncode(
-						ArrayEncoders.runlengthEncode(
+				ArrayEncoders.runlengthEncode(
+						ArrayEncoders.deltaEncode(
 								mmtfDecodedDataInterface.getGroupIds()))));
 
 		// Set the group map (all the unique groups in the structure).
@@ -104,21 +105,23 @@ public class GetToBean {
 				EncoderUtils.generateEntityList(mmtfDecodedDataInterface)
 				);
 		// Set the bond orders and indcices
-		mmtfBean.setBondOrderList(ArrayConverters.convertIntegersToFourByte(
+		mmtfBean.setBondOrderList(ArrayConverters.convertIntegersToBytes(
 				mmtfDecodedDataInterface.getInterGroupBondOrders()));
 		mmtfBean.setBondAtomList(ArrayConverters.convertIntegersToFourByte(
 				mmtfDecodedDataInterface.getInterGroupBondIndices()));
 		// Set the version and producer information
-		mmtfBean.setMmtfVersion(mmtfDecodedDataInterface.getMmtfVersion());
-		mmtfBean.setMmtfProducer(mmtfDecodedDataInterface.getMmtfProducer());
+		mmtfBean.setMmtfProducer("RCSB-PDB Generator---version: "+GetRepoState.getCurrentVersion());
 		mmtfBean.setStructureId(mmtfDecodedDataInterface.getStructureId());
 		// Set some header data
+		mmtfBean.setNumAtoms(mmtfDecodedDataInterface.getNumAtoms());
+		mmtfBean.setNumBonds(mmtfDecodedDataInterface.getNumBonds());
 		mmtfBean.setrFree(mmtfDecodedDataInterface.getRfree());
 		mmtfBean.setrWork(mmtfDecodedDataInterface.getRwork());
 		mmtfBean.setResolution(mmtfDecodedDataInterface.getResolution());
 		mmtfBean.setTitle(mmtfDecodedDataInterface.getTitle());
 		mmtfBean.setExperimentalMethods(mmtfDecodedDataInterface.getExperimentalMethods());
 		mmtfBean.setDepositionDate(mmtfDecodedDataInterface.getDepositionDate());
+		mmtfBean.setSecStructList(ArrayConverters.convertIntegersToFourByte(mmtfDecodedDataInterface.getSecStructList()));
 	}
 
 	public MmtfBean getMmtfBean() {

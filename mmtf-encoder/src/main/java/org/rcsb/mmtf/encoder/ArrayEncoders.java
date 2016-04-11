@@ -46,13 +46,13 @@ public class ArrayEncoders {
 				outList.add(lastInt);
 				outList.add(counter);
 				// Reset the counter
-				counter=0;
+				counter=1;
 				lastInt = intArray[i];
 			}
 		}
 		// Now add the last two
 		outList.add(lastInt);
-		outList.add(counter+1);
+		outList.add(counter);
 
 		return CodecUtils.convertToIntArray(outList);
 	}

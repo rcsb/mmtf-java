@@ -10,11 +10,6 @@ import static org.junit.Assert.assertArrayEquals;
  *
  */
 public class TestArrayDecoders {
-
-	/**
-	 * 
-	 */
-	
 	
 	/**
 	 * Run length decode int test.
@@ -22,8 +17,8 @@ public class TestArrayDecoders {
 	@Test
 	public final void runLengthDecodeIntTest() {
 		// Allocate the byte array
-		int[] inputData =  {15,3,100,2,111,4};
-		int[] outputDataTest = {15,15,15,100,100,111,111,111,111};
+		int[] inputData =  {15,3,100,2,111,4,10000,6};
+		int[] outputDataTest = {15,15,15,100,100,111,111,111,111,10000,10000,10000,10000,10000,10000};
 		int[] outputData = ArrayDecoders.runlengthDecode(inputData);
 		assertArrayEquals(outputDataTest, outputData);
 	}

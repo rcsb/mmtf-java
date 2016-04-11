@@ -29,7 +29,7 @@ public class GetRepoState implements Serializable{
 	 * @return
 	 * @throws IOException
 	 */
-	public String getCurrentVersion(){
+	public static String getCurrentVersion(){
 		GetRepoState grs = new GetRepoState();
 		try{
 			GitRepositoryState repoState = grs.getGitRepositoryState();
