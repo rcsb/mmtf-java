@@ -28,7 +28,7 @@ public class MapperUtils implements Serializable{
 	 * @param inputByteArr The message pack bytre array to be decoded.
 	 * @return
 	 */
-	public Structure byteArrToBiojavaStruct(String pdbCodePlus, byte[] inputByteArr) { 
+	public static Structure byteArrToBiojavaStruct(String pdbCodePlus, byte[] inputByteArr) { 
 		Structure newStruct;
 		try{
 			newStruct = MmtfActions.getBiojavaStruct(inputByteArr);

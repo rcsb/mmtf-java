@@ -13,12 +13,11 @@ import scala.Tuple2;
 public class ByteArrayToBioJavaStructMapper implements PairFunction<Tuple2<String, byte[]>,String, Structure> {
 
 	private static final long serialVersionUID = -1671280971380509379L;
-	MapperUtils mapperUtils = new MapperUtils();
 
 
 	@Override
 	public Tuple2<String, Structure> call(Tuple2<String, byte[]> t) throws Exception {
 		// Now return this
-		return new Tuple2<String, Structure>(t._1, mapperUtils.byteArrToBiojavaStruct(t._1, t._2));
+		return new Tuple2<String, Structure>(t._1, MapperUtils.byteArrToBiojavaStruct(t._1, t._2));
 	}
 }
