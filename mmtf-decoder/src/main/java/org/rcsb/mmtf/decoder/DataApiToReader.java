@@ -53,15 +53,15 @@ public class DataApiToReader implements MmtfReader {
 		// Now add the atom information
 		addAtomicInformation();
 		// Now add the header information.
-		addHeaderInfo();
+		DecoderUtils.addHeaderInfo(dataApi, structInflator);
 		// Now set the crystallographic  information
-		addXtalographicInfo();
+		DecoderUtils.addXtalographicInfo(dataApi, structInflator);
 		/// Now get the bioassembly information - only if parsing using AsymId
-		generateBioAssembly();
+		DecoderUtils.generateBioAssembly(dataApi, structInflator);
 		// Now add the other bonds between groups
-		addInterGroupBonds();
+		DecoderUtils.addInterGroupBonds(dataApi, structInflator);
 		// Now add the entity info
-		addEntityInfo();
+		DecoderUtils.addEntityInfo(dataApi, structInflator);
 		// Now do any required cleanup
 		structInflator.finalizeStructure();
 	}
@@ -82,32 +82,6 @@ public class DataApiToReader implements MmtfReader {
 			modelCounter++;
 		}		
 	}
-
-
-	/**
-	 * Add the entity information to a structure.
-	 */
-	private final void addEntityInfo() {
-		for (int i=0; i<dataApi.getNumEntities(); i++) {
-			String[] chainIdList = new String[dataApi.getEntityChainIndexList(i).length];
-			int counter = 0;
-			for (int chainInd : dataApi.getEntityChainIndexList(i)) {
-				chainIdList[counter] = dataApi.getChainIds()[chainInd];
-				counter++;
-			}
-			structInflator.setEntityInfo(dataApi.getEntityChainIndexList(i), dataApi.getEntitySequence(i), dataApi.getEntityDescription(i), dataApi.getEntityType(i));
-		}		
-	}
-
-
-	/**
-	 * Add ancilliary header information to the structure
-	 */
-	private final void addHeaderInfo() {
-		structInflator.setHeaderInfo(dataApi.getRfree(),dataApi.getRwork(), dataApi.getResolution(), 
-				dataApi.getTitle(), dataApi.getDepositionDate(), dataApi.getExperimentalMethods());		
-	}
-
 
 	/**
 	 * Set the chain level information and then loop through the groups
@@ -203,38 +177,6 @@ public class DataApiToReader implements MmtfReader {
 					thisBondOrder);
 		}    
 	}
-
-	/**
-	 * Generate inter group bonds
-	 * Bond indices are specified within the whole structure and start at 0.
-	 */
-	private void addInterGroupBonds() {	
-		for (int i = 0; i < dataApi.getInterGroupBondOrders().length; i++) {
-			structInflator.setInterGroupBond(dataApi.getInterGroupBondIndices()[i * 2],
-					dataApi.getInterGroupBondIndices()[i * 2 + 1], dataApi.getInterGroupBondOrders()[i]);
-		}    
-	}
-
-	/**
-	 * Adds the crystallographic info to the structure
-	 */
-	private void addXtalographicInfo() {
-		if(dataApi.getUnitCell()!=null){
-			structInflator.setXtalInfo(dataApi.getSpaceGroup(), dataApi.getUnitCell());    
-		}
-	}
-
-	/**
-	 * Parses the bioassembly data and inputs it to the structure inflator
-	 */
-	private void generateBioAssembly() {
-		for (int i=0; i<dataApi.getNumBioassemblies(); i++) {
-			for(int j=0; j<dataApi.getNumTransInBioassembly(i); j++) {
-				structInflator.setBioAssemblyTrans(i+1, dataApi.getChainIndexListForTransform(i, j), dataApi.getMatrixForTransform(i,j));    
-			}
-		}
-	}
-
 
 
 
