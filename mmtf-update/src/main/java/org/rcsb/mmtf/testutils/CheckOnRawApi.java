@@ -14,7 +14,7 @@ import org.biojava.nbio.structure.Group;
 import org.biojava.nbio.structure.Structure;
 import org.biojava.nbio.structure.io.FileParsingParameters;
 import org.rcsb.mmtf.api.MmtfDecodedDataInterface;
-import org.rcsb.mmtf.decoder.BeanToGet;
+import org.rcsb.mmtf.decoder.BeanToDataApi;
 import org.rcsb.mmtf.deserializers.MessagePackDeserializer;
 
 /**
@@ -25,7 +25,7 @@ import org.rcsb.mmtf.deserializers.MessagePackDeserializer;
 public class CheckOnRawApi {
 	MmtfDecodedDataInterface dataApi;
 	public CheckOnRawApi(byte[] inputData) throws IOException {
-		dataApi = new BeanToGet(new MessagePackDeserializer().deserialize(inputData));
+		dataApi = new BeanToDataApi(new MessagePackDeserializer().deserialize(inputData));
 	}
 
 	/**

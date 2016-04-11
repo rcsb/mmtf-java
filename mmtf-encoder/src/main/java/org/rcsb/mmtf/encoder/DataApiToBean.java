@@ -14,11 +14,11 @@ import org.rcsb.mmtf.gitversion.GetRepoState;
  * @author Anthony Bradley
  *
  */
-public class GetToBean {
+public class DataApiToBean {
 
 	private MmtfBean mmtfBean;
 
-	public GetToBean(MmtfDecodedDataInterface mmtfDecodedDataInterface) throws IOException {
+	public DataApiToBean(MmtfDecodedDataInterface mmtfDecodedDataInterface) throws IOException {
 		mmtfBean = new MmtfBean();
 		// Set the group types
 		mmtfBean.setGroupTypeList(

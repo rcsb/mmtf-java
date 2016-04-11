@@ -13,7 +13,7 @@ import java.nio.file.Paths;
 import java.util.zip.GZIPInputStream;
 
 import org.rcsb.mmtf.api.MmtfDecodedDataInterface;
-import org.rcsb.mmtf.decoder.BeanToGet;
+import org.rcsb.mmtf.decoder.BeanToDataApi;
 import org.rcsb.mmtf.deserializers.MessagePackDeserializer;
 
 /**
@@ -64,10 +64,10 @@ public class HandleIO {
 		boolean isFile = getFile(basePath, inputCode);
 		// If it's a file on the file system - get it
 		if (isFile) {
-			return new BeanToGet(new MessagePackDeserializer().deserialize(getFromFileSystem(basePath, inputCode)));
+			return new BeanToDataApi(new MessagePackDeserializer().deserialize(getFromFileSystem(basePath, inputCode)));
 		}
 		try {
-			return new BeanToGet(new MessagePackDeserializer().deserialize(getFromUrl(inputCode)));
+			return new BeanToDataApi(new MessagePackDeserializer().deserialize(getFromUrl(inputCode)));
 		} catch (IOException e) {
 			e.printStackTrace();
 			throw new RuntimeException(e);

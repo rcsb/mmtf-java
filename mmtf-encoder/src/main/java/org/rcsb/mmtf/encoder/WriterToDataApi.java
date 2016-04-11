@@ -17,7 +17,7 @@ import org.rcsb.mmtf.utils.CodecUtils;
  * @author Anthony Bradley
  *
  */
-public class InflatorToGet implements MmtfDecodedDataInterface, MmtfDecoderInterface {
+public class WriterToDataApi implements MmtfDecodedDataInterface, MmtfDecoderInterface {
 
 
 	/** The X coordinates */

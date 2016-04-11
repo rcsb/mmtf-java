@@ -15,9 +15,9 @@ import org.rcsb.mmtf.dataholders.PDBGroup;
  * @author Anthony Bradley
  *
  */
-public class BeanToGet implements MmtfDecodedDataInterface {
+public class BeanToDataApi implements MmtfDecodedDataInterface {
 
-	public BeanToGet(MmtfBean inputData) throws IOException {
+	public BeanToDataApi(MmtfBean inputData) throws IOException {
 		groupList = ArrayConverters.convertFourByteToIntegers(inputData.getGroupTypeList());
 		// Decode the coordinate  and B-factor arrays.
 		cartnX = ArrayConverters.convertIntsToFloats(

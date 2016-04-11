@@ -15,7 +15,7 @@ import org.rcsb.mmtf.api.MmtfReader;
  * @author Anthony Bradley
  *
  */
-public class GetToInflator implements MmtfReader {
+public class DataApiToReader implements MmtfReader {
 
 	/** The struct inflator. */
 	private MmtfDecoderInterface structInflator;
@@ -36,7 +36,7 @@ public class GetToInflator implements MmtfReader {
 	 * @param byteArray An unentropy encoded byte array with the data as found in the MMTF format
 	 * @throws IOException 
 	 */
-	public GetToInflator() throws IOException {
+	public DataApiToReader() throws IOException {
 
 	}
 

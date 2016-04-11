@@ -12,8 +12,8 @@ import org.biojava.nbio.structure.io.mmtf.MmtfActions;
 import org.biojava.nbio.structure.io.mmtf.MmtfUtils;
 import org.junit.Test;
 import org.rcsb.mmtf.api.MmtfDecodedDataInterface;
-import org.rcsb.mmtf.decoder.BeanToGet;
-import org.rcsb.mmtf.encoder.GetToBean;
+import org.rcsb.mmtf.decoder.BeanToDataApi;
+import org.rcsb.mmtf.encoder.DataApiToBean;
 import org.rcsb.mmtf.update.TestingUtils;
 
 
@@ -27,8 +27,8 @@ public class TestRoundTrip {
 		MmtfUtils.setUpBioJava();
 		Structure structure = StructureIO.getStructure("1O2F");
 		MmtfDecodedDataInterface mmtfApi = MmtfActions.getApi(structure);
-		GetToBean getToBean = new GetToBean(mmtfApi);
-		MmtfDecodedDataInterface beanToGet = new BeanToGet(getToBean.getMmtfBean());
+		DataApiToBean getToBean = new DataApiToBean(mmtfApi);
+		MmtfDecodedDataInterface beanToGet = new BeanToDataApi(getToBean.getMmtfBean());
 		assertArrayEquals(beanToGet.getGroupTypeIndices(), mmtfApi.getGroupTypeIndices());
 		assertArrayEquals(beanToGet.getGroupAtomNames(3), mmtfApi.getGroupAtomNames(3));
 		assertArrayEquals(beanToGet.getGroupIds(), mmtfApi.getGroupIds());
