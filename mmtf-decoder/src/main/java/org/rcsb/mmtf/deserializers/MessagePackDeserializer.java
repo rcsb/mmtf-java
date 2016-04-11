@@ -8,6 +8,11 @@ import org.rcsb.mmtf.dataholders.MmtfBean;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+/**
+ * A class to deserialize messaepack data into an mmtfBean
+ * @author Anthony Bradley
+ *
+ */
 public class MessagePackDeserializer implements DeserializerInterface {
 
 	@Override
