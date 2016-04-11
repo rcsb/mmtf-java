@@ -1,7 +1,4 @@
 package org.rcsb.mmtf.sedeserializers;
-// TODO FIX THESE TESTS
-
-
 import java.io.IOException;
 
 import org.biojava.nbio.structure.StructureException;
