@@ -11,7 +11,6 @@ import org.rcsb.mmtf.api.MmtfReader;
 /**
  * Decode an MMTF structure using a structure inflator. 
  * The class also allows access to the unconsumed but parsed and inflated underlying data.
- * 
  * @author Anthony Bradley
  *
  */

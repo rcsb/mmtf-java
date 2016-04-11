@@ -73,8 +73,6 @@ public class HandleIO {
 			throw new RuntimeException(e);
 		}
 	}
-		
-	
 
 	/**
 	 * Get from a cached file on the file system.
@@ -85,8 +83,6 @@ public class HandleIO {
 		String basePath = getBasePath();
 		String fullPath = constructPath(basePath, inputCode);
 		return getFromFileSystem(fullPath);
-
-
 	}
 
 	/**

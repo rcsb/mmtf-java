@@ -15,7 +15,7 @@ public class TestArrayEncoders {
 	 * Run length decode int test.
 	 */
 	@Test
-	public final void runLengthDecodeIntTest() {
+	public final void runLengthDecodeTest() {
 		// Allocate the byte array
 		int[] inputData = {15,15,15,100,100,111,111,111,111};
 		int[] outputDataTest =  {15,3,100,2,111,4};
@@ -27,7 +27,7 @@ public class TestArrayEncoders {
 	 * Delta decode int test.
 	 */
 	@Test
-	public final void deltaDecodeIntTest() {
+	public final void deltaDecodeTest() {
 		// Allocate the byte array
 		int[] inputData = {15,18,118,117,128,132};
 		int[] outputDataTest =  {15,3,100,-1,11,4};
