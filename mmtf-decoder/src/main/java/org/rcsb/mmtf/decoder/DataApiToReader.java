@@ -6,7 +6,6 @@ import java.util.Set;
 
 import org.rcsb.mmtf.api.MmtfDecodedDataInterface;
 import org.rcsb.mmtf.api.MmtfDecoderInterface;
-import org.rcsb.mmtf.api.MmtfReader;
 
 /**
  * Decode an MMTF structure using a structure inflator. 
@@ -14,7 +13,7 @@ import org.rcsb.mmtf.api.MmtfReader;
  * @author Anthony Bradley
  *
  */
-public class DataApiToReader implements MmtfReader {
+public class DataApiToReader {
 
 	/** The struct inflator. */
 	private MmtfDecoderInterface structInflator;
