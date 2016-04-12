@@ -89,7 +89,7 @@ public class DataApiToBean {
 		// Set the group map (all the unique groups in the structure).
 		mmtfBean.setGroupList(EncoderUtils.generateGroupMap(mmtfDecodedDataInterface));
 		// Set the indices for the groups mapping to the sequence
-		mmtfBean.setSequenceIdList(ArrayConverters.convertIntegersToFourByte(
+		mmtfBean.setSequenceIndexList(ArrayConverters.convertIntegersToFourByte(
 				mmtfDecodedDataInterface.getGroupSequenceIndices()));
 		// Set the number of chains per model
 		mmtfBean.setChainsPerModel(mmtfDecodedDataInterface.getChainsPerModel());

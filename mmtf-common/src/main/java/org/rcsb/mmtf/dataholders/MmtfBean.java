@@ -123,7 +123,7 @@ public class MmtfBean implements Serializable {
 	private byte[] atomIdList;
 
 	/** The SeqRes group ids. */
-	private byte[] sequenceIdList;
+	private byte[] sequenceIndexList;
 
 	/** The experimental method(s). */
 	private String[] experimentalMethods;
@@ -815,15 +815,15 @@ public class MmtfBean implements Serializable {
 	/**
 	 * @return the seqResGroupIds 
 	 */
-	public byte[] getSequenceIdList() {
-		return sequenceIdList;
+	public byte[] getSequenceIndexList() {
+		return sequenceIndexList;
 	}
 
 	/**
 	 * @param seqResGroupIds the seqResGroupIds to set
 	 */
-	public void setSequenceIdList(byte[] seqResGroupIds) {
-		this.sequenceIdList = seqResGroupIds;
+	public void setSequenceIndexList(byte[] seqResGroupIds) {
+		this.sequenceIndexList = seqResGroupIds;
 	}
 
 	/**

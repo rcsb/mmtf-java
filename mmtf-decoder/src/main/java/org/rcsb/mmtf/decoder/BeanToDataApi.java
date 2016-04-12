@@ -71,7 +71,7 @@ public class BeanToDataApi implements MmtfDecodedDataInterface {
 		groupMap = inputData.getGroupList();
 		// Get the seqRes groups
 		seqResGroupList = ArrayConverters.convertFourByteToIntegers(
-				inputData.getSequenceIdList());
+				inputData.getSequenceIndexList());
 		// Get the number of chains per model
 		chainsPerModel = inputData.getChainsPerModel();
 		groupsPerChain = inputData.getGroupsPerChain();
