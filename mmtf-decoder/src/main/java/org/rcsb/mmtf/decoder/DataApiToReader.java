@@ -1,6 +1,5 @@
 package org.rcsb.mmtf.decoder;
 
-import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -29,12 +28,7 @@ public class DataApiToReader {
 	private int currentAtomIndex = 0;
 	private Set<String> chainIdSet;
 
-	/**
-	 * The constructor requires a byte array to fill the data. This will decompress the arrays using our bespoke methods.
-	 * @param byteArray An unentropy encoded byte array with the data as found in the MMTF format
-	 * @throws IOException 
-	 */
-	public DataApiToReader() throws IOException {
+	public DataApiToReader(){
 
 	}
 

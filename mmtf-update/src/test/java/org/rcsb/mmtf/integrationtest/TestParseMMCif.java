@@ -5,11 +5,11 @@ import static org.junit.Assert.assertNotEquals;
 import java.io.IOException;
 
 import org.biojava.nbio.structure.StructureException;
-import org.biojava.nbio.structure.io.mmtf.MmtfActions;
 import org.biojava.nbio.structure.io.mmtf.MmtfUtils;
 import org.junit.Test;
 import org.rcsb.mmtf.dataholders.MmtfBean;
 import org.rcsb.mmtf.testutils.IntegrationTestUtils;
+import org.rcsb.mmtf.testutils.Utils;
 import org.rcsb.mmtf.update.TestingUtils;
 import org.unitils.reflectionassert.ReflectionAssert;
 
@@ -34,7 +34,7 @@ public class TestParseMMCif {
 	private void testDataComplete(String pdbId) throws IOException, StructureException {
 		MmtfUtils.setUpBioJava();
 		// Get an mmtfBean 
-		MmtfBean mmtfBean = MmtfActions.getBean(pdbId);
+		MmtfBean mmtfBean = Utils.getBean(pdbId);
 		// Make sure all fields are re-populated
 		ReflectionAssert.assertPropertiesNotNull("Some properties are null in mmtf generated from biojava object",  mmtfBean);
 		// Now check the standard ones have been set

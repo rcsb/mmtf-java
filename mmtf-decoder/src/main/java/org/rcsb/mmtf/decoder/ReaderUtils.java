@@ -1,13 +1,19 @@
-package org.rcsb.mmtf.utils;
+package org.rcsb.mmtf.decoder;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.zip.GZIPInputStream;
 
-public class DownloadUtils {
+import org.rcsb.mmtf.dataholders.MmtfBean;
+import org.rcsb.mmtf.deserializers.MessagePackDeserializer;
+
+public class ReaderUtils {
 
 	/** The base url. */
 	public static final String BASE_URL = "http://mmtf.rcsb.org/full/";
@@ -21,7 +27,7 @@ public class DownloadUtils {
 	 * @return the byte array
 	 * @throws IOException
 	 */
-	public static byte[] getDataFromUrl(String inputCode) throws IOException {	
+	public static MmtfBean getDataFromUrl(String inputCode) throws IOException {	
 		// Get these as an inputstream
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		InputStream is = null;
@@ -44,8 +50,9 @@ public class DownloadUtils {
 			if (is != null) { is.close(); }
 		}
 		byte[] b = baos.toByteArray();
-		// Now return the gzip deflated byte array
-		return deflateGzip(b);
+		// Now return the gzip deflated and deserialized byte array
+		MessagePackDeserializer messagePackDeserializer = new MessagePackDeserializer();
+		return messagePackDeserializer.deserialize(deflateGzip(b));
 	}
 	
 	/**
@@ -95,5 +102,23 @@ public class DownloadUtils {
 		// Get the bytes
 		byte[] outArr = baos.toByteArray();
 		return outArr;
+	}
+
+	/**
+	 * A function to get MMTF data from a file path
+	 * @param filePath
+	 * @return the deserialized mmtfBean
+	 * @throws IOException 
+	 */
+	public static MmtfBean getDataFromFile(String filePath) throws IOException {
+		// Now return the gzip deflated and deserialized byte array
+		MessagePackDeserializer messagePackDeserializer = new MessagePackDeserializer();
+		return messagePackDeserializer.deserialize(readFile(filePath));
+	}
+
+	private static byte[] readFile(String filePath) throws IOException {
+		Path path = Paths.get(filePath);
+		byte[] data = Files.readAllBytes(path);
+		return data;
 	}
 }

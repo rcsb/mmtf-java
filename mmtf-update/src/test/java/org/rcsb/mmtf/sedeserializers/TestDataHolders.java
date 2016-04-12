@@ -1,12 +1,16 @@
 package org.rcsb.mmtf.sedeserializers;
 import java.io.IOException;
 
+import org.biojava.nbio.structure.Structure;
 import org.biojava.nbio.structure.StructureException;
-import org.biojava.nbio.structure.io.mmtf.MmtfActions;
+import org.biojava.nbio.structure.StructureIO;
+import org.biojava.nbio.structure.io.mmtf.MmtfStructureWriter;
 import org.biojava.nbio.structure.io.mmtf.MmtfUtils;
 import org.junit.Test;
 import org.rcsb.mmtf.dataholders.MmtfBean;
 import org.rcsb.mmtf.deserializers.MessagePackDeserializer;
+import org.rcsb.mmtf.encoder.DataApiToBean;
+import org.rcsb.mmtf.encoder.WriterToDataApi;
 import org.rcsb.mmtf.serializers.MessagePackSerializer;
 import org.unitils.reflectionassert.ReflectionAssert;
 
@@ -32,7 +36,12 @@ public class TestDataHolders {
 	 */
 	private  boolean testDeReSerialize() throws IOException, StructureException {
 		MmtfUtils.setUpBioJava();
-		MmtfBean inBean = MmtfActions.getBean("4cup");
+		Structure structure = StructureIO.getStructure("4cup");
+		MmtfStructureWriter mmtfStructureWriter = new MmtfStructureWriter(structure);
+		WriterToDataApi mmtfApi = new WriterToDataApi();
+		mmtfStructureWriter.write(mmtfApi);
+		DataApiToBean getToBean = new DataApiToBean(mmtfApi);
+		MmtfBean inBean = getToBean.getMmtfBean();
 		MessagePackSerializer messagePackSerializer = new MessagePackSerializer();
 		byte[] outArr = messagePackSerializer.serialize(inBean);
 		MessagePackDeserializer messagePackDeserializer = new MessagePackDeserializer();

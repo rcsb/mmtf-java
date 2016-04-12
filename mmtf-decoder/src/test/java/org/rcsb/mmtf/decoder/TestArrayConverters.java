@@ -37,8 +37,6 @@ public class TestArrayConverters {
 		assertArrayEquals(testFloatArray, floatArray, 0.0f);
 	}
 	
-	
-	
 	/**
 	 * Test the conversion of byte arrays to one byte integer arrays
 	 * @throws IOException 

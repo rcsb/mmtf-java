@@ -1,18 +1,20 @@
 package org.rcsb.mmtf.integrationtest;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
 
 import org.biojava.nbio.structure.Structure;
 import org.biojava.nbio.structure.StructureException;
 import org.biojava.nbio.structure.StructureIO;
-import org.biojava.nbio.structure.io.mmtf.MmtfActions;
+import org.biojava.nbio.structure.io.mmtf.MmtfStructureWriter;
 import org.biojava.nbio.structure.io.mmtf.MmtfUtils;
 import org.junit.Test;
 import org.rcsb.mmtf.api.MmtfDecodedDataInterface;
 import org.rcsb.mmtf.decoder.BeanToDataApi;
 import org.rcsb.mmtf.encoder.DataApiToBean;
+import org.rcsb.mmtf.encoder.WriterToDataApi;
 import org.rcsb.mmtf.update.TestingUtils;
 
 
@@ -25,7 +27,9 @@ public class TestRoundTrip {
 		// First set up Biojava
 		MmtfUtils.setUpBioJava();
 		Structure structure = StructureIO.getStructure("1O2F");
-		MmtfDecodedDataInterface mmtfApi = MmtfActions.getApi(structure);
+		MmtfStructureWriter mmtfStructureWriter = new MmtfStructureWriter(structure);
+		WriterToDataApi mmtfApi = new WriterToDataApi();
+		mmtfStructureWriter.write(mmtfApi);
 		DataApiToBean getToBean = new DataApiToBean(mmtfApi);
 		MmtfDecodedDataInterface beanToGet = new BeanToDataApi(getToBean.getMmtfBean());
 		assertArrayEquals(beanToGet.getGroupTypeIndices(), mmtfApi.getGroupTypeIndices());

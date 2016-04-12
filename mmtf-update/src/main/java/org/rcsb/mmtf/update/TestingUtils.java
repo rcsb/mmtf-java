@@ -5,9 +5,9 @@ import java.io.IOException;
 import org.biojava.nbio.structure.Structure;
 import org.biojava.nbio.structure.StructureException;
 import org.biojava.nbio.structure.StructureIO;
-import org.biojava.nbio.structure.io.mmtf.MmtfActions;
 import org.biojava.nbio.structure.io.mmtf.MmtfUtils;
 import org.rcsb.mmtf.testutils.CheckOnBiojava;
+import org.rcsb.mmtf.testutils.Utils;
 
 public class TestingUtils {
 
@@ -35,7 +35,7 @@ public class TestingUtils {
 		MmtfUtils.setUpBioJava();
 		CheckOnBiojava checkEquiv = new CheckOnBiojava();
 		Structure mmcif = StructureIO.getStructure(pdbId);
-		checkEquiv.checkIfStructuresSame(mmcif,MmtfActions.roundTrip(StructureIO.getStructure(pdbId)));
+		checkEquiv.checkIfStructuresSame(mmcif,Utils.roundTrip(StructureIO.getStructure(pdbId)));
 	}
 
 }
