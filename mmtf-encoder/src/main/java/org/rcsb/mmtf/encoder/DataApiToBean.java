@@ -71,10 +71,14 @@ public class DataApiToBean {
 				ArrayEncoders.runlengthEncode(
 						ArrayEncoders.deltaEncode(mmtfDecodedDataInterface.getAtomIds()))));
 		// Run length encoded
-		mmtfBean.setAltLocList(ArrayEncoders.runlengthEncode(
-				ArrayConverters.convertCharToIntegers(mmtfDecodedDataInterface.getAltLocIds())));
-		mmtfBean.setInsCodeList(ArrayEncoders.runlengthEncode(
-				ArrayConverters.convertCharToIntegers(mmtfDecodedDataInterface.getInsCodes())));
+		mmtfBean.setAltLocList(ArrayConverters.convertIntegersToFourByte(
+				ArrayEncoders.runlengthEncode(
+				ArrayConverters.convertCharToIntegers(
+						mmtfDecodedDataInterface.getAltLocIds()))));
+		mmtfBean.setInsCodeList(ArrayConverters.convertIntegersToFourByte(
+				ArrayEncoders.runlengthEncode(
+				ArrayConverters.convertCharToIntegers(
+						mmtfDecodedDataInterface.getInsCodes()))));
 
 		// Set the groupNumber
 		mmtfBean.setGroupIdList(ArrayConverters.convertIntegersToFourByte(

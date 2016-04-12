@@ -55,9 +55,13 @@ public class BeanToDataApi implements MmtfDecodedDataInterface {
 						ArrayConverters.convertFourByteToIntegers(inputData.getAtomIdList())));
 		// Run length encoded
 		altId = ArrayConverters.convertIntegerToChar(
-				ArrayDecoders.runlengthDecode(inputData.getAltLocList()));
+				ArrayDecoders.runlengthDecode(
+						ArrayConverters.convertFourByteToIntegers(
+								inputData.getAltLocList())));
 		insertionCodeList = ArrayConverters.convertIntegerToChar(
-				ArrayDecoders.runlengthDecode(inputData.getInsCodeList()));
+				ArrayDecoders.runlengthDecode(
+						ArrayConverters.convertFourByteToIntegers(
+								inputData.getInsCodeList())));
 		// Get the groupNumber
 		groupNum = ArrayDecoders.deltaDecode(
 				ArrayDecoders.runlengthDecode(
