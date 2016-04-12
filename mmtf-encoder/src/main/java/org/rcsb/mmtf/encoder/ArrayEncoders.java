@@ -32,6 +32,10 @@ public class ArrayEncoders {
 	 * @return the encoded integer array
 	 */
 	public static int[] runlengthEncode(int[] intArray) {
+		// If it's length zero
+		if (intArray.length==0){
+			return new int[0];
+		}
 		// We don't know the length so use
 		List<Integer> outList = new ArrayList<>();
 		int lastInt = intArray[0];

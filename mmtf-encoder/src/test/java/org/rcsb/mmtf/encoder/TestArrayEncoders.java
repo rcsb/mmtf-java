@@ -24,6 +24,18 @@ public class TestArrayEncoders {
 	}
 	
 	/**
+	 * Run length decode int test on empty arrays.
+	 */
+	@Test
+	public final void emptyRunLengthDecodeTest() {
+		// Allocate the byte array
+		int[] inputData = {};
+		int[] outputDataTest =  {};
+		int[] outputData = ArrayEncoders.runlengthEncode(inputData);
+		assertArrayEquals(outputDataTest, outputData);
+	}
+	
+	/**
 	 * Delta decode int test.
 	 */
 	@Test
@@ -31,6 +43,19 @@ public class TestArrayEncoders {
 		// Allocate the byte array
 		int[] inputData = {15,18,118,117,128,132};
 		int[] outputDataTest =  {15,3,100,-1,11,4};
+		int[] outputData = ArrayEncoders.deltaEncode(inputData);
+		assertArrayEquals(outputDataTest, outputData);
+	}
+	
+	
+	/**
+	 * Delta decode int test on empty arrays.
+	 */
+	@Test
+	public final void emptyDeltaDecodeTest() {
+		// Allocate the byte array
+		int[] inputData = {};
+		int[] outputDataTest =  {};
 		int[] outputData = ArrayEncoders.deltaEncode(inputData);
 		assertArrayEquals(outputDataTest, outputData);
 	}
