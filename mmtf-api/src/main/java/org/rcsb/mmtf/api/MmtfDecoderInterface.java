@@ -105,32 +105,33 @@ public interface MmtfDecoderInterface {
 	/**
 	 * Sets an intra-group bond.
 	 *
-	 * @param thisBondIndOne the atom index of the first partner in the bond
-	 * @param thisBondIndTwo the atom index of the second partner in the bond
-	 * @param thisBondOrder the bond order
+	 * @param atomIndexOne the atom index of the first partner in the bond
+	 * @param atomIndexTwo the atom index of the second partner in the bond
+	 * @param bondOrder the bond order
 	 */
-	void setGroupBond(int thisBondIndOne, int thisBondIndTwo, int thisBondOrder);
+	void setGroupBond(int atomIndexOne, int atomIndexTwo, int bondOrder);
 
 	/**
 	 * Sets an inter-group bond.
-	 *
-	 * @param thisBondIndOne the atom index of the first partner in the bond
-	 * @param thisBondIndTwo the atom index of the second partner in the bond
-	 * @param thisBondOrder the bond order
+	 * @param atomIndexOne the atom index of the first partner in the bond
+	 * @param atomIndexTwo the atom index of the second partner in the bond
+	 * @param bondOrder the bond order
 	 */
-	void setInterGroupBond(int thisBondIndOne, int thisBondIndTwo, int thisBondOrder);
+	void setInterGroupBond(int atomIndexOne, int atomIndexTwo, int bondOrder);
 
 
 	/**
 	 * Sets the header information.
-	 * @param rFree
-	 * @param rWork
-	 * @param resolution
-	 * @param title
-	 * @param depositionDate 
-	 * @param experimnetalMethods
+	 * @param rFree the measured R-Free for the structure
+	 * @param rWork the measure R-Work for the structure
+	 * @param resolution the resolution of the structure
+	 * @param title the title of the structure
+	 * @param depositionDate the deposition date of the structure
+	 * @param releaseDate the release date of the structure
+	 * @param experimnetalMethods the list of experimental methods in the structure
 	 */
-	void setHeaderInfo(float rFree, float rWork, float resolution, String title, String depositionDate, String[] experimnetalMethods);
+	void setHeaderInfo(float rFree, float rWork, float resolution, String title, String depositionDate, 
+			String releaseDate, String[] experimnetalMethods);
 
 
 

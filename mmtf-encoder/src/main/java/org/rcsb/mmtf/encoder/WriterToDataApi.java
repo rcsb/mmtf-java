@@ -112,6 +112,9 @@ public class WriterToDataApi implements MmtfDecodedDataInterface, MmtfDecoderInt
 
 	/** The deposition date of hte structure */
 	private String depositionDate;
+	
+	/** The release date of the structure */
+	private String releaseDate;
 
 	/** The total number of models */
 	private int numModels;
@@ -564,13 +567,14 @@ public class WriterToDataApi implements MmtfDecodedDataInterface, MmtfDecoderInt
 	}
 
 	@Override
-	public void setHeaderInfo(float rFree, float rWork, float resolution, String title, String depositionDate,
+	public void setHeaderInfo(float rFree, float rWork, float resolution, String title, String depositionDate, String releaseDate,
 			String[] experimnetalMethods) {
 		this.rFree = rFree;
 		this.rWork = rWork;
 		this.resolution = resolution;
 		this.title = title;
 		this.depositionDate = depositionDate;
+		this.releaseDate = releaseDate;
 		this.experimentalMethods = experimnetalMethods;
 
 	}
@@ -588,6 +592,12 @@ public class WriterToDataApi implements MmtfDecodedDataInterface, MmtfDecoderInt
 	@Override
 	public int[] getSecStructList() {
 		return secStructInfo;
+	}
+
+
+	@Override
+	public String getReleaseDate() {
+		return releaseDate;
 	}
 
 }

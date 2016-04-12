@@ -386,6 +386,13 @@ public interface MmtfDecodedDataInterface {
 	String getDepositionDate();
 
 	/**
+	 * Returns the release date of the structure as a string
+	 * in ISO time standard format. https://www.cl.cam.ac.uk/~mgk25/iso-time.html
+	 * @return the release date of the structure.
+	 */
+	String getReleaseDate();
+	
+	/**
 	 * The secondary structure information for the structure as a list of integers
 	 * @return the array of secondary structure informations
 	 */

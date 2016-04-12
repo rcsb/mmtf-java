@@ -32,7 +32,7 @@ public class DecoderUtils {
 	 */
 	public static void addHeaderInfo(MmtfDecodedDataInterface dataApi, MmtfDecoderInterface structInflator) {
 		structInflator.setHeaderInfo(dataApi.getRfree(),dataApi.getRwork(), dataApi.getResolution(), 
-				dataApi.getTitle(), dataApi.getDepositionDate(), dataApi.getExperimentalMethods());		
+				dataApi.getTitle(), dataApi.getDepositionDate(), dataApi.getReleaseDate(), dataApi.getExperimentalMethods());		
 	}
 
 	

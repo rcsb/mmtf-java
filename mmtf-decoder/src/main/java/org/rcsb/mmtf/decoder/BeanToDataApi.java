@@ -96,6 +96,7 @@ public class BeanToDataApi implements MmtfDecodedDataInterface {
 		experimentalMethods = inputData.getExperimentalMethods();
 		// Now get the relase information
 		depositionDate = inputData.getDepositionDate();
+		releaseDate = inputData.getReleaseDate();
 		secStructInfo = ArrayConverters.convertFourByteToIntegers(inputData.getSecStructList());
 	}
 
@@ -192,8 +193,11 @@ public class BeanToDataApi implements MmtfDecodedDataInterface {
 	/** The list of experimental methods. */
 	private String[] experimentalMethods;
 
-	/** The deposition date of hte structure */
+	/** The deposition date of the structure */
 	private String depositionDate;
+	
+	/** The release date of the  structure */
+	private String releaseDate;
 	
 	private int[] secStructInfo;
 
@@ -473,6 +477,11 @@ public class BeanToDataApi implements MmtfDecodedDataInterface {
 	@Override
 	public int[] getSecStructList() {
 		return secStructInfo;
+	}
+
+	@Override
+	public String getReleaseDate() {
+		return releaseDate;
 	}
 
 
