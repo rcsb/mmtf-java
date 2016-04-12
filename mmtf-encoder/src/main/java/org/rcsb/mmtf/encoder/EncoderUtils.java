@@ -49,14 +49,14 @@ public class EncoderUtils {
 			BioAssemblyData bioAssemblyData = new BioAssemblyData();
 			outList.add(bioAssemblyData);
 			List<BioAssemblyTrans> transformList = new ArrayList<>();
-			bioAssemblyData.setTransforms(transformList);
+			bioAssemblyData.setTransformList(transformList);
 			int numTrans = mmtfDecodedDataInterface.getNumTransInBioassembly(i);
 			for (int j=0; j<numTrans; j++) {
 				BioAssemblyTrans bioAssemblyTrans = new BioAssemblyTrans();
 				transformList.add(bioAssemblyTrans);
 				bioAssemblyTrans.setChainIndexList(
 						mmtfDecodedDataInterface.getChainIndexListForTransform(i, j));
-				bioAssemblyTrans.setTransformation(
+				bioAssemblyTrans.setMatrix(
 						mmtfDecodedDataInterface.getMatrixForTransform(i,j));
 			}
 		}

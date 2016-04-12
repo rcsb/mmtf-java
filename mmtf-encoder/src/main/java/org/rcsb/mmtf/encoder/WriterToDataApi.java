@@ -282,17 +282,17 @@ public class WriterToDataApi implements MmtfDecodedDataInterface, MmtfDecoderInt
 
 	@Override
 	public int getNumTransInBioassembly(int bioassemblyIndex) {
-		return bioAssembly.get(bioassemblyIndex).getTransforms().size();
+		return bioAssembly.get(bioassemblyIndex).getTransformList().size();
 	}
 
 	@Override
 	public int[] getChainIndexListForTransform(int bioassemblyIndex, int transformationIndex) {
-		return bioAssembly.get(bioassemblyIndex).getTransforms().get(transformationIndex).getChainIndexList();
+		return bioAssembly.get(bioassemblyIndex).getTransformList().get(transformationIndex).getChainIndexList();
 	}
 
 	@Override
 	public double[] getMatrixForTransform(int bioassemblyIndex, int transformationIndex) {
-		return bioAssembly.get(bioassemblyIndex).getTransforms().get(transformationIndex).getTransformation();
+		return bioAssembly.get(bioassemblyIndex).getTransformList().get(transformationIndex).getMatrix();
 	}
 
 	@Override
@@ -524,17 +524,17 @@ public class WriterToDataApi implements MmtfDecodedDataInterface, MmtfDecoderInt
 		BioAssemblyData bioAssemblyData;
 		List<BioAssemblyTrans> bioAssemblyTranList;
 		if (bioAssembly.size()>bioAssemblyIndex) {
-			bioAssemblyTranList = bioAssembly.get(bioAssemblyIndex).getTransforms();
+			bioAssemblyTranList = bioAssembly.get(bioAssemblyIndex).getTransformList();
 		}
 		else{
 			bioAssemblyData = new BioAssemblyData();
 			bioAssemblyTranList = new ArrayList<>();
-			bioAssemblyData.setTransforms(bioAssemblyTranList);
+			bioAssemblyData.setTransformList(bioAssemblyTranList);
 			bioAssembly.add(bioAssemblyData);
 		}
 		BioAssemblyTrans bioAssemblyTrans = new BioAssemblyTrans();
 		bioAssemblyTrans.setChainIndexList(chainIndices);
-		bioAssemblyTrans.setTransformation(transform);
+		bioAssemblyTrans.setMatrix(transform);
 		bioAssemblyTranList.add(bioAssemblyTrans);
 	}
 

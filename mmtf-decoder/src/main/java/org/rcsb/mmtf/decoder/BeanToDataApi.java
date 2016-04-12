@@ -443,17 +443,17 @@ public class BeanToDataApi implements MmtfDecodedDataInterface {
 
 	@Override
 	public int getNumTransInBioassembly(int bioassemblyIndex) {
-		return bioAssembly.get(bioassemblyIndex).getTransforms().size();
+		return bioAssembly.get(bioassemblyIndex).getTransformList().size();
 	}
 
 	@Override
 	public int[] getChainIndexListForTransform(int bioassemblyIndex, int transformationIndex) {
-		return bioAssembly.get(bioassemblyIndex).getTransforms().get(transformationIndex).getChainIndexList();
+		return bioAssembly.get(bioassemblyIndex).getTransformList().get(transformationIndex).getChainIndexList();
 	}
 
 	@Override
 	public double[] getMatrixForTransform(int bioassemblyIndex, int transformationIndex) {
-		return bioAssembly.get(bioassemblyIndex).getTransforms().get(transformationIndex).getTransformation();
+		return bioAssembly.get(bioassemblyIndex).getTransformList().get(transformationIndex).getMatrix();
 	}
 
 	@Override

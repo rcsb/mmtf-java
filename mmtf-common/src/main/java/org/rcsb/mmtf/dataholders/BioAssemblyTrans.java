@@ -32,7 +32,7 @@ public class BioAssemblyTrans implements Serializable {
    *
    * @return the transformation
    */
-  public final double[] getTransformation() {
+  public final double[] getMatrix() {
     return transformation;
   }
 
@@ -43,8 +43,8 @@ public class BioAssemblyTrans implements Serializable {
    * 
    * @param inputTransformation the new transformation
    */
-  public final void setTransformation(final double[] inputTransformation) {
-    this.transformation = inputTransformation;
+  public final void setMatrix(final double[] transformation) {
+    this.transformation = transformation;
   }
 
   /**
