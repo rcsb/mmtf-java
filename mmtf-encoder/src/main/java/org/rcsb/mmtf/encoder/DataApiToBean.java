@@ -123,6 +123,7 @@ public class DataApiToBean {
 		mmtfBean.setTitle(mmtfDecodedDataInterface.getTitle());
 		mmtfBean.setExperimentalMethods(mmtfDecodedDataInterface.getExperimentalMethods());
 		mmtfBean.setDepositionDate(mmtfDecodedDataInterface.getDepositionDate());
+		mmtfBean.setReleaseDate(mmtfDecodedDataInterface.getReleaseDate());
 		mmtfBean.setSecStructList(ArrayConverters.convertIntegersToFourByte(mmtfDecodedDataInterface.getSecStructList()));
 	}
 

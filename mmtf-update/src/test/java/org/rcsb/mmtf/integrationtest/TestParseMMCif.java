@@ -6,6 +6,7 @@ import java.io.IOException;
 
 import org.biojava.nbio.structure.StructureException;
 import org.biojava.nbio.structure.io.mmtf.MmtfActions;
+import org.biojava.nbio.structure.io.mmtf.MmtfUtils;
 import org.junit.Test;
 import org.rcsb.mmtf.dataholders.MmtfBean;
 import org.rcsb.mmtf.testutils.IntegrationTestUtils;
@@ -21,8 +22,8 @@ public class TestParseMMCif {
 
 	@Test
 	public void testAll() throws IOException, StructureException{
-		TestingUtils.testList(IntegrationTestUtils.TEST_CASES);
 		testDataComplete("4cup");
+		TestingUtils.testList(IntegrationTestUtils.TEST_CASES);
 	}
 	
 	/**
@@ -31,6 +32,7 @@ public class TestParseMMCif {
 	 * @throws IOException 
 	 */
 	private void testDataComplete(String pdbId) throws IOException, StructureException {
+		MmtfUtils.setUpBioJava();
 		// Get an mmtfBean 
 		MmtfBean mmtfBean = MmtfActions.getBean(pdbId);
 		// Make sure all fields are re-populated
