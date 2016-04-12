@@ -3,7 +3,6 @@ package org.rcsb.mmtf.integrationtest;
 import static org.junit.Assert.assertNotEquals;
 
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 
 import org.biojava.nbio.structure.StructureException;
 import org.biojava.nbio.structure.io.mmtf.MmtfActions;
@@ -21,7 +20,7 @@ import org.unitils.reflectionassert.ReflectionAssert;
 public class TestParseMMCif {
 
 	@Test
-	public void testAll() throws IOException, StructureException, IllegalAccessException, InvocationTargetException {
+	public void testAll() throws IOException, StructureException{
 		TestingUtils.testList(IntegrationTestUtils.TEST_CASES);
 		testDataComplete("4cup");
 	}

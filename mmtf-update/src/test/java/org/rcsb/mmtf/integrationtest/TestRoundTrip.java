@@ -3,7 +3,6 @@ package org.rcsb.mmtf.integrationtest;
 import static org.junit.Assert.*;
 
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 
 import org.biojava.nbio.structure.Structure;
 import org.biojava.nbio.structure.StructureException;
@@ -22,7 +21,7 @@ public class TestRoundTrip {
 
 
 	@Test
-	public void testApiRoundTrip() throws IOException, StructureException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+	public void testApiRoundTrip() throws IOException, StructureException, IllegalArgumentException{
 		// First set up Biojava
 		MmtfUtils.setUpBioJava();
 		Structure structure = StructureIO.getStructure("1O2F");

@@ -492,6 +492,7 @@ public class WriterToDataApi implements MmtfDecodedDataInterface, MmtfDecoderInt
 		groupAtomIndex=0;
 		groupBondIndex=0;
 		// Store the group level data
+		insertionCodeList[groupIndex] = insertionCode;
 		groupNum[groupIndex] = groupNumber;
 		seqResGroupList[groupIndex] = sequenceIndex;
 		secStructInfo[groupIndex] = secStructType;

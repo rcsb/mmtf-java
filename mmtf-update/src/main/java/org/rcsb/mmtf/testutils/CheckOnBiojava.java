@@ -71,6 +71,7 @@ public class CheckOnBiojava {
 						System.out.println(groupTwo.getPDBName() + " and type: "+groupTwo.getType());;
 					}
 					assertEquals(groupOne.getType(), groupTwo.getType());
+					assertEquals(groupOne.getResidueNumber().getSeqNum(), groupTwo.getResidueNumber().getSeqNum());
 					// Get the first conf
 					List<Atom> atomsOne = new ArrayList<>(groupOne.getAtoms());
 					List<Atom> atomsTwo = new ArrayList<>(groupTwo.getAtoms());
@@ -112,8 +113,6 @@ public class CheckOnBiojava {
 								return 1;
 							}
 						}
-
-
 					});
 					atomsTwo.sort(new Comparator<Atom>() {
 
@@ -127,12 +126,11 @@ public class CheckOnBiojava {
 								return 1;
 							}
 						}
-
-
 					});         
 					for(int l=0;l<atomsOne.size();l++){
 						Atom atomOne = atomsOne.get(l);
 						Atom atomTwo = atomsTwo.get(l);
+						assertEquals(atomOne.toPDB(), atomTwo.toPDB());
 						assertTrue(atomOne.getGroup().getPDBName().equals(atomTwo.getGroup().getPDBName()));
 						assertTrue(atomOne.getCharge()==atomTwo.getCharge());
 						assertArrayEquals(atomOne.getCoords(),atomTwo.getCoords(), 0.00001);
@@ -140,6 +138,7 @@ public class CheckOnBiojava {
 						assertTrue(atomOne.getName().equals(atomTwo.getName()));
 						assertTrue(atomOne.getOccupancy()==atomTwo.getOccupancy());
 						assertTrue(atomOne.getTempFactor()==atomTwo.getTempFactor());
+						assertTrue(atomOne.getAltLoc()==atomTwo.getAltLoc());
 						if(i==0){
 							if(atomOne.getBonds()==null){
 								if(atomTwo.getBonds()!=null){

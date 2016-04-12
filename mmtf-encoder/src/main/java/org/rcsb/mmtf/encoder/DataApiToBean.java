@@ -24,8 +24,6 @@ public class DataApiToBean {
 		mmtfBean.setGroupTypeList(
 				ArrayConverters.convertIntegersToFourByte(
 						mmtfDecodedDataInterface.getGroupTypeIndices()));
-
-
 		// Encode the coordinate  and B-factor arrays.
 		List<int[]> xCoords = ArrayConverters.splitIntegers(
 				ArrayEncoders.deltaEncode(
