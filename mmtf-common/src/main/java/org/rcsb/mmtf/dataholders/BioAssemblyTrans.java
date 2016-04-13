@@ -1,8 +1,6 @@
 package org.rcsb.mmtf.dataholders;
 
 
-import java.io.Serializable;
-
 /**
  * The transformation needed for generation of biological assemblies
  * from the contents of a PDB/mmCIF file. It contains both the actual
