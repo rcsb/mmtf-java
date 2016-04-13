@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
-import org.rcsb.mmtf.api.MmtfDecodedDataInterface;
-import org.rcsb.mmtf.api.MmtfDecoderInterface;
+import org.rcsb.mmtf.api.DecodedDataInterface;
+import org.rcsb.mmtf.api.DataTransferInterface;
 import org.rcsb.mmtf.dataholders.BioAssemblyData;
 import org.rcsb.mmtf.dataholders.BioAssemblyTrans;
 import org.rcsb.mmtf.dataholders.Entity;
@@ -17,7 +17,7 @@ import org.rcsb.mmtf.utils.CodecUtils;
  * @author Anthony Bradley
  *
  */
-public class WriterToDataApi implements MmtfDecodedDataInterface, MmtfDecoderInterface {
+public class WriterToEncoder implements DecodedDataInterface, DataTransferInterface {
 
 
 	/** The X coordinates */

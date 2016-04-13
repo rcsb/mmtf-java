@@ -13,7 +13,7 @@ public class WriterUtils {
 	 * @param path
 	 * @throws IOException 
 	 */
-	public static void writeDataToFile(WriterToDataApi inflatorToGet, String path) throws IOException {
+	public static void writeDataToFile(WriterToEncoder inflatorToGet, String path) throws IOException {
 		byte[] byteArray = getDataAsByteArr(inflatorToGet);
 		FileOutputStream fos = new FileOutputStream(path);
 		fos.write(byteArray);
@@ -21,10 +21,10 @@ public class WriterUtils {
 	}
 	
 	
-	public static byte[] getDataAsByteArr(WriterToDataApi inflatorToGet) throws IOException {
+	public static byte[] getDataAsByteArr(WriterToEncoder inflatorToGet) throws IOException {
 		MessagePackSerializer messagePackSerializer = new MessagePackSerializer();
 		// Get to bean
-		DataApiToBean getToBean = new DataApiToBean(inflatorToGet);
+		DefaultEncoder getToBean = new DefaultEncoder(inflatorToGet);
 		return messagePackSerializer.serialize(getToBean.getMmtfBean());
 	}
 

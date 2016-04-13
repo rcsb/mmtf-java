@@ -3,7 +3,7 @@ package org.rcsb.mmtf.encoder;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.rcsb.mmtf.api.MmtfDecodedDataInterface;
+import org.rcsb.mmtf.api.DecodedDataInterface;
 import org.rcsb.mmtf.dataholders.BioAssemblyData;
 import org.rcsb.mmtf.dataholders.BioAssemblyTrans;
 import org.rcsb.mmtf.dataholders.Entity;
@@ -17,7 +17,7 @@ public class EncoderUtils {
 	 * @param mmtfDecodedDataInterface the input interface
 	 * @return a list of all the groups in the molecule
 	 */
-	public static PDBGroup[] generateGroupMap(MmtfDecodedDataInterface mmtfDecodedDataInterface) {
+	public static PDBGroup[] generateGroupMap(DecodedDataInterface mmtfDecodedDataInterface) {
 		int[] groupTypeIndices = mmtfDecodedDataInterface.getGroupTypeIndices();
 		int maxIndex = CodecUtils.findMaxInIntArray(groupTypeIndices);
 		PDBGroup[] outGroupList = new PDBGroup[maxIndex+1];
@@ -42,7 +42,7 @@ public class EncoderUtils {
 	 * @param mmtfDecodedDataInterface the interface from where to find the data
 	 * @return a list of bioassembly information
 	 */
-	public static List<BioAssemblyData> generateBioassemblies(MmtfDecodedDataInterface mmtfDecodedDataInterface) {
+	public static List<BioAssemblyData> generateBioassemblies(DecodedDataInterface mmtfDecodedDataInterface) {
 		int numBioassemblies = mmtfDecodedDataInterface.getNumBioassemblies();
 		List<BioAssemblyData> outList = new ArrayList<>();
 		for (int i=0; i<numBioassemblies; i++) {
@@ -68,7 +68,7 @@ public class EncoderUtils {
 	 * @param mmtfDecodedDataInterface the input interface
 	 * @return the list of entities
 	 */
-	public static Entity[] generateEntityList(MmtfDecodedDataInterface mmtfDecodedDataInterface) {
+	public static Entity[] generateEntityList(DecodedDataInterface mmtfDecodedDataInterface) {
 		int numEntities =  mmtfDecodedDataInterface.getNumEntities();
 		Entity[] outList = new Entity[numEntities];
 		for (int i=0; i<numEntities;i++) {

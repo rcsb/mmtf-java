@@ -1,14 +1,14 @@
 package org.rcsb.mmtf.decoder;
 
-import org.rcsb.mmtf.api.MmtfDecodedDataInterface;
-import org.rcsb.mmtf.api.MmtfDecoderInterface;
+import org.rcsb.mmtf.api.DecodedDataInterface;
+import org.rcsb.mmtf.api.DataTransferInterface;
 
 public class DecoderUtils {
 
 	/**
 	 * Parses the bioassembly data and inputs it to the structure inflator
 	 */
-	public static void generateBioAssembly(MmtfDecodedDataInterface dataApi, MmtfDecoderInterface structInflator) {
+	public static void generateBioAssembly(DecodedDataInterface dataApi, DataTransferInterface structInflator) {
 		for (int i=0; i<dataApi.getNumBioassemblies(); i++) {
 			for(int j=0; j<dataApi.getNumTransInBioassembly(i); j++) {
 				structInflator.setBioAssemblyTrans(i+1, dataApi.getChainIndexListForTransform(i, j), dataApi.getMatrixForTransform(i,j));    
@@ -20,7 +20,7 @@ public class DecoderUtils {
 	 * Generate inter group bonds
 	 * Bond indices are specified within the whole structure and start at 0.
 	 */
-	public static void addInterGroupBonds(MmtfDecodedDataInterface dataApi, MmtfDecoderInterface structInflator) {
+	public static void addInterGroupBonds(DecodedDataInterface dataApi, DataTransferInterface structInflator) {
 		for (int i = 0; i < dataApi.getInterGroupBondOrders().length; i++) {
 			structInflator.setInterGroupBond(dataApi.getInterGroupBondIndices()[i * 2],
 					dataApi.getInterGroupBondIndices()[i * 2 + 1], dataApi.getInterGroupBondOrders()[i]);
@@ -30,7 +30,7 @@ public class DecoderUtils {
 	/**
 	 * Add ancilliary header information to the structure
 	 */
-	public static void addHeaderInfo(MmtfDecodedDataInterface dataApi, MmtfDecoderInterface structInflator) {
+	public static void addHeaderInfo(DecodedDataInterface dataApi, DataTransferInterface structInflator) {
 		structInflator.setHeaderInfo(dataApi.getRfree(),dataApi.getRwork(), dataApi.getResolution(), 
 				dataApi.getTitle(), dataApi.getDepositionDate(), dataApi.getReleaseDate(), dataApi.getExperimentalMethods());		
 	}
@@ -41,7 +41,7 @@ public class DecoderUtils {
 	 * @param dataApi
 	 * @param structInflator
 	 */
-	public static void addXtalographicInfo(MmtfDecodedDataInterface dataApi, MmtfDecoderInterface structInflator) {
+	public static void addXtalographicInfo(DecodedDataInterface dataApi, DataTransferInterface structInflator) {
 		if(dataApi.getUnitCell()!=null){
 			structInflator.setXtalInfo(dataApi.getSpaceGroup(), dataApi.getUnitCell());    
 		}		
@@ -52,7 +52,7 @@ public class DecoderUtils {
 	 * @param dataApi
 	 * @param structInflator
 	 */
-	public static void addEntityInfo(MmtfDecodedDataInterface dataApi, MmtfDecoderInterface structInflator) {
+	public static void addEntityInfo(DecodedDataInterface dataApi, DataTransferInterface structInflator) {
 		for (int i=0; i<dataApi.getNumEntities(); i++) {
 			String[] chainIdList = new String[dataApi.getEntityChainIndexList(i).length];
 			int counter = 0;

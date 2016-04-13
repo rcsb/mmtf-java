@@ -3,7 +3,7 @@ package org.rcsb.mmtf.encoder;
 import java.io.IOException;
 import java.util.List;
 
-import org.rcsb.mmtf.api.MmtfDecodedDataInterface;
+import org.rcsb.mmtf.api.DecodedDataInterface;
 import org.rcsb.mmtf.dataholders.MmtfBean;
 import org.rcsb.mmtf.encoder.ArrayConverters;
 import org.rcsb.mmtf.encoder.ArrayEncoders;
@@ -14,11 +14,11 @@ import org.rcsb.mmtf.gitversion.GetRepoState;
  * @author Anthony Bradley
  *
  */
-public class DataApiToBean {
+public class DefaultEncoder {
 
 	private MmtfBean mmtfBean;
 
-	public DataApiToBean(MmtfDecodedDataInterface mmtfDecodedDataInterface) throws IOException {
+	public DefaultEncoder(DecodedDataInterface mmtfDecodedDataInterface) throws IOException {
 		mmtfBean = new MmtfBean();
 		// Set the group types
 		mmtfBean.setGroupTypeList(

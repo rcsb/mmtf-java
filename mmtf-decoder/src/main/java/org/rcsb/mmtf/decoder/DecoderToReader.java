@@ -3,8 +3,8 @@ package org.rcsb.mmtf.decoder;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.rcsb.mmtf.api.MmtfDecodedDataInterface;
-import org.rcsb.mmtf.api.MmtfDecoderInterface;
+import org.rcsb.mmtf.api.DecodedDataInterface;
+import org.rcsb.mmtf.api.DataTransferInterface;
 
 /**
  * Decode an MMTF structure using a structure inflator. 
@@ -12,13 +12,13 @@ import org.rcsb.mmtf.api.MmtfDecoderInterface;
  * @author Anthony Bradley
  *
  */
-public class DataApiToReader {
+public class DecoderToReader {
 
 	/** The struct inflator. */
-	private MmtfDecoderInterface structInflator;
+	private DataTransferInterface structInflator;
 
 	/** The api to the data */
-	private MmtfDecodedDataInterface dataApi;
+	private DecodedDataInterface dataApi;
 
 	// Intialises the counters.
 	private int modelCounter = 0;
@@ -28,14 +28,14 @@ public class DataApiToReader {
 	private int currentAtomIndex = 0;
 	private Set<String> chainIdSet;
 
-	public DataApiToReader(){
+	public DecoderToReader(){
 
 	}
 
 	/**
 	 * Passes data from the data interface to the inflator interface.
 	 */
-	public void read(MmtfDecodedDataInterface inputApi, MmtfDecoderInterface inputInflator){
+	public void read(DecodedDataInterface inputApi, DataTransferInterface inputInflator){
 		// Set the api and the inflator
 		dataApi = inputApi;
 		structInflator = inputInflator;

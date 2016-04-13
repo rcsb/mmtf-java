@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.rcsb.mmtf.api.MmtfDecodedDataInterface;
+import org.rcsb.mmtf.api.DecodedDataInterface;
 import org.rcsb.mmtf.dataholders.BioAssemblyData;
 import org.rcsb.mmtf.dataholders.Entity;
 import org.rcsb.mmtf.dataholders.MmtfBean;
@@ -15,9 +15,9 @@ import org.rcsb.mmtf.dataholders.PDBGroup;
  * @author Anthony Bradley
  *
  */
-public class BeanToDataApi implements MmtfDecodedDataInterface {
+public class DefaultDecoder implements DecodedDataInterface {
 
-	public BeanToDataApi(MmtfBean inputData) throws IOException {
+	public DefaultDecoder(MmtfBean inputData) throws IOException {
 		groupList = ArrayConverters.convertFourByteToIntegers(inputData.getGroupTypeList());
 		// Decode the coordinate  and B-factor arrays.
 		cartnX = ArrayConverters.convertIntsToFloats(

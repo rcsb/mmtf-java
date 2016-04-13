@@ -5,7 +5,7 @@ package org.rcsb.mmtf.api;
  *
  * @author Anthony Bradley
  */
-public interface MmtfDecoderInterface {
+public interface DataTransferInterface {
 
 	/**
 	 * Used before any additions to do any required pre-processing.
