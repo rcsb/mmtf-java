@@ -25,8 +25,15 @@ public class TestDefaultDecoder {
 		DefaultDecoder defaultDecoder = new DefaultDecoder(mmtfBean);
 		ReflectionAssert.assertPropertiesNotNull("Some properties null after decoding", defaultDecoder);
 		for(PropertyDescriptor propertyDescriptor : 
-		    Introspector.getBeanInfo(MmtfBean.class).getPropertyDescriptors()){
+			Introspector.getBeanInfo(MmtfBean.class).getPropertyDescriptors()){
 			assertNotNull(propertyDescriptor.getReadMethod().invoke(mmtfBean));
+		}
+		// Check the decoder has been populated to
+		for(PropertyDescriptor propertyDescriptor :
+			Introspector.getBeanInfo(DefaultDecoder.class).getPropertyDescriptors()){
+			if(propertyDescriptor.getReadMethod()!=null){
+				assertNotNull(propertyDescriptor.getReadMethod().invoke(defaultDecoder));
+			}
 		}
 	}
 
@@ -38,6 +45,5 @@ public class TestDefaultDecoder {
 		DataTransferInterface inputInflator = new DummyTransferImpl();
 		decoderToReader.read(dummyApiImpl, inputInflator);
 	}
-
 
 }

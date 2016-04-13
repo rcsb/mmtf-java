@@ -3,6 +3,8 @@ package org.rcsb.mmtf.dataholders;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.util.ArrayList;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -32,6 +34,12 @@ public class TestPdbGroup {
 		pdbGroup.setGroupName("MET");
 		pdbGroup.setSingleLetterCode('A');
 		return pdbGroup;
+	}
+
+
+	@Test
+	public void testPdbGroupEqualsItstelf() {
+		assertTrue(pdbGroupOne.equals(pdbGroupOne));
 	}
 
 
@@ -84,6 +92,28 @@ public class TestPdbGroup {
 	@Test
 	public void testPdbGroupNotEqualsSingle() {
 		pdbGroupOne.setSingleLetterCode('B');
+		assertFalse(pdbGroupOne.equals(pdbGroupTwo));
+	}
+	
+	@Test
+	public void testPdbGroupNotEqualsNull() {
+		assertFalse(pdbGroupOne.equals(null));
+	}
+	
+	@Test
+	public void testPdbGroupNotEqulasOtherObj() {
+		assertFalse(pdbGroupOne.equals(new ArrayList<Integer>()));
+	}
+	
+	@Test
+	public void testPdbGroupNotEqualsNullChem() {
+		pdbGroupTwo.setChemCompType(null);
+		assertFalse(pdbGroupOne.equals(pdbGroupTwo));
+	}
+	
+	@Test
+	public void testPdbGroupNotEqulasNullType() {
+		pdbGroupTwo.setGroupName(null);
 		assertFalse(pdbGroupOne.equals(pdbGroupTwo));
 	}
 }

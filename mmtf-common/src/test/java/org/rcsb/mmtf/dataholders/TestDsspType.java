@@ -35,5 +35,9 @@ public class TestDsspType {
 		assertEquals(DsspType.dsspTypeFromString("NA"), DsspType.dsspTypeFromInt(-1));
 		assertEquals(DsspType.NULL_ENTRY, DsspType.dsspTypeFromInt(-1));
 		
+		assertEquals(DsspType.NULL_ENTRY, DsspType.dsspTypeFromString(null));
+		assertEquals(DsspType.NULL_ENTRY, DsspType.dsspTypeFromString("MMTF"));
+		assertEquals(DsspType.NULL_ENTRY, DsspType.dsspTypeFromInt(100));
+
 	}
 }

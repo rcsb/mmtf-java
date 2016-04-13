@@ -36,7 +36,6 @@ public class ReaderUtils {
 			is = url.openStream();
 			byte[] byteChunk = new byte[BYTE_BUFFER_CHUNK_SIZE]; // Or whatever size you want to read in at a time.
 			int n;
-
 			while ( (n = is.read(byteChunk)) > 0 ) {
 				baos.write(byteChunk, 0, n);
 			}
@@ -44,7 +43,6 @@ public class ReaderUtils {
 		catch (IOException e) {
 			System.err.printf ("Failed while reading bytes from %s: %s", url.toExternalForm(), e.getMessage());
 			e.printStackTrace ();
-			// Perform any other exception handling that's appropriate.
 		}
 		finally {
 			if (is != null) { is.close(); }
@@ -62,7 +60,7 @@ public class ReaderUtils {
 	 * @return A deflated byte array
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
-	private static byte[] deflateGzip(final byte[] inputBytes){
+	public static byte[] deflateGzip(final byte[] inputBytes){
 		// Start the byte input stream
 		ByteArrayInputStream bis = new ByteArrayInputStream(inputBytes);
 		GZIPInputStream gis;
@@ -116,6 +114,12 @@ public class ReaderUtils {
 		return messagePackDeserializer.deserialize(readFile(filePath));
 	}
 
+	/**
+	 * Read a byte array from a file
+	 * @param filePath the input file path
+	 * @return the returned byte array
+	 * @throws IOException
+	 */
 	private static byte[] readFile(String filePath) throws IOException {
 		Path path = Paths.get(filePath);
 		byte[] data = Files.readAllBytes(path);
