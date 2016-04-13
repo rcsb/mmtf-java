@@ -11,13 +11,15 @@ This repository holds the Java API, encoding and decoding libraries. Along with 
 
 The alpha release is available on Maven central.
 
-```<groupId>org.rcsb</groupId>
+```xml
+<groupId>org.rcsb</groupId>
 <artifactId>mmtf-decoder</artifactId>
 <packaging>pom</packaging>
 <version>0.0.1-alpha3</version>
 ```
 
-```<groupId>org.rcsb</groupId>
+```xml
+<groupId>org.rcsb</groupId>
 <artifactId>mmtf-api</artifactId>
 <packaging>pom</packaging>
 <version>0.0.1-alpha3</version>
@@ -29,19 +31,19 @@ Or you can clone this repo and install yourself.
 Quick getting started.
 
 1) Get the data for a PDB structure and print the number of chains:
-```
+```java
 HandleIO handleIO = new HandleIO();
 DataApiInterface dataApi = handleIO.getDataApiFromUrlOrFile("4cup");
 System.out.println("PDB Code: "+dataApi.getPdbId()+" has "+dataApi.getNumChains()+" chains");
 ```
 
 2) Show the charge information for the first group:
-```
+```java
 PDBGroup pdbGroup = dataApi.getGroupMap().get(0);
 System.out.println("HET group "+pdbGroup.getGroupName()+" has the following atomic charges: "+pdbGroup.getAtomCharges());
 ```
 
 3) Show how many bioassemblies it has:
-```
+```java
 System.out.println("PDB Code: "+dataApi.getPdbId()+" has "+dataApi.getBioAssembly().size()+" bioassemblies");
 ```
