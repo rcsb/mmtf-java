@@ -469,7 +469,6 @@
 		<module>mmtf-api</module>
 		<module>mmtf-decoder</module>
 		<module>mmtf-encoder</module>
-		<module>mmtf-update</module>
 	</modules>
 	<inceptionYear>2015</inceptionYear>
 	<issueManagement>
@@ -477,8 +476,7 @@
 		<url>https://github.com/rcsb/mmtf-java/issues</url>
 	</issueManagement>
 	<ciManagement>
-		<system>CruiseControl</system>
-		<url>http://ccpublic.rcsb.org/</url>
+		<system>Travis</system>
+		<url>https://travis-ci.org/</url>
 	</ciManagement>
-
 </project>
