@@ -24,7 +24,6 @@ public class Entity implements Serializable {
 	private String sequence;
     
     
-    
 	public String getDescription() {
 		return description;
 	}

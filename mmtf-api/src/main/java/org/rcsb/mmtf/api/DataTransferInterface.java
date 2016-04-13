@@ -47,9 +47,9 @@ public interface DataTransferInterface {
 	 * @param chainIndices the indices of the chain this refers to.
 	 * @param sequence the full sequence of the entity
 	 * @param description the text description of the entity
-	 * @param title
+	 * @param type as a string (POLYMER/NON-POLYMER and WATER)
 	 */
-	void setEntityInfo(int[] chainIndices, String sequence, String description, String title);
+	void setEntityInfo(int[] chainIndices, String sequence, String description, String type);
 
 	/**
 	 * Sets the information for a given group / residue with atomic data.

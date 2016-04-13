@@ -70,8 +70,10 @@ public class DefaultDecoder implements DecodedDataInterface {
 		// Get the group map (all the unique groups in the structure).
 		groupMap = inputData.getGroupList();
 		// Get the seqRes groups
-		seqResGroupList = ArrayConverters.convertFourByteToIntegers(
-				inputData.getSequenceIndexList());
+		seqResGroupList = ArrayDecoders.deltaDecode(
+				ArrayDecoders.runlengthDecode(
+						ArrayConverters.convertFourByteToIntegers(
+								inputData.getSequenceIndexList())));
 		// Get the number of chains per model
 		chainsPerModel = inputData.getChainsPerModel();
 		groupsPerChain = inputData.getGroupsPerChain();
@@ -97,7 +99,7 @@ public class DefaultDecoder implements DecodedDataInterface {
 		// Now get the relase information
 		depositionDate = inputData.getDepositionDate();
 		releaseDate = inputData.getReleaseDate();
-		secStructInfo = ArrayConverters.convertFourByteToIntegers(inputData.getSecStructList());
+		secStructInfo = ArrayConverters.convertByteToIntegers(inputData.getSecStructList());
 	}
 
 	/** The X coordinates */
@@ -195,10 +197,10 @@ public class DefaultDecoder implements DecodedDataInterface {
 
 	/** The deposition date of the structure */
 	private String depositionDate;
-	
+
 	/** The release date of the  structure */
 	private String releaseDate;
-	
+
 	private int[] secStructInfo;
 
 

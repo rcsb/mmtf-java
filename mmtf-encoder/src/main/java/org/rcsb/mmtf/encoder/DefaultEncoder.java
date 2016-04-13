@@ -73,12 +73,12 @@ public class DefaultEncoder {
 		// Run length encoded
 		mmtfBean.setAltLocList(ArrayConverters.convertIntegersToFourByte(
 				ArrayEncoders.runlengthEncode(
-				ArrayConverters.convertCharToIntegers(
-						decodedDataInterface.getAltLocIds()))));
+						ArrayConverters.convertCharToIntegers(
+								decodedDataInterface.getAltLocIds()))));
 		mmtfBean.setInsCodeList(ArrayConverters.convertIntegersToFourByte(
 				ArrayEncoders.runlengthEncode(
-				ArrayConverters.convertCharToIntegers(
-						decodedDataInterface.getInsCodes()))));
+						ArrayConverters.convertCharToIntegers(
+								decodedDataInterface.getInsCodes()))));
 
 		// Set the groupNumber
 		mmtfBean.setGroupIdList(ArrayConverters.convertIntegersToFourByte(
@@ -90,7 +90,9 @@ public class DefaultEncoder {
 		mmtfBean.setGroupList(EncoderUtils.generateGroupMap(decodedDataInterface));
 		// Set the indices for the groups mapping to the sequence
 		mmtfBean.setSequenceIndexList(ArrayConverters.convertIntegersToFourByte(
-				decodedDataInterface.getGroupSequenceIndices()));
+				ArrayEncoders.runlengthEncode(
+						ArrayEncoders.deltaEncode(
+								decodedDataInterface.getGroupSequenceIndices()))));
 		// Set the number of chains per model
 		mmtfBean.setChainsPerModel(decodedDataInterface.getChainsPerModel());
 		mmtfBean.setGroupsPerChain(decodedDataInterface.getGroupsPerChain());
@@ -124,7 +126,7 @@ public class DefaultEncoder {
 		mmtfBean.setExperimentalMethods(decodedDataInterface.getExperimentalMethods());
 		mmtfBean.setDepositionDate(decodedDataInterface.getDepositionDate());
 		mmtfBean.setReleaseDate(decodedDataInterface.getReleaseDate());
-		mmtfBean.setSecStructList(ArrayConverters.convertIntegersToFourByte(decodedDataInterface.getSecStructList()));
+		mmtfBean.setSecStructList(ArrayConverters.convertIntegersToBytes(decodedDataInterface.getSecStructList()));
 	}
 
 	public MmtfBean getMmtfBean() {

@@ -491,7 +491,7 @@ public class WriterToEncoder implements DecodedDataInterface, DataTransferInterf
 		pdbGroup.setChemCompType(polymerType);
 		pdbGroup.setElementList(new String[atomCount]);
 		pdbGroup.setGroupName(groupName);
-		pdbGroup.setSingleLetterCode(insertionCode);
+		pdbGroup.setSingleLetterCode(singleAtomCode);
 		groupAtomIndex=0;
 		groupBondIndex=0;
 		// Store the group level data

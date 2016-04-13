@@ -18,7 +18,6 @@ public class TestDefaultEncoder {
 		DummyApiImpl dummyApiImpl = new DummyApiImpl();
 		DefaultEncoder defaultEncoder = new DefaultEncoder(dummyApiImpl);
 		ReflectionAssert.assertPropertiesNotNull("Some properties null after encoding", defaultEncoder.getMmtfBean());
-
 	}
 	
 	

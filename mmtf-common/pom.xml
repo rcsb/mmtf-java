@@ -26,6 +26,18 @@
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>uk.co.jemos.podam</groupId>
+			<artifactId>podam</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.unitils</groupId>
+			<artifactId>unitils-core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>commons-beanutils</groupId>
+			<artifactId>commons-beanutils</artifactId>
+		</dependency>
 	</dependencies>
 	<build>
 		<plugins>

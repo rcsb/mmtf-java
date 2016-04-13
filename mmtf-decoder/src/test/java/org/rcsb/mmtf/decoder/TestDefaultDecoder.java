@@ -2,7 +2,6 @@ package org.rcsb.mmtf.decoder;
 
 import java.io.IOException;
 
-import org.junit.Before;
 import org.junit.Test;
 import org.rcsb.mmtf.api.DataTransferInterface;
 import org.rcsb.mmtf.dataholders.MmtfBean;
