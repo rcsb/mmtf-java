@@ -3,7 +3,6 @@ package org.rcsb.mmtf.deserializers;
 import java.io.IOException;
 
 import org.msgpack.jackson.dataformat.MessagePackFactory;
-import org.rcsb.mmtf.api.DeserializerInterface;
 import org.rcsb.mmtf.dataholders.MmtfBean;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -13,9 +12,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  * @author Anthony Bradley
  *
  */
-public class MessagePackDeserializer implements DeserializerInterface {
+public class MessagePackDeserializer {
 
-	@Override
 	public MmtfBean deserialize(byte[] byteArray) {
 		MmtfBean mmtfBean = null;
 		try {

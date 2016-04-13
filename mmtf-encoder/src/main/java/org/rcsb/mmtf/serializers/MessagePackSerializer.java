@@ -1,7 +1,7 @@
 package org.rcsb.mmtf.serializers;
 
 import org.msgpack.jackson.dataformat.MessagePackFactory;
-import org.rcsb.mmtf.api.SerializerInterface;
+import org.rcsb.mmtf.dataholders.MmtfBean;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -12,10 +12,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  * @author Anthony Bradley
  *
  */
-public class MessagePackSerializer implements SerializerInterface {
+public class MessagePackSerializer {
 
-	@Override
-	public byte[] serialize(Object object) {
+	public byte[] serialize(MmtfBean object) {
 		ObjectMapper objectMapper = new ObjectMapper(new MessagePackFactory());
 		byte[] byteArray;
 		try {
