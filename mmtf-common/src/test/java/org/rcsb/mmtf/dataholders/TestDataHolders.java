@@ -2,6 +2,7 @@ package org.rcsb.mmtf.dataholders;
 
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 import org.unitils.reflectionassert.ReflectionAssert;
@@ -57,6 +58,33 @@ public class TestDataHolders {
 		
 		assertEquals(DsspType.dsspTypeFromString("NA"), DsspType.dsspTypeFromInt(-1));
 		assertEquals(DsspType.NULL_ENTRY, DsspType.dsspTypeFromInt(-1));
+		
+	}
+	
+	
+	@Test
+	public void testPdbGroupType() {
+		
+		PDBGroup pdbGroupOne = new PDBGroup();
+		pdbGroupOne.setAtomChargeList(new int[] {1,1});
+		pdbGroupOne.setAtomNameList(new String[] {"A","B"});
+		pdbGroupOne.setBondAtomList(new int[] {0,1});
+		pdbGroupOne.setBondOrderList(new int[] {1});
+		pdbGroupOne.setChemCompType("POLT");
+		pdbGroupOne.setElementList(new String[] {"A","B"});
+		pdbGroupOne.setGroupName("MET");
+		pdbGroupOne.setSingleLetterCode('A');
+		
+		PDBGroup pdbGroupTwo = new PDBGroup();
+		pdbGroupTwo.setAtomChargeList(new int[] {1,1});
+		pdbGroupTwo.setAtomNameList(new String[] {"A","B"});
+		pdbGroupTwo.setBondAtomList(new int[] {0,1});
+		pdbGroupTwo.setBondOrderList(new int[] {1});
+		pdbGroupTwo.setChemCompType("POLT");
+		pdbGroupTwo.setElementList(new String[] {"A","B"});
+		pdbGroupTwo.setGroupName("MET");
+		pdbGroupTwo.setSingleLetterCode('A');
+		assertTrue(pdbGroupOne.equals(pdbGroupTwo));
 		
 	}
 }
