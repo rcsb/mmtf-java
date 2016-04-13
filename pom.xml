@@ -215,21 +215,21 @@
 
 		<plugins>
 			<plugin>
-			    <groupId>org.codehaus.mojo</groupId>
-			    <artifactId>cobertura-maven-plugin</artifactId>
-			    <version>2.7</version>
-			    <configuration>
-			        <format>xml</format>
-			        <maxmem>256m</maxmem>
-			        <!-- aggregated reports for multi-module projects -->
-			        <aggregate>true</aggregate>
-			    </configuration>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>cobertura-maven-plugin</artifactId>
+				<version>2.7</version>
+				<configuration>
+					<format>xml</format>
+					<maxmem>256m</maxmem>
+					<!-- aggregated reports for multi-module projects -->
+					<aggregate>true</aggregate>
+				</configuration>
 			</plugin>
 			<plugin>
-    				<groupId>org.eluder.coveralls</groupId>
-    				<artifactId>coveralls-maven-plugin</artifactId>
-    				<version>4.1.0</version>
-    			</plugin>
+				<groupId>org.eluder.coveralls</groupId>
+				<artifactId>coveralls-maven-plugin</artifactId>
+				<version>4.1.0</version>
+			</plugin>
 			<!-- for deployment on OSS Sonatype -->
 			<plugin>
 				<groupId>org.sonatype.plugins</groupId>
@@ -324,11 +324,21 @@
 				<version>2.6</version>
 			</extension>
 		</extensions>
-
 	</build>
-
 	<dependencyManagement>
 		<dependencies>
+			<dependency>
+				<groupId>uk.co.jemos.podam</groupId>
+				<artifactId>podam</artifactId>
+				<version>2.3.5.RELEASE</version>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.unitils</groupId>
+				<artifactId>unitils-core</artifactId>
+				<version>3.4.2</version>
+				<scope>test</scope>
+			</dependency>
 			<dependency>
 				<groupId>junit</groupId>
 				<artifactId>junit</artifactId>
