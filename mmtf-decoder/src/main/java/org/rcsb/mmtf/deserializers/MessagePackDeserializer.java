@@ -5,6 +5,8 @@ import java.io.IOException;
 import org.msgpack.jackson.dataformat.MessagePackFactory;
 import org.rcsb.mmtf.dataholders.MmtfBean;
 
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
@@ -14,15 +16,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  */
 public class MessagePackDeserializer {
 
-	public MmtfBean deserialize(byte[] byteArray) {
+	public MmtfBean deserialize(byte[] byteArray) throws JsonParseException, JsonMappingException, IOException {
 		MmtfBean mmtfBean = null;
-		try {
-			mmtfBean = new ObjectMapper(new MessagePackFactory()).readValue(byteArray, MmtfBean.class);
-		} catch (IOException e) {
-			System.err.println("Error converting Byte array to message pack. IOError");
-			e.printStackTrace();
-			throw new RuntimeException();
-		}
+		mmtfBean = new ObjectMapper(new MessagePackFactory()).readValue(byteArray, MmtfBean.class);
 		return mmtfBean;
 	}
 }

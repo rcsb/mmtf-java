@@ -15,17 +15,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  */
 public class MessagePackSerializer {
 
-	public byte[] serialize(MmtfBean object) {
+	public byte[] serialize(MmtfBean object) throws JsonProcessingException {
 		
 		ObjectMapper objectMapper = new ObjectMapper(new MessagePackFactory());
 		objectMapper.setSerializationInclusion(Include.NON_NULL);
-		byte[] byteArray;
-		try {
-			byteArray = objectMapper.writeValueAsBytes(object);
-		} catch (JsonProcessingException e) {
-			e.printStackTrace();
-			byteArray = new byte[0];
-		}
+		byte[] byteArray = objectMapper.writeValueAsBytes(object);
 		return byteArray;
 	}
 }
