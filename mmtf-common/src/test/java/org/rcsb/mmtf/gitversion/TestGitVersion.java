@@ -13,5 +13,6 @@ public class TestGitVersion {
 	public void doesGitVersionExist(){
 		assertNotEquals("NA", GetRepoState.getCurrentVersion());
 	}
+	
 
 }
