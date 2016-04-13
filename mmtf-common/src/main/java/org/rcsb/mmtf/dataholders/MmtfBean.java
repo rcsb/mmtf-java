@@ -2,7 +2,6 @@ package org.rcsb.mmtf.dataholders;
 
 import java.io.Serializable;
 import java.util.List;
-import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -13,17 +12,20 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class MmtfBean implements Serializable {
-	
+
+
 	/** The number to divide coordinate int values by. */
 	public static final float COORD_DIVIDER = 1000.0f;
 	/** The number to divide occupancy and bfactor int values by. */
 	public static final float OCCUPANCY_BFACTOR_DIVIDER = 100.0f;
-	/**
-	 * The default value for Rfree, Rwork and resolution when not available or not applicable
-	 */
-	public static final float UNAVAILABLE_R_VALUE = -1.0f;
+	/** The default value for Rfree and Rwork */
+	public static final float UNAVAILABLE_R_VALUE = 1.0f;
+	/** The default value for resolution when not available or not applicable  */
+	public static final float UNAVAILABLE_RESOLUTION_VALUE = 99.0f;
+	/** The default value for a missing or null string field */
+	public static final char UNAVAILABLE_CHAR_VALUE = '\0';
 
-	
+
 	/** Serial id for this version of the format. */
 	private static final long serialVersionUID = 384559979573830324L;
 
@@ -36,8 +38,8 @@ public class MmtfBean implements Serializable {
 	/** The number of bonds. */
 	private int numBonds;
 
-	/** The pdb id. */
-	private String pdbId;
+	/** The structure Id. Most commonly this will be the four character PDB id. */
+	private String structureId;
 
 	/** The title. */
 	private String title;
@@ -72,9 +74,8 @@ public class MmtfBean implements Serializable {
 	/** The bond order list. */
 	private byte[] bondOrderList;
 
-	/** The group map. */
-	// Map of all the data
-	private  Map<Integer, PDBGroup> groupMap;
+	/** The list of different PDBGroups in the structure. */
+	private PDBGroup[] groupList;
 
 	/** The x coord big. 4 byte integers in pairs. */
 	private byte[] xCoordBig;
@@ -104,13 +105,13 @@ public class MmtfBean implements Serializable {
 	private byte[] secStructList;
 
 	/** The occupancy list. */
-	private byte[] occList;
+	private byte[] occupancyList;
 
-	/** The alt label list. */
-	private List<String> altLabelList;
+	/** The list of alternate location ids. */
+	private byte[] altLocList;
 
 	/** The insertion code list. */
-	private List<String> insCodeList;
+	private byte[] insCodeList;
 
 	/** The group type list. */
 	private byte[] groupTypeList;
@@ -122,24 +123,29 @@ public class MmtfBean implements Serializable {
 	private byte[] atomIdList;
 
 	/** The SeqRes group ids. */
-	private byte[] seqResIdList;
+	private byte[] sequenceIndexList;
 
 	/** The experimental method(s). */
-	private List<String> experimentalMethods;
+	private String[] experimentalMethods;
 
-	/** The resolution in Angstrom. -1.0 if not applicable*/
+	/** The resolution in Angstrom. Null if not applicable*/
 	private float resolution;
 
-	/** The rfree. -1.0 if not applicable */
+	/** The rfree. Null if not applicable */
 	private float rFree;
 
-	/** The r-work. -1.0 if not applicable */
+	/** The r-work. Null if not applicable */
 	private float rWork;
-	
+
 	/** The list of entities in this structure. */
 	private Entity[] entityList;
-	
-	
+
+	/** The deposition date of the structure in ISO time standard format. https://www.cl.cam.ac.uk/~mgk25/iso-time.html */
+	private String depositionDate;
+
+	/** The release data of the structure in ISO time standard format. https://www.cl.cam.ac.uk/~mgk25/iso-time.html */
+	private String releaseDate;
+
 	/** Constructor to set the default values for floats */
 	public MmtfBean() {
 
@@ -150,11 +156,11 @@ public class MmtfBean implements Serializable {
 		mmtfProducer = "NA";
 
 		/** The resolution in Angstrom. -1.0 if not applicable*/
-		resolution = UNAVAILABLE_R_VALUE;
+		resolution = UNAVAILABLE_RESOLUTION_VALUE;
 
-		/** The rfree. -1.0 if not applicable */
+		/** The rfree. 1.0 if not applicable */
 		rFree = UNAVAILABLE_R_VALUE;
-		
+
 		rWork = UNAVAILABLE_R_VALUE;
 
 		/** The number of atoms. Default is -1 indicates error */
@@ -168,7 +174,10 @@ public class MmtfBean implements Serializable {
 	/**
 	 * @return the resolution
 	 */
-	public float getResolution() {
+	public Float getResolution() {
+		if (resolution==UNAVAILABLE_RESOLUTION_VALUE) {
+			return null;
+		}
 		return resolution;
 	}
 
@@ -176,13 +185,21 @@ public class MmtfBean implements Serializable {
 	 * @param resolution the resolution to set
 	 */
 	public void setResolution(float resolution) {
-		this.resolution = resolution;
+		if (resolution==0.0) {
+			this.resolution = UNAVAILABLE_RESOLUTION_VALUE;
+		}
+		else{
+			this.resolution = resolution;
+		}
 	}
 
 	/**
 	 * @return the rFree
 	 */
-	public float getrFree() {
+	public Float getrFree() {
+		if (rFree==UNAVAILABLE_R_VALUE) {
+			return null;
+		}
 		return rFree;
 	}
 
@@ -190,13 +207,21 @@ public class MmtfBean implements Serializable {
 	 * @param rFree the rFree to set
 	 */
 	public void setrFree(float rFree) {
-		this.rFree = rFree;
+		if (rFree==0.0){
+			this.rFree = UNAVAILABLE_R_VALUE;
+		}
+		else{
+			this.rFree = rFree;
+		}
 	}
 
 	/**
 	 * @return the rWork
 	 */
-	public float getrWork() {
+	public Float getrWork() {
+		if (rWork==UNAVAILABLE_R_VALUE) {
+			return null;
+		}
 		return rWork;
 	}
 
@@ -204,11 +229,16 @@ public class MmtfBean implements Serializable {
 	 * @param rWork the rWork to set
 	 */
 	public void setrWork(float rWork) {
-		this.rWork = rWork;
+		if (rWork==0.0){
+			this.rWork = UNAVAILABLE_R_VALUE;
+		}
+		else{
+			this.rWork = rWork;
+		}
 	}
 
 
-   /**
+	/**
 	 * Gets the space group.
 	 *
 	 * @return the space group
@@ -407,21 +437,21 @@ public class MmtfBean implements Serializable {
 	}
 
 	/**
-	 * Gets the alt label list.
+	 * Gets the alternate location list.
 	 *
-	 * @return the alt label list
+	 * @return the alternate location list
 	 */
-	public final List<String> getAltLabelList() {
-		return altLabelList;
+	public final byte[] getAltLocList() {
+		return altLocList;
 	}
 
 	/**
 	 * Sets the alt label list.
 	 *
-	 * @param inputAltIdList the new alt id label list
+	 * @param inputAltLocList the new alternation location label list
 	 */
-	public final void setAltLabelList(final List<String> inputAltIdList) {
-		this.altLabelList = inputAltIdList;
+	public final void setAltLocList(final byte[] inputAltLocList) {
+		this.altLocList = inputAltLocList;
 	}
 
 	/**
@@ -479,21 +509,21 @@ public class MmtfBean implements Serializable {
 	}
 
 	/**
-	 * Gets the occ list.
+	 * Gets the occupancy list - an encoded per atom list of occupancy values.
 	 *
-	 * @return the occ list
+	 * @return the occupancy list - an encoded per atom list of occupancy values.
 	 */
-	public final byte[] getOccList() {
-		return occList;
+	public final byte[] getOccupancyList() {
+		return occupancyList;
 	}
 
 	/**
-	 * Sets the occ list.
+	 * Sets the occupancy list - an encoded per atom list of occupancy values.
 	 *
-	 * @param occupancy the new occ list
+	 * @param inputOccupancyList the occupancy list - an encoded per atom list of occupancy values.
 	 */
-	public final void setOccList(final byte[] occupancy) {
-		this.occList = occupancy;
+	public final void setOccupancyList(final byte[] inputOccupancyList) {
+		this.occupancyList = inputOccupancyList;
 	}
 
 	/**
@@ -501,7 +531,7 @@ public class MmtfBean implements Serializable {
 	 *
 	 * @return the insertion code list
 	 */
-	public final List<String> getInsCodeList() {
+	public final byte[] getInsCodeList() {
 		return insCodeList;
 	}
 
@@ -510,7 +540,7 @@ public class MmtfBean implements Serializable {
 	 *
 	 * @param inputInsertionCodeList the new insertion code list
 	 */
-	public final void setInsCodeList(final List<String> inputInsertionCodeList) {
+	public final void setInsCodeList(final byte[] inputInsertionCodeList) {
 		this.insCodeList = inputInsertionCodeList;
 	}
 
@@ -519,8 +549,8 @@ public class MmtfBean implements Serializable {
 	 *
 	 * @return the group map
 	 */
-	public final Map<Integer, PDBGroup> getGroupMap() {
-		return groupMap;
+	public final PDBGroup[] getGroupList() {
+		return groupList;
 	}
 
 	/**
@@ -528,8 +558,8 @@ public class MmtfBean implements Serializable {
 	 *
 	 * @param inputGroupMap the group map
 	 */
-	public final void setGroupMap(final Map<Integer, PDBGroup> inputGroupMap) {
-		this.groupMap = inputGroupMap;
+	public void setGroupList(PDBGroup[] inputGroupMap) {
+		this.groupList = inputGroupMap;
 	}
 
 	/**
@@ -537,7 +567,7 @@ public class MmtfBean implements Serializable {
 	 *
 	 * @return the sec struct list
 	 */
-	public final byte[] getSecStructList() {
+	public byte[] getSecStructList() {
 		return secStructList;
 	}
 
@@ -546,7 +576,7 @@ public class MmtfBean implements Serializable {
 	 *
 	 * @param secStruct the new sec struct list
 	 */
-	public final void setSecStructList(final byte[] secStruct) {
+	public void setSecStructList(byte[] secStruct) {
 		this.secStructList = secStruct;
 	}
 
@@ -555,7 +585,7 @@ public class MmtfBean implements Serializable {
 	 *
 	 * @return the group type list
 	 */
-	public final byte[] getGroupTypeList() {
+	public byte[] getGroupTypeList() {
 		return groupTypeList;
 	}
 
@@ -564,7 +594,7 @@ public class MmtfBean implements Serializable {
 	 *
 	 * @param resOrder the new group type list
 	 */
-	public final void setGroupTypeList(final byte[] resOrder) {
+	public void setGroupTypeList(byte[] resOrder) {
 		this.groupTypeList = resOrder;
 	}
 
@@ -573,7 +603,7 @@ public class MmtfBean implements Serializable {
 	 *
 	 * @return the atom id list
 	 */
-	public final byte[] getAtomIdList() {
+	public byte[] getAtomIdList() {
 		return atomIdList;
 	}
 
@@ -582,7 +612,7 @@ public class MmtfBean implements Serializable {
 	 *
 	 * @param inputAtomIdList the new atom id list
 	 */
-	public final void setAtomIdList(final byte[] inputAtomIdList) {
+	public void setAtomIdList(byte[] inputAtomIdList) {
 		this.atomIdList = inputAtomIdList;
 	}
 
@@ -591,7 +621,7 @@ public class MmtfBean implements Serializable {
 	 *
 	 * @return the title
 	 */
-	public final String getTitle() {
+	public String getTitle() {
 		return title;
 	}
 
@@ -600,26 +630,26 @@ public class MmtfBean implements Serializable {
 	 *
 	 * @param inputTitle the new title
 	 */
-	public final void setTitle(final String inputTitle) {
+	public void setTitle(String inputTitle) {
 		this.title = inputTitle;
 	}
 
 	/**
-	 * Gets the pdb id.
+	 * Gets the structure id. Should be used as a unique identifier of this structure.
 	 *
-	 * @return the pdb id
+	 * @return the the structure id a unique String id of this structure.
 	 */
-	public final String getPdbId() {
-		return pdbId;
+	public String getStructureId() {
+		return structureId;
 	}
 
 	/**
-	 * Sets the pdb id.
+	 * Sets the structure id. Should be used as a unique identifier of this structure.
 	 *
-	 * @param pdbCode the new pdb id
+	 * @param inputId a unique String id of this structure.
 	 */
-	public final void setPdbId(final String pdbCode) {
-		this.pdbId = pdbCode;
+	public void setStructureId(String inputId) {
+		this.structureId = inputId;
 	}
 
 	/**
@@ -627,7 +657,7 @@ public class MmtfBean implements Serializable {
 	 *
 	 * @return the mmtf producer
 	 */
-	public final String getMmtfProducer() {
+	public String getMmtfProducer() {
 		return mmtfProducer;
 	}
 
@@ -636,7 +666,7 @@ public class MmtfBean implements Serializable {
 	 *
 	 * @param inputMmtfProducer the new mmtf producer
 	 */
-	public final void setMmtfProducer(final String inputMmtfProducer) {
+	public void setMmtfProducer(String inputMmtfProducer) {
 		this.mmtfProducer = inputMmtfProducer;
 	}
 
@@ -645,7 +675,7 @@ public class MmtfBean implements Serializable {
 	 *
 	 * @return the mmtf version
 	 */
-	public final String getMmtfVersion() {
+	public String getMmtfVersion() {
 		return mmtfVersion;
 	}
 
@@ -654,7 +684,7 @@ public class MmtfBean implements Serializable {
 	 *
 	 * @param inputMmtfVersion the new mmtf version
 	 */
-	public final void setMmtfVersion(final String inputMmtfVersion) {
+	public void setMmtfVersion(String inputMmtfVersion) {
 		this.mmtfVersion = inputMmtfVersion;
 	}
 
@@ -663,7 +693,7 @@ public class MmtfBean implements Serializable {
 	 *
 	 * @return the num bonds
 	 */
-	public final int getNumBonds() {
+	public int getNumBonds() {
 		return numBonds;
 	}
 
@@ -672,7 +702,7 @@ public class MmtfBean implements Serializable {
 	 *
 	 * @param inputNumBonds the new num bonds
 	 */
-	public final void setNumBonds(final int inputNumBonds) {
+	public void setNumBonds(int inputNumBonds) {
 		this.numBonds = inputNumBonds;
 	}
 
@@ -681,7 +711,7 @@ public class MmtfBean implements Serializable {
 	 *
 	 * @return the bond atom list
 	 */
-	public final byte[] getBondAtomList() {
+	public byte[] getBondAtomList() {
 		return bondAtomList;
 	}
 
@@ -690,7 +720,7 @@ public class MmtfBean implements Serializable {
 	 *
 	 * @param inputBondAtomList the new bond atom list
 	 */
-	public final void setBondAtomList(final byte[] inputBondAtomList) {
+	public void setBondAtomList(byte[] inputBondAtomList) {
 		this.bondAtomList = inputBondAtomList;
 	}
 
@@ -699,7 +729,7 @@ public class MmtfBean implements Serializable {
 	 *
 	 * @return the bond order list
 	 */
-	public final byte[] getBondOrderList() {
+	public byte[] getBondOrderList() {
 		return bondOrderList;
 	}
 
@@ -708,7 +738,7 @@ public class MmtfBean implements Serializable {
 	 *
 	 * @param inputBondOrderList the new bond order list
 	 */
-	public final void setBondOrderList(final byte[] inputBondOrderList) {
+	public void setBondOrderList(byte[] inputBondOrderList) {
 		this.bondOrderList = inputBondOrderList;
 	}
 
@@ -717,7 +747,7 @@ public class MmtfBean implements Serializable {
 	 *
 	 * @return the list of chains per model.
 	 */
-	public final int[] getChainsPerModel() {
+	public int[] getChainsPerModel() {
 		return chainsPerModel;
 	}
 
@@ -726,7 +756,7 @@ public class MmtfBean implements Serializable {
 	 *
 	 * @param inputInternalChainsPerModel the new list of chains per model.
 	 */
-	public final void setChainsPerModel(final int[]
+	public void setChainsPerModel(int[]
 			inputInternalChainsPerModel) {
 		this.chainsPerModel = inputInternalChainsPerModel;
 	}
@@ -736,7 +766,7 @@ public class MmtfBean implements Serializable {
 	 *
 	 * @return the internal groups per chain
 	 */
-	public final int[] getGroupsPerChain() {
+	public int[] getGroupsPerChain() {
 		return groupsPerChain;
 	}
 
@@ -745,7 +775,7 @@ public class MmtfBean implements Serializable {
 	 *
 	 * @param inputGroupsPerChain the new internal groups per chain
 	 */
-	public final void setGroupsPerChain(final int[]
+	public void setGroupsPerChain(int[]
 			inputGroupsPerChain) {
 		this.groupsPerChain = inputGroupsPerChain;
 	}
@@ -755,7 +785,7 @@ public class MmtfBean implements Serializable {
 	 *
 	 * @return the internal chain list
 	 */
-	public final byte[] getChainIdList() {
+	public byte[] getChainIdList() {
 		return chainIdList;
 	}
 
@@ -764,52 +794,82 @@ public class MmtfBean implements Serializable {
 	 *
 	 * @param inputInternalChainList the new internal chain list
 	 */
-	public final void setChainIdList(final byte[] inputInternalChainList) {
+	public void setChainIdList(byte[] inputInternalChainList) {
 		this.chainIdList = inputInternalChainList;
 	}
 
 	/**
 	 * @return the experimental methods
 	 */
-	public List<String> getExperimentalMethods() {
+	public String[] getExperimentalMethods() {
 		return experimentalMethods;
 	}
 
 	/**
 	 * @param experimentalMethods the experimental methods to set
 	 */
-	public void setExperimentalMethods(List<String> experimentalMethods) {
+	public void setExperimentalMethods(String[] experimentalMethods) {
 		this.experimentalMethods = experimentalMethods;
 	}
 
 	/**
-	 * @return the seqResGroupIds
+	 * @return the seqResGroupIds 
 	 */
-	public byte[] getSeqResIdList() {
-		return seqResIdList;
+	public byte[] getSequenceIndexList() {
+		return sequenceIndexList;
 	}
 
 	/**
 	 * @param seqResGroupIds the seqResGroupIds to set
 	 */
-	public void setSeqResIdList(byte[] seqResGroupIds) {
-		this.seqResIdList = seqResGroupIds;
+	public void setSequenceIndexList(byte[] seqResGroupIds) {
+		this.sequenceIndexList = seqResGroupIds;
 	}
 
-  /**
-   * Get the entity list
-   * @return
-   */
-  public Entity[] getEntityList() {
-	  return entityList;
-  }
-  
-  /**
-   * Set the entity list
-   * @param entityList
-   */
-  public void setEntityList(Entity[] entityList) {
-	  this.entityList = entityList;
-  }
+	/**
+	 * Get the entity list
+	 * @return
+	 */
+	public Entity[] getEntityList() {
+		return entityList;
+	}
+
+	/**
+	 * Set the entity list
+	 * @param entityList
+	 */
+	public void setEntityList(Entity[] entityList) {
+		this.entityList = entityList;
+	}
+
+	/**
+	 * @return the deposition date of the structure in ISO time standard.
+	 */
+	public String getDepositionDate() {
+		return depositionDate;
+	}
+
+	/**
+	 * @param depositionDate a string indicating the deposition date to set. 
+	 */
+	public void setDepositionDate(String depositionDate) {
+		this.depositionDate = depositionDate;
+	}
+
+	/**
+	 * @return the release date of the structure in ISO time standard. 
+	 */
+	public String getReleaseDate() {
+		return releaseDate;
+	}
+
+	/**
+	 * @param releaseDate a string indicating the deposition date to set. 
+	 */
+	public void setReleaseDate(String releaseDate) {
+		this.releaseDate = releaseDate;
+	}
+
+
 
 }

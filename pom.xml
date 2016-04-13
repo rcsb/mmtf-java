@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
 
 	<!-- for releasing to Maven Central / OSS Sonatype -->
@@ -35,7 +36,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.build.targetEncoding>UTF-8</project.build.targetEncoding>
 		<maxmem>512M</maxmem>
-		<slf4j.version>1.7.14</slf4j.version>
+		<slf4j.version>1.7.20</slf4j.version>
 		<log4j.version>2.5</log4j.version>
 	</properties>
 	<scm>
@@ -135,10 +136,6 @@
 						<additionalparam>-Xdoclint:none</additionalparam>
 
 						<maxmemory>256m</maxmemory>
-						<footer>&lt;script src="http://www.google-analytics.com/urchin.js"
-							type="text/javascript"&gt;&lt;/script&gt;&lt;script
-							type="text/javascript"&gt;_uacct =
-							"UA-1326640-1";urchinTracker();&lt;/script&gt;</footer>
 					</configuration>
 
 				</plugin>
@@ -218,21 +215,21 @@
 
 		<plugins>
 			<plugin>
-			    <groupId>org.codehaus.mojo</groupId>
-			    <artifactId>cobertura-maven-plugin</artifactId>
-			    <version>2.7</version>
-			    <configuration>
-			        <format>xml</format>
-			        <maxmem>256m</maxmem>
-			        <!-- aggregated reports for multi-module projects -->
-			        <aggregate>true</aggregate>
-			    </configuration>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>cobertura-maven-plugin</artifactId>
+				<version>2.7</version>
+				<configuration>
+					<format>xml</format>
+					<maxmem>256m</maxmem>
+					<!-- aggregated reports for multi-module projects -->
+					<aggregate>true</aggregate>
+				</configuration>
 			</plugin>
 			<plugin>
-    				<groupId>org.eluder.coveralls</groupId>
-    				<artifactId>coveralls-maven-plugin</artifactId>
-    				<version>4.1.0</version>
-    			</plugin>
+				<groupId>org.eluder.coveralls</groupId>
+				<artifactId>coveralls-maven-plugin</artifactId>
+				<version>4.1.0</version>
+			</plugin>
 			<!-- for deployment on OSS Sonatype -->
 			<plugin>
 				<groupId>org.sonatype.plugins</groupId>
@@ -327,9 +324,63 @@
 				<version>2.6</version>
 			</extension>
 		</extensions>
-
 	</build>
-
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>uk.co.jemos.podam</groupId>
+				<artifactId>podam</artifactId>
+				<version>2.3.5.RELEASE</version>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.unitils</groupId>
+				<artifactId>unitils-core</artifactId>
+				<version>3.4.2</version>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>junit</groupId>
+				<artifactId>junit</artifactId>
+				<version>4.12</version>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>commons-beanutils</groupId>
+				<artifactId>commons-beanutils</artifactId>
+				<version>1.9.2</version>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.slf4j</groupId>
+				<artifactId>slf4j-api</artifactId>
+				<version>${slf4j.version}</version>
+			</dependency>
+			<!-- binding for log4j 2 -->
+			<dependency>
+				<groupId>org.apache.logging.log4j</groupId>
+				<artifactId>log4j-slf4j-impl</artifactId>
+				<version>${log4j.version}</version>
+				<!-- runtime scope includes the test scope as well -->
+				<scope>runtime</scope>
+			</dependency>
+			<!-- Log4j API and Core implementation required for binding -->
+			<dependency>
+				<groupId>org.apache.logging.log4j</groupId>
+				<artifactId>log4j-api</artifactId>
+				<version>${log4j.version}</version>
+				<!-- runtime scope includes the test scope as well -->
+				<scope>runtime</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.logging.log4j</groupId>
+				<artifactId>log4j-core</artifactId>
+				<version>${log4j.version}</version>
+				<!-- runtime scope includes the test scope as well -->
+				<scope>runtime</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
 
 	<reporting>
 		<plugins>
@@ -434,7 +485,6 @@
 		<module>mmtf-api</module>
 		<module>mmtf-decoder</module>
 		<module>mmtf-encoder</module>
-		<module>mmtf-update</module>
 	</modules>
 	<inceptionYear>2015</inceptionYear>
 	<issueManagement>
@@ -442,8 +492,7 @@
 		<url>https://github.com/rcsb/mmtf-java/issues</url>
 	</issueManagement>
 	<ciManagement>
-		<system>CruiseControl</system>
-		<url>http://ccpublic.rcsb.org/</url>
+		<system>Travis</system>
+		<url>https://travis-ci.org/</url>
 	</ciManagement>
-
 </project>

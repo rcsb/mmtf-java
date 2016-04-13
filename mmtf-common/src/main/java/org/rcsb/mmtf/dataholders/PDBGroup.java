@@ -1,8 +1,7 @@
 package org.rcsb.mmtf.dataholders;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Arrays;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -14,165 +13,227 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class PDBGroup implements Serializable {
 
-  /** Serial id for this version of the format. */
-  private static final long serialVersionUID = 2880633780569899800L;
+	/** Serial id for this version of the format. */
+	private static final long serialVersionUID = 2880633780569899800L;
 
-  /** The group name. (e.g. HIS) */
-  private String groupName;
+	/** The group name. (e.g. HIS) */
+	private String groupName;
 
-  /** The atom info. A list of strings indicating
-   * the atominfo (Atom name and element name). */
-  private List<String> atomInfo;
+	/** The atom names. A list of strings indicating
+	 * the atom names (e.g. CA for C-alpha). */
+	private String[] atomNameList;
 
-  /** The bond orders. A list of integers indicating the bond orders*/
-  private List<Integer> bondOrders;
+	/** The element names. A list of strings indicating
+	 * the element names (e.g. Ca for Calcium). */
+	private String[] elementList;
 
-  /** The bond indices (in pairs).
-   * (e.g. 0,1 means there is bond between atom 0 and 1).*/
-  private List<Integer> bondIndices;
+	/** The bond orders. A list of integers indicating the bond orders*/
+	private int[] bondOrderList;
 
-  /** The atom charges. */
-  private List<Integer> atomCharges;
+	/** The bond indices (in pairs).
+	 * (e.g. 0,1 means there is bond between atom 0 and 1).*/
+	private int[] bondAtomList;
 
-  /** The single letter code. */
-  private String singleLetterCode;
+	/** The atom charges. */
+	private int[] atomChargeList;
 
-  /** A string (taken from the chemical component dictionary) indicating 
-   * the type of the group. Corresponds to -> http://mmcif.wwpdb.org/dictionaries/mmcif_pdbx.dic/Items/_chem_comp.type.html
-   */
-  private String chemCompType;
-  
-  /**
-   * Constructor for the PDB group. Makes empty lists.
-   */
-  public PDBGroup(){
-    groupName = new String();
-    atomInfo = new ArrayList<String>();
-    bondOrders = new ArrayList<Integer>();
-    bondIndices = new ArrayList<Integer>();
-    atomCharges = new ArrayList<Integer>();
-  }
-  
-  /**
-   * Gets the atom info.
-   *
-   * @return the atom info
-   */
-  // Generic getter and setter functions
-  public final List<String> getAtomInfo() {
-    return atomInfo;
-  }
+	/** The single letter code. */
+	private char singleLetterCode;
 
-  /**
-   * Sets the atom info.
-   *
-   * @param inputAtomInfo the new atom info
-   */
-  public final void setAtomInfo(final List<String> inputAtomInfo) {
-    this.atomInfo = inputAtomInfo;
-  }
+	/** A string (taken from the chemical component dictionary) indicating 
+	 * the type of the group. Corresponds to -> http://mmcif.wwpdb.org/dictionaries/mmcif_pdbx.dic/Items/_chem_comp.type.html
+	 */
+	private String chemCompType;
 
-  /**
-   * Gets the bond orders.
-   *
-   * @return the bond orders
-   */
-  public final List<Integer> getBondOrders() {
-    return bondOrders;
-  }
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + Arrays.hashCode(atomChargeList);
+		result = prime * result + Arrays.hashCode(atomNameList);
+		result = prime * result + Arrays.hashCode(bondAtomList);
+		result = prime * result + Arrays.hashCode(bondOrderList);
+		result = prime * result + ((chemCompType == null) ? 0 : chemCompType.hashCode());
+		result = prime * result + Arrays.hashCode(elementList);
+		result = prime * result + ((groupName == null) ? 0 : groupName.hashCode());
+		result = prime * result + singleLetterCode;
+		return result;
+	}
 
-  /**
-   * Sets the bond orders.
-   *
-   * @param inputBondOrders the new bond orders
-   */
-  public final void setBondOrders(final List<Integer> inputBondOrders) {
-    this.bondOrders = inputBondOrders;
-  }
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		PDBGroup other = (PDBGroup) obj;
+		if (!Arrays.equals(atomChargeList, other.atomChargeList))
+			return false;
+		if (!Arrays.equals(atomNameList, other.atomNameList))
+			return false;
+		if (!Arrays.equals(bondAtomList, other.bondAtomList))
+			return false;
+		if (!Arrays.equals(bondOrderList, other.bondOrderList))
+			return false;
+		if (chemCompType == null) {
+			if (other.chemCompType != null)
+				return false;
+		} else if (!chemCompType.equals(other.chemCompType))
+			return false;
+		if (!Arrays.equals(elementList, other.elementList))
+			return false;
+		if (groupName == null) {
+			if (other.groupName != null)
+				return false;
+		} else if (!groupName.equals(other.groupName))
+			return false;
+		if (singleLetterCode != other.singleLetterCode)
+			return false;
+		return true;
+	}
 
-  /**
-   * Gets the bond indices.
-   *
-   * @return the bond indices
-   */
-  public final List<Integer> getBondIndices() {
-    return bondIndices;
-  }
+	/**
+	 * Gets the atom info.
+	 *
+	 * @return the atom info
+	 */
+	// Generic getter and setter functions
+	public String[] getAtomNameList() {
+		return atomNameList;
+	}
 
-  /**
-   * Sets the bond indices.
-   *
-   * @param inputBondIndices the new bond indices
-   */
-  public final void setBondIndices(final List<Integer> inputBondIndices) {
-    this.bondIndices = inputBondIndices;
-  }
+	/**
+	 * Sets the atom info.
+	 *
+	 * @param inputAtomInfo the new atom info
+	 */
+	public void setAtomNameList(String[] inputAtomInfo) {
+		this.atomNameList = inputAtomInfo;
+	}
 
-  /**
-   * Gets the group name.
-   *
-   * @return the group name
-   */
-  public final String getGroupName() {
-    return groupName;
-  }
+	/**
+	 * Gets the bond orders.
+	 *
+	 * @return the bond orders
+	 */
+	public int[] getBondOrderList() {
+		return bondOrderList;
+	}
 
-  /**
-   * Sets the group name.
-   *
-   * @param resName the new group name
-   */
-  public final void setGroupName(final String resName) {
-    this.groupName = resName;
-  }
+	/**
+	 * Sets the bond orders.
+	 *
+	 * @param inputBondOrders the new bond orders
+	 */
+	public void setBondOrderList(int[] inputBondOrders) {
+		this.bondOrderList = inputBondOrders;
+	}
 
-  /**
-   * Gets the atom charges.
-   *
-   * @return the atom charges
-   */
-  public final List<Integer> getAtomCharges() {
-    return atomCharges;
-  }
+	/**
+	 * Gets the bond indices.
+	 *
+	 * @return the bond indices
+	 */
+	public int[] getBondAtomList() {
+		return bondAtomList;
+	}
 
-  /**
-   * Sets the atom charges.
-   *
-   * @param inputAtomCharges the new atom charges
-   */
-  public final void setAtomCharges(final List<Integer> inputAtomCharges) {
-    this.atomCharges = inputAtomCharges;
-  }
+	/**
+	 * Sets the bond indices.
+	 *
+	 * @param inputBondIndices the new bond indices
+	 */
+	public void setBondAtomList(int[] inputBondIndices) {
+		this.bondAtomList = inputBondIndices;
+	}
 
-  /**
-   * Gets the single letter code.
-   *
-   * @return the single letter code
-   */
-  public final String getSingleLetterCode() {
-    return singleLetterCode;
-  }
+	/**
+	 * Gets the group name.
+	 *
+	 * @return the group name
+	 */
+	public String getGroupName() {
+		return groupName;
+	}
 
-  /**
-   * Sets the single letter code.
-   *
-   * @param inputSingleLetterCode the new single letter code
-   */
-  public final void setSingleLetterCode(final String inputSingleLetterCode) {
-    this.singleLetterCode = inputSingleLetterCode;
-  }
+	/**
+	 * Sets the group name.
+	 *
+	 * @param resName the new group name
+	 */
+	public void setGroupName(String resName) {
+		this.groupName = resName;
+	}
 
-  /**
-   * @return the groupType - corresponds to _chem_comp.type
-   */
-  public String getChemCompType() {
-    return chemCompType;
-  }
+	/**
+	 * Gets the atom charges.
+	 *
+	 * @return the atom charges
+	 */
+	public int[] getAtomChargeList() {
+		return atomChargeList;
+	}
 
-  /**
-   * @param groupType the groupType (corresponds to _chem_comp.type) to set
-   */
-  public void setChemCompType(String groupType) {
-    this.chemCompType = groupType;
-  }
+	/**
+	 * Sets the atom charges.
+	 *
+	 * @param inputAtomCharges the new atom charges
+	 */
+	public void setAtomChargeList(int[] inputAtomCharges) {
+		this.atomChargeList = inputAtomCharges;
+	}
+
+	/**
+	 * Gets the single letter code.
+	 *
+	 * @return the single letter code
+	 */
+	public char getSingleLetterCode() {
+		return singleLetterCode;
+	}
+
+	/**
+	 * Sets the single letter code.
+	 *
+	 * @param inputSingleLetterCode the new single letter code
+	 */
+	public void setSingleLetterCode(char inputSingleLetterCode) {
+		this.singleLetterCode = inputSingleLetterCode;
+	}
+
+	/**
+	 * @return the groupType - corresponds to _chem_comp.type
+	 */
+	public String getChemCompType() {
+		return chemCompType;
+	}
+
+	/**
+	 * @param groupType the groupType (corresponds to _chem_comp.type) to set
+	 */
+	public void setChemCompType(String groupType) {
+		this.chemCompType = groupType;
+	}
+
+	/**
+	 * @return the elementList
+	 */
+	public String[] getElementList() {
+		return elementList;
+	}
+
+	/**
+	 * @param elementList the elementList to set
+	 */
+	public void setElementList(String[] elementList) {
+		this.elementList = elementList;
+	}
 }
