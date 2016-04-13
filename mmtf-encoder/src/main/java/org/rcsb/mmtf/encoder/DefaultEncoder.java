@@ -10,7 +10,7 @@ import org.rcsb.mmtf.encoder.ArrayEncoders;
 import org.rcsb.mmtf.gitversion.GetRepoState;
 
 /**
- * Class to take a encode the DecodedDataInterface into the MmtfBean.
+ * Default encoding class from a DecodedDataInterface.
  * @author Anthony Bradley
  *
  */
@@ -18,17 +18,17 @@ public class DefaultEncoder {
 
 	private MmtfBean mmtfBean;
 
-	public DefaultEncoder(DecodedDataInterface mmtfDecodedDataInterface) throws IOException {
+	public DefaultEncoder(DecodedDataInterface decodedDataInterface) throws IOException {
 		mmtfBean = new MmtfBean();
 		// Set the group types
 		mmtfBean.setGroupTypeList(
 				ArrayConverters.convertIntegersToFourByte(
-						mmtfDecodedDataInterface.getGroupTypeIndices()));
+						decodedDataInterface.getGroupTypeIndices()));
 		// Encode the coordinate  and B-factor arrays.
 		List<int[]> xCoords = ArrayConverters.splitIntegers(
 				ArrayEncoders.deltaEncode(
 						ArrayConverters.convertFloatsToInts(
-								mmtfDecodedDataInterface.getxCoords(),
+								decodedDataInterface.getxCoords(),
 								MmtfBean.COORD_DIVIDER)));
 		mmtfBean.setxCoordBig(ArrayConverters.convertIntegersToFourByte(xCoords.get(0)));
 		mmtfBean.setxCoordSmall(ArrayConverters.convertIntegersToTwoBytes(xCoords.get(1)));
@@ -36,7 +36,7 @@ public class DefaultEncoder {
 		List<int[]> yCoords = ArrayConverters.splitIntegers(
 				ArrayEncoders.deltaEncode(
 						ArrayConverters.convertFloatsToInts(
-								mmtfDecodedDataInterface.getyCoords(),
+								decodedDataInterface.getyCoords(),
 								MmtfBean.COORD_DIVIDER)));
 		mmtfBean.setyCoordBig(ArrayConverters.convertIntegersToFourByte(yCoords.get(0)));
 		mmtfBean.setyCoordSmall(ArrayConverters.convertIntegersToTwoBytes(yCoords.get(1)));
@@ -44,7 +44,7 @@ public class DefaultEncoder {
 		List<int[]> zCoords = ArrayConverters.splitIntegers(
 				ArrayEncoders.deltaEncode(
 						ArrayConverters.convertFloatsToInts(
-								mmtfDecodedDataInterface.getzCoords(),
+								decodedDataInterface.getzCoords(),
 								MmtfBean.COORD_DIVIDER)));
 		mmtfBean.setzCoordBig(ArrayConverters.convertIntegersToFourByte(zCoords.get(0)));
 		mmtfBean.setzCoordSmall(ArrayConverters.convertIntegersToTwoBytes(zCoords.get(1)));
@@ -53,7 +53,7 @@ public class DefaultEncoder {
 		List<int[]> bFactor = ArrayConverters.splitIntegers(
 				ArrayEncoders.deltaEncode(
 						ArrayConverters.convertFloatsToInts(
-								mmtfDecodedDataInterface.getbFactors(),
+								decodedDataInterface.getbFactors(),
 								MmtfBean.OCCUPANCY_BFACTOR_DIVIDER)));
 		mmtfBean.setbFactorBig(ArrayConverters.convertIntegersToFourByte(bFactor.get(0)));
 		mmtfBean.setbFactorSmall(ArrayConverters.convertIntegersToTwoBytes(bFactor.get(1)));
@@ -63,68 +63,68 @@ public class DefaultEncoder {
 		mmtfBean.setOccupancyList(ArrayConverters.convertIntegersToFourByte(
 				ArrayEncoders.runlengthEncode(
 						ArrayConverters.convertFloatsToInts(
-								mmtfDecodedDataInterface.getOccupancies(),
+								decodedDataInterface.getOccupancies(),
 								MmtfBean.OCCUPANCY_BFACTOR_DIVIDER))));
 
 		// Run length and delta
 		mmtfBean.setAtomIdList(ArrayConverters.convertIntegersToFourByte(
 				ArrayEncoders.runlengthEncode(
-						ArrayEncoders.deltaEncode(mmtfDecodedDataInterface.getAtomIds()))));
+						ArrayEncoders.deltaEncode(decodedDataInterface.getAtomIds()))));
 		// Run length encoded
 		mmtfBean.setAltLocList(ArrayConverters.convertIntegersToFourByte(
 				ArrayEncoders.runlengthEncode(
 				ArrayConverters.convertCharToIntegers(
-						mmtfDecodedDataInterface.getAltLocIds()))));
+						decodedDataInterface.getAltLocIds()))));
 		mmtfBean.setInsCodeList(ArrayConverters.convertIntegersToFourByte(
 				ArrayEncoders.runlengthEncode(
 				ArrayConverters.convertCharToIntegers(
-						mmtfDecodedDataInterface.getInsCodes()))));
+						decodedDataInterface.getInsCodes()))));
 
 		// Set the groupNumber
 		mmtfBean.setGroupIdList(ArrayConverters.convertIntegersToFourByte(
 				ArrayEncoders.runlengthEncode(
 						ArrayEncoders.deltaEncode(
-								mmtfDecodedDataInterface.getGroupIds()))));
+								decodedDataInterface.getGroupIds()))));
 
 		// Set the group map (all the unique groups in the structure).
-		mmtfBean.setGroupList(EncoderUtils.generateGroupMap(mmtfDecodedDataInterface));
+		mmtfBean.setGroupList(EncoderUtils.generateGroupMap(decodedDataInterface));
 		// Set the indices for the groups mapping to the sequence
 		mmtfBean.setSequenceIndexList(ArrayConverters.convertIntegersToFourByte(
-				mmtfDecodedDataInterface.getGroupSequenceIndices()));
+				decodedDataInterface.getGroupSequenceIndices()));
 		// Set the number of chains per model
-		mmtfBean.setChainsPerModel(mmtfDecodedDataInterface.getChainsPerModel());
-		mmtfBean.setGroupsPerChain(mmtfDecodedDataInterface.getGroupsPerChain());
+		mmtfBean.setChainsPerModel(decodedDataInterface.getChainsPerModel());
+		mmtfBean.setGroupsPerChain(decodedDataInterface.getGroupsPerChain());
 		// Set the internal and public facing chain ids
-		mmtfBean.setChainNameList(ArrayConverters.encodeChainList(mmtfDecodedDataInterface.getChainNames()));
-		mmtfBean.setChainIdList(ArrayConverters.encodeChainList(mmtfDecodedDataInterface.getChainIds()));
+		mmtfBean.setChainNameList(ArrayConverters.encodeChainList(decodedDataInterface.getChainNames()));
+		mmtfBean.setChainIdList(ArrayConverters.encodeChainList(decodedDataInterface.getChainIds()));
 		// Set the space group information
-		mmtfBean.setSpaceGroup(mmtfDecodedDataInterface.getSpaceGroup());
-		mmtfBean.setUnitCell(mmtfDecodedDataInterface.getUnitCell());
+		mmtfBean.setSpaceGroup(decodedDataInterface.getSpaceGroup());
+		mmtfBean.setUnitCell(decodedDataInterface.getUnitCell());
 		// Set the bioassembly and entity information
 		mmtfBean.setBioAssemblyList(
-				EncoderUtils.generateBioassemblies(mmtfDecodedDataInterface));
+				EncoderUtils.generateBioassemblies(decodedDataInterface));
 		mmtfBean.setEntityList(
-				EncoderUtils.generateEntityList(mmtfDecodedDataInterface)
+				EncoderUtils.generateEntityList(decodedDataInterface)
 				);
 		// Set the bond orders and indcices
 		mmtfBean.setBondOrderList(ArrayConverters.convertIntegersToBytes(
-				mmtfDecodedDataInterface.getInterGroupBondOrders()));
+				decodedDataInterface.getInterGroupBondOrders()));
 		mmtfBean.setBondAtomList(ArrayConverters.convertIntegersToFourByte(
-				mmtfDecodedDataInterface.getInterGroupBondIndices()));
+				decodedDataInterface.getInterGroupBondIndices()));
 		// Set the version and producer information
 		mmtfBean.setMmtfProducer("RCSB-PDB Generator---version: "+GetRepoState.getCurrentVersion());
-		mmtfBean.setStructureId(mmtfDecodedDataInterface.getStructureId());
+		mmtfBean.setStructureId(decodedDataInterface.getStructureId());
 		// Set some header data
-		mmtfBean.setNumAtoms(mmtfDecodedDataInterface.getNumAtoms());
-		mmtfBean.setNumBonds(mmtfDecodedDataInterface.getNumBonds());
-		mmtfBean.setrFree(mmtfDecodedDataInterface.getRfree());
-		mmtfBean.setrWork(mmtfDecodedDataInterface.getRwork());
-		mmtfBean.setResolution(mmtfDecodedDataInterface.getResolution());
-		mmtfBean.setTitle(mmtfDecodedDataInterface.getTitle());
-		mmtfBean.setExperimentalMethods(mmtfDecodedDataInterface.getExperimentalMethods());
-		mmtfBean.setDepositionDate(mmtfDecodedDataInterface.getDepositionDate());
-		mmtfBean.setReleaseDate(mmtfDecodedDataInterface.getReleaseDate());
-		mmtfBean.setSecStructList(ArrayConverters.convertIntegersToFourByte(mmtfDecodedDataInterface.getSecStructList()));
+		mmtfBean.setNumAtoms(decodedDataInterface.getNumAtoms());
+		mmtfBean.setNumBonds(decodedDataInterface.getNumBonds());
+		mmtfBean.setrFree(decodedDataInterface.getRfree());
+		mmtfBean.setrWork(decodedDataInterface.getRwork());
+		mmtfBean.setResolution(decodedDataInterface.getResolution());
+		mmtfBean.setTitle(decodedDataInterface.getTitle());
+		mmtfBean.setExperimentalMethods(decodedDataInterface.getExperimentalMethods());
+		mmtfBean.setDepositionDate(decodedDataInterface.getDepositionDate());
+		mmtfBean.setReleaseDate(decodedDataInterface.getReleaseDate());
+		mmtfBean.setSecStructList(ArrayConverters.convertIntegersToFourByte(decodedDataInterface.getSecStructList()));
 	}
 
 	public MmtfBean getMmtfBean() {
