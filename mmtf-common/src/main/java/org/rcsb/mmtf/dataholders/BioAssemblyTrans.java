@@ -11,18 +11,14 @@ import java.io.Serializable;
  *
  * @author Anthony Bradley
  */
-public class BioAssemblyTrans implements Serializable {
-
-
-  /** Serial id for this version of the format. */
-  private static final long serialVersionUID = -8109941242652091495L;
+public class BioAssemblyTrans {
 
 
   /** The indices of the chains this bioassembly references. */
   private int[] chainIndexList;
 
   /** The 4x4 matrix transformation specifying a rotation and a translation. */
-  private double[] transformation;
+  private double[] matrix;
 
 
   /**
@@ -32,8 +28,8 @@ public class BioAssemblyTrans implements Serializable {
    *
    * @return the transformation
    */
-  public final double[] getMatrix() {
-    return transformation;
+  public double[] getMatrix() {
+    return matrix;
   }
 
   /**
@@ -43,8 +39,8 @@ public class BioAssemblyTrans implements Serializable {
    * 
    * @param inputTransformation the new transformation
    */
-  public final void setMatrix(final double[] transformation) {
-    this.transformation = transformation;
+  public void setMatrix(double[] transformation) {
+    this.matrix = transformation;
   }
 
   /**
@@ -52,7 +48,7 @@ public class BioAssemblyTrans implements Serializable {
    *
    * @return a list of integers indicating the indices (zero indexed) of the chains this bioassembly refers to.
    */
-  public final int[] getChainIndexList() {
+  public int[] getChainIndexList() {
     return chainIndexList;
   }
 
@@ -61,7 +57,7 @@ public class BioAssemblyTrans implements Serializable {
    *
    * @param  a list of integers indicating the indices (zero indexed) of the chains this bioassembly refers to.
    */
-  public final void setChainIndexList(final int[] inputChainId) {
+  public void setChainIndexList(int[] inputChainId) {
     this.chainIndexList = inputChainId;
   }
 
