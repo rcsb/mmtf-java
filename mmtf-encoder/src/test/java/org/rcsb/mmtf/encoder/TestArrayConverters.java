@@ -16,10 +16,11 @@ public class TestArrayConverters {
 	 */
 	@Test 
 	public final void testSetChain() {
-		String[] stringList = {"A","ABC","abc"};
+		String[] stringList = {"A","ABC","abc","abcd"};
 		byte[] testByteArray = {'A','\0','\0','\0',
 				'A','B','C','\0',
-				'a','b','c','\0'};
+				'a','b','c','\0',
+				'a','b','c','d'};
 		byte[] byteArray = ArrayConverters.encodeChainList(stringList);
 		assertArrayEquals(testByteArray, byteArray);
 	}

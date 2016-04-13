@@ -13,31 +13,22 @@ import uk.co.jemos.podam.api.PodamFactoryImpl;
 
 public class TestDefaultDecoder {
 
-	private MmtfBean mmtfBean;
-	/**
-	 * Build the bean before any tests
-	 */
-	@Before
-	public void beforeTests() {
-		PodamFactory factory = new PodamFactoryImpl();
-		mmtfBean = factory.manufacturePojo(MmtfBean.class);
-	}
-	
-	
 	@Test
 	public void testDecodeAllFields() throws IOException {
+		PodamFactory factory = new PodamFactoryImpl();
+		MmtfBean mmtfBean = factory.manufacturePojo(MmtfBean.class);
 		DefaultDecoder defaultDecoder = new DefaultDecoder(mmtfBean);
 		ReflectionAssert.assertPropertiesNotNull("Some properties null after decoding", defaultDecoder);
 	}
-	
-	
+
+
 	@Test
-	public void testReader() throws IOException {
+	public void testReader() {
 		DummyApiImpl dummyApiImpl = new DummyApiImpl();
 		DecoderToReader decoderToReader = new DecoderToReader();
 		DataTransferInterface inputInflator = new DummyTransferImpl();
 		decoderToReader.read(dummyApiImpl, inputInflator);
 	}
-	
-	
+
+
 }

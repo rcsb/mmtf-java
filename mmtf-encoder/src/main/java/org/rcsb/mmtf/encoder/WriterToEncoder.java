@@ -84,10 +84,10 @@ public class WriterToEncoder implements DecodedDataInterface, DataTransferInterf
 	private String[] chainList;
 
 	/** The mmtf version */
-	private String mmtfVersion;
+	private String mmtfVersion = "UNKNOWN";
 
 	/** The mmtf prodcuer */
-	private String mmtfProducer;
+	private String mmtfProducer = "UNKNOWN";
 
 	/** The list of entities in this structure. */
 	private Entity[] entityList;

@@ -157,7 +157,10 @@ public class ArrayConverters {
 	private static void setChainId(String chainId, byte[] byteArr, int chainIndex) {
 		// A char array to store the chars
 		char[] outChar = new char[4];
-		// The lenght of this chain id
+		// The lengthof this chain id
+		if(chainId==null){
+			return;
+		}
 		int chainIdLen =  chainId.length();
 		chainId.getChars(0, chainIdLen, outChar, 0);
 		// Set the bytrarray - chain ids can be up to 4 chars - pad with empty bytes
