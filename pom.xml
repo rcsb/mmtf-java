@@ -217,7 +217,11 @@
 
 
 		<plugins>
-
+			<plugin>
+    				<groupId>org.eluder.coveralls</groupId>
+    				<artifactId>coveralls-maven-plugin</artifactId>
+    				<version>4.1.0</version>
+    			</plugin>
 			<!-- for deployment on OSS Sonatype -->
 			<plugin>
 				<groupId>org.sonatype.plugins</groupId>
