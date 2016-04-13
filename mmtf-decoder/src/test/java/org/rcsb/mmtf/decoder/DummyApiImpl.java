@@ -5,11 +5,11 @@ import org.rcsb.mmtf.api.DecodedDataInterface;
 public class DummyApiImpl implements DecodedDataInterface {
 
 	
-	public final int numAtoms = 10;
-	public final int numGroups = 2;
-	public final int atomsPerGroup = 5;
-	public final int bondsPerGroup = 5;
-	public final int interGroupBonds = 2;
+	public final int numAtoms = 1;
+	public final int numGroups = 1;
+	public final int atomsPerGroup = 1;
+	public final int bondsPerGroup = 1;
+	public final int interGroupBonds = 1;
 	public final int numChains = 1;
 	public final int numModels = 1;
 
@@ -127,12 +127,12 @@ public class DummyApiImpl implements DecodedDataInterface {
 	@Override
 	public int[] getChainsPerModel() {
 		
-		return new int[numModels];
+		return new int[] {numChains};
 	}
 
 	@Override
 	public int[] getGroupsPerChain() {
-		return new int[numChains];
+		return new int[] {numGroups};
 	}
 
 	@Override
