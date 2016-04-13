@@ -1,9 +1,11 @@
 package org.rcsb.mmtf.encoder;
 
+import java.io.ByteArrayOutputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-import org.rcsb.mmtf.serializers.MessagePackSerializer;
+import org.rcsb.mmtf.sedeserializers.MmtfBeanSeDeMessagePackImpl;
+import org.rcsb.mmtf.sedeserializers.MmtfBeanSeDerializerInterface;
 
 public class WriterUtils {
 
@@ -28,10 +30,12 @@ public class WriterUtils {
 	 * @throws IOException
 	 */
 	public static byte[] getDataAsByteArr(WriterToEncoder writerToEncoder) throws IOException {
-		MessagePackSerializer messagePackSerializer = new MessagePackSerializer();
+		MmtfBeanSeDerializerInterface mmtfBeanSeDerializerInterface = new MmtfBeanSeDeMessagePackImpl();
 		// Get to bean
 		DefaultEncoder getToBean = new DefaultEncoder(writerToEncoder);
-		return messagePackSerializer.serialize(getToBean.getMmtfBean());
+		ByteArrayOutputStream bos = new ByteArrayOutputStream();
+		mmtfBeanSeDerializerInterface.serialize(getToBean.getMmtfBean(), bos);
+		return bos.toByteArray();
 	}
 
 }
