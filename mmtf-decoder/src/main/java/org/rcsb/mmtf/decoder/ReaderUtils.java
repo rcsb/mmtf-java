@@ -60,27 +60,27 @@ public class ReaderUtils {
 	 * @return A deflated byte array
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
-	public static byte[] deflateGzip(final byte[] inputBytes){
+	public static byte[] deflateGzip(byte[] inputBytes){
 		// Start the byte input stream
-		ByteArrayInputStream bis = new ByteArrayInputStream(inputBytes);
-		GZIPInputStream gis;
+		ByteArrayInputStream byteInputStream = new ByteArrayInputStream(inputBytes);
+		GZIPInputStream gzipInputStream;
 		try {
-			gis = new GZIPInputStream(bis);
+			gzipInputStream = new GZIPInputStream(byteInputStream);
 		} catch (IOException e) {
 			System.err.println("Error in opening byte array.");
 			e.printStackTrace();
 			return null;
 		}
-		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
 		// Make a buffer
-		byte[] tmp = new byte[BYTE_BUFFER_CHUNK_SIZE];
+		byte[] buffer = new byte[BYTE_BUFFER_CHUNK_SIZE];
 		try {
-			while (gis.available() == 1) {
-				int size = gis.read(tmp);
+			while (gzipInputStream.available() == 1) {
+				int size = gzipInputStream.read(buffer);
 				if(size==-1){
 					break;
 				}
-				baos.write(tmp, 0, size);
+				byteArrayOutputStream.write(buffer, 0, size);
 			}
 		} 
 		catch (Exception ex) {
@@ -89,17 +89,15 @@ public class ReaderUtils {
 		} 
 		finally {
 			try {
-				if (baos != null) {
-					baos.close();
+				if (byteArrayOutputStream != null) {
+					byteArrayOutputStream.close();
 				}
 			} catch (Exception ex) {
 				ex.printStackTrace();
 				return null;
 			}
 		}
-		// Get the bytes
-		byte[] outArr = baos.toByteArray();
-		return outArr;
+		return  byteArrayOutputStream.toByteArray();
 	}
 
 	/**
