@@ -30,6 +30,8 @@ public class DecoderToReader {
 
 	/**
 	 * Passes data from the data interface to the inflator interface.
+	 * @param inputApi the interface to the decoded data
+	 * @param inputInflator the interface to put the data into the client object
 	 */
 	public void read(DecodedDataInterface inputApi, DataTransferInterface inputInflator){
 		// Set the api and the inflator

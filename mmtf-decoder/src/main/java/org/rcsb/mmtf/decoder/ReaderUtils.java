@@ -28,15 +28,15 @@ public class ReaderUtils {
 	/**
 	 * Find the message pack byte array from the web using the input code and a base url.
 	 * Caches the file if possible.
-	 * @param inputCode
-	 * @return the byte array
-	 * @throws IOException
+	 * @param pdbCode the pdb code for the desired structure.
+	 * @return the MMTFBean of the deserialized data
+	 * @throws IOException if the data cannot be read from the URL
 	 */
-	public static MmtfBean getDataFromUrl(String inputCode) throws IOException {	
+	public static MmtfBean getDataFromUrl(String pdbCode) throws IOException {	
 		// Get these as an inputstream
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		InputStream is = null;
-		URL url = new URL(BASE_URL + inputCode);
+		URL url = new URL(BASE_URL + pdbCode);
 		try {
 			is = url.openStream();
 			byte[] byteChunk = new byte[BYTE_BUFFER_CHUNK_SIZE]; // Or whatever size you want to read in at a time.
@@ -60,10 +60,8 @@ public class ReaderUtils {
 	
 	/**
 	 * Deflate a gzip byte array.
-	 * @param inputBytes -> gzip compressed byte
-	 * array
-	 * @return A deflated byte array
-	 * @throws IOException Signals that an I/O exception has occurred.
+	 * @param inputBytes a gzip compressed byte array
+	 * @return a deflated byte array
 	 */
 	public static byte[] deflateGzip(byte[] inputBytes){
 		// Start the byte input stream
@@ -106,10 +104,10 @@ public class ReaderUtils {
 	}
 
 	/**
-	 * A function to get MMTF data from a file path
-	 * @param filePath
+	 * A function to get MMTF data from a file path.
+	 * @param filePath the full path of the file to be read
 	 * @return the deserialized mmtfBean
-	 * @throws IOException 
+	 * @throws IOException an error reading the file 
 	 */
 	public static MmtfBean getDataFromFile(String filePath) throws IOException {
 		// Now return the gzip deflated and deserialized byte array
@@ -121,7 +119,7 @@ public class ReaderUtils {
 	 * Read a byte array from a file
 	 * @param filePath the input file path
 	 * @return the returned byte array
-	 * @throws IOException
+	 * @throws IOException an error reading the file 
 	 */
 	private static byte[] readFile(String filePath) throws IOException {
 		Path path = Paths.get(filePath);

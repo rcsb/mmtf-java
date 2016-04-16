@@ -48,7 +48,7 @@ public class ArrayConverters {
 	 * Convert a byte array containing two bytes to integers in an integer array.
 	 * @param byteArray the input byte array
 	 * @return the converted integer array
-	 * @throws IOException 
+	 * @throws IOException due to an error reading the byte array
 	 */
 	public static int[] convertByteToIntegers(byte[] byteArray) throws IOException{
 		DataInputStream dataInputStream = new DataInputStream(new ByteArrayInputStream(byteArray));
@@ -64,7 +64,7 @@ public class ArrayConverters {
 	 * Convert a byte array containing two bytes to integers in an integer array.
 	 * @param byteArray the input byte array
 	 * @return the converted integer array
-	 * @throws IOException 
+	 * @throws IOException due to an error reading the byte array
 	 */
 	public static int[] convertTwoByteToIntegers(byte[] byteArray) throws IOException{
 		DataInputStream dataInputStream = new DataInputStream(new ByteArrayInputStream(byteArray));
@@ -81,7 +81,7 @@ public class ArrayConverters {
 	 * Convert a byte array containing four bytes to integers in an integer array.
 	 * @param byteArray the input byte array
 	 * @return the converted integer array
-	 * @throws IOException 
+	 * @throws IOException due to an error reading the byte array
 	 */
 	public static int[] convertFourByteToIntegers(byte[] byteArray) throws IOException{
 		DataInputStream dataInputStream = new DataInputStream(new ByteArrayInputStream(byteArray));

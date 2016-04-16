@@ -12,6 +12,8 @@ public class DecoderUtils {
 
 	/**
 	 * Parses the bioassembly data and inputs it to the structure inflator
+	 * @param dataApi the interface to the decoded data
+	 * @param structInflator the interface to put the data into the client object
 	 */
 	public static void generateBioAssembly(DecodedDataInterface dataApi, DataTransferInterface structInflator) {
 		for (int i=0; i<dataApi.getNumBioassemblies(); i++) {
@@ -22,8 +24,10 @@ public class DecoderUtils {
 	}
 
 	/**
-	 * Generate inter group bonds
+	 * Generate inter group bonds.
 	 * Bond indices are specified within the whole structure and start at 0.
+	 * @param dataApi the interface to the decoded data
+	 * @param structInflator the interface to put the data into the client object
 	 */
 	public static void addInterGroupBonds(DecodedDataInterface dataApi, DataTransferInterface structInflator) {
 		for (int i = 0; i < dataApi.getInterGroupBondOrders().length; i++) {
@@ -33,7 +37,9 @@ public class DecoderUtils {
 	}
 
 	/**
-	 * Add ancilliary header information to the structure
+	 * Add ancilliary header information to the structure.
+	 * @param dataApi the interface to the decoded data
+	 * @param structInflator the interface to put the data into the client object
 	 */
 	public static void addHeaderInfo(DecodedDataInterface dataApi, DataTransferInterface structInflator) {
 		structInflator.setHeaderInfo(dataApi.getRfree(),dataApi.getRwork(), dataApi.getResolution(), 
@@ -42,9 +48,9 @@ public class DecoderUtils {
 
 	
 	/**
-	 * Add the crystallographic data to the structure
-	 * @param dataApi
-	 * @param structInflator
+	 * Add the crystallographic data to the structure.
+	 * @param dataApi the interface to the decoded data
+	 * @param structInflator the interface to put the data into the client object
 	 */
 	public static void addXtalographicInfo(DecodedDataInterface dataApi, DataTransferInterface structInflator) {
 		if(dataApi.getUnitCell()!=null){
@@ -53,9 +59,9 @@ public class DecoderUtils {
 	}
 
 	/**
-	 * Add the entity info to the structure
-	 * @param dataApi
-	 * @param structInflator
+	 * Add the entity info to the structure.
+	 * @param dataApi the interface to the decoded data
+	 * @param structInflator the interface to put the data into the client object
 	 */
 	public static void addEntityInfo(DecodedDataInterface dataApi, DataTransferInterface structInflator) {
 		for (int i=0; i<dataApi.getNumEntities(); i++) {
