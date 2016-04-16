@@ -2,16 +2,20 @@ package org.rcsb.mmtf.decoder;
 
 import org.rcsb.mmtf.api.DecodedDataInterface;
 
+/**
+ * A dummy implementation of the decode data interface.
+ * @author Anthony Bradley
+ *
+ */
 public class DummyApiImpl implements DecodedDataInterface {
 
 	
-	public final int numAtoms = 1;
-	public final int numGroups = 1;
-	public final int atomsPerGroup = 1;
-	public final int bondsPerGroup = 1;
-	public final int interGroupBonds = 1;
-	public final int numChains = 1;
-	public final int numModels = 1;
+	private final int numAtoms = 1;
+	private final int numGroups = 1;
+	private final int atomsPerGroup = 1;
+	private final int bondsPerGroup = 1;
+	private final int interGroupBonds = 1;
+	private final int numChains = 1;
 
 	
 	@Override

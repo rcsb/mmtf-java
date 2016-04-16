@@ -2,6 +2,11 @@ package org.rcsb.mmtf.decoder;
 
 import org.rcsb.mmtf.api.DataTransferInterface;
 
+/**
+ * A dummy implementation of the transfer interface.
+ * @author Anthony Bradley
+ *
+ */
 public class DummyTransferImpl implements DataTransferInterface {
 
 	@Override

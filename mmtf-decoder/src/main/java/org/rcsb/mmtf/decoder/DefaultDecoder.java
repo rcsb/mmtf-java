@@ -17,6 +17,11 @@ import org.rcsb.mmtf.dataholders.PDBGroup;
  */
 public class DefaultDecoder implements DecodedDataInterface {
 
+	/**
+	 * Constructor for the default decoder.
+	 * @param inputData The input mmtfBean data to be decompressed.
+	 * @throws IOException  an error using a byte stream.
+	 */
 	public DefaultDecoder(MmtfBean inputData) throws IOException {
 		groupList = ArrayConverters.convertFourByteToIntegers(inputData.getGroupTypeList());
 		// Decode the coordinate  and B-factor arrays.

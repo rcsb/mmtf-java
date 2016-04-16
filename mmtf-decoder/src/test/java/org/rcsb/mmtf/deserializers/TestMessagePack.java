@@ -10,9 +10,20 @@ import org.rcsb.mmtf.dataholders.MmtfBean;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 
+/**
+ * Test the messagepack deserializer implementation.
+ * @author Anthony Bradley
+ *
+ */
 public class TestMessagePack {
 
 	
+	/**
+	 * Test that we can deserialize dummy data.
+	 * @throws JsonParseException an error in the JSON parser
+	 * @throws JsonMappingException a JSON mapping error. (Jackson)
+	 * @throws IOException an error with the byte array.
+	 */
 	@Test
 	public void testBasic() throws JsonParseException, JsonMappingException, IOException {
 		MessagePackDeserializer messagePackDeserializer = new  MessagePackDeserializer();

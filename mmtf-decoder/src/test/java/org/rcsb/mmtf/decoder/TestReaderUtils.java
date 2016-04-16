@@ -1,15 +1,25 @@
 package org.rcsb.mmtf.decoder;
 
 import org.junit.Test;
+import org.rcsb.mmtf.dataholders.MmtfBean;
+
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+
 
 import java.io.IOException;
 
-
+/**
+ * Test the reader utils class functions work.
+ * @author Anthony Bradley
+ *
+ */
 public class TestReaderUtils {
 	
-	
+	/**
+	 * Test we can decompress a gzipped byte array.
+	 */
 	@Test
 	public void testGzipDecompress() {
 		
@@ -51,6 +61,9 @@ public class TestReaderUtils {
 		
 	}
 	
+	/**
+	 * Test that we can't gzip decompress non-gzipped data.
+	 */
 	@Test
 	public void testGzipDecompressText() {
 		// Test that decomprss text returns null
@@ -59,9 +72,15 @@ public class TestReaderUtils {
 	}
 
 	
+	/**
+	 * Test that we can read an mmtf file into an MmmtfBean
+	 * @throws IOException error accesing the file
+	 */
 	@Test 
 	public void testReadFromFile() throws IOException {
 		ClassLoader classLoader = getClass().getClassLoader();
-		ReaderUtils.getDataFromFile(classLoader.getResource("mmtf/4cup.mmtf").getPath());
+		MmtfBean mmtfBean = ReaderUtils.getDataFromFile(classLoader.getResource("mmtf/4cup.mmtf").getPath());
+		assertNotEquals(mmtfBean, null);
+		assertEquals(mmtfBean.getDepositionDate(), "2014-03-21");
 	}
 }

@@ -28,10 +28,6 @@ public class DecoderToReader {
 	private int currentAtomIndex = 0;
 	private Set<String> chainIdSet;
 
-	public DecoderToReader(){
-
-	}
-
 	/**
 	 * Passes data from the data interface to the inflator interface.
 	 */

@@ -3,6 +3,11 @@ package org.rcsb.mmtf.decoder;
 import org.rcsb.mmtf.api.DecodedDataInterface;
 import org.rcsb.mmtf.api.DataTransferInterface;
 
+/**
+ * A class of static functions to be used to aid decoding from MMTFBean to DecodedDataInterface.
+ * @author Anthony Bradley
+ *
+ */
 public class DecoderUtils {
 
 	/**

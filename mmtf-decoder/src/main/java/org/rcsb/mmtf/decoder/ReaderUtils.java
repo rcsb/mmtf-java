@@ -13,6 +13,11 @@ import java.util.zip.GZIPInputStream;
 import org.rcsb.mmtf.dataholders.MmtfBean;
 import org.rcsb.mmtf.deserializers.MessagePackDeserializer;
 
+/**
+ * A class of static utility methods for reading data.
+ * @author Anthony Bradley
+ *
+ */
 public class ReaderUtils {
 
 	/** The base url. */

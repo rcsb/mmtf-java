@@ -16,6 +16,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  */
 public class MessagePackDeserializer {
 
+	/**
+	 * Deserialize the byte array into an mmtfBean.
+	 * @param byteArray the input data as a byte array.
+	 * @return the deserialized data as an mmtfbean.
+	 * @throws JsonParseException an error converting the byte array to the bean
+	 * @throws JsonMappingException an error converting the byte array to the bean
+	 * @throws IOException an error working with the byte arrayq
+	 */
 	public MmtfBean deserialize(byte[] byteArray) throws JsonParseException, JsonMappingException, IOException {
 		MmtfBean mmtfBean = null;
 		mmtfBean = new ObjectMapper(new MessagePackFactory()).readValue(byteArray, MmtfBean.class);

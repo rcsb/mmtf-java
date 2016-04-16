@@ -65,7 +65,7 @@ public interface DataTransferInterface {
 	 * type mappings are defined in the specification)
 	 */
 	void setGroupInfo(String groupName, int groupNumber, char insertionCode,
-			String groupType, int atomCount, int boundCount, char singleLetterCode, 
+			String groupType, int atomCount, int bondCount, char singleLetterCode, 
 			int sequenceIndex, int secondaryStructureType);
 
 
