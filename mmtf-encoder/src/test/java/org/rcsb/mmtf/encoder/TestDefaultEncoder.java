@@ -12,17 +12,26 @@ import java.lang.reflect.InvocationTargetException;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
+import org.rcsb.mmtf.api.DataTransferInterface;
 import org.unitils.reflectionassert.ReflectionAssert;
 
+/**
+ * A class to test the default encoding of data
+ * @author Anthony Bradley
+ *
+ */
 public class TestDefaultEncoder {
 	
+    /**
+     * A test folder for testing writing files.
+     */
     @Rule
     public TemporaryFolder testFolder = new TemporaryFolder();
 	
 
 	/**
-	 * Test whether calling all the set methods gives a none null get
-	 * @throws IOException
+	 * Test whether calling all the set methods gives a none null get.
+	 * @throws IOException an error converting byte arrays
 	 */
 	@Test
 	public void testEncodeAllFields() throws IOException {
@@ -33,6 +42,13 @@ public class TestDefaultEncoder {
 	}
 
 
+	/**
+	 * Test the writer of data.
+	 * @throws IllegalAccessException reflection based error
+	 * @throws IllegalArgumentException reflection based error
+	 * @throws InvocationTargetException reflection based error
+	 * @throws IntrospectionException reflection based error
+	 */
 	@Test
 	public void testWriter() throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, IntrospectionException {
 		WriterToEncoder writerToEncoder = getWriterEncoder();
@@ -46,6 +62,10 @@ public class TestDefaultEncoder {
 	}
 
 
+	/**
+	 * Test writing the data to a file.
+	 * @throws IOException an error accessing the file system
+	 */
 	@Test
 	public void testWriteToFile() throws IOException {
 		WriterToEncoder writerToEncoder = getWriterEncoder();
@@ -54,7 +74,11 @@ public class TestDefaultEncoder {
 	}
 	
 	
-	
+	/**
+	 * Utility function for getting the base data into the {@link WriterToEncoder} 
+	 * implementation of the {@link DataTransferInterface}.
+	 * @return the {@link WriterToEncoder} instance
+	 */
 	private WriterToEncoder getWriterEncoder() {
 		WriterToEncoder writerToEncoder = new WriterToEncoder();
 		writerToEncoder.initStructure(1, 1, 1, 1, 1, "ABC");

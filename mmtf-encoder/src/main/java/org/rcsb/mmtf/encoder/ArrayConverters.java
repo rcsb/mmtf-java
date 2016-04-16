@@ -71,10 +71,10 @@ public class ArrayConverters {
 	}
 	
 	/**
-	 * Convert a float array to an integer array by multiplying by a float.
-	 * @param intArray the input integer array to be divided
-	 * @param floatDivider the float divider to divide the integers by.
-	 * @return a float array converted from the input.
+	 * Convert an integer array to a float array by multiplying by a float.
+	 * @param floatArray the input float array to be converted to ints
+	 * @param floatMultiplier the float divider to multiply the floats by.
+	 * @return an int array converted from the input.
 	 */
 	public static int[] convertFloatsToInts(float[] floatArray, float floatMultiplier) {
 		// Assign the output array to write
@@ -89,8 +89,8 @@ public class ArrayConverters {
 	 * Convert an input array of integers to two arrays. The first output array is a 
 	 * four byte integer array. The integers in this array are in pairs. The first in
 	 * each pair is part of the 
-	 * @param inputArray
-	 * @return
+	 * @param inputArray the array of integers to be split.
+	 * @return a list of two integer arrays. The first is of four byte integers.
 	 */
 	public static List<int[]> splitIntegers(int[] inputArray) {
 		// set the two output arrays
@@ -139,6 +139,11 @@ public class ArrayConverters {
 	}
 
 	
+	/**
+	 * Conver the chain names to a byte array
+	 * @param chainNames the list of chain names as strings. Max lenght of 4 characters.
+	 * @return the byte array of the chain names.
+	 */
 	public static byte[] encodeChainList(String[] chainNames) {
 		byte[] outArr = new byte[chainNames.length*4];
 		for(int i=0; i<chainNames.length;i++) {

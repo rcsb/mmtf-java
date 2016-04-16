@@ -10,6 +10,11 @@ import org.rcsb.mmtf.dataholders.Entity;
 import org.rcsb.mmtf.dataholders.PDBGroup;
 import org.rcsb.mmtf.utils.CodecUtils;
 
+/**
+ * A class of static utility functions to add encoding of data.
+ * @author Anthony Bradley
+ *
+ */
 public class EncoderUtils {
 
 	/**

@@ -18,6 +18,11 @@ public class DefaultEncoder {
 
 	private MmtfBean mmtfBean;
 
+	/**
+	 * The constructor for the encoder.
+	 * @param decodedDataInterface the interface of data to be encoded.
+	 * @throws IOException an error related to byte array transfers
+	 */
 	public DefaultEncoder(DecodedDataInterface decodedDataInterface) throws IOException {
 		mmtfBean = new MmtfBean();
 		// Set the group types
@@ -129,6 +134,10 @@ public class DefaultEncoder {
 		mmtfBean.setSecStructList(ArrayConverters.convertIntegersToBytes(decodedDataInterface.getSecStructList()));
 	}
 
+	/**
+	 * Get the MmtfBean of encoded data.
+	 * @return the encoded data as an MmtfBean
+	 */
 	public MmtfBean getMmtfBean() {
 		return mmtfBean;
 	}
