@@ -4,17 +4,22 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.Properties;
 
+/**
+ * A class to get the current git commit
+ * @author Anthony Bradley
+ *
+ */
 public class GetRepoState implements Serializable{
 
 	/**
-	 * 
+	 * The serial id for this object.
 	 */
 	private static final long serialVersionUID = -3997275420826350281L;
 
 	/**
-	 * Function to read the git repo information and return a class containing that data
-	 * @return
-	 * @throws IOException
+	 * Function to read the git repository information and return a class containing that data
+	 * @return the gitrepository state class specifying the available information.
+	 * @throws IOException an error reading the git files.
 	 */
 	public GitRepositoryState getGitRepositoryState() throws IOException
 	{
@@ -25,9 +30,8 @@ public class GetRepoState implements Serializable{
 	}
 
 	/**
-	 * Function to get the curretn git version
-	 * @return
-	 * @throws IOException
+	 * Function to get the current git commit SHA of the code.
+	 * @return a string specifying the current commit SHA code.
 	 */
 	public static String getCurrentVersion(){
 		GetRepoState grs = new GetRepoState();

@@ -41,7 +41,7 @@ public class PDBGroup implements Serializable {
 	private char singleLetterCode;
 
 	/** A string (taken from the chemical component dictionary) indicating 
-	 * the type of the group. Corresponds to -> http://mmcif.wwpdb.org/dictionaries/mmcif_pdbx.dic/Items/_chem_comp.type.html
+	 * the type of the group. Corresponds to: http://mmcif.wwpdb.org/dictionaries/mmcif_pdbx.dic/Items/_chem_comp.type.html
 	 */
 	private String chemCompType;
 

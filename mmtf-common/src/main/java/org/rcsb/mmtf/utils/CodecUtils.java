@@ -2,6 +2,11 @@ package org.rcsb.mmtf.utils;
 
 import java.util.List;
 
+/**
+ * A utility class of static methods for the codec project.
+ * @author Anthony Bradley
+ *
+ */
 public class CodecUtils {
 
 	/**

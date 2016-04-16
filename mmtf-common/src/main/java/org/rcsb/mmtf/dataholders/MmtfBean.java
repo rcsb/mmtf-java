@@ -827,16 +827,16 @@ public class MmtfBean implements Serializable {
 	}
 
 	/**
-	 * Get the entity list
-	 * @return
+	 * Get the entity list.
+	 * @return the list of entities for this structure.
 	 */
 	public Entity[] getEntityList() {
 		return entityList;
 	}
 
 	/**
-	 * Set the entity list
-	 * @param entityList
+	 * Set the entity list.
+	 * @param entityList the input list of entities.
 	 */
 	public void setEntityList(Entity[] entityList) {
 		this.entityList = entityList;

@@ -4,7 +4,16 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
+/**
+ * Class to test the DsspType enum.
+ * @author Anthony Bradley
+ *
+ */
 public class TestDsspType {
+	
+	/**
+	 * Test the DsspType setter methods.
+	 */
 	@Test
 	public void testDsspType() {		
 		
