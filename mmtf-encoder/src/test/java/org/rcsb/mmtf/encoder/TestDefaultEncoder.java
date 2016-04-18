@@ -12,7 +12,7 @@ import java.lang.reflect.InvocationTargetException;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
-import org.rcsb.mmtf.api.DataTransferInterface;
+import org.rcsb.mmtf.api.StructureAdapterInterface;
 import org.unitils.reflectionassert.ReflectionAssert;
 
 /**
@@ -76,7 +76,7 @@ public class TestDefaultEncoder {
 	
 	/**
 	 * Utility function for getting the base data into the {@link WriterToEncoder} 
-	 * implementation of the {@link DataTransferInterface}.
+	 * implementation of the {@link StructureAdapterInterface}.
 	 * @return the {@link WriterToEncoder} instance
 	 */
 	private WriterToEncoder getWriterEncoder() {

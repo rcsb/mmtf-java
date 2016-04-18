@@ -1,13 +1,13 @@
 package org.rcsb.mmtf.decoder;
 
-import org.rcsb.mmtf.api.DataTransferInterface;
+import org.rcsb.mmtf.api.StructureAdapterInterface;
 
 /**
  * A dummy implementation of the transfer interface.
  * @author Anthony Bradley
  *
  */
-public class DummyTransferImpl implements DataTransferInterface {
+public class DummyTransferImpl implements StructureAdapterInterface {
 
 	@Override
 	public void initStructure(int totalNumBonds, int totalNumAtoms, int totalNumGroups, int totalNumChains,

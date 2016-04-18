@@ -5,7 +5,7 @@ package org.rcsb.mmtf.api;
  *
  * @author Anthony Bradley
  */
-public interface DataTransferInterface {
+public interface StructureAdapterInterface {
 
 	/**
 	 * Used before any additions to do any required pre-processing.

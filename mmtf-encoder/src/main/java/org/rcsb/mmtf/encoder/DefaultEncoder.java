@@ -3,7 +3,7 @@ package org.rcsb.mmtf.encoder;
 import java.io.IOException;
 import java.util.List;
 
-import org.rcsb.mmtf.api.DecodedDataInterface;
+import org.rcsb.mmtf.api.StructureDataInterface;
 import org.rcsb.mmtf.dataholders.MmtfBean;
 import org.rcsb.mmtf.encoder.ArrayConverters;
 import org.rcsb.mmtf.encoder.ArrayEncoders;
@@ -23,7 +23,7 @@ public class DefaultEncoder {
 	 * @param decodedDataInterface the interface of data to be encoded.
 	 * @throws IOException an error related to byte array transfers
 	 */
-	public DefaultEncoder(DecodedDataInterface decodedDataInterface) throws IOException {
+	public DefaultEncoder(StructureDataInterface decodedDataInterface) throws IOException {
 		mmtfBean = new MmtfBean();
 		// Set the group types
 		mmtfBean.setGroupTypeList(

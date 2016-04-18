@@ -22,7 +22,7 @@ public class TestMessagePack {
 	 * Test that we can deserialize dummy data.
 	 * @throws JsonParseException an error in the JSON parser
 	 * @throws JsonMappingException a JSON mapping error. (Jackson)
-	 * @throws IOException an error with the byte array.
+	 * @throws IOException an error with the byte array
 	 */
 	@Test
 	public void testBasic() throws JsonParseException, JsonMappingException, IOException {

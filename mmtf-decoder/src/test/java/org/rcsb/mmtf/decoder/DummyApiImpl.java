@@ -1,13 +1,13 @@
 package org.rcsb.mmtf.decoder;
 
-import org.rcsb.mmtf.api.DecodedDataInterface;
+import org.rcsb.mmtf.api.StructureDataInterface;
 
 /**
  * A dummy implementation of the decode data interface.
  * @author Anthony Bradley
  *
  */
-public class DummyApiImpl implements DecodedDataInterface {
+public class DummyApiImpl implements StructureDataInterface {
 
 	
 	private final int numAtoms = 1;

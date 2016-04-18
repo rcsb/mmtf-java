@@ -20,7 +20,7 @@ package org.rcsb.mmtf.api;
  * @author Anthony Bradley
  * @author Jose Duarte
  */
-public interface DecodedDataInterface {
+public interface StructureDataInterface {
 
 	/**
 	 * Returns an array containing the X coordinates of the atoms in Angstroms.
