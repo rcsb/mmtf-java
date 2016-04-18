@@ -9,7 +9,6 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 
 import org.junit.Test;
-import org.rcsb.mmtf.api.StructureAdapterInterface;
 import org.rcsb.mmtf.dataholders.MmtfBean;
 import org.unitils.reflectionassert.ReflectionAssert;
 
@@ -57,9 +56,7 @@ public class TestDefaultDecoder {
 	@Test
 	public void testReader() {
 		DummyApiImpl dummyApiImpl = new DummyApiImpl();
-		DecoderToReader decoderToReader = new DecoderToReader();
-		StructureAdapterInterface inputInflator = new DummyTransferImpl();
-		decoderToReader.read(dummyApiImpl, inputInflator);
+		new DecoderToReader(dummyApiImpl, new DummyTransferImpl());
 	}
 
 }

@@ -10,6 +10,7 @@ import org.rcsb.mmtf.api.StructureAdapterInterface;
  */
 public class DecoderUtils {
 
+	
 	/**
 	 * Parses the bioassembly data and inputs it to the structure inflator
 	 * @param dataApi the interface to the decoded data

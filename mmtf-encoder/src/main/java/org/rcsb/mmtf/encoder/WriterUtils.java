@@ -3,6 +3,7 @@ package org.rcsb.mmtf.encoder;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+import org.rcsb.mmtf.api.StructureDataInterface;
 import org.rcsb.mmtf.serializers.MessagePackSerializer;
 
 /**
@@ -18,7 +19,7 @@ public class WriterUtils {
 	 * @param path the full path to write to
 	 * @throws IOException an error related to byte array transfers
 	 */
-	public static void writeDataToFile(WriterToEncoder writerToEncoder, String path) throws IOException {
+	public static void writeDataToFile(StructureDataInterface writerToEncoder, String path) throws IOException {
 		byte[] byteArray = getDataAsByteArr(writerToEncoder);
 		FileOutputStream fos = new FileOutputStream(path);
 		fos.write(byteArray);
@@ -32,7 +33,7 @@ public class WriterUtils {
 	 * @return a byte array of the data
 	 * @throws IOException an error related to byte array transfers
 	 */
-	public static byte[] getDataAsByteArr(WriterToEncoder writerToEncoder) throws IOException {
+	public static byte[] getDataAsByteArr(StructureDataInterface writerToEncoder) throws IOException {
 		MessagePackSerializer messagePackSerializer = new MessagePackSerializer();
 		// Get to bean
 		DefaultEncoder getToBean = new DefaultEncoder(writerToEncoder);

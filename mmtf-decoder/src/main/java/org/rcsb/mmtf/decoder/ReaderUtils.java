@@ -111,8 +111,7 @@ public class ReaderUtils {
 	 */
 	public static MmtfBean getDataFromFile(String filePath) throws IOException {
 		// Now return the gzip deflated and deserialized byte array
-		MessagePackDeserializer messagePackDeserializer = new MessagePackDeserializer();
-		return messagePackDeserializer.deserialize(readFile(filePath));
+		return new MessagePackDeserializer().deserialize(readFile(filePath));
 	}
 
 	/**
