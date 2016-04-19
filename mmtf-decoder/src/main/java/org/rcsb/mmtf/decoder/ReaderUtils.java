@@ -21,7 +21,7 @@ import org.rcsb.mmtf.deserializers.MessagePackDeserializer;
 public class ReaderUtils {
 
 	/** The base url. */
-	public static final String BASE_URL = "http://mmtf.rcsb.org/full/";
+	public static final String BASE_URL = "http://mmtf.rcsb.org/v0/full/";
 	/** The size of a chunk for a byte buffer. */
 	private static final int BYTE_BUFFER_CHUNK_SIZE = 4096;
 	
