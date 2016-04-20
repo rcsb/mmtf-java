@@ -1,8 +1,7 @@
 package org.rcsb.mmtf.encoder;
 
-import java.io.ByteArrayOutputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
+
+import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,17 +20,17 @@ public class ArrayConverters {
 	 * single byte.
 	 * @param intArray the input array of integers
 	 * @return the byte array of the integers
-	 * @throws IOException the byte array cannot be read
 	 */
-	public static byte[] convertIntegersToBytes(int[] intArray) throws IOException{
-		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		DataOutputStream dos = new DataOutputStream(baos);
+	public static byte[] convertIntegersToBytes(int[] intArray) {
+		
+		ByteBuffer bb = ByteBuffer.allocate(intArray.length);
+		
 		for(int i=0; i < intArray.length; ++i)
 		{
-			dos.writeByte(intArray[i]);
+			bb.put((byte)intArray[i]);
 		}
 
-		return baos.toByteArray();
+		return bb.array();
 	}
 	
 	/**
@@ -39,17 +38,17 @@ public class ArrayConverters {
 	 * two bytes.
 	 * @param intArray the input array of integers
 	 * @return the byte array of the integers
-	 * @throws IOException the byte array cannot be read
 	 */
-	public static byte[] convertIntegersToTwoBytes(int[] intArray) throws IOException{
-		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		DataOutputStream dos = new DataOutputStream(baos);
+	public static byte[] convertIntegersToTwoBytes(int[] intArray) {
+
+		ByteBuffer bb = ByteBuffer.allocate(intArray.length * 2);
+		
 		for(int i=0; i < intArray.length; ++i)
 		{
-			dos.writeShort(intArray[i]);
+			bb.putShort((short)intArray[i]);
 		}
 
-		return baos.toByteArray();
+		return bb.array();
 	}
 
 	/**
@@ -57,17 +56,17 @@ public class ArrayConverters {
 	 * four bytes.
 	 * @param intArray the input array of integers
 	 * @return the byte array of the integers
-	 * @throws IOException the byte array cannot be read
 	 */
-	public static byte[] convertIntegersToFourByte(int[] intArray) throws IOException{
-		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		DataOutputStream dos = new DataOutputStream(baos);
+	public static byte[] convertIntegersToFourByte(int[] intArray) {
+		
+		ByteBuffer bb = ByteBuffer.allocate(intArray.length * 4);
+		
 		for(int i=0; i < intArray.length; ++i)
 		{
-			dos.writeInt(intArray[i]);
+			bb.putInt(intArray[i]);
 		}
 
-		return baos.toByteArray();
+		return bb.array();
 	}
 	
 	/**

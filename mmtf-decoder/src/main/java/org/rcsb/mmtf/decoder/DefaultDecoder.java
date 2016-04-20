@@ -1,6 +1,5 @@
 package org.rcsb.mmtf.decoder;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,9 +19,8 @@ public class DefaultDecoder implements StructureDataInterface {
 	/**
 	 * Constructor for the default decoder.
 	 * @param inputData The input mmtfBean data to be decompressed.
-	 * @throws IOException  an error using a byte stream.
 	 */
-	public DefaultDecoder(MmtfBean inputData) throws IOException {
+	public DefaultDecoder(MmtfBean inputData) {
 		groupList = ArrayConverters.convertFourByteToIntegers(inputData.getGroupTypeList());
 		// Decode the coordinate  and B-factor arrays.
 		cartnX = ArrayConverters.convertIntsToFloats(

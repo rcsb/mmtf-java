@@ -1,8 +1,6 @@
 package org.rcsb.mmtf.decoder;
 
-import java.io.ByteArrayInputStream;
-import java.io.DataInputStream;
-import java.io.IOException;
+import java.nio.ByteBuffer;
 
 /**
  * Class of functions to convert arrays to readable types.
@@ -48,14 +46,15 @@ public class ArrayConverters {
 	 * Convert a byte array containing two bytes to integers in an integer array.
 	 * @param byteArray the input byte array
 	 * @return the converted integer array
-	 * @throws IOException due to an error reading the byte array
 	 */
-	public static int[] convertByteToIntegers(byte[] byteArray) throws IOException{
-		DataInputStream dataInputStream = new DataInputStream(new ByteArrayInputStream(byteArray));
+	public static int[] convertByteToIntegers(byte[] byteArray) {
+		
+		ByteBuffer bb = ByteBuffer.wrap(byteArray);
+		
 		int outLength = byteArray.length;
 		int[] outArray = new int[outLength];
 		for (int i=0; i<outLength; i++) {
-			outArray[i] = dataInputStream.readByte();
+			outArray[i] = bb.get();
 		}
 		return outArray;
 	}
@@ -64,14 +63,15 @@ public class ArrayConverters {
 	 * Convert a byte array containing two bytes to integers in an integer array.
 	 * @param byteArray the input byte array
 	 * @return the converted integer array
-	 * @throws IOException due to an error reading the byte array
 	 */
-	public static int[] convertTwoByteToIntegers(byte[] byteArray) throws IOException{
-		DataInputStream dataInputStream = new DataInputStream(new ByteArrayInputStream(byteArray));
+	public static int[] convertTwoByteToIntegers(byte[] byteArray) {
+		
+		ByteBuffer bb = ByteBuffer.wrap(byteArray);
+	
 		int outLength = byteArray.length/2;
 		int[] outArray = new int[outLength];
 		for (int i=0; i<outLength; i++) {
-			outArray[i] = dataInputStream.readShort();
+			outArray[i] = bb.getShort();
 		}
 		return outArray;
 	}
@@ -81,14 +81,15 @@ public class ArrayConverters {
 	 * Convert a byte array containing four bytes to integers in an integer array.
 	 * @param byteArray the input byte array
 	 * @return the converted integer array
-	 * @throws IOException due to an error reading the byte array
 	 */
-	public static int[] convertFourByteToIntegers(byte[] byteArray) throws IOException{
-		DataInputStream dataInputStream = new DataInputStream(new ByteArrayInputStream(byteArray));
+	public static int[] convertFourByteToIntegers(byte[] byteArray) {
+
+		ByteBuffer bb = ByteBuffer.wrap(byteArray);
+		
 		int outLength = byteArray.length/4;
 		int[] outArray = new int[outLength];
 		for (int i=0; i<outLength; i++) {
-			outArray[i] = dataInputStream.readInt();
+			outArray[i] = bb.getInt();
 		}
 		return outArray;
 	}
