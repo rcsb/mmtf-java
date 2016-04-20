@@ -1,12 +1,14 @@
 package org.rcsb.mmtf.encoder;
 
-import java.io.OutputStream;
+import java.io.ByteArrayOutputStream;
+
 import java.io.IOException;
+import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-import org.rcsb.mmtf.api.StructureDataInterface;
-import org.rcsb.mmtf.serializers.MessagePackSerializer;
+import org.rcsb.mmtf.sedeserializers.MmtfBeanSeDeMessagePackImpl;
+import org.rcsb.mmtf.sedeserializers.MmtfBeanSeDerializerInterface;
 
 /**
  * A class of static utility methods to aid writing of data.
@@ -35,11 +37,13 @@ public class WriterUtils {
 	 * @return a byte array of the data
 	 * @throws IOException an error related to byte array transfers
 	 */
-	public static byte[] getDataAsByteArr(StructureDataInterface writerToEncoder) throws IOException {
-		MessagePackSerializer messagePackSerializer = new MessagePackSerializer();
+	public static byte[] getDataAsByteArr(WriterToEncoder writerToEncoder) throws IOException {
+		MmtfBeanSeDerializerInterface mmtfBeanSeDerializerInterface = new MmtfBeanSeDeMessagePackImpl();
 		// Get to bean
 		DefaultEncoder getToBean = new DefaultEncoder(writerToEncoder);
-		return messagePackSerializer.serialize(getToBean.getMmtfBean());
+		ByteArrayOutputStream bos = new ByteArrayOutputStream();
+		mmtfBeanSeDerializerInterface.serialize(getToBean.getMmtfBean(), bos);
+		return bos.toByteArray();
 	}
 
 }

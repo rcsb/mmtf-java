@@ -10,7 +10,7 @@ import java.nio.file.Path;
 import java.util.zip.GZIPInputStream;
 
 import org.rcsb.mmtf.dataholders.MmtfBean;
-import org.rcsb.mmtf.deserializers.MessagePackDeserializer;
+import org.rcsb.mmtf.sedeserializers.MmtfBeanSeDeMessagePackImpl;
 import org.rcsb.mmtf.utils.CodecUtils;
 
 /**
@@ -47,8 +47,8 @@ public class ReaderUtils {
 		}
 		byte[] b = baos.toByteArray();
 		// Now return the gzip deflated and deserialized byte array
-		MessagePackDeserializer messagePackDeserializer = new MessagePackDeserializer();
-		return messagePackDeserializer.deserialize(deflateGzip(b));
+		MmtfBeanSeDeMessagePackImpl mmtfBeanSeDeMessagePackImpl = new MmtfBeanSeDeMessagePackImpl();
+		return mmtfBeanSeDeMessagePackImpl.deserialize(new ByteArrayInputStream(deflateGzip(b)));
 	}
 	
 	/**
@@ -92,7 +92,8 @@ public class ReaderUtils {
 	 */
 	public static MmtfBean getDataFromFile(Path filePath) throws IOException {
 		// Now return the gzip deflated and deserialized byte array
-		return new MessagePackDeserializer().deserialize(readFile(filePath));
+		MmtfBeanSeDeMessagePackImpl mmtfBeanSeDeMessagePackImpl = new MmtfBeanSeDeMessagePackImpl();
+		return mmtfBeanSeDeMessagePackImpl.deserialize(new ByteArrayInputStream(readFile(filePath)));
 	}
 
 	/**
