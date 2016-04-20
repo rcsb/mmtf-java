@@ -139,8 +139,8 @@ public class ArrayConverters {
 
 	
 	/**
-	 * Conver the chain names to a byte array
-	 * @param chainNames the list of chain names as strings. Max lenght of 4 characters.
+	 * Convert the chain names to a byte array
+	 * @param chainNames the list of chain names as strings. Max length of 4 characters.
 	 * @return the byte array of the chain names.
 	 */
 	public static byte[] encodeChainList(String[] chainNames) {
@@ -161,13 +161,13 @@ public class ArrayConverters {
 	private static void setChainId(String chainId, byte[] byteArr, int chainIndex) {
 		// A char array to store the chars
 		char[] outChar = new char[4];
-		// The lengthof this chain id
+		// The length of this chain id
 		if(chainId==null){
 			return;
 		}
 		int chainIdLen =  chainId.length();
 		chainId.getChars(0, chainIdLen, outChar, 0);
-		// Set the bytrarray - chain ids can be up to 4 chars - pad with empty bytes
+		// Set the byte array - chain ids can be up to 4 chars - pad with empty bytes
 		byteArr[chainIndex*4+0] = (byte) outChar[0];
 		if(chainIdLen>1){
 			byteArr[chainIndex*4+1] = (byte) outChar[1];
