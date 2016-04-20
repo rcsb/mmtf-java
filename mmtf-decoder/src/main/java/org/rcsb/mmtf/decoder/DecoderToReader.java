@@ -62,7 +62,7 @@ public class DecoderToReader {
 	/**
 	 * Add the main atomic information to the data model
 	 */
-	private final void addAtomicInformation() {
+	private void addAtomicInformation() {
 		for (int modelChains: dataApi.getChainsPerModel()) {
 			structInflator.setModelInfo(modelCounter, modelChains);
 			int totChainsThisModel = chainCounter + modelChains;

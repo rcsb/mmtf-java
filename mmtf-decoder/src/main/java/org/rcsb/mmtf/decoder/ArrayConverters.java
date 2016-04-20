@@ -2,6 +2,8 @@ package org.rcsb.mmtf.decoder;
 
 import java.nio.ByteBuffer;
 
+import org.rcsb.mmtf.utils.CodecUtils;
+
 /**
  * Class of functions to convert arrays to readable types.
  * e.g. byte arrays to integer arrays.
@@ -9,9 +11,6 @@ import java.nio.ByteBuffer;
  *
  */
 public class ArrayConverters {
-
-	/** The maximum number of chars in a chain entry. */
-	private static final int MAX_CHARS_PER_CHAIN_ENTRY = 4;
 
 	/**
 	 * Find all the chain ids from a single byte array. Each byte encodes a different ASCII character.
@@ -144,21 +143,21 @@ public class ArrayConverters {
 	private static String getChainId(byte[] byteArr, int chainIndex) {
 		int incrementor = 0;
 		StringBuilder sb = new StringBuilder();
-		byte chainIdOne = byteArr[chainIndex * MAX_CHARS_PER_CHAIN_ENTRY + incrementor];
+		byte chainIdOne = byteArr[chainIndex * CodecUtils.MAX_CHARS_PER_CHAIN_ENTRY + incrementor];
 		sb.append((char) chainIdOne);
 		// Now get the next byte
 		incrementor += 1;
-		byte chainIdTwo = byteArr[chainIndex * MAX_CHARS_PER_CHAIN_ENTRY + incrementor];
+		byte chainIdTwo = byteArr[chainIndex * CodecUtils.MAX_CHARS_PER_CHAIN_ENTRY + incrementor];
 		if (chainIdTwo != (byte) 0) {
 			sb.append((char) chainIdTwo);
 		}
 		incrementor += 1;
-		byte chainIdThree = byteArr[chainIndex * MAX_CHARS_PER_CHAIN_ENTRY + incrementor];
+		byte chainIdThree = byteArr[chainIndex * CodecUtils.MAX_CHARS_PER_CHAIN_ENTRY + incrementor];
 		if (chainIdThree != (byte) 0) {
 			sb.append((char) chainIdThree);
 		}
 		incrementor += 1;
-		byte chainIdFour = byteArr[chainIndex * MAX_CHARS_PER_CHAIN_ENTRY + incrementor];
+		byte chainIdFour = byteArr[chainIndex * CodecUtils.MAX_CHARS_PER_CHAIN_ENTRY + incrementor];
 		if (chainIdFour != (byte) 0) {
 			sb.append((char) chainIdFour);
 		}

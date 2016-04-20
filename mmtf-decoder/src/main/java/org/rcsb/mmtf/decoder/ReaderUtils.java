@@ -11,6 +11,7 @@ import java.util.zip.GZIPInputStream;
 
 import org.rcsb.mmtf.dataholders.MmtfBean;
 import org.rcsb.mmtf.deserializers.MessagePackDeserializer;
+import org.rcsb.mmtf.utils.CodecUtils;
 
 /**
  * A class of static utility methods for reading data.
@@ -18,9 +19,7 @@ import org.rcsb.mmtf.deserializers.MessagePackDeserializer;
  *
  */
 public class ReaderUtils {
-
-	/** The base url. */
-	public static final String BASE_URL = "http://mmtf.rcsb.org/v0/full/";
+	
 	/** The size of a chunk for a byte buffer. */
 	private static final int BYTE_BUFFER_CHUNK_SIZE = 4096;
 	
@@ -35,7 +34,7 @@ public class ReaderUtils {
 		// Get these as an inputstream
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		InputStream is = null;
-		URL url = new URL(BASE_URL + pdbCode);
+		URL url = new URL(CodecUtils.BASE_URL + pdbCode);
 		try {
 			is = url.openStream();
 			byte[] byteChunk = new byte[BYTE_BUFFER_CHUNK_SIZE]; // Or whatever size you want to read in at a time.
