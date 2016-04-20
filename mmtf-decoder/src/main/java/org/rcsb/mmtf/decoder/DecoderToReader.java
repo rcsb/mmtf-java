@@ -1,10 +1,7 @@
 package org.rcsb.mmtf.decoder;
 
-import java.util.HashSet;
-import java.util.Set;
-
-import org.rcsb.mmtf.api.DecodedDataInterface;
-import org.rcsb.mmtf.api.DataTransferInterface;
+import org.rcsb.mmtf.api.StructureDataInterface;
+import org.rcsb.mmtf.api.StructureAdapterInterface;
 
 /**
  * Decode an MMTF structure using a structure inflator. 
@@ -15,27 +12,31 @@ import org.rcsb.mmtf.api.DataTransferInterface;
 public class DecoderToReader {
 
 	/** The struct inflator. */
-	private DataTransferInterface structInflator;
+	private StructureAdapterInterface structInflator;
 
 	/** The api to the data */
-	private DecodedDataInterface dataApi;
+	private StructureDataInterface dataApi;
 
 	// Intialises the counters.
-	private int modelCounter = 0;
-	private int chainCounter = 0;
-	private int groupCounter = 0;
-	private int atomCounter = 0;
-	private int currentAtomIndex = 0;
-	private Set<String> chainIdSet;
-
-	public DecoderToReader(){
-
-	}
+	private int modelCounter;
+	private int chainCounter;
+	private int groupCounter;
+	private int atomInGroupCounter;
+	private int atomInStructureCounter;
+	
 
 	/**
 	 * Passes data from the data interface to the inflator interface.
+	 * @param inputApi the interface to the decoded data
+	 * @param inputInflator the interface to put the data into the client object
 	 */
-	public void read(DecodedDataInterface inputApi, DataTransferInterface inputInflator){
+	public DecoderToReader(StructureDataInterface inputApi, StructureAdapterInterface inputInflator){
+		// Set the counters to zero
+		modelCounter = 0;
+		chainCounter = 0;
+		groupCounter = 0;
+		atomInGroupCounter = 0;
+		atomInStructureCounter = 0;
 		// Set the api and the inflator
 		dataApi = inputApi;
 		structInflator = inputInflator;
@@ -57,15 +58,13 @@ public class DecoderToReader {
 		// Now do any required cleanup
 		structInflator.finalizeStructure();
 	}
-	
+
 	/**
 	 * Add the main atomic information to the data model
 	 */
-	private final void addAtomicInformation() {
+	private void addAtomicInformation() {
 		for (int modelChains: dataApi.getChainsPerModel()) {
 			structInflator.setModelInfo(modelCounter, modelChains);
-			// A list to check if we need to set or update the chains
-			chainIdSet = new HashSet<>();
 			int totChainsThisModel = chainCounter + modelChains;
 			int lastChainCounter = chainCounter;
 			for (int chainIndex = lastChainCounter; chainIndex < totChainsThisModel;  chainIndex++) {
@@ -85,12 +84,7 @@ public class DecoderToReader {
 		String currentChainName = dataApi.getChainNames()[chainIndex];
 		int groupsThisChain = dataApi.getGroupsPerChain()[chainIndex];
 		// If we've already seen this chain -> just update it
-		if (chainIdSet.contains(currentChainId)) {
-			structInflator.setChainInfo(currentChainId, currentChainName, groupsThisChain);
-		} else {
-			structInflator.setChainInfo(currentChainId, currentChainName, groupsThisChain);
-			chainIdSet.add(currentChainId);
-		}
+		structInflator.setChainInfo(currentChainId, currentChainName, groupsThisChain);
 		int nextInd = groupCounter + groupsThisChain;
 		int lastGroupCount = groupCounter;
 		// Now iteratr over the group
@@ -117,13 +111,13 @@ public class DecoderToReader {
 				dataApi.getGroupChemCompType(groupInd), atomCount, dataApi.getNumBonds(), dataApi.getGroupSingleLetterCode(groupInd),
 				dataApi.getGroupSequenceIndices()[currentGroupIndex], dataApi.getSecStructList()[currentGroupIndex]);
 		// A counter for the atom information
-		atomCounter = 0;
+		atomInGroupCounter = 0;
 		// Now read the next atoms
 		for (int i = 0; i < atomCount; i++) {
-			addAtomData(dataApi.getGroupAtomNames(groupInd), dataApi.getGroupElementNames(groupInd), dataApi.getGroupAtomCharges(groupInd), currentAtomIndex);  
-			currentAtomIndex++;
+			addAtomData(dataApi.getGroupAtomNames(groupInd), dataApi.getGroupElementNames(groupInd), dataApi.getGroupAtomCharges(groupInd), atomInStructureCounter);  
+			atomInStructureCounter++;
 			// Now increment the atom counter for this group
-			atomCounter++;
+			atomInGroupCounter++;
 		}
 		addGroupBonds(dataApi.getGroupBondIndices(groupInd), dataApi.getGroupBondOrders(groupInd));
 		return atomCount;
@@ -139,9 +133,9 @@ public class DecoderToReader {
 	private void addAtomData(String[] atomNames, String[] elementNames, int[] atomCharges, 
 			int currentAtomIndex) {
 		// Now get all the relevant atom level information here
-		String atomName = atomNames[atomCounter];
-		String element = elementNames[atomCounter];
-		int charge = atomCharges[atomCounter];
+		String atomName = atomNames[atomInGroupCounter];
+		String element = elementNames[atomInGroupCounter];
+		int charge = atomCharges[atomInGroupCounter];
 		char alternativeLocationId = dataApi.getAltLocIds()[currentAtomIndex];
 		int serialNumber = dataApi.getAtomIds()[currentAtomIndex];
 		float x = dataApi.getxCoords()[currentAtomIndex];

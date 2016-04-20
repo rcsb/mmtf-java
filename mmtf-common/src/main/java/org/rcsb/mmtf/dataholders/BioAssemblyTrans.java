@@ -21,9 +21,7 @@ public class BioAssemblyTrans {
 
   /**
    * Gets the 4x4 matrix transformation specifying a rotation and a translation.
-   * 
    * FIXME is this row-packed or column-packed?
-   *
    * @return the transformation
    */
   public double[] getMatrix() {
@@ -32,10 +30,8 @@ public class BioAssemblyTrans {
 
   /**
    * Sets the 4x4 matrix transformation specifying a rotation and a translation.
-   *
    * FIXME is this row-packed or column-packed?
-   * 
-   * @param inputTransformation the new transformation
+   * @param transformation the new transformation
    */
   public void setMatrix(double[] transformation) {
     this.matrix = transformation;
@@ -53,7 +49,7 @@ public class BioAssemblyTrans {
   /**
    * Sets the chain id.
    *
-   * @param  a list of integers indicating the indices (zero indexed) of the chains this bioassembly refers to.
+   * @param  inputChainId a list of integers indicating the indices (zero indexed) of the chains this bioassembly refers to.
    */
   public void setChainIndexList(int[] inputChainId) {
     this.chainIndexList = inputChainId;

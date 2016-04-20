@@ -10,14 +10,23 @@ package org.rcsb.mmtf.dataholders;
  */
 public enum DsspType {
 
+	/** A pi helix.*/
 	PI_HELIX("pi Helix",0),
+	/** A bend*/
 	BEND("Bend",1),
+	/** An alpha helix.*/
 	ALPHA_HELIX("alpha Helix",2),
+	/** An extended loop. */
 	EXTENDED("Extended",3),
+	/** A 3-10 alpha helix. */
 	HELIX_3_10("3-10 Helix",4),
+	/** A bridge. */
 	BRIDGE("Bridge",5),
+	/** A turn. */
 	TURN("Turn",6),
+	/** A coil.*/
 	COIL("Coil",7),
+	/** A null  entry - or an entry not recognised. */
 	NULL_ENTRY("NA",-1);
 	
 	/** The String type of the DSSP*/

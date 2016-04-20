@@ -6,23 +6,21 @@ package org.rcsb.mmtf.api;
  * <p>
  * The structural data is accessible through this interface via 
  * a flat structure, instead of the usual hierarchical 
- * data encountered in PDB structures: structure -> model -> chain -> group -> atom.
+ * data encountered in PDB structures: structure to model to chain to group to atom.
  * Going back to a hierarchical view of the structure can be achieved by 
  * using the {@link #getChainsPerModel()}, {@link #getGroupsPerChain()} and 
- * {@link #getGroupMap()} methods so that the flat arrays can be reconstructed into
+ * {@link #getGroupTypeIndices()} methods so that the flat arrays can be reconstructed into
  * a hierarchy.   
- * </p>
  * 
  * <p>
  * Please refer to the full MMTF specification available at 
  * <a href="http://mmtf.rcsb.org">http://mmtf.rcsb.org</a>.
  * Further reference can be found in the <a href="http://mmcif.wwpdb.org/">mmCIF dictionary</a>.
- * </p>
  * 
  * @author Anthony Bradley
  * @author Jose Duarte
  */
-public interface DecodedDataInterface {
+public interface StructureDataInterface {
 
 	/**
 	 * Returns an array containing the X coordinates of the atoms in Angstroms.
@@ -162,7 +160,7 @@ public interface DecodedDataInterface {
 
 	/**
 	 * Returns an array containing the indices of groups (residues) in their corresponding sequences,
-	 * obtainable through {@link #getEntityList()} from the {@link Entity} objects.
+	 * obtainable through {@link #getEntitySequence(int)}.
 	 * The indices are 0-based and specified per entity, -1 indicates the group is not present in the sequence.
 	 * @return an array of length the number of groups (residues) in the structure, obtainable with {@link #getNumGroups()}
 	 */
@@ -318,7 +316,7 @@ public interface DecodedDataInterface {
 
 	/**
 	 * Returns the total number of bonds in the structure
-	 * @resturn the number of bonds
+	 * @return the number of bonds
 	 */
 	int getNumBonds();
 	

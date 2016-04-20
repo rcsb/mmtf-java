@@ -14,8 +14,20 @@ import org.unitils.reflectionassert.ReflectionAssert;
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
 
+/**
+ * A class to test the dataholders.
+ * @author Anthony Bradley
+ *
+ */
 public class TestDataHolders {
 	
+	/**
+	 * Test the available beans
+	 * @throws IllegalAccessException
+	 * @throws IllegalArgumentException
+	 * @throws InvocationTargetException
+	 * @throws IntrospectionException
+	 */
 	@Test
 	public void testBeans() throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, IntrospectionException{
 		PodamFactory factory = new PodamFactoryImpl();

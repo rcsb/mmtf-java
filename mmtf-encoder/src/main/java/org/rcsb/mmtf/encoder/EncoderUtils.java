@@ -3,13 +3,18 @@ package org.rcsb.mmtf.encoder;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.rcsb.mmtf.api.DecodedDataInterface;
+import org.rcsb.mmtf.api.StructureDataInterface;
 import org.rcsb.mmtf.dataholders.BioAssemblyData;
 import org.rcsb.mmtf.dataholders.BioAssemblyTrans;
 import org.rcsb.mmtf.dataholders.Entity;
 import org.rcsb.mmtf.dataholders.PDBGroup;
 import org.rcsb.mmtf.utils.CodecUtils;
 
+/**
+ * A class of static utility functions to add encoding of data.
+ * @author Anthony Bradley
+ *
+ */
 public class EncoderUtils {
 
 	/**
@@ -17,7 +22,7 @@ public class EncoderUtils {
 	 * @param mmtfDecodedDataInterface the input interface
 	 * @return a list of all the groups in the molecule
 	 */
-	public static PDBGroup[] generateGroupMap(DecodedDataInterface mmtfDecodedDataInterface) {
+	public static PDBGroup[] generateGroupMap(StructureDataInterface mmtfDecodedDataInterface) {
 		int[] groupTypeIndices = mmtfDecodedDataInterface.getGroupTypeIndices();
 		int maxIndex = CodecUtils.findMaxInIntArray(groupTypeIndices);
 		PDBGroup[] outGroupList = new PDBGroup[maxIndex+1];
@@ -42,7 +47,7 @@ public class EncoderUtils {
 	 * @param mmtfDecodedDataInterface the interface from where to find the data
 	 * @return a list of bioassembly information
 	 */
-	public static List<BioAssemblyData> generateBioassemblies(DecodedDataInterface mmtfDecodedDataInterface) {
+	public static List<BioAssemblyData> generateBioassemblies(StructureDataInterface mmtfDecodedDataInterface) {
 		int numBioassemblies = mmtfDecodedDataInterface.getNumBioassemblies();
 		List<BioAssemblyData> outList = new ArrayList<>();
 		for (int i=0; i<numBioassemblies; i++) {
@@ -68,7 +73,7 @@ public class EncoderUtils {
 	 * @param mmtfDecodedDataInterface the input interface
 	 * @return the list of entities
 	 */
-	public static Entity[] generateEntityList(DecodedDataInterface mmtfDecodedDataInterface) {
+	public static Entity[] generateEntityList(StructureDataInterface mmtfDecodedDataInterface) {
 		int numEntities =  mmtfDecodedDataInterface.getNumEntities();
 		Entity[] outList = new Entity[numEntities];
 		for (int i=0; i<numEntities;i++) {

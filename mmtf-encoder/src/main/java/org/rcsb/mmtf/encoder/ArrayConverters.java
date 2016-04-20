@@ -1,8 +1,7 @@
 package org.rcsb.mmtf.encoder;
 
-import java.io.ByteArrayOutputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
+
+import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,17 +20,17 @@ public class ArrayConverters {
 	 * single byte.
 	 * @param intArray the input array of integers
 	 * @return the byte array of the integers
-	 * @throws IOException the byte array cannot be read
 	 */
-	public static byte[] convertIntegersToBytes(int[] intArray) throws IOException{
-		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		DataOutputStream dos = new DataOutputStream(baos);
+	public static byte[] convertIntegersToBytes(int[] intArray) {
+		
+		ByteBuffer bb = ByteBuffer.allocate(intArray.length);
+		
 		for(int i=0; i < intArray.length; ++i)
 		{
-			dos.writeByte(intArray[i]);
+			bb.put((byte)intArray[i]);
 		}
 
-		return baos.toByteArray();
+		return bb.array();
 	}
 	
 	/**
@@ -39,17 +38,17 @@ public class ArrayConverters {
 	 * two bytes.
 	 * @param intArray the input array of integers
 	 * @return the byte array of the integers
-	 * @throws IOException the byte array cannot be read
 	 */
-	public static byte[] convertIntegersToTwoBytes(int[] intArray) throws IOException{
-		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		DataOutputStream dos = new DataOutputStream(baos);
+	public static byte[] convertIntegersToTwoBytes(int[] intArray) {
+
+		ByteBuffer bb = ByteBuffer.allocate(intArray.length * 2);
+		
 		for(int i=0; i < intArray.length; ++i)
 		{
-			dos.writeShort(intArray[i]);
+			bb.putShort((short)intArray[i]);
 		}
 
-		return baos.toByteArray();
+		return bb.array();
 	}
 
 	/**
@@ -57,24 +56,24 @@ public class ArrayConverters {
 	 * four bytes.
 	 * @param intArray the input array of integers
 	 * @return the byte array of the integers
-	 * @throws IOException the byte array cannot be read
 	 */
-	public static byte[] convertIntegersToFourByte(int[] intArray) throws IOException{
-		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		DataOutputStream dos = new DataOutputStream(baos);
+	public static byte[] convertIntegersToFourByte(int[] intArray) {
+		
+		ByteBuffer bb = ByteBuffer.allocate(intArray.length * 4);
+		
 		for(int i=0; i < intArray.length; ++i)
 		{
-			dos.writeInt(intArray[i]);
+			bb.putInt(intArray[i]);
 		}
 
-		return baos.toByteArray();
+		return bb.array();
 	}
 	
 	/**
-	 * Convert a float array to an integer array by multiplying by a float.
-	 * @param intArray the input integer array to be divided
-	 * @param floatDivider the float divider to divide the integers by.
-	 * @return a float array converted from the input.
+	 * Convert an integer array to a float array by multiplying by a float.
+	 * @param floatArray the input float array to be converted to ints
+	 * @param floatMultiplier the float divider to multiply the floats by.
+	 * @return an int array converted from the input.
 	 */
 	public static int[] convertFloatsToInts(float[] floatArray, float floatMultiplier) {
 		// Assign the output array to write
@@ -89,8 +88,8 @@ public class ArrayConverters {
 	 * Convert an input array of integers to two arrays. The first output array is a 
 	 * four byte integer array. The integers in this array are in pairs. The first in
 	 * each pair is part of the 
-	 * @param inputArray
-	 * @return
+	 * @param inputArray the array of integers to be split.
+	 * @return a list of two integer arrays. The first is of four byte integers.
 	 */
 	public static List<int[]> splitIntegers(int[] inputArray) {
 		// set the two output arrays
@@ -139,6 +138,11 @@ public class ArrayConverters {
 	}
 
 	
+	/**
+	 * Convert the chain names to a byte array
+	 * @param chainNames the list of chain names as strings. Max length of 4 characters.
+	 * @return the byte array of the chain names.
+	 */
 	public static byte[] encodeChainList(String[] chainNames) {
 		byte[] outArr = new byte[chainNames.length*4];
 		for(int i=0; i<chainNames.length;i++) {
@@ -157,13 +161,13 @@ public class ArrayConverters {
 	private static void setChainId(String chainId, byte[] byteArr, int chainIndex) {
 		// A char array to store the chars
 		char[] outChar = new char[4];
-		// The lengthof this chain id
+		// The length of this chain id
 		if(chainId==null){
 			return;
 		}
 		int chainIdLen =  chainId.length();
 		chainId.getChars(0, chainIdLen, outChar, 0);
-		// Set the bytrarray - chain ids can be up to 4 chars - pad with empty bytes
+		// Set the byte array - chain ids can be up to 4 chars - pad with empty bytes
 		byteArr[chainIndex*4+0] = (byte) outChar[0];
 		if(chainIdLen>1){
 			byteArr[chainIndex*4+1] = (byte) outChar[1];

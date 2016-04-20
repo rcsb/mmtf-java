@@ -8,6 +8,11 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 
 
+/**
+ * A class to test the array convertors.
+ * @author Anthony Bradley
+ *
+ */
 public class TestArrayConverters {
 
 

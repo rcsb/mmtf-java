@@ -1,8 +1,8 @@
 package org.rcsb.mmtf.decoder;
 
-import java.io.ByteArrayInputStream;
-import java.io.DataInputStream;
-import java.io.IOException;
+import java.nio.ByteBuffer;
+
+import org.rcsb.mmtf.utils.CodecUtils;
 
 /**
  * Class of functions to convert arrays to readable types.
@@ -11,9 +11,6 @@ import java.io.IOException;
  *
  */
 public class ArrayConverters {
-
-	/** The maximum number of chars in a chain entry. */
-	private static final int MAX_CHARS_PER_CHAIN_ENTRY = 4;
 
 	/**
 	 * Find all the chain ids from a single byte array. Each byte encodes a different ASCII character.
@@ -48,14 +45,15 @@ public class ArrayConverters {
 	 * Convert a byte array containing two bytes to integers in an integer array.
 	 * @param byteArray the input byte array
 	 * @return the converted integer array
-	 * @throws IOException 
 	 */
-	public static int[] convertByteToIntegers(byte[] byteArray) throws IOException{
-		DataInputStream dataInputStream = new DataInputStream(new ByteArrayInputStream(byteArray));
+	public static int[] convertByteToIntegers(byte[] byteArray) {
+		
+		ByteBuffer bb = ByteBuffer.wrap(byteArray);
+		
 		int outLength = byteArray.length;
 		int[] outArray = new int[outLength];
 		for (int i=0; i<outLength; i++) {
-			outArray[i] = dataInputStream.readByte();
+			outArray[i] = bb.get();
 		}
 		return outArray;
 	}
@@ -64,14 +62,15 @@ public class ArrayConverters {
 	 * Convert a byte array containing two bytes to integers in an integer array.
 	 * @param byteArray the input byte array
 	 * @return the converted integer array
-	 * @throws IOException 
 	 */
-	public static int[] convertTwoByteToIntegers(byte[] byteArray) throws IOException{
-		DataInputStream dataInputStream = new DataInputStream(new ByteArrayInputStream(byteArray));
+	public static int[] convertTwoByteToIntegers(byte[] byteArray) {
+		
+		ByteBuffer bb = ByteBuffer.wrap(byteArray);
+	
 		int outLength = byteArray.length/2;
 		int[] outArray = new int[outLength];
 		for (int i=0; i<outLength; i++) {
-			outArray[i] = dataInputStream.readShort();
+			outArray[i] = bb.getShort();
 		}
 		return outArray;
 	}
@@ -81,14 +80,15 @@ public class ArrayConverters {
 	 * Convert a byte array containing four bytes to integers in an integer array.
 	 * @param byteArray the input byte array
 	 * @return the converted integer array
-	 * @throws IOException 
 	 */
-	public static int[] convertFourByteToIntegers(byte[] byteArray) throws IOException{
-		DataInputStream dataInputStream = new DataInputStream(new ByteArrayInputStream(byteArray));
+	public static int[] convertFourByteToIntegers(byte[] byteArray) {
+
+		ByteBuffer bb = ByteBuffer.wrap(byteArray);
+		
 		int outLength = byteArray.length/4;
 		int[] outArray = new int[outLength];
 		for (int i=0; i<outLength; i++) {
-			outArray[i] = dataInputStream.readInt();
+			outArray[i] = bb.getInt();
 		}
 		return outArray;
 	}
@@ -143,21 +143,21 @@ public class ArrayConverters {
 	private static String getChainId(byte[] byteArr, int chainIndex) {
 		int incrementor = 0;
 		StringBuilder sb = new StringBuilder();
-		byte chainIdOne = byteArr[chainIndex * MAX_CHARS_PER_CHAIN_ENTRY + incrementor];
+		byte chainIdOne = byteArr[chainIndex * CodecUtils.MAX_CHARS_PER_CHAIN_ENTRY + incrementor];
 		sb.append((char) chainIdOne);
 		// Now get the next byte
 		incrementor += 1;
-		byte chainIdTwo = byteArr[chainIndex * MAX_CHARS_PER_CHAIN_ENTRY + incrementor];
+		byte chainIdTwo = byteArr[chainIndex * CodecUtils.MAX_CHARS_PER_CHAIN_ENTRY + incrementor];
 		if (chainIdTwo != (byte) 0) {
 			sb.append((char) chainIdTwo);
 		}
 		incrementor += 1;
-		byte chainIdThree = byteArr[chainIndex * MAX_CHARS_PER_CHAIN_ENTRY + incrementor];
+		byte chainIdThree = byteArr[chainIndex * CodecUtils.MAX_CHARS_PER_CHAIN_ENTRY + incrementor];
 		if (chainIdThree != (byte) 0) {
 			sb.append((char) chainIdThree);
 		}
 		incrementor += 1;
-		byte chainIdFour = byteArr[chainIndex * MAX_CHARS_PER_CHAIN_ENTRY + incrementor];
+		byte chainIdFour = byteArr[chainIndex * CodecUtils.MAX_CHARS_PER_CHAIN_ENTRY + incrementor];
 		if (chainIdFour != (byte) 0) {
 			sb.append((char) chainIdFour);
 		}

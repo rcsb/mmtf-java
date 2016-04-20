@@ -11,9 +11,17 @@ import org.rcsb.mmtf.dataholders.MmtfBean;
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
 
+/**
+ * Class to test the message pack serializer and deserializer.
+ * @author Anthony Bradley
+ *
+ */
 public class TestMessagePack {
 
 	
+	/**
+	 * Test the deserialize.
+	 */
 	@Test
 	public void testDeserialize()  {
 		MmtfBeanSeDeMessagePackImpl mmtfBeanSeDeMessagePackImpl = new MmtfBeanSeDeMessagePackImpl();
@@ -23,6 +31,9 @@ public class TestMessagePack {
 		assertNotNull(mmtfBean);
 	}
 	
+	/**
+	 * Test the serialize.
+	 */
 	@Test
 	public void testSerialize() {
 		MmtfBeanSeDeMessagePackImpl mmtfBeanSeDeMessagePackImpl = new MmtfBeanSeDeMessagePackImpl();

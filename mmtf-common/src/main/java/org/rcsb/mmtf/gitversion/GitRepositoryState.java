@@ -9,10 +9,24 @@ import java.util.Properties;
  */
 public class GitRepositoryState {
 
+	/**
+	 * Initialise the class with a properties object.
+	 * @param properties the properties object to bused to get the git commit.
+	 */
+	public GitRepositoryState(Properties properties)
+	{
 
-	  private String commitId;                // =${git.commit.id.full} OR ${git.commit.id}
 
+		this.commitId = String.valueOf(properties.get("git.commit.id")); // OR properties.get("git.commit.id") depending on your configuration
 
+	}
+
+	private String commitId;
+
+	
+	/**
+	 * @return the current commit id SHA key.
+	 */
 	public String getCommitId() {
 		return commitId;
 	}
@@ -20,11 +34,4 @@ public class GitRepositoryState {
 
 
 
-	public GitRepositoryState(Properties properties)
-	{
-		
-
-	  this.commitId = String.valueOf(properties.get("git.commit.id")); // OR properties.get("git.commit.id") depending on your configuration
-
-	}
 }

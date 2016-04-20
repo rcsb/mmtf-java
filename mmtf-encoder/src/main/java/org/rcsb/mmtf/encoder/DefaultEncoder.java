@@ -1,9 +1,8 @@
 package org.rcsb.mmtf.encoder;
 
-import java.io.IOException;
 import java.util.List;
 
-import org.rcsb.mmtf.api.DecodedDataInterface;
+import org.rcsb.mmtf.api.StructureDataInterface;
 import org.rcsb.mmtf.dataholders.MmtfBean;
 import org.rcsb.mmtf.encoder.ArrayConverters;
 import org.rcsb.mmtf.encoder.ArrayEncoders;
@@ -18,7 +17,11 @@ public class DefaultEncoder {
 
 	private MmtfBean mmtfBean;
 
-	public DefaultEncoder(DecodedDataInterface decodedDataInterface) throws IOException {
+	/**
+	 * The constructor for the encoder.
+	 * @param decodedDataInterface the interface of data to be encoded.
+	 */
+	public DefaultEncoder(StructureDataInterface decodedDataInterface) {
 		mmtfBean = new MmtfBean();
 		// Set the group types
 		mmtfBean.setGroupTypeList(
@@ -129,6 +132,10 @@ public class DefaultEncoder {
 		mmtfBean.setSecStructList(ArrayConverters.convertIntegersToBytes(decodedDataInterface.getSecStructList()));
 	}
 
+	/**
+	 * Get the MmtfBean of encoded data.
+	 * @return the encoded data as an MmtfBean
+	 */
 	public MmtfBean getMmtfBean() {
 		return mmtfBean;
 	}
