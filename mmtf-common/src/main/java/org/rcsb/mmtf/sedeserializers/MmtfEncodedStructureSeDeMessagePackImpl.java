@@ -15,7 +15,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  * @author Anthony Bradley
  *
  */
-public class MmtfBeanSeDeMessagePackImpl implements MmtfBeanSeDerializerInterface {
+public class MmtfEncodedStructureSeDeMessagePackImpl implements MmtfEncodedStructureSeDerializerInterface {
 	
 	@Override
 	public MmtfEncodedStructure deserialize(InputStream byteArray){

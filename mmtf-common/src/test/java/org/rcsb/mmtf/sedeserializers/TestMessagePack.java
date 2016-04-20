@@ -24,7 +24,7 @@ public class TestMessagePack {
 	 */
 	@Test
 	public void testDeserialize()  {
-		MmtfBeanSeDeMessagePackImpl mmtfBeanSeDeMessagePackImpl = new MmtfBeanSeDeMessagePackImpl();
+		MmtfEncodedStructureSeDeMessagePackImpl mmtfBeanSeDeMessagePackImpl = new MmtfEncodedStructureSeDeMessagePackImpl();
 		byte[] source = new byte[] {(byte) (char) 129, (byte) (char)162, (byte) (char)100, (byte) (char)111, (byte) (char)1};
 		ByteArrayInputStream bis = new ByteArrayInputStream(source);
 		MmtfEncodedStructure mmtfBean = mmtfBeanSeDeMessagePackImpl.deserialize(bis);
@@ -36,7 +36,7 @@ public class TestMessagePack {
 	 */
 	@Test
 	public void testSerialize() {
-		MmtfBeanSeDeMessagePackImpl mmtfBeanSeDeMessagePackImpl = new MmtfBeanSeDeMessagePackImpl();
+		MmtfEncodedStructureSeDeMessagePackImpl mmtfBeanSeDeMessagePackImpl = new MmtfEncodedStructureSeDeMessagePackImpl();
 		PodamFactory factory = new PodamFactoryImpl();
 		MmtfEncodedStructure mmtfBean = factory.manufacturePojo(MmtfEncodedStructure.class);
 		ByteArrayOutputStream bos = new ByteArrayOutputStream();

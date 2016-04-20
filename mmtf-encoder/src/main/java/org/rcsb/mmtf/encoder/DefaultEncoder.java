@@ -136,7 +136,7 @@ public class DefaultEncoder {
 	 * Get the MmtfBean of encoded data.
 	 * @return the encoded data as an MmtfBean
 	 */
-	public MmtfEncodedStructure getMmtfBean() {
+	public MmtfEncodedStructure getMmtfEncodedStructure() {
 		return mmtfBean;
 	}
 

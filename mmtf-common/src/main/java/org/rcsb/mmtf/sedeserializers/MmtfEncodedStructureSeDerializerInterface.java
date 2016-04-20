@@ -10,7 +10,7 @@ import org.rcsb.mmtf.dataholders.MmtfEncodedStructure;
  * @author Anthony Bradley
  *
  */
-public interface MmtfBeanSeDerializerInterface {
+public interface MmtfEncodedStructureSeDerializerInterface {
 
 	/**
 	 * Serialize an mmtfBean to a generic output stream.

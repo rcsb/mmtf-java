@@ -7,7 +7,7 @@ import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-import org.rcsb.mmtf.sedeserializers.MmtfBeanSeDeMessagePackImpl;
+import org.rcsb.mmtf.sedeserializers.MmtfEncodedStructureSeDeMessagePackImpl;
 
 /**
  * A class of static utility methods to aid writing of data.
@@ -37,11 +37,11 @@ public class WriterUtils {
 	 * @throws IOException an error related to byte array transfers
 	 */
 	public static byte[] getDataAsByteArr(AdapterToStructureData writerToEncoder) throws IOException {
-		MmtfBeanSeDeMessagePackImpl mmtfBeanSeDerializerInterface = new MmtfBeanSeDeMessagePackImpl();
+		MmtfEncodedStructureSeDeMessagePackImpl mmtfBeanSeDerializerInterface = new MmtfEncodedStructureSeDeMessagePackImpl();
 		// Get to bean
 		DefaultEncoder getToBean = new DefaultEncoder(writerToEncoder);
 		ByteArrayOutputStream bos = new ByteArrayOutputStream();
-		mmtfBeanSeDerializerInterface.serialize(getToBean.getMmtfBean(), bos);
+		mmtfBeanSeDerializerInterface.serialize(getToBean.getMmtfEncodedStructure(), bos);
 		return bos.toByteArray();
 	}
 

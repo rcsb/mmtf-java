@@ -20,7 +20,7 @@ public class TestReaderUtils {
 	
 	/**
 	 * Test we can decompress a gzipped byte array.
-	 * @throws IOException accessing the byte array
+	 * @throws IOException accessing the byte array	
 	 */
 	@Test
 	public void testGzipDecompress() throws IOException {
