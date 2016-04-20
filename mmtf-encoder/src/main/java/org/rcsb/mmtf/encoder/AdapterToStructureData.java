@@ -7,9 +7,9 @@ import java.util.List;
 import org.rcsb.mmtf.api.StructureDataInterface;
 import org.rcsb.mmtf.api.StructureAdapterInterface;
 import org.rcsb.mmtf.dataholders.BioAssemblyData;
-import org.rcsb.mmtf.dataholders.BioAssemblyTrans;
+import org.rcsb.mmtf.dataholders.BioAssemblyTransformation;
 import org.rcsb.mmtf.dataholders.Entity;
-import org.rcsb.mmtf.dataholders.PDBGroup;
+import org.rcsb.mmtf.dataholders.Group;
 import org.rcsb.mmtf.utils.CodecUtils;
 
 /**
@@ -48,7 +48,7 @@ public class AdapterToStructureData implements StructureDataInterface, Structure
 	private int[] groupNum;
 
 	/** The group map. */
-	private List<PDBGroup> groupMap;
+	private List<Group> groupMap;
 
 	/** The group list. */
 	private int[] groupList;
@@ -137,11 +137,11 @@ public class AdapterToStructureData implements StructureDataInterface, Structure
 	/** The entity counter */
 	int entityIndex = 0;
 	/** Add the atom information for the current group */
-	PDBGroup pdbGroup;
+	Group pdbGroup;
 	/** A List for Entities as the number of entities is not defined*/
 	List<Entity> entities;
 	int totalNumBonds;
-	List<PDBGroup> pdbGroupList;
+	List<Group> pdbGroupList;
 
 
 	@Override
@@ -482,7 +482,7 @@ public class AdapterToStructureData implements StructureDataInterface, Structure
 	public void setGroupInfo(String groupName, int groupNumber, char insertionCode, String polymerType, 
 			int atomCount, int bondCount, char singleAtomCode, int sequenceIndex, int secStructType) {
 		// Make a new PDBGroup to store the repeated information
-		pdbGroup = new PDBGroup();
+		pdbGroup = new Group();
 		pdbGroupList.add(pdbGroup);
 		pdbGroup.setAtomChargeList(new int[atomCount]);
 		pdbGroup.setAtomNameList(new String[atomCount]);
@@ -525,7 +525,7 @@ public class AdapterToStructureData implements StructureDataInterface, Structure
 	@Override
 	public void setBioAssemblyTrans(int bioAssemblyIndex, int[] chainIndices, double[] transform) {
 		BioAssemblyData bioAssemblyData;
-		List<BioAssemblyTrans> bioAssemblyTranList;
+		List<BioAssemblyTransformation> bioAssemblyTranList;
 		if (bioAssembly.size()>bioAssemblyIndex) {
 			bioAssemblyTranList = bioAssembly.get(bioAssemblyIndex).getTransformList();
 		}
@@ -535,7 +535,7 @@ public class AdapterToStructureData implements StructureDataInterface, Structure
 			bioAssemblyData.setTransformList(bioAssemblyTranList);
 			bioAssembly.add(bioAssemblyData);
 		}
-		BioAssemblyTrans bioAssemblyTrans = new BioAssemblyTrans();
+		BioAssemblyTransformation bioAssemblyTrans = new BioAssemblyTransformation();
 		bioAssemblyTrans.setChainIndexList(chainIndices);
 		bioAssemblyTrans.setMatrix(transform);
 		bioAssemblyTranList.add(bioAssemblyTrans);
@@ -579,7 +579,7 @@ public class AdapterToStructureData implements StructureDataInterface, Structure
 
 	}
 
-	private PDBGroup getGroup(int groupInd) {
+	private Group getGroup(int groupInd) {
 		return groupMap.get(groupInd);
 	}
 

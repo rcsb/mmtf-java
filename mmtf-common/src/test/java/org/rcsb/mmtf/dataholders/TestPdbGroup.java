@@ -16,8 +16,8 @@ import org.junit.Test;
 public class TestPdbGroup {
 
 	
-	private PDBGroup pdbGroupOne;
-	private PDBGroup pdbGroupTwo;
+	private Group pdbGroupOne;
+	private Group pdbGroupTwo;
 	
 	/**
 	 * Initialise to objects before the test.
@@ -31,8 +31,8 @@ public class TestPdbGroup {
 	}
 	
 	
-	private PDBGroup makePdbGroup() {
-		PDBGroup pdbGroup = new PDBGroup();
+	private Group makePdbGroup() {
+		Group pdbGroup = new Group();
 		pdbGroup.setAtomChargeList(new int[] {1,1});
 		pdbGroup.setAtomNameList(new String[] {"A","B"});
 		pdbGroup.setBondAtomList(new int[] {0,1});

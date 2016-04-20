@@ -6,7 +6,8 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 
 import org.junit.Test;
-import org.rcsb.mmtf.dataholders.MmtfEncodedStructure;
+import org.rcsb.mmtf.dataholders.MmtfStructure;
+import org.rcsb.mmtf.serialization.MmtfStructureMessagePackSerialization;
 
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
@@ -24,10 +25,10 @@ public class TestMessagePack {
 	 */
 	@Test
 	public void testDeserialize()  {
-		MmtfEncodedStructureSeDeMessagePackImpl mmtfBeanSeDeMessagePackImpl = new MmtfEncodedStructureSeDeMessagePackImpl();
+		MmtfStructureMessagePackSerialization mmtfBeanSeDeMessagePackImpl = new MmtfStructureMessagePackSerialization();
 		byte[] source = new byte[] {(byte) (char) 129, (byte) (char)162, (byte) (char)100, (byte) (char)111, (byte) (char)1};
 		ByteArrayInputStream bis = new ByteArrayInputStream(source);
-		MmtfEncodedStructure mmtfBean = mmtfBeanSeDeMessagePackImpl.deserialize(bis);
+		MmtfStructure mmtfBean = mmtfBeanSeDeMessagePackImpl.deserialize(bis);
 		assertNotNull(mmtfBean);
 	}
 	
@@ -36,9 +37,9 @@ public class TestMessagePack {
 	 */
 	@Test
 	public void testSerialize() {
-		MmtfEncodedStructureSeDeMessagePackImpl mmtfBeanSeDeMessagePackImpl = new MmtfEncodedStructureSeDeMessagePackImpl();
+		MmtfStructureMessagePackSerialization mmtfBeanSeDeMessagePackImpl = new MmtfStructureMessagePackSerialization();
 		PodamFactory factory = new PodamFactoryImpl();
-		MmtfEncodedStructure mmtfBean = factory.manufacturePojo(MmtfEncodedStructure.class);
+		MmtfStructure mmtfBean = factory.manufacturePojo(MmtfStructure.class);
 		ByteArrayOutputStream bos = new ByteArrayOutputStream();
 		mmtfBeanSeDeMessagePackImpl.serialize(mmtfBean, bos);
 		assertNotNull(bos.toByteArray());

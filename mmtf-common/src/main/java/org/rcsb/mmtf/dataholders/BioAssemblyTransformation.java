@@ -9,7 +9,7 @@ package org.rcsb.mmtf.dataholders;
  *
  * @author Anthony Bradley
  */
-public class BioAssemblyTrans {
+public class BioAssemblyTransformation {
 
 
   /** The indices of the chains this bioassembly references. */

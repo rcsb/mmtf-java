@@ -21,7 +21,7 @@ public class BioAssemblyData implements Serializable {
 	/**
 	 * The specific transformations of this bioassembly.
 	 */
-	private List<BioAssemblyTrans> transformList;
+	private List<BioAssemblyTransformation> transformList;
 
 
 	/**
@@ -29,7 +29,7 @@ public class BioAssemblyData implements Serializable {
 	 *
 	 * @return the transforms
 	 */
-	public final List<BioAssemblyTrans> getTransformList() {
+	public final List<BioAssemblyTransformation> getTransformList() {
 		return transformList;
 	}
 
@@ -39,7 +39,7 @@ public class BioAssemblyData implements Serializable {
 	 * @param inputTransforms the new transforms
 	 */
 	public final void setTransformList(final
-			List<BioAssemblyTrans> inputTransforms) {
+			List<BioAssemblyTransformation> inputTransforms) {
 		this.transformList = inputTransforms;
 	}
 }

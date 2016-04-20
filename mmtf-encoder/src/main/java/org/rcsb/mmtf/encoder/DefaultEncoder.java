@@ -3,7 +3,7 @@ package org.rcsb.mmtf.encoder;
 import java.util.List;
 
 import org.rcsb.mmtf.api.StructureDataInterface;
-import org.rcsb.mmtf.dataholders.MmtfEncodedStructure;
+import org.rcsb.mmtf.dataholders.MmtfStructure;
 import org.rcsb.mmtf.encoder.ArrayConverters;
 import org.rcsb.mmtf.encoder.ArrayEncoders;
 import org.rcsb.mmtf.gitversion.GetRepoState;
@@ -15,14 +15,14 @@ import org.rcsb.mmtf.gitversion.GetRepoState;
  */
 public class DefaultEncoder {
 
-	private MmtfEncodedStructure mmtfBean;
+	private MmtfStructure mmtfBean;
 
 	/**
 	 * The constructor for the encoder.
 	 * @param decodedDataInterface the interface of data to be encoded.
 	 */
 	public DefaultEncoder(StructureDataInterface decodedDataInterface) {
-		mmtfBean = new MmtfEncodedStructure();
+		mmtfBean = new MmtfStructure();
 		// Set the group types
 		mmtfBean.setGroupTypeList(
 				ArrayConverters.convertIntegersToFourByte(
@@ -32,7 +32,7 @@ public class DefaultEncoder {
 				ArrayEncoders.deltaEncode(
 						ArrayConverters.convertFloatsToInts(
 								decodedDataInterface.getxCoords(),
-								MmtfEncodedStructure.COORD_DIVIDER)));
+								MmtfStructure.COORD_DIVIDER)));
 		mmtfBean.setxCoordBig(ArrayConverters.convertIntegersToFourByte(xCoords.get(0)));
 		mmtfBean.setxCoordSmall(ArrayConverters.convertIntegersToTwoBytes(xCoords.get(1)));
 
@@ -40,7 +40,7 @@ public class DefaultEncoder {
 				ArrayEncoders.deltaEncode(
 						ArrayConverters.convertFloatsToInts(
 								decodedDataInterface.getyCoords(),
-								MmtfEncodedStructure.COORD_DIVIDER)));
+								MmtfStructure.COORD_DIVIDER)));
 		mmtfBean.setyCoordBig(ArrayConverters.convertIntegersToFourByte(yCoords.get(0)));
 		mmtfBean.setyCoordSmall(ArrayConverters.convertIntegersToTwoBytes(yCoords.get(1)));
 
@@ -48,7 +48,7 @@ public class DefaultEncoder {
 				ArrayEncoders.deltaEncode(
 						ArrayConverters.convertFloatsToInts(
 								decodedDataInterface.getzCoords(),
-								MmtfEncodedStructure.COORD_DIVIDER)));
+								MmtfStructure.COORD_DIVIDER)));
 		mmtfBean.setzCoordBig(ArrayConverters.convertIntegersToFourByte(zCoords.get(0)));
 		mmtfBean.setzCoordSmall(ArrayConverters.convertIntegersToTwoBytes(zCoords.get(1)));
 
@@ -57,7 +57,7 @@ public class DefaultEncoder {
 				ArrayEncoders.deltaEncode(
 						ArrayConverters.convertFloatsToInts(
 								decodedDataInterface.getbFactors(),
-								MmtfEncodedStructure.OCCUPANCY_BFACTOR_DIVIDER)));
+								MmtfStructure.OCCUPANCY_BFACTOR_DIVIDER)));
 		mmtfBean.setbFactorBig(ArrayConverters.convertIntegersToFourByte(bFactor.get(0)));
 		mmtfBean.setbFactorSmall(ArrayConverters.convertIntegersToTwoBytes(bFactor.get(1)));
 
@@ -67,7 +67,7 @@ public class DefaultEncoder {
 				ArrayEncoders.runlengthEncode(
 						ArrayConverters.convertFloatsToInts(
 								decodedDataInterface.getOccupancies(),
-								MmtfEncodedStructure.OCCUPANCY_BFACTOR_DIVIDER))));
+								MmtfStructure.OCCUPANCY_BFACTOR_DIVIDER))));
 
 		// Run length and delta
 		mmtfBean.setAtomIdList(ArrayConverters.convertIntegersToFourByte(
@@ -136,7 +136,7 @@ public class DefaultEncoder {
 	 * Get the MmtfBean of encoded data.
 	 * @return the encoded data as an MmtfBean
 	 */
-	public MmtfEncodedStructure getMmtfEncodedStructure() {
+	public MmtfStructure getMmtfEncodedStructure() {
 		return mmtfBean;
 	}
 

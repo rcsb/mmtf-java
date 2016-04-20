@@ -5,9 +5,9 @@ import java.util.List;
 
 import org.rcsb.mmtf.api.StructureDataInterface;
 import org.rcsb.mmtf.dataholders.BioAssemblyData;
-import org.rcsb.mmtf.dataholders.BioAssemblyTrans;
+import org.rcsb.mmtf.dataholders.BioAssemblyTransformation;
 import org.rcsb.mmtf.dataholders.Entity;
-import org.rcsb.mmtf.dataholders.PDBGroup;
+import org.rcsb.mmtf.dataholders.Group;
 import org.rcsb.mmtf.utils.CodecUtils;
 
 /**
@@ -22,13 +22,13 @@ public class EncoderUtils {
 	 * @param mmtfDecodedDataInterface the input interface
 	 * @return a list of all the groups in the molecule
 	 */
-	public static PDBGroup[] generateGroupMap(StructureDataInterface mmtfDecodedDataInterface) {
+	public static Group[] generateGroupMap(StructureDataInterface mmtfDecodedDataInterface) {
 		int[] groupTypeIndices = mmtfDecodedDataInterface.getGroupTypeIndices();
 		int maxIndex = CodecUtils.findMaxInIntArray(groupTypeIndices);
-		PDBGroup[] outGroupList = new PDBGroup[maxIndex+1];
+		Group[] outGroupList = new Group[maxIndex+1];
 		for (int i=0; i<maxIndex+1; i++) {
 			// Generate this PDBGroup
-			PDBGroup pdbGroup = new PDBGroup();
+			Group pdbGroup = new Group();
 			pdbGroup.setAtomChargeList(mmtfDecodedDataInterface.getGroupAtomCharges(i));
 			pdbGroup.setAtomNameList(mmtfDecodedDataInterface.getGroupAtomNames(i));
 			pdbGroup.setBondAtomList(mmtfDecodedDataInterface.getGroupBondIndices(i));
@@ -53,11 +53,11 @@ public class EncoderUtils {
 		for (int i=0; i<numBioassemblies; i++) {
 			BioAssemblyData bioAssemblyData = new BioAssemblyData();
 			outList.add(bioAssemblyData);
-			List<BioAssemblyTrans> transformList = new ArrayList<>();
+			List<BioAssemblyTransformation> transformList = new ArrayList<>();
 			bioAssemblyData.setTransformList(transformList);
 			int numTrans = mmtfDecodedDataInterface.getNumTransInBioassembly(i);
 			for (int j=0; j<numTrans; j++) {
-				BioAssemblyTrans bioAssemblyTrans = new BioAssemblyTrans();
+				BioAssemblyTransformation bioAssemblyTrans = new BioAssemblyTransformation();
 				transformList.add(bioAssemblyTrans);
 				bioAssemblyTrans.setChainIndexList(
 						mmtfDecodedDataInterface.getChainIndexListForTransform(i, j));

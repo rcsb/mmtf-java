@@ -11,7 +11,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
  *
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class PDBGroup implements Serializable {
+public class Group implements Serializable {
 
 	/** Serial id for this version of the format. */
 	private static final long serialVersionUID = 2880633780569899800L;
@@ -74,7 +74,7 @@ public class PDBGroup implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		PDBGroup other = (PDBGroup) obj;
+		Group other = (Group) obj;
 		if (!Arrays.equals(atomChargeList, other.atomChargeList))
 			return false;
 		if (!Arrays.equals(atomNameList, other.atomNameList))

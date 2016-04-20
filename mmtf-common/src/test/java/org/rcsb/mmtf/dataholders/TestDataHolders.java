@@ -33,24 +33,24 @@ public class TestDataHolders {
 		PodamFactory factory = new PodamFactoryImpl();
 		// Tests if setters are set appropriately
 		ReflectionAssert.assertPropertiesNotNull("Some properties null.", 
-				factory.manufacturePojo(MmtfEncodedStructure.class));
-		testData(MmtfEncodedStructure.class, factory.manufacturePojo(MmtfEncodedStructure.class));
+				factory.manufacturePojo(MmtfStructure.class));
+		testData(MmtfStructure.class, factory.manufacturePojo(MmtfStructure.class));
 		
 		ReflectionAssert.assertPropertiesNotNull("Some properties null.", 
 				factory.manufacturePojo(BioAssemblyData.class));
 		testData(BioAssemblyData.class, factory.manufacturePojo(BioAssemblyData.class));
 		
 		ReflectionAssert.assertPropertiesNotNull("Some properties null.", 
-				factory.manufacturePojo(BioAssemblyTrans.class));
-		testData(BioAssemblyTrans.class, factory.manufacturePojo(BioAssemblyTrans.class));
+				factory.manufacturePojo(BioAssemblyTransformation.class));
+		testData(BioAssemblyTransformation.class, factory.manufacturePojo(BioAssemblyTransformation.class));
 
 		ReflectionAssert.assertPropertiesNotNull("Some properties null.", 
 				factory.manufacturePojo(Entity.class));
 		testData(Entity.class, factory.manufacturePojo(Entity.class));
 		
 		ReflectionAssert.assertPropertiesNotNull("Some properties null.", 
-				factory.manufacturePojo(PDBGroup.class));
-		testData(PDBGroup.class, factory.manufacturePojo(PDBGroup.class));
+				factory.manufacturePojo(Group.class));
+		testData(Group.class, factory.manufacturePojo(Group.class));
 
 	}
 	

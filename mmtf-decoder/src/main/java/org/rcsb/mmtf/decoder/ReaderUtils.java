@@ -9,8 +9,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.zip.GZIPInputStream;
 
-import org.rcsb.mmtf.dataholders.MmtfEncodedStructure;
-import org.rcsb.mmtf.sedeserializers.MmtfEncodedStructureSeDeMessagePackImpl;
+import org.rcsb.mmtf.dataholders.MmtfStructure;
+import org.rcsb.mmtf.serialization.MmtfStructureMessagePackSerialization;
 import org.rcsb.mmtf.utils.CodecUtils;
 
 /**
@@ -30,7 +30,7 @@ public class ReaderUtils {
 	 * @return the MMTFBean of the deserialized data
 	 * @throws IOException if the data cannot be read from the URL
 	 */
-	public static MmtfEncodedStructure getDataFromUrl(String pdbCode) throws IOException {	
+	public static MmtfStructure getDataFromUrl(String pdbCode) throws IOException {	
 		// Get these as an inputstream
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		InputStream is = null;
@@ -47,7 +47,7 @@ public class ReaderUtils {
 		}
 		byte[] b = baos.toByteArray();
 		// Now return the gzip deflated and deserialized byte array
-		MmtfEncodedStructureSeDeMessagePackImpl mmtfBeanSeDeMessagePackImpl = new MmtfEncodedStructureSeDeMessagePackImpl();
+		MmtfStructureMessagePackSerialization mmtfBeanSeDeMessagePackImpl = new MmtfStructureMessagePackSerialization();
 		return mmtfBeanSeDeMessagePackImpl.deserialize(new ByteArrayInputStream(deflateGzip(b)));
 	}
 	
@@ -90,9 +90,9 @@ public class ReaderUtils {
 	 * @return the deserialized mmtfBean
 	 * @throws IOException an error reading the file 
 	 */
-	public static MmtfEncodedStructure getDataFromFile(Path filePath) throws IOException {
+	public static MmtfStructure getDataFromFile(Path filePath) throws IOException {
 		// Now return the gzip deflated and deserialized byte array
-		MmtfEncodedStructureSeDeMessagePackImpl mmtfBeanSeDeMessagePackImpl = new MmtfEncodedStructureSeDeMessagePackImpl();
+		MmtfStructureMessagePackSerialization mmtfBeanSeDeMessagePackImpl = new MmtfStructureMessagePackSerialization();
 		return mmtfBeanSeDeMessagePackImpl.deserialize(new ByteArrayInputStream(readFile(filePath)));
 	}
 

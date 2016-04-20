@@ -11,7 +11,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
  * @author Anthony Bradley
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class MmtfEncodedStructure implements Serializable {
+public class MmtfStructure implements Serializable {
 
 
 	/** The number to divide coordinate int values by. */
@@ -75,7 +75,7 @@ public class MmtfEncodedStructure implements Serializable {
 	private byte[] bondOrderList;
 
 	/** The list of different PDBGroups in the structure. */
-	private PDBGroup[] groupList;
+	private Group[] groupList;
 
 	/** The x coord big. 4 byte integers in pairs. */
 	private byte[] xCoordBig;
@@ -147,7 +147,7 @@ public class MmtfEncodedStructure implements Serializable {
 	private String releaseDate;
 
 	/** Constructor to set the default values for floats */
-	public MmtfEncodedStructure() {
+	public MmtfStructure() {
 
 		/** The mmtf version. Set here. */
 		mmtfVersion = "0.1";
@@ -549,7 +549,7 @@ public class MmtfEncodedStructure implements Serializable {
 	 *
 	 * @return the group map
 	 */
-	public final PDBGroup[] getGroupList() {
+	public final Group[] getGroupList() {
 		return groupList;
 	}
 
@@ -558,7 +558,7 @@ public class MmtfEncodedStructure implements Serializable {
 	 *
 	 * @param inputGroupMap the group map
 	 */
-	public void setGroupList(PDBGroup[] inputGroupMap) {
+	public void setGroupList(Group[] inputGroupMap) {
 		this.groupList = inputGroupMap;
 	}
 
