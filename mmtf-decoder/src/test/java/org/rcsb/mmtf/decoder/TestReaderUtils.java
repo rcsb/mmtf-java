@@ -65,11 +65,12 @@ public class TestReaderUtils {
 	/**
 	 * Test that we can't gzip decompress non-gzipped data.
 	 */
-	@Test
+	@Test(expected=IOException.class)
 	public void testGzipDecompressText() throws IOException {
 		// Test that decomprss text returns null
 		byte[] uncompressed = new byte[] {65, 66, 67, 68, 10};
-		assertEquals(null,ReaderUtils.deflateGzip(uncompressed));
+		ReaderUtils.deflateGzip(uncompressed);
+		//assertEquals(null,ReaderUtils.deflateGzip(uncompressed));
 	}
 
 	
