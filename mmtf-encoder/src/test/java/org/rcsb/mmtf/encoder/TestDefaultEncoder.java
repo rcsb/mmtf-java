@@ -38,7 +38,7 @@ public class TestDefaultEncoder {
 
 		DummyApiImpl dummyApiImpl = new DummyApiImpl();
 		DefaultEncoder defaultEncoder = new DefaultEncoder(dummyApiImpl);
-		ReflectionAssert.assertPropertiesNotNull("Some properties null after encoding", defaultEncoder.getMmtfBean());
+		ReflectionAssert.assertPropertiesNotNull("Some properties null after encoding", defaultEncoder.getMmtfEncodedStructure());
 	}
 
 
@@ -51,12 +51,12 @@ public class TestDefaultEncoder {
 	 */
 	@Test
 	public void testWriter() throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, IntrospectionException {
-		WriterToEncoder writerToEncoder = getWriterEncoder();
-		ReflectionAssert.assertPropertiesNotNull("Some properties null after writing", writerToEncoder);
+		AdapterToStructureData AdapterToStructureData = getWriterEncoder();
+		ReflectionAssert.assertPropertiesNotNull("Some properties null after writing", AdapterToStructureData);
 		for(PropertyDescriptor propertyDescriptor : 
-			Introspector.getBeanInfo(WriterToEncoder.class).getPropertyDescriptors()){
+			Introspector.getBeanInfo(AdapterToStructureData.class).getPropertyDescriptors()){
 			if(propertyDescriptor.getReadMethod()!=null){
-				assertNotNull(propertyDescriptor.getReadMethod().invoke(writerToEncoder));
+				assertNotNull(propertyDescriptor.getReadMethod().invoke(AdapterToStructureData));
 			}
 		}
 	}
@@ -68,31 +68,31 @@ public class TestDefaultEncoder {
 	 */
 	@Test
 	public void testWriteToFile() throws IOException {
-		WriterToEncoder writerToEncoder = getWriterEncoder();
+		AdapterToStructureData AdapterToStructureData = getWriterEncoder();
 		File tempFile = testFolder.newFile("tmpfile");
-		WriterUtils.writeDataToFile(writerToEncoder, tempFile.toPath());
+		WriterUtils.writeDataToFile(AdapterToStructureData, tempFile.toPath());
 	}
 	
 	
 	/**
-	 * Utility function for getting the base data into the {@link WriterToEncoder} 
+	 * Utility function for getting the base data into the {@link AdapterToStructureData} 
 	 * implementation of the {@link StructureAdapterInterface}.
-	 * @return the {@link WriterToEncoder} instance
+	 * @return the {@link AdapterToStructureData} instance
 	 */
-	private WriterToEncoder getWriterEncoder() {
-		WriterToEncoder writerToEncoder = new WriterToEncoder();
-		writerToEncoder.initStructure(1, 1, 1, 1, 1, "ABC");
-		writerToEncoder.setModelInfo(0, 1);
-		writerToEncoder.setChainInfo("A","A",10);
-		writerToEncoder.setGroupInfo("HET", 1, 'a', "D", 1, 1, 'A', 0, -1);
-		writerToEncoder.setAtomInfo("A", 1, 'a', 1.0f, 1.0f, 1.0f,1.0f, 1.0f, "A", 1);
-		writerToEncoder.setEntityInfo(new int[1], "A", "A", "A");
-		writerToEncoder.setGroupBond(0, 0, 1);
-		writerToEncoder.setHeaderInfo(1.0f, 1.0f, 1.0f, "A", "A", "A", new String[1]);
-		writerToEncoder.setInterGroupBond(0, 0, 1);
-		writerToEncoder.setBioAssemblyTrans(0, new int[1], new double[6]);
-		writerToEncoder.setXtalInfo("A", new float[6]);
-		writerToEncoder.finalizeStructure();
-		return writerToEncoder;
+	private AdapterToStructureData getWriterEncoder() {
+		AdapterToStructureData adapterToStructureData = new AdapterToStructureData();
+		adapterToStructureData.initStructure(1, 1, 1, 1, 1, "ABC");
+		adapterToStructureData.setModelInfo(0, 1);
+		adapterToStructureData.setChainInfo("A","A",10);
+		adapterToStructureData.setGroupInfo("HET", 1, 'a', "D", 1, 1, 'A', 0, -1);
+		adapterToStructureData.setAtomInfo("A", 1, 'a', 1.0f, 1.0f, 1.0f,1.0f, 1.0f, "A", 1);
+		adapterToStructureData.setEntityInfo(new int[1], "A", "A", "A");
+		adapterToStructureData.setGroupBond(0, 0, 1);
+		adapterToStructureData.setHeaderInfo(1.0f, 1.0f, 1.0f, "A", "A", "A", new String[1]);
+		adapterToStructureData.setInterGroupBond(0, 0, 1);
+		adapterToStructureData.setBioAssemblyTrans(0, new int[1], new double[6]);
+		adapterToStructureData.setXtalInfo("A", new float[6]);
+		adapterToStructureData.finalizeStructure();
+		return adapterToStructureData;
 	}
 }
