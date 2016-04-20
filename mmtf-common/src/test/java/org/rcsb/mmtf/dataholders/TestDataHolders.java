@@ -33,8 +33,8 @@ public class TestDataHolders {
 		PodamFactory factory = new PodamFactoryImpl();
 		// Tests if setters are set appropriately
 		ReflectionAssert.assertPropertiesNotNull("Some properties null.", 
-				factory.manufacturePojo(MmtfBean.class));
-		testData(MmtfBean.class, factory.manufacturePojo(MmtfBean.class));
+				factory.manufacturePojo(MmtfEncodedStructure.class));
+		testData(MmtfEncodedStructure.class, factory.manufacturePojo(MmtfEncodedStructure.class));
 		
 		ReflectionAssert.assertPropertiesNotNull("Some properties null.", 
 				factory.manufacturePojo(BioAssemblyData.class));

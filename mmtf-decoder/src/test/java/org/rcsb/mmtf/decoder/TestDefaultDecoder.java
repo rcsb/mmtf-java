@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 
 import org.junit.Test;
-import org.rcsb.mmtf.dataholders.MmtfBean;
+import org.rcsb.mmtf.dataholders.MmtfEncodedStructure;
 import org.unitils.reflectionassert.ReflectionAssert;
 
 import uk.co.jemos.podam.api.PodamFactory;
@@ -33,11 +33,11 @@ public class TestDefaultDecoder {
 	@Test
 	public void testDecodeAllFields() throws IOException, IntrospectionException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 		PodamFactory factory = new PodamFactoryImpl();
-		MmtfBean mmtfBean = factory.manufacturePojo(MmtfBean.class);
+		MmtfEncodedStructure mmtfBean = factory.manufacturePojo(MmtfEncodedStructure.class);
 		DefaultDecoder defaultDecoder = new DefaultDecoder(mmtfBean);
 		ReflectionAssert.assertPropertiesNotNull("Some properties null after decoding", defaultDecoder);
 		for(PropertyDescriptor propertyDescriptor : 
-			Introspector.getBeanInfo(MmtfBean.class).getPropertyDescriptors()){
+			Introspector.getBeanInfo(MmtfEncodedStructure.class).getPropertyDescriptors()){
 			assertNotNull(propertyDescriptor.getReadMethod().invoke(mmtfBean));
 		}
 		// Check the decoder has been populated to
@@ -56,7 +56,7 @@ public class TestDefaultDecoder {
 	@Test
 	public void testReader() {
 		DummyApiImpl dummyApiImpl = new DummyApiImpl();
-		new DecoderToReader(dummyApiImpl, new DummyTransferImpl());
+		new StructureDataToAdapter(dummyApiImpl, new DummyTransferImpl());
 	}
 
 }

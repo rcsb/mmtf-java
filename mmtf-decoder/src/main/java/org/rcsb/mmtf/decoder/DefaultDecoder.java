@@ -6,7 +6,7 @@ import java.util.List;
 import org.rcsb.mmtf.api.StructureDataInterface;
 import org.rcsb.mmtf.dataholders.BioAssemblyData;
 import org.rcsb.mmtf.dataholders.Entity;
-import org.rcsb.mmtf.dataholders.MmtfBean;
+import org.rcsb.mmtf.dataholders.MmtfEncodedStructure;
 import org.rcsb.mmtf.dataholders.PDBGroup;
 
 /**
@@ -20,7 +20,7 @@ public class DefaultDecoder implements StructureDataInterface {
 	 * Constructor for the default decoder.
 	 * @param inputData The input mmtfBean data to be decompressed.
 	 */
-	public DefaultDecoder(MmtfBean inputData) {
+	public DefaultDecoder(MmtfEncodedStructure inputData) {
 		groupList = ArrayConverters.convertFourByteToIntegers(inputData.getGroupTypeList());
 		// Decode the coordinate  and B-factor arrays.
 		cartnX = ArrayConverters.convertIntsToFloats(
@@ -28,30 +28,30 @@ public class DefaultDecoder implements StructureDataInterface {
 						ArrayConverters.combineIntegers(
 								ArrayConverters.convertTwoByteToIntegers(inputData.getxCoordSmall()),
 								ArrayConverters.convertFourByteToIntegers(inputData.getxCoordBig()))),
-				MmtfBean.COORD_DIVIDER);
+				MmtfEncodedStructure.COORD_DIVIDER);
 		cartnY = ArrayConverters.convertIntsToFloats(
 				ArrayDecoders.deltaDecode(
 						ArrayConverters.combineIntegers(
 								ArrayConverters.convertTwoByteToIntegers(inputData.getyCoordSmall()),
 								ArrayConverters.convertFourByteToIntegers(inputData.getyCoordBig()))),
-				MmtfBean.COORD_DIVIDER);
+				MmtfEncodedStructure.COORD_DIVIDER);
 		cartnZ = ArrayConverters.convertIntsToFloats(
 				ArrayDecoders.deltaDecode(
 						ArrayConverters.combineIntegers(
 								ArrayConverters.convertTwoByteToIntegers(inputData.getzCoordSmall()),
 								ArrayConverters.convertFourByteToIntegers(inputData.getzCoordBig()))),
-				MmtfBean.COORD_DIVIDER);
+				MmtfEncodedStructure.COORD_DIVIDER);
 		bFactor = ArrayConverters.convertIntsToFloats(
 				ArrayDecoders.deltaDecode(
 						ArrayConverters.combineIntegers(
 								ArrayConverters.convertTwoByteToIntegers(inputData.getbFactorSmall()),
 								ArrayConverters.convertFourByteToIntegers(inputData.getbFactorBig()))),
-				MmtfBean.OCCUPANCY_BFACTOR_DIVIDER);
+				MmtfEncodedStructure.OCCUPANCY_BFACTOR_DIVIDER);
 		// Run length decode the occupancy array
 		occupancy = ArrayConverters.convertIntsToFloats(
 				ArrayDecoders.runlengthDecode(
 						ArrayConverters.convertFourByteToIntegers(inputData.getOccupancyList())), 
-				MmtfBean.OCCUPANCY_BFACTOR_DIVIDER);
+				MmtfEncodedStructure.OCCUPANCY_BFACTOR_DIVIDER);
 		// Run length and delta 
 		atomId = ArrayDecoders.deltaDecode(
 				ArrayDecoders.runlengthDecode(
@@ -340,7 +340,7 @@ public class DefaultDecoder implements StructureDataInterface {
 	@Override
 	public float getRfree() {
 		if (rFree==null|| rFree ==0.0f) {
-			return MmtfBean.UNAVAILABLE_R_VALUE;
+			return MmtfEncodedStructure.UNAVAILABLE_R_VALUE;
 		}
 		return rFree;
 	}
@@ -348,7 +348,7 @@ public class DefaultDecoder implements StructureDataInterface {
 	@Override
 	public float getResolution() {
 		if (resolution==null || resolution==0.0f) {
-			return MmtfBean.UNAVAILABLE_RESOLUTION_VALUE;
+			return MmtfEncodedStructure.UNAVAILABLE_RESOLUTION_VALUE;
 		}
 		return resolution;
 	}
@@ -356,7 +356,7 @@ public class DefaultDecoder implements StructureDataInterface {
 	@Override
 	public float getRwork() {
 		if (rWork==null|| rWork ==0.0f) {
-			return MmtfBean.UNAVAILABLE_R_VALUE;
+			return MmtfEncodedStructure.UNAVAILABLE_R_VALUE;
 		}
 		return rWork;
 	}

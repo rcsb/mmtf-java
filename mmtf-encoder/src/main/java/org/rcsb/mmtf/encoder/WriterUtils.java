@@ -23,7 +23,7 @@ public class WriterUtils {
 	 * @param path the full path to write to
 	 * @throws IOException an error related to byte array transfers
 	 */
-	public static void writeDataToFile(WriterToEncoder writerToEncoder, Path path) throws IOException {
+	public static void writeDataToFile(AdapterToStructureData writerToEncoder, Path path) throws IOException {
 		byte[] byteArray = getDataAsByteArr(writerToEncoder);
 		OutputStream fos = Files.newOutputStream(path); 
 		fos.write(byteArray);
@@ -37,7 +37,7 @@ public class WriterUtils {
 	 * @return a byte array of the data
 	 * @throws IOException an error related to byte array transfers
 	 */
-	public static byte[] getDataAsByteArr(WriterToEncoder writerToEncoder) throws IOException {
+	public static byte[] getDataAsByteArr(AdapterToStructureData writerToEncoder) throws IOException {
 		MmtfBeanSeDerializerInterface mmtfBeanSeDerializerInterface = new MmtfBeanSeDeMessagePackImpl();
 		// Get to bean
 		DefaultEncoder getToBean = new DefaultEncoder(writerToEncoder);

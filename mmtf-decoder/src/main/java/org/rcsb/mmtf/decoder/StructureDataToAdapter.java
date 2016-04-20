@@ -9,7 +9,7 @@ import org.rcsb.mmtf.api.StructureAdapterInterface;
  * @author Anthony Bradley
  *
  */
-public class DecoderToReader {
+public class StructureDataToAdapter {
 
 	/** The struct inflator. */
 	private StructureAdapterInterface structInflator;
@@ -30,7 +30,7 @@ public class DecoderToReader {
 	 * @param inputApi the interface to the decoded data
 	 * @param inputInflator the interface to put the data into the client object
 	 */
-	public DecoderToReader(StructureDataInterface inputApi, StructureAdapterInterface inputInflator){
+	public StructureDataToAdapter(StructureDataInterface inputApi, StructureAdapterInterface inputInflator){
 		// Set the counters to zero
 		modelCounter = 0;
 		chainCounter = 0;

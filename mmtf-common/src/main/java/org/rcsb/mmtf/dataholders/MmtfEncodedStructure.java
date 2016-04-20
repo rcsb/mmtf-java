@@ -11,7 +11,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
  * @author Anthony Bradley
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class MmtfBean implements Serializable {
+public class MmtfEncodedStructure implements Serializable {
 
 
 	/** The number to divide coordinate int values by. */
@@ -147,7 +147,7 @@ public class MmtfBean implements Serializable {
 	private String releaseDate;
 
 	/** Constructor to set the default values for floats */
-	public MmtfBean() {
+	public MmtfEncodedStructure() {
 
 		/** The mmtf version. Set here. */
 		mmtfVersion = "0.1";

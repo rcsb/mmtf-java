@@ -17,7 +17,7 @@ import org.rcsb.mmtf.utils.CodecUtils;
  * @author Anthony Bradley
  *
  */
-public class WriterToEncoder implements StructureDataInterface, StructureAdapterInterface {
+public class AdapterToStructureData implements StructureDataInterface, StructureAdapterInterface {
 
 
 	/** The X coordinates */
@@ -29,10 +29,10 @@ public class WriterToEncoder implements StructureDataInterface, StructureAdapter
 	/** The Z coordinates */
 	private float[] cartnZ;
 
-	/** The X coordinates */
+	/** The B factors */
 	private float[] bFactor;
 
-	/** The Y coordinates */
+	/** The occupancy */
 	private float[] occupancy;
 
 	/** The atom id. */

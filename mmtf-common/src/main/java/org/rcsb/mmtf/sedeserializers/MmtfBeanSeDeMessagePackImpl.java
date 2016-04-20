@@ -5,23 +5,23 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 import org.msgpack.jackson.dataformat.MessagePackFactory;
-import org.rcsb.mmtf.dataholders.MmtfBean;
+import org.rcsb.mmtf.dataholders.MmtfEncodedStructure;
 
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
- * A message pack implementation of the mmtf serializer / deserializer
+ * A message pack implementation of the mmtf serializer / deserializer.
  * @author Anthony Bradley
  *
  */
 public class MmtfBeanSeDeMessagePackImpl implements MmtfBeanSeDerializerInterface {
 	
 	@Override
-	public MmtfBean deserialize(InputStream byteArray){
-		MmtfBean mmtfBean = null;
+	public MmtfEncodedStructure deserialize(InputStream byteArray){
+		MmtfEncodedStructure mmtfBean = null;
 		try {
-			mmtfBean = new ObjectMapper(new MessagePackFactory()).readValue(byteArray, MmtfBean.class);
+			mmtfBean = new ObjectMapper(new MessagePackFactory()).readValue(byteArray, MmtfEncodedStructure.class);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -30,7 +30,7 @@ public class MmtfBeanSeDeMessagePackImpl implements MmtfBeanSeDerializerInterfac
 	}
 	
 	@Override
-	public void serialize(MmtfBean object, OutputStream outputStream) {
+	public void serialize(MmtfEncodedStructure object, OutputStream outputStream) {
 		ObjectMapper objectMapper = new ObjectMapper(new MessagePackFactory());
 		objectMapper.setSerializationInclusion(Include.NON_NULL);
 		try {

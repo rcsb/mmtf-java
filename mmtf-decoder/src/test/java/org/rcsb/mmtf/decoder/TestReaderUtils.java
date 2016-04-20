@@ -1,7 +1,7 @@
 package org.rcsb.mmtf.decoder;
 
 import org.junit.Test;
-import org.rcsb.mmtf.dataholders.MmtfBean;
+import org.rcsb.mmtf.dataholders.MmtfEncodedStructure;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
@@ -81,7 +81,7 @@ public class TestReaderUtils {
 	@Test 
 	public void testReadFromFile() throws IOException {
 		ClassLoader classLoader = getClass().getClassLoader();
-		MmtfBean mmtfBean = ReaderUtils.getDataFromFile(Paths.get(classLoader.getResource("mmtf/4cup.mmtf").getFile()));
+		MmtfEncodedStructure mmtfBean = ReaderUtils.getDataFromFile(Paths.get(classLoader.getResource("mmtf/4cup.mmtf").getFile()));
 		assertNotEquals(mmtfBean, null);
 		assertEquals(mmtfBean.getDepositionDate(), "2014-03-21");
 	}
