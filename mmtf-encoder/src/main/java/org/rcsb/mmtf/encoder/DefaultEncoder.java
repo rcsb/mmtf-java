@@ -1,6 +1,5 @@
 package org.rcsb.mmtf.encoder;
 
-import java.io.IOException;
 import java.util.List;
 
 import org.rcsb.mmtf.api.StructureDataInterface;
@@ -21,9 +20,8 @@ public class DefaultEncoder {
 	/**
 	 * The constructor for the encoder.
 	 * @param decodedDataInterface the interface of data to be encoded.
-	 * @throws IOException an error related to byte array transfers
 	 */
-	public DefaultEncoder(StructureDataInterface decodedDataInterface) throws IOException {
+	public DefaultEncoder(StructureDataInterface decodedDataInterface) {
 		mmtfBean = new MmtfBean();
 		// Set the group types
 		mmtfBean.setGroupTypeList(

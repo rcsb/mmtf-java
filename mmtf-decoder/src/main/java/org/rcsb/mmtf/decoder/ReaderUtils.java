@@ -7,7 +7,6 @@ import java.io.InputStream;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.zip.GZIPInputStream;
 
 import org.rcsb.mmtf.dataholders.MmtfBean;
@@ -44,12 +43,7 @@ public class ReaderUtils {
 			while ( (n = is.read(byteChunk)) > 0 ) {
 				baos.write(byteChunk, 0, n);
 			}
-		}
-		catch (IOException e) {
-			System.err.printf ("Failed while reading bytes from %s: %s", url.toExternalForm(), e.getMessage());
-			e.printStackTrace ();
-		}
-		finally {
+		} finally {
 			if (is != null) { is.close(); }
 		}
 		byte[] b = baos.toByteArray();
@@ -63,21 +57,18 @@ public class ReaderUtils {
 	 * @param inputBytes a gzip compressed byte array
 	 * @return a deflated byte array
 	 */
-	public static byte[] deflateGzip(byte[] inputBytes){
+	public static byte[] deflateGzip(byte[] inputBytes) throws IOException {
 		// Start the byte input stream
 		ByteArrayInputStream byteInputStream = new ByteArrayInputStream(inputBytes);
 		GZIPInputStream gzipInputStream;
+		ByteArrayOutputStream byteArrayOutputStream = null;
 		try {
 			gzipInputStream = new GZIPInputStream(byteInputStream);
-		} catch (IOException e) {
-			System.err.println("Error in opening byte array.");
-			e.printStackTrace();
-			return null;
-		}
-		ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-		// Make a buffer
-		byte[] buffer = new byte[BYTE_BUFFER_CHUNK_SIZE];
-		try {
+
+			byteArrayOutputStream = new ByteArrayOutputStream();
+			// Make a buffer
+			byte[] buffer = new byte[BYTE_BUFFER_CHUNK_SIZE];
+
 			while (gzipInputStream.available() == 1) {
 				int size = gzipInputStream.read(buffer);
 				if(size==-1){
@@ -85,20 +76,11 @@ public class ReaderUtils {
 				}
 				byteArrayOutputStream.write(buffer, 0, size);
 			}
-		} 
-		catch (Exception ex) {
-			ex.printStackTrace();
-			return null;
-		} 
-		finally {
-			try {
-				if (byteArrayOutputStream != null) {
-					byteArrayOutputStream.close();
-				}
-			} catch (Exception ex) {
-				ex.printStackTrace();
-				return null;
-			}
+
+		} finally {
+			if (byteArrayOutputStream != null) {
+				byteArrayOutputStream.close();
+			}			
 		}
 		return  byteArrayOutputStream.toByteArray();
 	}
@@ -109,19 +91,19 @@ public class ReaderUtils {
 	 * @return the deserialized mmtfBean
 	 * @throws IOException an error reading the file 
 	 */
-	public static MmtfBean getDataFromFile(String filePath) throws IOException {
+	public static MmtfBean getDataFromFile(Path filePath) throws IOException {
 		// Now return the gzip deflated and deserialized byte array
 		return new MessagePackDeserializer().deserialize(readFile(filePath));
 	}
 
 	/**
 	 * Read a byte array from a file
-	 * @param filePath the input file path
+	 * @param path the input file path
 	 * @return the returned byte array
 	 * @throws IOException an error reading the file 
 	 */
-	private static byte[] readFile(String filePath) throws IOException {
-		Path path = Paths.get(filePath);
+	private static byte[] readFile(Path path) throws IOException {
+		
 		byte[] data = Files.readAllBytes(path);
 		return data;
 	}

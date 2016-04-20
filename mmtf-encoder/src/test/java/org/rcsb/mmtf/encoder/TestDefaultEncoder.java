@@ -70,7 +70,7 @@ public class TestDefaultEncoder {
 	public void testWriteToFile() throws IOException {
 		WriterToEncoder writerToEncoder = getWriterEncoder();
 		File tempFile = testFolder.newFile("tmpfile");
-		WriterUtils.writeDataToFile(writerToEncoder, tempFile.getAbsolutePath());
+		WriterUtils.writeDataToFile(writerToEncoder, tempFile.toPath());
 	}
 	
 	
