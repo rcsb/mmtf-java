@@ -23,10 +23,10 @@ public class TestDataHolders {
 	
 	/**
 	 * Test the available beans
-	 * @throws IllegalAccessException
-	 * @throws IllegalArgumentException
-	 * @throws InvocationTargetException
-	 * @throws IntrospectionException
+	 * @throws IllegalAccessException related to Jackson conversion
+	 * @throws IllegalArgumentException related to Jackson conversion
+	 * @throws InvocationTargetException related to Jackson conversion
+	 * @throws IntrospectionException related to Jackson conversion
 	 */
 	@Test
 	public void testBeans() throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, IntrospectionException{

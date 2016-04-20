@@ -20,6 +20,7 @@ public class TestReaderUtils {
 	
 	/**
 	 * Test we can decompress a gzipped byte array.
+	 * @throws IOException accessing the byte array
 	 */
 	@Test
 	public void testGzipDecompress() throws IOException {
@@ -64,6 +65,7 @@ public class TestReaderUtils {
 	
 	/**
 	 * Test that we can't gzip decompress non-gzipped data.
+	 * @throws IOException deflating the byte array
 	 */
 	@Test(expected=IOException.class)
 	public void testGzipDecompressText() throws IOException {

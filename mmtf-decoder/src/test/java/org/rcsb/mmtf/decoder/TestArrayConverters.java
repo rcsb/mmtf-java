@@ -4,7 +4,6 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-import java.io.IOException;
 import java.nio.ByteBuffer;
 
 
@@ -44,10 +43,9 @@ public class TestArrayConverters {
 	
 	/**
 	 * Test the conversion of byte arrays to one byte integer arrays
-	 * @throws IOException 
 	 */
 	@Test
-	public final void oneByteToIntegersTest() throws IOException {
+	public final void oneByteToIntegersTest() {
 		int[] testIntArray = {12,123,24};
 		byte[] byteArray = {(byte) 12, (byte) 123, (byte) 24};
 		int[] intArray = ArrayConverters.convertByteToIntegers(byteArray);
@@ -56,10 +54,9 @@ public class TestArrayConverters {
 
 	/**
 	 * Test the conversion of byte arrays to two byte integer arrays
-	 * @throws IOException 
 	 */
 	@Test
-	public final void twoByteToIntegersTest() throws IOException {
+	public final void twoByteToIntegersTest(){
 		int[] testIntArray = {1000,1002,546};
 		byte[] byteArray = getByteArray(testIntArray,2);
 		int[] intArray = ArrayConverters.convertTwoByteToIntegers(byteArray);
@@ -68,10 +65,9 @@ public class TestArrayConverters {
 
 	/**
 	 * Test the conversion of byte arrays to four byte integer arrays
-	 * @throws IOException 
 	 */
 	@Test
-	public final void fourByteToIntegersTest() throws IOException {	
+	public final void fourByteToIntegersTest() {	
 		int[] testIntArray = {32403,11200,100090};
 		byte[] byteArray = getByteArray(testIntArray,4);
 		int[] intArray = ArrayConverters.convertFourByteToIntegers(byteArray);
