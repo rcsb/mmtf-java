@@ -1,7 +1,9 @@
 package org.rcsb.mmtf.encoder;
 
-import java.io.FileOutputStream;
+import java.io.OutputStream;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 import org.rcsb.mmtf.api.StructureDataInterface;
 import org.rcsb.mmtf.serializers.MessagePackSerializer;
@@ -19,9 +21,9 @@ public class WriterUtils {
 	 * @param path the full path to write to
 	 * @throws IOException an error related to byte array transfers
 	 */
-	public static void writeDataToFile(StructureDataInterface writerToEncoder, String path) throws IOException {
+	public static void writeDataToFile(WriterToEncoder writerToEncoder, Path path) throws IOException {
 		byte[] byteArray = getDataAsByteArr(writerToEncoder);
-		FileOutputStream fos = new FileOutputStream(path);
+		OutputStream fos = Files.newOutputStream(path); 
 		fos.write(byteArray);
 		fos.close();
 	}

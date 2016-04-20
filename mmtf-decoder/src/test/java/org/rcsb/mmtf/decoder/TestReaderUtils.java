@@ -9,6 +9,7 @@ import static org.junit.Assert.assertNotEquals;
 
 
 import java.io.IOException;
+import java.nio.file.Paths;
 
 /**
  * Test the reader utils class functions work.
@@ -21,7 +22,7 @@ public class TestReaderUtils {
 	 * Test we can decompress a gzipped byte array.
 	 */
 	@Test
-	public void testGzipDecompress() {
+	public void testGzipDecompress() throws IOException {
 		
 		// Data derived using Python to get bytes and gzip to compres
 		byte[] uncompressed = new byte[] {65, 66, 67, 68, 10};
@@ -65,7 +66,7 @@ public class TestReaderUtils {
 	 * Test that we can't gzip decompress non-gzipped data.
 	 */
 	@Test
-	public void testGzipDecompressText() {
+	public void testGzipDecompressText() throws IOException {
 		// Test that decomprss text returns null
 		byte[] uncompressed = new byte[] {65, 66, 67, 68, 10};
 		assertEquals(null,ReaderUtils.deflateGzip(uncompressed));
@@ -79,7 +80,7 @@ public class TestReaderUtils {
 	@Test 
 	public void testReadFromFile() throws IOException {
 		ClassLoader classLoader = getClass().getClassLoader();
-		MmtfBean mmtfBean = ReaderUtils.getDataFromFile(classLoader.getResource("mmtf/4cup.mmtf").getPath());
+		MmtfBean mmtfBean = ReaderUtils.getDataFromFile(Paths.get(classLoader.getResource("mmtf/4cup.mmtf").getFile()));
 		assertNotEquals(mmtfBean, null);
 		assertEquals(mmtfBean.getDepositionDate(), "2014-03-21");
 	}
