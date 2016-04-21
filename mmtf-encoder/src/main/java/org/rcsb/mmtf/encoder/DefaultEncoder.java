@@ -6,7 +6,6 @@ import org.rcsb.mmtf.api.StructureDataInterface;
 import org.rcsb.mmtf.dataholders.MmtfStructure;
 import org.rcsb.mmtf.encoder.ArrayConverters;
 import org.rcsb.mmtf.encoder.ArrayEncoders;
-import org.rcsb.mmtf.gitversion.GetRepoState;
 
 /**
  * Default encoding class from a DecodedDataInterface.
@@ -117,7 +116,7 @@ public class DefaultEncoder {
 		mmtfBean.setBondAtomList(ArrayConverters.convertIntegersToFourByte(
 				decodedDataInterface.getInterGroupBondIndices()));
 		// Set the version and producer information
-		mmtfBean.setMmtfProducer("RCSB-PDB Generator---version: "+GetRepoState.getCurrentVersion());
+		mmtfBean.setMmtfProducer(decodedDataInterface.getMmtfProducer());
 		mmtfBean.setStructureId(decodedDataInterface.getStructureId());
 		// Set some header data
 		mmtfBean.setNumAtoms(decodedDataInterface.getNumAtoms());

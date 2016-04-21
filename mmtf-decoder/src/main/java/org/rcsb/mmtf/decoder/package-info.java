@@ -1,5 +1,5 @@
 /**
- * Broad functions to decode an MMTF to a generic data structure
+ * Decoding structure data to a compressed form.
  * @author Anthony Bradley
  *
  */

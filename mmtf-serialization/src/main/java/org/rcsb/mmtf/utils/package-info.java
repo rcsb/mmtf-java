@@ -4,4 +4,4 @@
  * @author Anthony Bradley
  *
  */
-package org.rcsb.mmtf.dataholders;
+package org.rcsb.mmtf.utils;

@@ -35,7 +35,6 @@ public class MmtfStructureMessagePackSerialization implements MmtfStructureSeria
 		try {
 			objectMapper.writeValue(outputStream, mmtfStructure);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
