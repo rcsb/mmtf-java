@@ -1,5 +1,4 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
 
 	<!-- for releasing to Maven Central / OSS Sonatype -->
@@ -14,7 +13,7 @@
 	<groupId>org.rcsb</groupId>
 	<artifactId>mmtf</artifactId>
 	<packaging>pom</packaging>
-	<version>0.0.1-alpha4-SNAPSHOT</version>
+	<version>0.0.1-alpha4</version>
 	<name>mmtf</name>
 	<description>MMTF is a compressed, fast and useful format for serving macromolecular data.
     </description>
@@ -44,7 +43,7 @@
 		<developerConnection>scm:git:git@github.com:rcsb/mmtf-java.git</developerConnection>
 		<url>https://github.com/rcsb/mmtf-java</url>
 
-		<tag>HEAD</tag>
+		<tag>mmtf-0.0.1-alpha4</tag>
 	</scm>
 	<build>
 		<pluginManagement>
