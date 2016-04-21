@@ -1,5 +1,5 @@
 /**
- * Decoding structure data to a compressed form.
+ * Decoding structure data from a compressed form.
  * @author Anthony Bradley
  *
  */
