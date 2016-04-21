@@ -1,5 +1,5 @@
 /**
- * Beans and classes to store data for data transfer.
+ * Utility functions and variables for coding and decoding.
  * 
  * @author Anthony Bradley
  *

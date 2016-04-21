@@ -1,5 +1,5 @@
 /**
- * Beans and classes to store data for data transfer.
+ * Serialization and deserialization of data.
  * 
  * @author Anthony Bradley
  *
