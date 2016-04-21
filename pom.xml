@@ -480,7 +480,7 @@
 	</profiles>
 
 	<modules>
-		<module>mmtf-common</module>
+		<module>mmtf-serialization</module>
 		<module>mmtf-api</module>
 		<module>mmtf-decoder</module>
 		<module>mmtf-encoder</module>

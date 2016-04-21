@@ -18,7 +18,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>org.rcsb</groupId>
-			<artifactId>mmtf-common</artifactId>
+			<artifactId>mmtf-serialization</artifactId>
 			<version>0.0.1-alpha5-SNAPSHOT</version>
 		</dependency>
 		<dependency>
