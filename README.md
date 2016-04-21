@@ -33,13 +33,13 @@ Quick getting started.
 
 1) Get the data for a PDB structure and print the number of chains:
 ```java
-StructureDataInterface dataInterface = new DefaultDecoder(ReaderUtils.getDataFromUrl(String pdbCode))
+StructureDataInterface dataInterface = new DefaultDecoder(ReaderUtils.getDataFromUrl("4cup"));
 System.out.println("PDB Code: "+dataInterface.getStructureId()+" has "+dataInterface.getNumChains()+" chains");
 ```
 
 2) Show the charge information for the first group:
 ```java
-System.out.println("HET group "+dataInterface.getGroupName(0)+" has the following atomic charges: "+dataInterface.getGroupAtomChargs(0));
+System.out.println("Group name: "+dataInterface.getGroupName(0)+" has the following atomic charges: "+dataInterface.getGroupAtomCharges(0));
 ```
 
 3) Show how many bioassemblies it has:
