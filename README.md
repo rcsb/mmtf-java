@@ -44,5 +44,5 @@ System.out.println("HET group "+dataInterface.getGroupName(0)+" has the followin
 
 3) Show how many bioassemblies it has:
 ```java
-System.out.println("PDB Code: "+dataApi.getPdbId()+" has "+dataApi.getBioAssembly().size()+" bioassemblies");
+System.out.println("PDB Code: "+dataInterface.getStructureId()+" has "+dataInterface.getNumBioassemblies()+" bioassemblies");
 ```
