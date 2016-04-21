@@ -33,15 +33,13 @@ Quick getting started.
 
 1) Get the data for a PDB structure and print the number of chains:
 ```java
-HandleIO handleIO = new HandleIO();
-DataApiInterface dataApi = handleIO.getDataApiFromUrlOrFile("4cup");
-System.out.println("PDB Code: "+dataApi.getPdbId()+" has "+dataApi.getNumChains()+" chains");
+StructureDataInterface dataInterface = new DefaultDecoder(ReaderUtils.getDataFromUrl(String pdbCode))
+System.out.println("PDB Code: "+dataInterface.getStructureId()+" has "+dataInterface.getNumChains()+" chains");
 ```
 
 2) Show the charge information for the first group:
 ```java
-Group group = dataApi.getGroupMap().get(0);
-System.out.println("HET group "+group.getGroupName()+" has the following atomic charges: "+group.getAtomCharges());
+System.out.println("HET group "+dataInterface.getGroupName(0)+" has the following atomic charges: "+dataInterface.getGroupAtomChargs(0));
 ```
 
 3) Show how many bioassemblies it has:
