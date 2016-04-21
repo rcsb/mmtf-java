@@ -18,23 +18,22 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class MmtfStructureMessagePackSerialization implements MmtfStructureSerializationInterface {
 	
 	@Override
-	public MmtfStructure deserialize(InputStream byteArray){
+	public MmtfStructure deserialize(InputStream inputStream){
 		MmtfStructure mmtfBean = null;
 		try {
-			mmtfBean = new ObjectMapper(new MessagePackFactory()).readValue(byteArray, MmtfStructure.class);
+			mmtfBean = new ObjectMapper(new MessagePackFactory()).readValue(inputStream, MmtfStructure.class);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return mmtfBean;
 	}
 	
 	@Override
-	public void serialize(MmtfStructure object, OutputStream outputStream) {
+	public void serialize(MmtfStructure mmtfStructure, OutputStream outputStream) {
 		ObjectMapper objectMapper = new ObjectMapper(new MessagePackFactory());
 		objectMapper.setSerializationInclusion(Include.NON_NULL);
 		try {
-			objectMapper.writeValue(outputStream, object);
+			objectMapper.writeValue(outputStream, mmtfStructure);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

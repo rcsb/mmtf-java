@@ -55,6 +55,7 @@ public class ReaderUtils {
 	 * Deflate a gzip byte array.
 	 * @param inputBytes a gzip compressed byte array
 	 * @return a deflated byte array
+	 * @throws IOException error in gzip input stream
 	 */
 	public static byte[] deflateGzip(byte[] inputBytes) throws IOException {
 		// Start the byte input stream

@@ -6,24 +6,24 @@ import java.io.OutputStream;
 import org.rcsb.mmtf.dataholders.MmtfStructure;
 
 /**
- * An interface to carry out serializing / deserializing to mmtfBean.
+ * An interface to carry out serializing / deserializing to {@link MmtfStructure}.
  * @author Anthony Bradley
  *
  */
 public interface MmtfStructureSerializationInterface {
 
 	/**
-	 * Serialize an mmtfBean to a generic output stream.
-	 * @param mmtfBean the compressed data
-	 * @param outputStream the ouput stream to write to
+	 * Serialize an {@link MmtfStructure} to a generic output stream.
+	 * @param mmtfStructure the compressed data
+	 * @param outputStream the output stream to write to
 	 */
-	public void serialize(MmtfStructure mmtfBean, OutputStream outputStream);
+	public void serialize(MmtfStructure mmtfStructure, OutputStream outputStream);
 	
 	/**
-	 * Deserialize and input stream from an input stream.
-	 * @param dataInputStream the inputstream to deserialize
+	 * Deserialize an {@link MmtfStructure} from an input stream.
+	 * @param inputStream the inputstream to deserialize
 	 * @return the compressed structure data.
 	 */
-	public MmtfStructure deserialize(InputStream dataInputStream);
+	public MmtfStructure deserialize(InputStream inputStream);
 
 }
