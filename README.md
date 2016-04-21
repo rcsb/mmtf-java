@@ -16,7 +16,7 @@ The alpha release is available on Maven central.
 <groupId>org.rcsb</groupId>
 <artifactId>mmtf-decoder</artifactId>
 <packaging>pom</packaging>
-<version>0.0.1-alpha3</version>
+<version>0.0.1-alpha4</version>
 ```
 
 ```xml
@@ -40,8 +40,8 @@ System.out.println("PDB Code: "+dataApi.getPdbId()+" has "+dataApi.getNumChains(
 
 2) Show the charge information for the first group:
 ```java
-PDBGroup pdbGroup = dataApi.getGroupMap().get(0);
-System.out.println("HET group "+pdbGroup.getGroupName()+" has the following atomic charges: "+pdbGroup.getAtomCharges());
+Group group = dataApi.getGroupMap().get(0);
+System.out.println("HET group "+group.getGroupName()+" has the following atomic charges: "+group.getAtomCharges());
 ```
 
 3) Show how many bioassemblies it has:
