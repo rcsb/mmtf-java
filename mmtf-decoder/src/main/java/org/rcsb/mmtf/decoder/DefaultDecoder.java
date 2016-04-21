@@ -10,7 +10,8 @@ import org.rcsb.mmtf.dataholders.MmtfStructure;
 import org.rcsb.mmtf.dataholders.Group;
 
 /**
- * Takes an input MMTF bean and converts to a data API.
+ * Default decoder. Takes a {@link MmtfStructure} and passes data into the
+ * {@link StructureDataInterface}.
  * @author Anthony Bradley
  *
  */

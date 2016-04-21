@@ -5,7 +5,7 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
 /**
- * Class to test the DsspType enum.
+ * Class to test the {@link DsspType} enum.
  * @author Anthony Bradley
  *
  */

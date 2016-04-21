@@ -9,6 +9,7 @@ import org.rcsb.mmtf.utils.CodecUtils;
 
 /**
  * A class of array converters.
+ * e.g. converting integer arrays to byte arrays.
  * @author Anthony Bradley
  *
  */

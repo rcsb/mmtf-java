@@ -88,7 +88,7 @@ public class ReaderUtils {
 	/**
 	 * A function to get MMTF data from a file path.
 	 * @param filePath the full path of the file to be read
-	 * @return the deserialized mmtfBean
+	 * @return the deserialized {@link MmtfStructure}
 	 * @throws IOException an error reading the file 
 	 */
 	public static MmtfStructure getDataFromFile(Path filePath) throws IOException {

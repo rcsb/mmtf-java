@@ -6,7 +6,7 @@ import java.util.List;
 import org.rcsb.mmtf.utils.CodecUtils;
 
 /**
- * A class of array decoders
+ * A class of array decoders.
  * @author Anthony Bradley
  *
  */

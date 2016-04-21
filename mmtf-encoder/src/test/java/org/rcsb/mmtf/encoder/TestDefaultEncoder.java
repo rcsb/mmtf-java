@@ -16,7 +16,7 @@ import org.rcsb.mmtf.api.StructureAdapterInterface;
 import org.unitils.reflectionassert.ReflectionAssert;
 
 /**
- * A class to test the default encoding of data
+ * A class to test the encoding of data using the {@link DefaultEncoder}.
  * @author Anthony Bradley
  *
  */

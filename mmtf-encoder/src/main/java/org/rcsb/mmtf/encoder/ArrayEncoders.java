@@ -6,7 +6,8 @@ import java.util.List;
 import org.rcsb.mmtf.utils.CodecUtils;
 
 /**
- * A class of methods that can be used to encode arrays.
+ * A class of methods to encode arrays.
+ * e.g. using delta encoding.
  * @author Anthony Bradley
  *
  */

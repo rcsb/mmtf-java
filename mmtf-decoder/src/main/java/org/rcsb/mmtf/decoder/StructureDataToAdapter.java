@@ -4,8 +4,7 @@ import org.rcsb.mmtf.api.StructureDataInterface;
 import org.rcsb.mmtf.api.StructureAdapterInterface;
 
 /**
- * Decode an MMTF structure using a structure inflator. 
- * The class also allows access to the unconsumed but parsed and inflated underlying data.
+ * Pass data from a {@link StructureDataInterface} into a {@link StructureAdapterInterface}.
  * @author Anthony Bradley
  *
  */

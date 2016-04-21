@@ -3,7 +3,7 @@ package org.rcsb.mmtf.decoder;
 import org.rcsb.mmtf.api.StructureAdapterInterface;
 
 /**
- * A dummy implementation of the transfer interface.
+ * A dummy implementation of the {@link StructureAdapterInterface}.
  * @author Anthony Bradley
  *
  */

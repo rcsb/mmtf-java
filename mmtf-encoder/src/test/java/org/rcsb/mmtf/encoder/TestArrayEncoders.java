@@ -5,7 +5,7 @@ import org.junit.Test;
 import static org.junit.Assert.assertArrayEquals;
 
 /**
- * Tests for the array decompressor library.
+ * Tests for the array encoder util functions.
  * @author Anthony Bradley
  *
  */

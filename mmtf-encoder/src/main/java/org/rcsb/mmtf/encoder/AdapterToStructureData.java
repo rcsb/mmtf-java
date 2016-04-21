@@ -13,7 +13,8 @@ import org.rcsb.mmtf.dataholders.Group;
 import org.rcsb.mmtf.utils.CodecUtils;
 
 /**
- * A class to move data from the DecoderInterface to the DecodedDataInterface
+ * A class to move data from the {@link StructureAdapterInterface}
+ * to the {@link StructureDataInterface}.
  * @author Anthony Bradley
  *
  */

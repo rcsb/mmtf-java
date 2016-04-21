@@ -9,7 +9,7 @@ import java.util.List;
 import org.junit.Test;
 
 /**
- * A class of utility methods for converting arrays.
+ * Tests the utility methods for converting arrays.
  * @author Anthony Bradley
  *
  */

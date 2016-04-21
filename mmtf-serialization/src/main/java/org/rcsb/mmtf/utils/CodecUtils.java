@@ -11,7 +11,7 @@ import java.util.List;
 public class CodecUtils {
 	
 	
-	/** The base url. */
+	/** The base url for this version of MMTF. */
 	public static final String BASE_URL = "http://mmtf.rcsb.org/v0/full/";
 	
 
@@ -34,7 +34,7 @@ public class CodecUtils {
 	/**
 	 * Find the highest value in an integer array.
 	 * @param intArray the integer array
-	 * @return the highester value in the array
+	 * @return the highest value in the array
 	 */
 	public static int findMaxInIntArray(int[] intArray){
 		int max=intArray[0];

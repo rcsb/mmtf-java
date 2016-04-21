@@ -4,13 +4,13 @@ import org.rcsb.mmtf.api.StructureDataInterface;
 import org.rcsb.mmtf.api.StructureAdapterInterface;
 
 /**
- * A class of static functions to be used to aid decoding from MMTFBean to DecodedDataInterface.
+ * A class of static functions to be used to aid decoding from
+ * {@link StructureDataInterface} to {@link StructureAdapterInterface}.
  * @author Anthony Bradley
  *
  */
 public class DecoderUtils {
 
-	
 	/**
 	 * Parses the bioassembly data and inputs it to the structure inflator
 	 * @param dataApi the interface to the decoded data

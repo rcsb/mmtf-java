@@ -16,7 +16,7 @@ import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
 
 /**
- * Test that the defualt decoder works.
+ * Test that the {@link DefaultDecoder} works.
  * @author Anthony Bradley
  *
  */

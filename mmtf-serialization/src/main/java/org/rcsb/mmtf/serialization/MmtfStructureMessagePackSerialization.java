@@ -11,7 +11,7 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
- * A message pack implementation of the mmtf serializer / deserializer.
+ * A message pack implementation of the {@link MmtfStructure} serializer / deserializer.
  * @author Anthony Bradley
  *
  */

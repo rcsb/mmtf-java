@@ -3,7 +3,7 @@ package org.rcsb.mmtf.decoder;
 import org.rcsb.mmtf.api.StructureDataInterface;
 
 /**
- * A dummy implementation of the decode data interface.
+ * A dummy implementation of the {@link StructureDataInterface}.
  * @author Anthony Bradley
  *
  */
