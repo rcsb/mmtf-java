@@ -3,7 +3,7 @@
 	<parent>
 		<groupId>org.rcsb</groupId>
 		<artifactId>mmtf</artifactId>
-		<version>0.0.1-alpha5-SNAPSHOT</version>
+		<version>0.1.0</version>
 	</parent>
 	<artifactId>mmtf-api</artifactId>
 
