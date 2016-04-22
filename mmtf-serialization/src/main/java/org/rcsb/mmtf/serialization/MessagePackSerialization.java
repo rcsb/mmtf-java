@@ -15,7 +15,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  * @author Anthony Bradley
  *
  */
-public class MmtfStructureMessagePackSerialization implements MmtfStructureSerializationInterface {
+public class MessagePackSerialization implements MmtfStructureSerializationInterface {
 	
 	@Override
 	public MmtfStructure deserialize(InputStream inputStream){
