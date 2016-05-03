@@ -1,8 +1,10 @@
 package org.rcsb.mmtf.encoder;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 
 import org.rcsb.mmtf.api.StructureDataInterface;
 import org.rcsb.mmtf.api.StructureAdapterInterface;
@@ -143,6 +145,8 @@ public class AdapterToStructureData implements StructureDataInterface, Structure
 	List<Entity> entities;
 	int totalNumBonds;
 	List<Group> pdbGroupList;
+	
+	private Map<Integer, Integer> chainToEntityIndexMap;
 
 
 	@Override
@@ -404,6 +408,55 @@ public class AdapterToStructureData implements StructureDataInterface, Structure
 		return depositionDate;
 	}
 
+	
+	@Override
+	public String getChainEntityDescription(int chainInd) {
+		if(chainToEntityIndexMap==null){
+			generateChanEntityIndexMap();
+		}
+		Integer entityInd = chainToEntityIndexMap.get(chainInd);
+		if(entityInd==null){
+			return null;
+		}
+		return getEntityDescription(entityInd);
+	}
+
+	@Override
+	public String getChainEntityType(int chainInd) {
+		if(chainToEntityIndexMap==null){
+			generateChanEntityIndexMap();
+		}
+		Integer entityInd = chainToEntityIndexMap.get(chainInd);
+		if(entityInd==null){
+			return null;
+		}
+		return getEntityType(entityInd);
+	}
+
+	@Override
+	public String getChainEntitySequence(int chainInd) {
+		if(chainToEntityIndexMap==null){
+			generateChanEntityIndexMap();
+		}
+		Integer entityInd = chainToEntityIndexMap.get(chainInd);
+		if(entityInd==null){
+			return null;
+		}
+		return getEntitySequence(entityInd);
+	}
+
+	/**
+	 * Utility function to generate a map, mapping chain index to
+	 * entity index.
+	 */
+	private void generateChanEntityIndexMap() {
+		chainToEntityIndexMap = new HashMap<>();
+		for(int i=0; i<entityList.length; i++) {
+			for(int chainInd : entityList[i].getChainIndexList()){
+				chainToEntityIndexMap.put(chainInd, i);
+			}
+		}
+	}
 
 	@Override
 	public void initStructure(int totalNumBonds, int totalNumAtoms, int totalNumGroups, 
