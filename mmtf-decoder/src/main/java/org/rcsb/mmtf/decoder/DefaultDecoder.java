@@ -212,7 +212,8 @@ public class DefaultDecoder implements StructureDataInterface {
 	/** The secondary structure info */
 	private int[] secStructInfo;
 	
-	private Map<Integer,Integer> chainToEntityIndexMap;
+	/** The map of chain indices to the entity */
+	private Map<Integer, Integer> chainToEntityIndexMap;
 
 
 	@Override
