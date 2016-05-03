@@ -107,7 +107,7 @@ public class DefaultDecoder implements StructureDataInterface {
 		releaseDate = inputData.getReleaseDate();
 		secStructInfo = ArrayConverters.convertByteToIntegers(inputData.getSecStructList());
 		// Now  generate this map
-		generateChanEntityIndexMap();
+		generateChainEntityIndexMap();
 	}
 
 	/** The X coordinates */
@@ -501,7 +501,7 @@ public class DefaultDecoder implements StructureDataInterface {
 	@Override
 	public String getChainEntityDescription(int chainInd) {
 		if(chainToEntityIndexMap==null){
-			generateChanEntityIndexMap();
+			generateChainEntityIndexMap();
 		}
 		Integer entityInd = chainToEntityIndexMap.get(chainInd);
 		if(entityInd==null){
@@ -513,7 +513,7 @@ public class DefaultDecoder implements StructureDataInterface {
 	@Override
 	public String getChainEntityType(int chainInd) {
 		if(chainToEntityIndexMap==null){
-			generateChanEntityIndexMap();
+			generateChainEntityIndexMap();
 		}
 		Integer entityInd = chainToEntityIndexMap.get(chainInd);
 		if(entityInd==null){
@@ -525,7 +525,7 @@ public class DefaultDecoder implements StructureDataInterface {
 	@Override
 	public String getChainEntitySequence(int chainInd) {
 		if(chainToEntityIndexMap==null){
-			generateChanEntityIndexMap();
+			generateChainEntityIndexMap();
 		}
 		Integer entityInd = chainToEntityIndexMap.get(chainInd);
 		if(entityInd==null){
@@ -538,7 +538,7 @@ public class DefaultDecoder implements StructureDataInterface {
 	 * Utility function to generate a map, mapping chain index to
 	 * entity index.
 	 */
-	private void generateChanEntityIndexMap() {
+	private void generateChainEntityIndexMap() {
 		chainToEntityIndexMap = new HashMap<>();
 		for(int i=0; i<entityList.length; i++) {
 			for(int chainInd : entityList[i].getChainIndexList()){
