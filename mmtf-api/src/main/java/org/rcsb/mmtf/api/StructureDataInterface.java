@@ -297,9 +297,36 @@ public interface StructureDataInterface {
 	/**
 	 * Returns the sequence for the entity specified by the index.
 	 * @param entityInd the index of the specified entity.
-	 * @return the one letter sequence for this entity. Empty string if no sequence is applicable.
+	 * @return the one letter sequence for this entity. Empty string 
+	 * if no sequence is applicable.
 	 */
     String getEntitySequence(int entityInd);
+    
+    /**
+	 * Returns the entity description (as defined in mmCIF dictionary) 
+	 * for the entity specified by the chain index.
+     * @param chainInd the index of the specified chain
+     * @return the entity description
+     */
+    String getChainEntityDescription(int chainInd);
+    
+	/**
+	 * Returns the entity type (polymer, non-polymer, water)
+	 * for the entity specified by the chain index.
+     * @param chainInd the index of the specified chain
+	 * @return the entity type (polymer, non-polymer, water) for 
+	 * the specified chain
+	 */ 
+    String getChainEntityType(int chainInd);
+    
+	/**
+	 * Returns the sequence for the entity specified by the chain index.
+     * @param chainInd the index of the specified chain
+	 * @return the one letter sequence for this chain. Empty string if 
+	 * no sequence is applicable.
+	 */
+    String getChainEntitySequence(int chainInd);
+    
 
 	/**
 	 * Returns the identifier of the structure.

@@ -289,4 +289,19 @@ public class DummyApiImpl implements StructureDataInterface {
 		return new int[numGroups];
 	}
 
+	@Override
+	public String getChainEntityDescription(int chainInd) {
+		return "DESC";
+	}
+
+	@Override
+	public String getChainEntityType(int chainInd) {
+		return "TYPE";
+	}
+
+	@Override
+	public String getChainEntitySequence(int chainInd) {
+		return "SEQUENCE";
+	}
+
 }
