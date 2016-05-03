@@ -106,6 +106,8 @@ public class DefaultDecoder implements StructureDataInterface {
 		depositionDate = inputData.getDepositionDate();
 		releaseDate = inputData.getReleaseDate();
 		secStructInfo = ArrayConverters.convertByteToIntegers(inputData.getSecStructList());
+		// Now  generate this map
+		generateChanEntityIndexMap();
 	}
 
 	/** The X coordinates */

@@ -504,6 +504,8 @@ public class AdapterToStructureData implements StructureDataInterface, Structure
 			// Find the index of this groups information.
 			groupList[i] = groupMap.indexOf(pdbGroupList.get(i));
 		}
+		// Now  generate this map
+		generateChanEntityIndexMap();
 	}
 
 	@Override
