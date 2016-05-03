@@ -51,12 +51,12 @@ public class TestDefaultEncoder {
 	 */
 	@Test
 	public void testWriter() throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, IntrospectionException {
-		AdapterToStructureData AdapterToStructureData = getWriterEncoder();
-		ReflectionAssert.assertPropertiesNotNull("Some properties null after writing", AdapterToStructureData);
+		AdapterToStructureData adapterToStructureData = getWriterEncoder();
+		ReflectionAssert.assertPropertiesNotNull("Some properties null after writing", adapterToStructureData);
 		for(PropertyDescriptor propertyDescriptor : 
 			Introspector.getBeanInfo(AdapterToStructureData.class).getPropertyDescriptors()){
 			if(propertyDescriptor.getReadMethod()!=null){
-				assertNotNull(propertyDescriptor.getReadMethod().invoke(AdapterToStructureData));
+				assertNotNull(propertyDescriptor.getReadMethod().invoke(adapterToStructureData));
 			}
 		}
 	}
