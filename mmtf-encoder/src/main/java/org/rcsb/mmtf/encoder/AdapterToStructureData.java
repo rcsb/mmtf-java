@@ -124,25 +124,25 @@ public class AdapterToStructureData implements StructureDataInterface, Structure
 	private int[] secStructInfo;
 
 	/** The atom counter */
-	int atomIndex = 0;
+	private int atomIndex = 0;
 	/** The atom counter within a group*/
-	int groupAtomIndex = 0;
+	private int groupAtomIndex = 0;
 	/** The current group bond */
-	int groupBondIndex = 0;
+	private int groupBondIndex = 0;
 	/** The group counter */
-	int groupIndex = 0;
+	private int groupIndex = 0;
 	/** The chain counter */
-	int chainIndex = 0;
+	private int chainIndex = 0;
 	/** The model counter */
-	int modelIndex = 0;
-	/** The entity counter */
-	int entityIndex = 0;
+	private int modelIndex = 0;
 	/** Add the atom information for the current group */
-	Group pdbGroup;
+	private Group pdbGroup;
 	/** A List for Entities as the number of entities is not defined*/
-	List<Entity> entities;
-	int totalNumBonds;
-	List<Group> pdbGroupList;
+	private List<Entity> entities;
+	/** The total number of bonds in the structure */
+	private int totalNumBonds;
+	/** The list of groups */
+	private List<Group> pdbGroupList;
 
 
 	@Override
@@ -476,7 +476,6 @@ public class AdapterToStructureData implements StructureDataInterface, Structure
 		entity.setType(title);
 		// Add this entity
 		entities.add(entity);
-		entityIndex++;
 	}
 
 	@Override
