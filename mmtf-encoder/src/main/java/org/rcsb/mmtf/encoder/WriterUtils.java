@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.zip.GZIPOutputStream;
 
 import org.rcsb.mmtf.serialization.MessagePackSerialization;
 
@@ -28,8 +29,8 @@ public class WriterUtils {
 		fos.write(byteArray);
 		fos.close();
 	}
-	
-	
+
+
 	/**
 	 * Function to take data from a writer and return as a byte array (MessagePacked serialized).
 	 * @param writerToEncoder the writer to encoder instance
@@ -45,4 +46,34 @@ public class WriterUtils {
 		return bos.toByteArray();
 	}
 
+	/**
+	 * Compress a byte array using Gzip.
+	 * @param byteArray the input byte array
+	 * @return the compressed byte array
+	 * @throws IOException
+	 */
+	public static byte[] gzipCompress(byte[] byteArray) throws IOException {
+		// Function to gzip compress the data for the hashmaps
+		ByteArrayOutputStream byteStream =
+				new ByteArrayOutputStream(byteArray.length);
+		try
+		{
+			GZIPOutputStream zipStream =
+					new GZIPOutputStream(byteStream);
+			try
+			{
+				zipStream.write(byteArray);
+			}
+			finally
+			{
+				zipStream.close();
+			}
+		}
+		finally
+		{
+			byteStream.close();
+		}
+		byte[] compressedData = byteStream.toByteArray();
+		return compressedData;
+	}
 }

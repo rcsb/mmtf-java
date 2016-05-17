@@ -198,7 +198,7 @@ public class AdapterToStructureData implements StructureDataInterface, Structure
 
 	@Override
 	public int getNumAtomsInGroup(int groupInd) {
-		return getGroup(groupInd).getAtomChargeList().length;
+		return getGroup(groupInd).getFormalChargeList().length;
 	}
 
 	@Override
@@ -225,7 +225,7 @@ public class AdapterToStructureData implements StructureDataInterface, Structure
 
 	@Override
 	public int[] getGroupAtomCharges(int groupInd) {
-		return getGroup(groupInd).getAtomChargeList();
+		return getGroup(groupInd).getFormalChargeList();
 	}
 
 	@Override
@@ -484,7 +484,7 @@ public class AdapterToStructureData implements StructureDataInterface, Structure
 		// Make a new PDBGroup to store the repeated information
 		pdbGroup = new Group();
 		pdbGroupList.add(pdbGroup);
-		pdbGroup.setAtomChargeList(new int[atomCount]);
+		pdbGroup.setFormalChargeList(new int[atomCount]);
 		pdbGroup.setAtomNameList(new String[atomCount]);
 		pdbGroup.setBondAtomList(new int[bondCount*2]);
 		pdbGroup.setBondOrderList(new int[bondCount]);
@@ -506,7 +506,7 @@ public class AdapterToStructureData implements StructureDataInterface, Structure
 	public void setAtomInfo(String atomName, int serialNumber, char alternativeLocationId, float x, float y, float z,
 			float occupancy, float temperatureFactor, String element, int charge) {
 		// Set the group level data
-		pdbGroup.getAtomChargeList()[groupAtomIndex] = charge;
+		pdbGroup.getFormalChargeList()[groupAtomIndex] = charge;
 		pdbGroup.getAtomNameList()[groupAtomIndex] = atomName;
 		pdbGroup.getElementList()[groupAtomIndex] = element;
 		// Set the atom level data
