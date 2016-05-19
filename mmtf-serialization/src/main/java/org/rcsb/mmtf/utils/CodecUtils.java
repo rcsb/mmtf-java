@@ -30,22 +30,4 @@ public class CodecUtils {
 		}
 		return integerArray;
 	}
-
-	/**
-	 * Find the highest value in an integer array. If an empty array is given - -1 is returned.
-	 * @param intArray the integer array
-	 * @return the highest value in the array (-1 if empty array)
-	 */
-	public static int findMaxInIntArray(int[] intArray){
-		if(intArray.length==0){
-			return -1;
-		}
-		int max=intArray[0];
-		for (int i = 0; i < intArray.length; i++) {
-			if (intArray[i] > max) {
-				max = intArray[i];
-			}
-		}
-		return max;
-	}
 }

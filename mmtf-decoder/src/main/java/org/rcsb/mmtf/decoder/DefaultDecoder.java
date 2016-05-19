@@ -378,7 +378,7 @@ public class DefaultDecoder implements StructureDataInterface {
 	}
 
 	public int getNumAtomsInGroup(int groupInd) {
-		return groupMap[groupInd].getFormalChargeList().length;
+		return groupMap[groupInd].getAtomChargeList().length;
 	}
 
 	@Override
@@ -405,7 +405,7 @@ public class DefaultDecoder implements StructureDataInterface {
 
 	@Override
 	public int[] getGroupAtomCharges(int groupInd) {
-		return groupMap[groupInd].getFormalChargeList();
+		return groupMap[groupInd].getAtomChargeList();
 	}
 
 	@Override

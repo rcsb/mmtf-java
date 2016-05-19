@@ -1,6 +1,7 @@
 package org.rcsb.mmtf.encoder;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.rcsb.mmtf.api.StructureDataInterface;
@@ -9,7 +10,6 @@ import org.rcsb.mmtf.dataholders.BioAssemblyTransformation;
 import org.rcsb.mmtf.dataholders.Entity;
 import org.rcsb.mmtf.dataholders.Group;
 import org.rcsb.mmtf.dataholders.MmtfStructure;
-import org.rcsb.mmtf.utils.CodecUtils;
 
 /**
  * A class of static utility functions to aid encoding of data.
@@ -27,12 +27,15 @@ public class EncoderUtils {
 	 */
 	public static Group[] generateGroupMap(StructureDataInterface structureDataInterface) {
 		int[] groupTypeIndices = structureDataInterface.getGroupTypeIndices();
-		int maxIndex = CodecUtils.findMaxInIntArray(groupTypeIndices);
+		if(groupTypeIndices.length==0){
+			return new Group[0];
+		}
+		int maxIndex = Arrays.stream(groupTypeIndices).max().getAsInt();
 		Group[] outGroupList = new Group[maxIndex+1];
 		for (int i=0; i<maxIndex+1; i++) {
 			// Generate this PDBGroup
 			Group pdbGroup = new Group();
-			pdbGroup.setFormalChargeList(structureDataInterface.getGroupAtomCharges(i));
+			pdbGroup.setAtomChargeList(structureDataInterface.getGroupAtomCharges(i));
 			pdbGroup.setAtomNameList(structureDataInterface.getGroupAtomNames(i));
 			pdbGroup.setBondAtomList(structureDataInterface.getGroupBondIndices(i));
 			pdbGroup.setBondOrderList(structureDataInterface.getGroupBondOrders(i));

@@ -35,7 +35,7 @@ public class Group implements Serializable {
 	private int[] bondAtomList;
 
 	/** The formal charges on the atoms. */
-	private int[] formalChargeList;
+	private int[] atomChargeList;
 
 	/** The single letter code. */
 	private char singleLetterCode;
@@ -51,7 +51,7 @@ public class Group implements Serializable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + Arrays.hashCode(formalChargeList);
+		result = prime * result + Arrays.hashCode(atomChargeList);
 		result = prime * result + Arrays.hashCode(atomNameList);
 		result = prime * result + Arrays.hashCode(bondAtomList);
 		result = prime * result + Arrays.hashCode(bondOrderList);
@@ -74,7 +74,7 @@ public class Group implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Group other = (Group) obj;
-		if (!Arrays.equals(formalChargeList, other.formalChargeList))
+		if (!Arrays.equals(atomChargeList, other.atomChargeList))
 			return false;
 		if (!Arrays.equals(atomNameList, other.atomNameList))
 			return false;
@@ -177,8 +177,8 @@ public class Group implements Serializable {
 	 *
 	 * @return the atom charges
 	 */
-	public int[] getFormalChargeList() {
-		return formalChargeList;
+	public int[] getAtomChargeList() {
+		return atomChargeList;
 	}
 
 	/**
@@ -186,8 +186,8 @@ public class Group implements Serializable {
 	 *
 	 * @param inputAtomCharges the new atom charges
 	 */
-	public void setFormalChargeList(int[] inputAtomCharges) {
-		this.formalChargeList = inputAtomCharges;
+	public void setAtomChargeList(int[] inputAtomCharges) {
+		this.atomChargeList = inputAtomCharges;
 	}
 
 	/**

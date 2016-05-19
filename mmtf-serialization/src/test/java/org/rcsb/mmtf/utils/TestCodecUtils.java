@@ -26,25 +26,4 @@ public class TestCodecUtils {
 		int[] integerArray = CodecUtils.convertToIntArray(integerList);
 		assertArrayEquals(testIntegerArray, integerArray);
 	}
-	
-	/**
-	 * Test that finding the maximum value in an array works.
-	 */
-	@Test
-	public void testFindMaxInIntArray() {
-		int[] intArray = {1,2,2020,1,2,567,203,-10200,-304,20};
-		int maxValue = CodecUtils.findMaxInIntArray(intArray);
-		assertEquals(2020, maxValue);
-	}
-	
-	/**
-	 * Test that an empty array returns -1.
-	 */
-	@Test
-	public void testFindMaxEmptyArray() {
-		int[] intArray = {};
-		int maxValue = CodecUtils.findMaxInIntArray(intArray);
-		assertEquals(-1, maxValue);
-		
-	}
 }

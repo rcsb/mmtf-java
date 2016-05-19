@@ -198,7 +198,7 @@ public class AdapterToStructureData implements StructureDataInterface, Structure
 
 	@Override
 	public int getNumAtomsInGroup(int groupInd) {
-		return getGroup(groupInd).getFormalChargeList().length;
+		return getGroup(groupInd).getAtomChargeList().length;
 	}
 
 	@Override
@@ -225,7 +225,7 @@ public class AdapterToStructureData implements StructureDataInterface, Structure
 
 	@Override
 	public int[] getGroupAtomCharges(int groupInd) {
-		return getGroup(groupInd).getFormalChargeList();
+		return getGroup(groupInd).getAtomChargeList();
 	}
 
 	@Override
@@ -427,7 +427,6 @@ public class AdapterToStructureData implements StructureDataInterface, Structure
 		insertionCodeList = new char[totalNumGroups];
 		seqResGroupList = new int[totalNumGroups];
 		secStructInfo = new int[totalNumGroups];
-		groupList = new int[totalNumGroups];
 		// Intialise the chain level data 	 	
 		chainList = new String[totalNumChains];
 		publicChainIds = new String[totalNumChains];
@@ -447,6 +446,7 @@ public class AdapterToStructureData implements StructureDataInterface, Structure
 		entityList = entities.toArray(new Entity[0]);
 		// Cleanup the group list
 		groupMap = new ArrayList<>(new HashSet<>(pdbGroupList));
+		groupList = new int[pdbGroupList.size()];
 		for(int i=0; i<pdbGroupList.size(); i++){		
 			// Find the index of this groups information.
 			groupList[i] = groupMap.indexOf(pdbGroupList.get(i));
@@ -484,7 +484,7 @@ public class AdapterToStructureData implements StructureDataInterface, Structure
 		// Make a new PDBGroup to store the repeated information
 		pdbGroup = new Group();
 		pdbGroupList.add(pdbGroup);
-		pdbGroup.setFormalChargeList(new int[atomCount]);
+		pdbGroup.setAtomChargeList(new int[atomCount]);
 		pdbGroup.setAtomNameList(new String[atomCount]);
 		pdbGroup.setBondAtomList(new int[bondCount*2]);
 		pdbGroup.setBondOrderList(new int[bondCount]);
@@ -506,7 +506,7 @@ public class AdapterToStructureData implements StructureDataInterface, Structure
 	public void setAtomInfo(String atomName, int serialNumber, char alternativeLocationId, float x, float y, float z,
 			float occupancy, float temperatureFactor, String element, int charge) {
 		// Set the group level data
-		pdbGroup.getFormalChargeList()[groupAtomIndex] = charge;
+		pdbGroup.getAtomChargeList()[groupAtomIndex] = charge;
 		pdbGroup.getAtomNameList()[groupAtomIndex] = atomName;
 		pdbGroup.getElementList()[groupAtomIndex] = element;
 		// Set the atom level data
