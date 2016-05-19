@@ -36,4 +36,15 @@ public class TestCodecUtils {
 		int maxValue = CodecUtils.findMaxInIntArray(intArray);
 		assertEquals(2020, maxValue);
 	}
+	
+	/**
+	 * Test that an empty array returns -1.
+	 */
+	@Test
+	public void testFindMaxEmptyArray() {
+		int[] intArray = {};
+		int maxValue = CodecUtils.findMaxInIntArray(intArray);
+		assertEquals(-1, maxValue);
+		
+	}
 }

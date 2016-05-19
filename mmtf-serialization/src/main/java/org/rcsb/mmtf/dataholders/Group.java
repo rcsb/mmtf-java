@@ -41,8 +41,7 @@ public class Group implements Serializable {
 	private char singleLetterCode;
 
 	/** A string (taken from the chemical component dictionary) indicating 
-	 * the type of the group. Corresponds to: http://mmcif.wwpdb.org/dictionaries/mmcif_pdbx.dic/Items/_chem_comp.type.html
-	 */
+	 * the type of the group. Corresponds to: http://mmcif.wwpdb.org/dictionaries/mmcif_pdbx.dic/Items/_chem_comp.type.html */
 	private String chemCompType;
 
 	/* (non-Javadoc)
@@ -210,6 +209,8 @@ public class Group implements Serializable {
 	}
 
 	/**
+	 * Get the chemical component type (in mmCIF as _chem_comp.type).
+	 * 
 	 * @return the groupType - corresponds to _chem_comp.type
 	 */
 	public String getChemCompType() {
@@ -224,16 +225,17 @@ public class Group implements Serializable {
 	}
 
 	/**
-	 * @return the elementList
+	 * @return the list of elements (e.g. C for Carbon and Ca for Calcium)
 	 */
 	public String[] getElementList() {
 		return elementList;
 	}
 
 	/**
-	 * @param elementList the elementList to set
+	 * @param elementList the  list of elements (e.g. C for Carbon and Ca for Calcium)
 	 */
 	public void setElementList(String[] elementList) {
 		this.elementList = elementList;
 	}
+
 }
