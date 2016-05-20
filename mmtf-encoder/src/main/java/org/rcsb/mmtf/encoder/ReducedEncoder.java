@@ -69,7 +69,7 @@ public class ReducedEncoder {
 			adapterToStructureData.setModelInfo(i, numChains);
 			for(int j=0; j<numChains; j++){
 				chainCounter++;
-				String chainType = getTypeFromChainId(structureDataInterface, chainCounter);
+				String chainType = EncoderUtils.getTypeFromChainId(structureDataInterface, chainCounter);
 				int numGroups=0;
 				for(int k=0; k<structureDataInterface.getGroupsPerChain()[chainCounter]; k++){
 					groupCounter++;
@@ -152,24 +152,6 @@ public class ReducedEncoder {
 		return outList;
 	}
 
-
-	/**
-	 * Get the type of a given chain index.
-	 * @param structureDataInterface the input {@link StructureDataInterface}
-	 * @param chainInd the index of the relevant chain
-	 * @return the {@link String} describing the chain 
-	 */
-	public static String getTypeFromChainId(StructureDataInterface structureDataInterface, int chainInd) {
-		for(int i=0; i<structureDataInterface.getNumEntities(); i++){
-			for(int chainIndex : structureDataInterface.getEntityChainIndexList(i)){
-				if(chainInd==chainIndex){
-					return structureDataInterface.getEntityType(i);
-				}
-			}
-		}
-		System.err.println("ERROR FINDING ENTITY FOR CHAIN: "+chainInd);
-		return "NULL";
-	}
 
 
 	/**

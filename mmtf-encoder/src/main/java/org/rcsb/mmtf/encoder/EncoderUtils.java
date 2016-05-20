@@ -92,5 +92,23 @@ public class EncoderUtils {
 		}
 		return outList;
 	}
+	
+	/**
+	 * Get the type of a given chain index.
+	 * @param structureDataInterface the input {@link StructureDataInterface}
+	 * @param chainInd the index of the relevant chain
+	 * @return the {@link String} describing the chain 
+	 */
+	public static String getTypeFromChainId(StructureDataInterface structureDataInterface, int chainInd) {
+		for(int i=0; i<structureDataInterface.getNumEntities(); i++){
+			for(int chainIndex : structureDataInterface.getEntityChainIndexList(i)){
+				if(chainInd==chainIndex){
+					return structureDataInterface.getEntityType(i);
+				}
+			}
+		}
+		System.err.println("ERROR FINDING ENTITY FOR CHAIN: "+chainInd);
+		return "NULL";
+	}
 
 }
