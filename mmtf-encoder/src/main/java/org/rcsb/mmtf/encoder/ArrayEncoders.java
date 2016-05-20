@@ -18,8 +18,8 @@ public class ArrayEncoders {
 	 * @param intArray the input array
 	 * @return the encoded array
 	 */
-	public static Integer[] deltaEncode(Integer[] intArray) {
-		Integer[] out = new Integer[intArray.length];
+	public static int[] deltaEncode(int[] intArray) {
+		int[] out = new int[intArray.length];
 		System.arraycopy(intArray, 0, out, 0, intArray.length);
 		for (int i = out.length-1; i > 0; i--) {
 			out[i] = out[i] - out[i-1];
@@ -32,10 +32,10 @@ public class ArrayEncoders {
 	 * @param intArray the input array
 	 * @return the encoded integer array
 	 */
-	public static Integer[] runlengthEncode(Integer[] intArray) {
+	public static int[] runlengthEncode(int[] intArray) {
 		// If it's length zero
 		if (intArray.length==0){
-			return new Integer[0];
+			return new int[0];
 		}
 		// We don't know the length so use
 		List<Integer> outList = new ArrayList<>();
@@ -58,6 +58,6 @@ public class ArrayEncoders {
 		// Now add the last two
 		outList.add(lastInt);
 		outList.add(counter);
-		return outList.toArray(new Integer[outList.size()]);
+		return CodecUtils.convertToIntArray(outList);
 	}
 }

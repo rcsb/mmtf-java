@@ -1,14 +1,14 @@
 package org.rcsb.mmtf.codec;
 
-import java.util.List;
-
-import org.apache.commons.lang.ArrayUtils;
 import org.rcsb.mmtf.api.StructureDataInterface;
 import org.rcsb.mmtf.dataholders.MmtfStructure;
-import org.rcsb.mmtf.encoder.ArrayConverters;
-import org.rcsb.mmtf.encoder.ArrayEncoders;
 import org.rcsb.mmtf.encoder.EncoderUtils;
 
+/**
+ * An encoder for encoding with the generic strategy.
+ * @author Anthony Bradley
+ *
+ */
 public class GenericEncoder {
 	
 	
@@ -20,98 +20,53 @@ public class GenericEncoder {
 	 */
 	public GenericEncoder(StructureDataInterface structureDataInterface) {
 		mmtfBean = new MmtfStructure();
-		// Set the group types
-		mmtfBean.setGroupTypeList(
-				ArrayConverters.convertIntegersToFourByte(
-						structureDataInterface.getGroupTypeIndices()));
-		// Encode the coordinate  and B-factor arrays.
-		List<int[]> xCoords = ArrayConverters.splitIntegers(
-				ArrayEncoders.deltaEncode(
-						ArrayConverters.convertFloatsToInts(
-								structureDataInterface.getxCoords(),
-								MmtfStructure.COORD_DIVIDER)));
-		mmtfBean.setxCoordBig(ArrayConverters.convertIntegersToFourByte(xCoords.get(0)));
-		mmtfBean.setxCoordSmall(ArrayConverters.convertIntegersToTwoBytes(xCoords.get(1)));
-
-		List<int[]> yCoords = ArrayConverters.splitIntegers(
-				ArrayEncoders.deltaEncode(
-						ArrayConverters.convertFloatsToInts(
-								structureDataInterface.getyCoords(),
-								MmtfStructure.COORD_DIVIDER)));
-		mmtfBean.setyCoordBig(ArrayConverters.convertIntegersToFourByte(yCoords.get(0)));
-		mmtfBean.setyCoordSmall(ArrayConverters.convertIntegersToTwoBytes(yCoords.get(1)));
-
-		List<int[]> zCoords = ArrayConverters.splitIntegers(
-				ArrayEncoders.deltaEncode(
-						ArrayConverters.convertFloatsToInts(
-								structureDataInterface.getzCoords(),
-								MmtfStructure.COORD_DIVIDER)));
-		mmtfBean.setzCoordBig(ArrayConverters.convertIntegersToFourByte(zCoords.get(0)));
-		mmtfBean.setzCoordSmall(ArrayConverters.convertIntegersToTwoBytes(zCoords.get(1)));
-
-
-		List<int[]> bFactor = ArrayConverters.splitIntegers(
-				ArrayEncoders.deltaEncode(
-						ArrayConverters.convertFloatsToInts(
-								structureDataInterface.getbFactors(),
-								MmtfStructure.OCCUPANCY_BFACTOR_DIVIDER)));
-		mmtfBean.setbFactorBig(ArrayConverters.convertIntegersToFourByte(bFactor.get(0)));
-		mmtfBean.setbFactorSmall(ArrayConverters.convertIntegersToTwoBytes(bFactor.get(1)));
-
-
+		// Delta split three and two
+		mmtfBean.setxCoords(FloatCodecs.DELTA_SPLIT_3.encode(structureDataInterface.getxCoords()));
+		mmtfBean.setyCoords(FloatCodecs.DELTA_SPLIT_3.encode(structureDataInterface.getyCoords()));
+		mmtfBean.setzCoords(FloatCodecs.DELTA_SPLIT_3.encode(structureDataInterface.getzCoords()));
+		mmtfBean.setbFactors(FloatCodecs.DELTA_SPLIT_2.encode(structureDataInterface.getbFactors()));
 		// Run length encode the occupancy array
-		mmtfBean.setOccupancyList(ArrayConverters.convertIntegersToFourByte(
-				ArrayEncoders.runlengthEncode(
-						ArrayConverters.convertFloatsToInts(
-								structureDataInterface.getOccupancies(),
-								MmtfStructure.OCCUPANCY_BFACTOR_DIVIDER))));
-
+		mmtfBean.setOccupancyList(FloatCodecs.RUN_LENGTH_2.encode(structureDataInterface.getOccupancies()));
 		// Run length and delta
-		mmtfBean.setAtomIdList(Codecs.RUN_LENGTH_DELTA.encode(ArrayUtils.toObject(structureDataInterface.getAtomIds())));
-		Codecs.getCodecFromByte((byte)1).decode(new byte[] {});
+		mmtfBean.setAtomIdList(IntCodecs.RUN_LENGTH_DELTA.encode(structureDataInterface.getAtomIds()));
 		// Run length encoded
-		mmtfBean.setAltLocList(ArrayConverters.convertIntegersToFourByte(
-				ArrayEncoders.runlengthEncode(
-						ArrayConverters.convertCharToIntegers(
-								structureDataInterface.getAltLocIds()))));
-		mmtfBean.setInsCodeList(ArrayConverters.convertIntegersToFourByte(
-				ArrayEncoders.runlengthEncode(
-						ArrayConverters.convertCharToIntegers(
-								structureDataInterface.getInsCodes()))));
-
+		mmtfBean.setAltLocList(CharCodecs.RUN_LENGTH.encode(structureDataInterface.getAltLocIds()));
+		mmtfBean.setInsCodeList(CharCodecs.RUN_LENGTH.encode(structureDataInterface.getInsCodes()));
 		// Set the groupNumber
-		mmtfBean.setGroupIdList(ArrayConverters.convertIntegersToFourByte(
-				ArrayEncoders.runlengthEncode(
-						ArrayEncoders.deltaEncode(
-								structureDataInterface.getGroupIds()))));
+		mmtfBean.setGroupIdList(IntCodecs.RUN_LENGTH_DELTA.encode(structureDataInterface.getGroupIds()));
+		mmtfBean.setSequenceIndexList(IntCodecs.RUN_LENGTH_DELTA.encode(structureDataInterface.getGroupSequenceIndices()));
+		
 
+		// Set the indices for the groups mapping to the sequence
+
+		// Set the internal and public facing chain ids
+		mmtfBean.setChainNameList(StringCodecs.ENCOODE_CHAINS.encode(structureDataInterface.getChainNames()));
+		mmtfBean.setChainIdList(StringCodecs.ENCOODE_CHAINS.encode(structureDataInterface.getChainIds()));
+		
+		// Four bytes
+		mmtfBean.setBondAtomList(IntCodecs.CONVERT_4_BYTE.encode(structureDataInterface.getInterGroupBondIndices()));
+		// Set the group types
+		mmtfBean.setGroupTypeList(IntCodecs.CONVERT_4_BYTE.encode(structureDataInterface.getGroupTypeIndices()));
+		
+		// Single bytes
+		mmtfBean.setSecStructList(IntCodecs.CONVERT_BYTE.encode(structureDataInterface.getSecStructList()));
+		mmtfBean.setBondOrderList(IntCodecs.CONVERT_BYTE.encode(structureDataInterface.getInterGroupBondOrders()));
+
+		
+		// Slightly unusual thing
 		// Set the group map (all the unique groups in the structure).
 		mmtfBean.setGroupList(EncoderUtils.generateGroupMap(structureDataInterface));
-		// Set the indices for the groups mapping to the sequence
-		mmtfBean.setSequenceIndexList(ArrayConverters.convertIntegersToFourByte(
-				ArrayEncoders.runlengthEncode(
-						ArrayEncoders.deltaEncode(
-								structureDataInterface.getGroupSequenceIndices()))));
+		// Set the bioassembly and entity information
+		mmtfBean.setBioAssemblyList(EncoderUtils.generateBioassemblies(structureDataInterface));
+		mmtfBean.setEntityList(EncoderUtils.generateEntityList(structureDataInterface));
+		
+		// No need for encoding
 		// Set the number of chains per model
 		mmtfBean.setChainsPerModel(structureDataInterface.getChainsPerModel());
 		mmtfBean.setGroupsPerChain(structureDataInterface.getGroupsPerChain());
-		// Set the internal and public facing chain ids
-		mmtfBean.setChainNameList(ArrayConverters.encodeChainList(structureDataInterface.getChainNames()));
-		mmtfBean.setChainIdList(ArrayConverters.encodeChainList(structureDataInterface.getChainIds()));
 		// Set the space group information
 		mmtfBean.setSpaceGroup(structureDataInterface.getSpaceGroup());
 		mmtfBean.setUnitCell(structureDataInterface.getUnitCell());
-		// Set the bioassembly and entity information
-		mmtfBean.setBioAssemblyList(
-				EncoderUtils.generateBioassemblies(structureDataInterface));
-		mmtfBean.setEntityList(
-				EncoderUtils.generateEntityList(structureDataInterface)
-				);
-		// Set the bond orders and indcices
-		mmtfBean.setBondOrderList(ArrayConverters.convertIntegersToBytes(
-				structureDataInterface.getInterGroupBondOrders()));
-		mmtfBean.setBondAtomList(ArrayConverters.convertIntegersToFourByte(
-				structureDataInterface.getInterGroupBondIndices()));
 		// Set the version and producer information
 		mmtfBean.setMmtfProducer(structureDataInterface.getMmtfProducer());
 		mmtfBean.setStructureId(structureDataInterface.getStructureId());
@@ -125,7 +80,6 @@ public class GenericEncoder {
 		mmtfBean.setExperimentalMethods(structureDataInterface.getExperimentalMethods());
 		mmtfBean.setDepositionDate(structureDataInterface.getDepositionDate());
 		mmtfBean.setReleaseDate(structureDataInterface.getReleaseDate());
-		mmtfBean.setSecStructList(ArrayConverters.convertIntegersToBytes(structureDataInterface.getSecStructList()));
 	}
 
 

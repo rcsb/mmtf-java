@@ -77,8 +77,65 @@ public class MmtfStructure implements Serializable {
 	/** The list of different PDBGroups in the structure. */
 	private Group[] groupList;
 
+	/** THE FOLLOWING ARE DEPRECATED */
 	/** The x coord big. 4 byte integers in pairs. */
 	private byte[] xCoordBig;
+
+	/**
+	 * @return the xCoords
+	 */
+	public byte[] getxCoords() {
+		return xCoords;
+	}
+
+	/**
+	 * @param xCoords the xCoords to set
+	 */
+	public void setxCoords(byte[] xCoords) {
+		this.xCoords = xCoords;
+	}
+
+	/**
+	 * @return the yCoords
+	 */
+	public byte[] getyCoords() {
+		return yCoords;
+	}
+
+	/**
+	 * @param yCoords the yCoords to set
+	 */
+	public void setyCoords(byte[] yCoords) {
+		this.yCoords = yCoords;
+	}
+
+	/**
+	 * @return the zCoords
+	 */
+	public byte[] getzCoords() {
+		return zCoords;
+	}
+
+	/**
+	 * @param zCoords the zCoords to set
+	 */
+	public void setzCoords(byte[] zCoords) {
+		this.zCoords = zCoords;
+	}
+
+	/**
+	 * @return the bFactors
+	 */
+	public byte[] getbFactors() {
+		return bFactors;
+	}
+
+	/**
+	 * @param bFactors the bFactors to set
+	 */
+	public void setbFactors(byte[] bFactors) {
+		this.bFactors = bFactors;
+	}
 
 	/** The y coord big. 4 byte integers in pairs. */
 	private byte[] yCoordBig;
@@ -98,6 +155,18 @@ public class MmtfStructure implements Serializable {
 	/** The z coord small. 2 byte integers.*/
 	private byte[] zCoordSmall;
 
+	/** The encoded X coordinates. */
+	private byte[] xCoords;
+
+	/** The encoded Y coordinates.  */
+	private byte[] yCoords;
+
+	/** The encoded Z coordinates.  */
+	private byte[] zCoords;
+
+	/** The encoded B-factors. */
+	private byte[] bFactors;
+	
 	/** The b factor small. 2 byte integers.*/
 	private byte[] bFactorSmall;
 

@@ -24,7 +24,7 @@ public class CodecUtils {
 	 * @return the output array
 	 */
 	public static int[] convertToIntArray(List<Integer> integerList) {
-		Integer[] integerArray = new Integer[integerList.size()];
+		int[] integerArray = new int[integerList.size()];
 		for(int i=0; i<integerList.size(); i++){
 			integerArray[i] = integerList.get(i);
 		}
