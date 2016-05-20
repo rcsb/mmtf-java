@@ -40,6 +40,23 @@ public enum CharCodecs implements CharCodecInterface, CodecInterface{
 	}
 	
 
+	/**
+	 * Decode a byte array from an input array.
+	 * @param inputData the byte array of data
+	 * @return the decoded array as a char array
+	 */
+	public static char[] decodeArr(byte[] inputData){
+		for(CharCodecs codecs : CharCodecs.values())
+		{
+			if(inputData[0]==codecs.codecId)
+			{
+				return codecs.decode(inputData);
+			}
+		}
+		// Return a null entry.
+		return  null;
+	}
+	
 	@Override
 	public String getCodecName() {
 		return codecName;

@@ -1,6 +1,8 @@
 package org.rcsb.mmtf.codec;
 
 
+import java.util.Arrays;
+
 import org.rcsb.mmtf.dataholders.MmtfStructure;
 import org.rcsb.mmtf.encoder.ArrayConverters;
 import org.rcsb.mmtf.encoder.ArrayEncoders;
@@ -112,6 +114,25 @@ public enum FloatCodecs implements FloatCodecInterface, CodecInterface {
 			if(inputByte==codecs.codecId)
 			{
 				return codecs;
+			}
+		}
+		// Return a null entry.
+		return  null;
+	}
+	
+	/**
+	 * Decode a byte array from an input array.
+	 * @param inputData the byte array of data
+	 * @return the decoded array as a float array
+	 */
+	public static float[] decodeArr(byte[] inputData){
+		for(FloatCodecs codecs : FloatCodecs.values())
+		{
+			if(inputData[0]==codecs.codecId)
+			{
+				
+
+				return codecs.decode(Arrays.copyOfRange(inputData, 1, inputData.length));
 			}
 		}
 		// Return a null entry.

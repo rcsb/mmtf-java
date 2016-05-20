@@ -36,6 +36,24 @@ public enum StringCodecs implements StringCodecsInterface, CodecInterface {
 		this.codecName = name;
 	}
 	
+	
+
+	/**
+	 * Decode a byte array from an input array.
+	 * @param inputData the byte array of data
+	 * @return the decoded array as a String array
+	 */
+	public static String[] decodeArr(byte[] inputData){
+		for(StringCodecs codecs : StringCodecs.values())
+		{
+			if(inputData[0]==codecs.codecId)
+			{
+				return codecs.decode(inputData);
+			}
+		}
+		// Return a null entry.
+		return  null;
+	}
 
 	@Override
 	public String getCodecName() {
