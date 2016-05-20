@@ -81,62 +81,6 @@ public class MmtfStructure implements Serializable {
 	/** The x coord big. 4 byte integers in pairs. */
 	private byte[] xCoordBig;
 
-	/**
-	 * @return the xCoords
-	 */
-	public byte[] getxCoords() {
-		return xCoords;
-	}
-
-	/**
-	 * @param xCoords the xCoords to set
-	 */
-	public void setxCoords(byte[] xCoords) {
-		this.xCoords = xCoords;
-	}
-
-	/**
-	 * @return the yCoords
-	 */
-	public byte[] getyCoords() {
-		return yCoords;
-	}
-
-	/**
-	 * @param yCoords the yCoords to set
-	 */
-	public void setyCoords(byte[] yCoords) {
-		this.yCoords = yCoords;
-	}
-
-	/**
-	 * @return the zCoords
-	 */
-	public byte[] getzCoords() {
-		return zCoords;
-	}
-
-	/**
-	 * @param zCoords the zCoords to set
-	 */
-	public void setzCoords(byte[] zCoords) {
-		this.zCoords = zCoords;
-	}
-
-	/**
-	 * @return the bFactors
-	 */
-	public byte[] getbFactors() {
-		return bFactors;
-	}
-
-	/**
-	 * @param bFactors the bFactors to set
-	 */
-	public void setbFactors(byte[] bFactors) {
-		this.bFactors = bFactors;
-	}
-
 	/** The y coord big. 4 byte integers in pairs. */
 	private byte[] yCoordBig;
 
@@ -939,6 +883,60 @@ public class MmtfStructure implements Serializable {
 		this.releaseDate = releaseDate;
 	}
 
+	/**
+	 * @return the xCoords
+	 */
+	public byte[] getxCoords() {
+		return xCoords;
+	}
 
+	/**
+	 * @param xCoords the xCoords to set
+	 */
+	public void setxCoords(byte[] xCoords) {
+		this.xCoords = xCoords;
+	}
+
+	/**
+	 * @return the yCoords
+	 */
+	public byte[] getyCoords() {
+		return yCoords;
+	}
+
+	/**
+	 * @param yCoords the yCoords to set
+	 */
+	public void setyCoords(byte[] yCoords) {
+		this.yCoords = yCoords;
+	}
+
+	/**
+	 * @return the zCoords
+	 */
+	public byte[] getzCoords() {
+		return zCoords;
+	}
+
+	/**
+	 * @param zCoords the zCoords to set
+	 */
+	public void setzCoords(byte[] zCoords) {
+		this.zCoords = zCoords;
+	}
+
+	/**
+	 * @return the bFactors
+	 */
+	public byte[] getbFactors() {
+		return bFactors;
+	}
+
+	/**
+	 * @param bFactors the bFactors to set
+	 */
+	public void setbFactors(byte[] bFactors) {
+		this.bFactors = bFactors;
+	}
 
 }

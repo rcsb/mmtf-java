@@ -130,8 +130,6 @@ public enum FloatCodecs implements FloatCodecInterface, CodecInterface {
 		{
 			if(inputData[0]==codecs.codecId)
 			{
-				
-
 				return codecs.decode(Arrays.copyOfRange(inputData, 1, inputData.length));
 			}
 		}
