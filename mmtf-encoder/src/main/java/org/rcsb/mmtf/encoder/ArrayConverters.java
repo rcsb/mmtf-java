@@ -5,8 +5,6 @@ import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.rcsb.mmtf.utils.CodecUtils;
-
 /**
  * A class of array converters.
  * e.g. converting integer arrays to byte arrays.
@@ -22,13 +20,13 @@ public class ArrayConverters {
 	 * @param intArray the input array of integers
 	 * @return the byte array of the integers
 	 */
-	public static byte[] convertIntegersToBytes(int[] intArray) {
+	public static byte[] convertIntegersToBytes(Integer[] intArray) {
 		
 		ByteBuffer bb = ByteBuffer.allocate(intArray.length);
 		
 		for(int i=0; i < intArray.length; ++i)
 		{
-			bb.put((byte)intArray[i]);
+			bb.put((byte)(int) intArray[i]);
 		}
 
 		return bb.array();
@@ -40,13 +38,13 @@ public class ArrayConverters {
 	 * @param intArray the input array of integers
 	 * @return the byte array of the integers
 	 */
-	public static byte[] convertIntegersToTwoBytes(int[] intArray) {
+	public static byte[] convertIntegersToTwoBytes(Integer[] intArray) {
 
 		ByteBuffer bb = ByteBuffer.allocate(intArray.length * 2);
 		
 		for(int i=0; i < intArray.length; ++i)
 		{
-			bb.putShort((short)intArray[i]);
+			bb.putShort((short)(int) intArray[i]);
 		}
 
 		return bb.array();
@@ -58,7 +56,7 @@ public class ArrayConverters {
 	 * @param intArray the input array of integers
 	 * @return the byte array of the integers
 	 */
-	public static byte[] convertIntegersToFourByte(int[] intArray) {
+	public static byte[] convertIntegersToFourByte(Integer[] intArray) {
 		
 		ByteBuffer bb = ByteBuffer.allocate(intArray.length * 4);
 		
@@ -76,9 +74,9 @@ public class ArrayConverters {
 	 * @param floatMultiplier the float divider to multiply the floats by.
 	 * @return an int array converted from the input.
 	 */
-	public static int[] convertFloatsToInts(float[] floatArray, float floatMultiplier) {
+	public static Integer[] convertFloatsToInts(float[] floatArray, float floatMultiplier) {
 		// Assign the output array to write
-		int[] outArray = new int[floatArray.length];
+		Integer[] outArray = new Integer[floatArray.length];
 		for (int i=0; i<floatArray.length; i++) {
 			outArray[i] = (int) Math.round(floatArray[i] * floatMultiplier);
 		}
@@ -92,7 +90,7 @@ public class ArrayConverters {
 	 * @param inputArray the array of integers to be split.
 	 * @return a list of two integer arrays. The first is of four byte integers.
 	 */
-	public static List<int[]> splitIntegers(int[] inputArray) {
+	public static List<Integer[]> splitIntegers(Integer[] inputArray) {
 		// set the two output arrays
 		List<Integer> fourByteInts = new ArrayList<>();
 		List<Integer> twoByteInts = new ArrayList<>();
@@ -119,9 +117,9 @@ public class ArrayConverters {
 		// Finally add the counter to the big list 
 		fourByteInts.add(counter);
 		// Now add these to a list - big first
-		List<int[]> outputList = new ArrayList<>();
-		outputList.add(CodecUtils.convertToIntArray(fourByteInts));
-		outputList.add(CodecUtils.convertToIntArray(twoByteInts));
+		List<Integer[]> outputList = new ArrayList<>();
+		outputList.add(fourByteInts.toArray(new Integer[fourByteInts.size()]));
+		outputList.add(twoByteInts.toArray(new Integer[twoByteInts.size()]));
 		return outputList;
 	}
 
@@ -130,10 +128,10 @@ public class ArrayConverters {
 	 * @param charArray the input character array
 	 * @return an integer array of ASCII decoded chars
 	 */
-	public static int[] convertCharToIntegers(char[] charArray) {
-		int[] outArray = new int[charArray.length];
+	public static Integer[] convertCharToIntegers(char[] charArray) {
+		Integer[] outArray = new Integer[charArray.length];
 		for (int i=0; i<charArray.length; i++) {
-			outArray[i] = charArray[i];
+			outArray[i] = (int) charArray[i];
 		}
 		return outArray;
 	}

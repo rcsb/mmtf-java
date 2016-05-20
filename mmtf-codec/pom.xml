@@ -6,10 +6,10 @@
 		<artifactId>mmtf</artifactId>
 		<version>0.1.1-SNAPSHOT</version>
 	</parent>
-	<artifactId>mmtf-encoder</artifactId>
+	<artifactId>mmtf-codec</artifactId>
 	<packaging>jar</packaging>
 
-	<name>mmtf-encoder</name>
+	<name>mmtf-codec</name>
 	<url>http://maven.apache.org</url>
 
 	<properties>
@@ -19,12 +19,12 @@
 	<dependencies>
 		<dependency>
 			<groupId>org.rcsb</groupId>
-			<artifactId>mmtf-serialization</artifactId>
+			<artifactId>mmtf-api</artifactId>
 			<version>0.1.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>org.rcsb</groupId>
-			<artifactId>mmtf-api</artifactId>
+			<artifactId>mmtf-serialization</artifactId>
 			<version>0.1.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
@@ -32,24 +32,30 @@
 			<artifactId>mmtf-decoder</artifactId>
 			<version>0.1.1-SNAPSHOT</version>
 		</dependency>
-		<!-- TEST DEPENDENCIES -->
+		<dependency>
+			<groupId>org.rcsb</groupId>
+			<artifactId>mmtf-encoder</artifactId>
+			<version>0.1.1-SNAPSHOT</version>
+		</dependency>
+		<!-- TEST DEPENEDENCIES -->
+		<dependency>
+			<groupId>commons-beanutils</groupId>
+			<artifactId>commons-beanutils</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>uk.co.jemos.podam</groupId>
+			<artifactId>podam</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.unitils</groupId>
+			<artifactId>unitils-core</artifactId>
+		</dependency>
 		<!-- junit managed by parent pom, don't set version or scope here -->
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>uk.co.jemos.podam</groupId>
-            <artifactId>podam</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.unitils</groupId>
-            <artifactId>unitils-core</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>commons-beanutils</groupId>
-            <artifactId>commons-beanutils</artifactId>
-        </dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+		</dependency>
+
 		<!-- logging dependencies (managed by parent pom, don't set versions or 
 			scopes here) -->
 		<dependency>
@@ -69,9 +75,42 @@
 			<groupId>org.apache.logging.log4j</groupId>
 			<artifactId>log4j-core</artifactId>
 		</dependency>
+
 	</dependencies>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<configuration>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+
+				<configuration>
+					<debug>true</debug>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
 	<reporting>
 		<plugins>
+			<plugin>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>2.10.1</version>
+				<configuration>
+					<aggregate>true</aggregate>
+					<breakiterator>true</breakiterator>
+					<quiet>true</quiet>
+					<source>1.8</source>
+					<verbose>false</verbose>
+					<linksource>true</linksource>
+				</configuration>
+			</plugin>
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>findbugs-maven-plugin</artifactId>
@@ -79,4 +118,6 @@
 			</plugin>
 		</plugins>
 	</reporting>
+
+
 </project>

@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>org.rcsb</groupId>
@@ -17,10 +18,6 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>commons-beanutils</groupId>
-			<artifactId>commons-beanutils</artifactId>
-		</dependency>
-		<dependency>
 			<groupId>org.rcsb</groupId>
 			<artifactId>mmtf-api</artifactId>
 			<version>0.1.1-SNAPSHOT</version>
@@ -30,24 +27,24 @@
 			<artifactId>mmtf-serialization</artifactId>
 			<version>0.1.1-SNAPSHOT</version>
 		</dependency>
-		<dependency>
-			<groupId>org.msgpack</groupId>
-			<artifactId>jackson-dataformat-msgpack</artifactId>
-			<version>0.7.1</version>
-		</dependency>
-		<dependency>
-			<groupId>uk.co.jemos.podam</groupId>
-			<artifactId>podam</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.unitils</groupId>
-			<artifactId>unitils-core</artifactId>
-		</dependency>
-		<!-- junit managed by parent pom, don't set version or scope here -->
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-		</dependency>
+		<!-- TEST DEPENEDENCIES -->
+        <dependency>
+            <groupId>commons-beanutils</groupId>
+            <artifactId>commons-beanutils</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>uk.co.jemos.podam</groupId>
+            <artifactId>podam</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.unitils</groupId>
+            <artifactId>unitils-core</artifactId>
+        </dependency>
+        <!-- junit managed by parent pom, don't set version or scope here -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+        </dependency>
 
 		<!-- logging dependencies (managed by parent pom, don't set versions or 
 			scopes here) -->
