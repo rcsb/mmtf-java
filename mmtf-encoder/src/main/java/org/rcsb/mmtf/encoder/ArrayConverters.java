@@ -3,8 +3,10 @@ package org.rcsb.mmtf.encoder;
 
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
+import org.apache.commons.lang.ArrayUtils;
 import org.rcsb.mmtf.utils.CodecUtils;
 
 /**
@@ -40,6 +42,7 @@ public class ArrayConverters {
 	 * @param intArray the input array of integers
 	 * @return the byte array of the integers
 	 */
+	@Deprecated
 	public static byte[] convertIntegersToTwoBytes(int[] intArray) {
 
 		ByteBuffer bb = ByteBuffer.allocate(intArray.length * 2);
@@ -47,6 +50,24 @@ public class ArrayConverters {
 		for(int i=0; i < intArray.length; ++i)
 		{
 			bb.putShort((short)(int) intArray[i]);
+		}
+
+		return bb.array();
+	}
+	
+	/**
+	 * Convert a short array to byte array, where each short is encoded by a
+	 * two bytes.
+	 * @param shortArray the input array of integers
+	 * @return the byte array of the integers
+	 */
+	public static byte[] convertShortsToTwoBytes(short[] shortArray) {
+
+		ByteBuffer bb = ByteBuffer.allocate(shortArray.length * 2);
+		
+		for(int i=0; i < shortArray.length; ++i)
+		{
+			bb.putShort(shortArray[i]);
 		}
 
 		return bb.array();
@@ -189,4 +210,74 @@ public class ArrayConverters {
 			byteArr[chainIndex*4+3] =  (byte) 0;
 		}		
 	}
+	
+	
+	/**
+	 * Unpack an array of shorts using the XX algorithm.
+	 * @param inputArr the input array of Shorts
+	 * @return the unpacked array of integers
+	 */
+	public static int[] bitUnpack(short[] inputArr){
+		int[] storeList = new int[inputArr.length];
+		int counter = 0;
+		int currInt = 0;
+		for(short shortToUnpack : inputArr){
+			if(shortToUnpack==Short.MAX_VALUE || shortToUnpack==Short.MIN_VALUE){
+				currInt+=shortToUnpack;
+			}
+			else{
+				currInt += shortToUnpack;
+				storeList[counter] = currInt;
+				// Reset the counters
+				counter++;
+				currInt = 0;
+			}
+		}
+		int[] outList = new int[counter];
+		System.arraycopy(storeList, 0, outList, 0, counter);
+		return storeList;
+	}
+
+	/**
+	 * Convert an array  of integers to shorts.
+	 * @param inputArr the input array of integers
+	 * @return the converted array of shorts
+	 */
+	public static short[] bitPack(int[] inputArr) {
+		List<Short> outList = new ArrayList<>();
+		for(int intToPack : inputArr) {
+			outList.addAll(findRemainder(intToPack));
+		}
+		return ArrayUtils.toPrimitive(outList.toArray(new Short[outList.size()]));
+		
+	}
+
+	/**
+	 * Convert a single integer into multiple shorts that sum to it's value.
+	 * @param intToPack the integer to encode
+	 * @return the list of Shorts that encode the original number
+	 */
+	private static Collection<? extends Short> findRemainder(int intToPack) {
+		List<Short> outList = new ArrayList<>();
+		// Keep removing the min and the max value 
+		while(true){
+			if(intToPack>=Short.MAX_VALUE){
+				intToPack = intToPack - Short.MAX_VALUE;
+				outList.add(Short.MAX_VALUE);
+			}
+			else if(intToPack<=Short.MIN_VALUE){
+				intToPack = intToPack - Short.MIN_VALUE;
+				outList.add(Short.MIN_VALUE);
+			}
+			else{
+				outList.add((short) intToPack);
+				break;
+			}
+		}
+		return outList;
+	}
+
+
+
+
 }

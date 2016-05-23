@@ -1,5 +1,7 @@
 package org.rcsb.mmtf.codec;
 
+import java.util.Arrays;
+
 import org.rcsb.mmtf.encoder.ArrayConverters;
 
 /**
@@ -17,13 +19,12 @@ public enum StringCodecs implements StringCodecsInterface, CodecInterface {
 
 		@Override
 		public byte[] encode(String[] inputData) {
-			return ArrayConverters.encodeChainList(inputData);
+			return CodecUtils.prependByteArr(ArrayConverters.encodeChainList(inputData),this.getCodecId());
 		}
 
 		@Override
 		public String[] decode(byte[] inputData) {
-			// TODO Auto-generated method stub
-			return null;
+			return org.rcsb.mmtf.decoder.ArrayConverters.decodeChainList(inputData);
 		}
 		
 	};
@@ -48,7 +49,7 @@ public enum StringCodecs implements StringCodecsInterface, CodecInterface {
 		{
 			if(inputData[0]==codecs.codecId)
 			{
-				return codecs.decode(inputData);
+				return codecs.decode(Arrays.copyOfRange(inputData, 1, inputData.length));
 			}
 		}
 		// Return a null entry.

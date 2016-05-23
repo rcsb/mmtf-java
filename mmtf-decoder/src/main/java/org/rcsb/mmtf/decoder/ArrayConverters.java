@@ -63,12 +63,29 @@ public class ArrayConverters {
 	 * @param byteArray the input byte array
 	 * @return the converted integer array
 	 */
+	@Deprecated
 	public static int[] convertTwoByteToIntegers(byte[] byteArray) {
 		
 		ByteBuffer bb = ByteBuffer.wrap(byteArray);
 	
 		int outLength = byteArray.length/2;
 		int[] outArray = new int[outLength];
+		for (int i=0; i<outLength; i++) {
+			outArray[i] = bb.getShort();
+		}
+		return outArray;
+	}
+	
+	/**
+	 * Convert to byte integers to a short array.
+	 * @param byteArray the input byte array
+	 * @return the short array converted
+	 */
+	public static short[] convertTwoBytesToShorts(byte[] byteArray) {
+		ByteBuffer bb = ByteBuffer.wrap(byteArray);
+		
+		int outLength = byteArray.length/2;
+		short[] outArray = new short[outLength];
 		for (int i=0; i<outLength; i++) {
 			outArray[i] = bb.getShort();
 		}

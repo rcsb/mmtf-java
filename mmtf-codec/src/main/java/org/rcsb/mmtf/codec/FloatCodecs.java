@@ -4,6 +4,7 @@ package org.rcsb.mmtf.codec;
 import java.util.Arrays;
 
 import org.rcsb.mmtf.dataholders.MmtfStructure;
+import org.rcsb.mmtf.decoder.ArrayDecoders;
 import org.rcsb.mmtf.encoder.ArrayConverters;
 import org.rcsb.mmtf.encoder.ArrayEncoders;
 
@@ -18,25 +19,16 @@ public enum FloatCodecs implements FloatCodecInterface, CodecInterface {
 	 * Encoding a list of floats (e.g. coordinates) using integer encoding (3DP accuracy) and then delta encoding. Then split the 
 	 * results into 2 byte and 4 byte int arrays (for storage). 
 	 */
-	DELTA_SPLIT_3((byte) 2, "Delta") {
+	DELTA_SPLIT_3((byte) 2, 1000.0f, "Delta") {
 
 		@Override
 		public byte[] encode(float[] inputData) {
-//			// Encode the coordinate  and B-factor arrays.
-//			List<int[]> xCoords = ArrayConverters.splitIntegers(
-//					ArrayEncoders.deltaEncode(
-//							ArrayConverters.convertFloatsToInts(
-//									structureDataInterface.getxCoords(),
-//									MmtfStructure.COORD_DIVIDER)));
-//			mmtfBean.setxCoordBig(ArrayConverters.convertIntegersToFourByte(xCoords.get(0)));
-//			mmtfBean.setxCoordSmall(ArrayConverters.convertIntegersToTwoBytes(xCoords.get(1)));
-			return null;
+			return CodecUtils.prependByteArr(deltaEncode(inputData, this.getAccuracy()),this.getCodecId());
 		}
 
 		@Override
 		public float[] decode(byte[] inputData) {
-			// TODO Auto-generated method stub
-			return null;
+			return deltaDecode(inputData, this.getAccuracy());
 		}
  	},
 	
@@ -44,46 +36,33 @@ public enum FloatCodecs implements FloatCodecInterface, CodecInterface {
 	 * Encoding a list of floats (e.g. coordinates) using integer encoding (2DP accuracy) and then delta encoding. Then split the 
 	 * results into 2 byte and 4 byte int arrays (for storage). 
 	 */
-	DELTA_SPLIT_2((byte) 3, "Delta") {
+	DELTA_SPLIT_2((byte) 3, 100.0f, "Delta") {
 
 		@Override
 		public byte[] encode(float[] inputData) {
-//			// Encode the coordinate  and B-factor arrays.
-//			List<int[]> xCoords = ArrayConverters.splitIntegers(
-//					ArrayEncoders.deltaEncode(
-//							ArrayConverters.convertFloatsToInts(
-//									structureDataInterface.getxCoords(),
-//									MmtfStructure.COORD_DIVIDER)));
-//			mmtfBean.setxCoordBig(ArrayConverters.convertIntegersToFourByte(xCoords.get(0)));
-//			mmtfBean.setxCoordSmall(ArrayConverters.convertIntegersToTwoBytes(xCoords.get(1)));
-			return null;
+			return CodecUtils.prependByteArr(deltaEncode(inputData, this.getAccuracy()),this.getCodecId());
 		}
 
 		@Override
 		public float[] decode(byte[] inputData) {
-			// TODO Auto-generated method stub
-			return null;
+			return deltaDecode(inputData, this.getAccuracy());
 		}
  	},
 	
 	/**
 	 * Run length encoding using two decimal place precision.
 	 */
-	RUN_LENGTH_2((byte) 4, "") {
+	RUN_LENGTH_2((byte) 4, 100.0f, "Run length") {
 
 		@Override
 		public byte[] encode(float[] inputData) {
-			return ArrayConverters.convertIntegersToFourByte(
-					ArrayEncoders.runlengthEncode(
-							ArrayConverters.convertFloatsToInts(
-									inputData,
-									MmtfStructure.OCCUPANCY_BFACTOR_DIVIDER)));
+			return CodecUtils.prependByteArr(runLengthEncode(inputData, this.getAccuracy()),this.getCodecId());
 		}
+
 
 		@Override
 		public float[] decode(byte[] inputData) {
-			// TODO Auto-generated method stub
-			return null;
+			return runLengthDecode(inputData, this.getAccuracy());
 		}
  		
  	};
@@ -93,14 +72,18 @@ public enum FloatCodecs implements FloatCodecInterface, CodecInterface {
 
 	private byte codecId;
 	private String codecName;
+	private float accuracy;
 	
 	/**
-	 * Constructor sets the codec type from a short.
-	 * @param codecId the input short (byte) indicating the strategy
+	 * Constructor for the float codec Enum.
+	 * @param codecId the byte encoding this codec strategy
+	 * @param accuracy the accuracy of this float encoding strategy
+	 * @param codecName the name of this encoding strategy
 	 */
-	private FloatCodecs(byte codecId, String codecName) {
+	private FloatCodecs(byte codecId, float accuracy, String codecName) {
 		this.setCodecId(codecId);
 		this.setCodecName(codecName);
+		this.setAccuracy(accuracy);
 	}
 
 	/**
@@ -137,6 +120,8 @@ public enum FloatCodecs implements FloatCodecInterface, CodecInterface {
 		return  null;
 	}
 	
+
+	
 	/**
 	 * @return the codec name - a string naming the codec
 	 */
@@ -164,8 +149,74 @@ public enum FloatCodecs implements FloatCodecInterface, CodecInterface {
 	public void setCodecId(byte codecId) {
 		this.codecId = codecId;
 	}
-	
+
+	/**
+	 * @return the accuracy
+	 */
+	public float getAccuracy() {
+		return accuracy;
+	}
+
+	/**
+	 * @param accuracy the accuracy to set
+	 */
+	public void setAccuracy(float accuracy) {
+		this.accuracy = accuracy;
+	}
 	
 
+	/**
+	 * 
+	 * @param inputData
+	 * @param accuracy
+	 * @return
+	 */
+	private static byte[] deltaEncode(float[] inputData, float accuracy) {
+		return ArrayConverters.convertShortsToTwoBytes(ArrayConverters.bitPack(
+				ArrayEncoders.deltaEncode(
+						ArrayConverters.convertFloatsToInts(
+								inputData,
+								MmtfStructure.COORD_DIVIDER))));
+	}
+	
+	/**
+	 * 
+	 * @param inputData
+	 * @param accuracy
+	 * @return
+	 */
+	private static float[] deltaDecode(byte[] inputData, float accuracy) {
+		return org.rcsb.mmtf.decoder.ArrayConverters.convertIntsToFloats(
+				ArrayDecoders.deltaDecode(
+						ArrayConverters.bitUnpack(
+								org.rcsb.mmtf.decoder.ArrayConverters.convertTwoBytesToShorts(inputData))),
+				accuracy);
+	}
+	
+	/**
+	 * 
+	 * @param inputData
+	 * @param accuracy
+	 * @return
+	 */
+	private static byte[] runLengthEncode(float[] inputData, float accuracy) {
+		return ArrayConverters.convertIntegersToFourByte(
+				ArrayEncoders.runlengthEncode(
+						ArrayConverters.convertFloatsToInts(inputData, accuracy)));
+	}
+	
+	
+	/**
+	 * 
+	 * @param inputData
+	 * @param accuracy
+	 * @return
+	 */
+	private static float[] runLengthDecode(byte[] inputData, float accuracy) {
+		return org.rcsb.mmtf.decoder.ArrayConverters.convertIntsToFloats(
+				ArrayDecoders.runlengthDecode(
+						org.rcsb.mmtf.decoder.ArrayConverters.convertFourByteToIntegers(inputData)),
+				accuracy);
+	}
 	
 }

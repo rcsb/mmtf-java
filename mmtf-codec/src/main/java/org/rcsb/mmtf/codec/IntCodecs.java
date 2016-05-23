@@ -2,6 +2,7 @@ package org.rcsb.mmtf.codec;
 
 import java.util.Arrays;
 
+import org.rcsb.mmtf.decoder.ArrayDecoders;
 import org.rcsb.mmtf.encoder.ArrayConverters;
 import org.rcsb.mmtf.encoder.ArrayEncoders;
 
@@ -22,33 +23,36 @@ public enum IntCodecs implements IntCodecInterface, CodecInterface {
 
 		@Override
 		public byte[] encode(int[] inputData) {
-			return ArrayConverters.convertIntegersToFourByte(
+			return CodecUtils.prependByteArr(ArrayConverters.convertIntegersToFourByte(
 					ArrayEncoders.runlengthEncode(
-							ArrayEncoders.deltaEncode(inputData)));
+							ArrayEncoders.deltaEncode(inputData))),
+					this.getCodecId());
 
 		}
 
 		@Override
 		public int[] decode(byte[] inputData) {
-			// TODO Auto-generated method stub
-			return null;
+			return ArrayDecoders.deltaDecode(
+					ArrayDecoders.runlengthDecode(
+							org.rcsb.mmtf.decoder.ArrayConverters.convertFourByteToIntegers(inputData)));
 		}
 	},
 	/**
 	 * Run length encode integers, for repeated numbers, e.g. alt locations.
 	 */
-	RUN_LENGTH_ENCODE((byte) 6,"Run lenght"){
+	RUN_LENGTH((byte) 6,"Run length"){
 
 		@Override
 		public byte[] encode(int[] inputData) {
-			// TODO Auto-generated method stub
-			return null;
+			return  CodecUtils.prependByteArr(ArrayConverters.convertIntegersToFourByte(
+					ArrayEncoders.runlengthEncode(inputData)),
+					this.getCodecId());
 		}
 
 		@Override
 		public int[] decode(byte[] inputData) {
-			// TODO Auto-generated method stub
-			return null;
+			return ArrayDecoders.runlengthDecode(
+					org.rcsb.mmtf.decoder.ArrayConverters.convertFourByteToIntegers(inputData));
 		}
 		
 	},
@@ -59,13 +63,13 @@ public enum IntCodecs implements IntCodecInterface, CodecInterface {
 
 		@Override
 		public byte[] encode(int[] inputData) {
-			return ArrayConverters.convertIntegersToFourByte(inputData);
+			return CodecUtils.prependByteArr(ArrayConverters.convertIntegersToFourByte(inputData),
+					this.getCodecId());
 		}
 
 		@Override
 		public int[] decode(byte[] inputData) {
-			// TODO Auto-generated method stub
-			return null;
+			return org.rcsb.mmtf.decoder.ArrayConverters.convertFourByteToIntegers(inputData);
 		}
 		
 	},
@@ -76,13 +80,13 @@ public enum IntCodecs implements IntCodecInterface, CodecInterface {
 
 		@Override
 		public byte[] encode(int[] inputData) {
-			return ArrayConverters.convertIntegersToBytes(inputData);
+			return CodecUtils.prependByteArr(ArrayConverters.convertIntegersToBytes(inputData),
+					this.getCodecId());
 		}
 
 		@Override
 		public int[] decode(byte[] inputData) {
-			// TODO Auto-generated method stub
-			return null;
+			return org.rcsb.mmtf.decoder.ArrayConverters.convertByteToIntegers(inputData);
 		}
 		
 	};

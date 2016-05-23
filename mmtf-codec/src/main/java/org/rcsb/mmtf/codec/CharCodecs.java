@@ -1,5 +1,8 @@
 package org.rcsb.mmtf.codec;
 
+import java.util.Arrays;
+
+import org.rcsb.mmtf.decoder.ArrayDecoders;
 import org.rcsb.mmtf.encoder.ArrayConverters;
 import org.rcsb.mmtf.encoder.ArrayEncoders;
 
@@ -17,15 +20,17 @@ public enum CharCodecs implements CharCodecInterface, CodecInterface{
 
 		@Override
 		public byte[] encode(char[] inputData) {
-			return ArrayConverters.convertIntegersToFourByte(
+			return CodecUtils.prependByteArr(ArrayConverters.convertIntegersToFourByte(
 					ArrayEncoders.runlengthEncode(
-							ArrayConverters.convertCharToIntegers(inputData)));
+							ArrayConverters.convertCharToIntegers(inputData))),
+					this.getCodecId());
 		}
 
 		@Override
 		public char[] decode(byte[] inputData) {
-			// TODO Auto-generated method stub
-			return null;
+			return org.rcsb.mmtf.decoder.ArrayConverters.convertIntegerToChar(
+					ArrayDecoders.runlengthDecode(
+							org.rcsb.mmtf.decoder.ArrayConverters.convertFourByteToIntegers(inputData)));
 		}
 		
 		
@@ -50,7 +55,7 @@ public enum CharCodecs implements CharCodecInterface, CodecInterface{
 		{
 			if(inputData[0]==codecs.codecId)
 			{
-				return codecs.decode(inputData);
+				return codecs.decode(Arrays.copyOfRange(inputData, 1, inputData.length));
 			}
 		}
 		// Return a null entry.
