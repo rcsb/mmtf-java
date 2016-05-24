@@ -27,6 +27,11 @@
 			<artifactId>mmtf-serialization</artifactId>
 			<version>0.1.1-SNAPSHOT</version>
 		</dependency>
+		<dependency>
+			<groupId>commons-lang</groupId>
+			<artifactId>commons-lang</artifactId>
+			<version>2.4</version>
+		</dependency>
 		<!-- TEST DEPENEDENCIES -->
 		<dependency>
 			<groupId>commons-beanutils</groupId>

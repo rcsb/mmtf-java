@@ -19,7 +19,7 @@ import org.rcsb.mmtf.encoder.GenericEncoder;
  * @author Anthony Bradley
  *
  */
-public class BasicTest {
+public class TestParse {
 	
 	/**
 	 * Test that a simple roundtripping works.
