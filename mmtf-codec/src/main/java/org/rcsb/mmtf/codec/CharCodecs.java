@@ -3,7 +3,6 @@ package org.rcsb.mmtf.codec;
 import java.util.Arrays;
 
 import org.rcsb.mmtf.decoder.ArrayDecoders;
-import org.rcsb.mmtf.encoder.ArrayConverters;
 import org.rcsb.mmtf.encoder.ArrayEncoders;
 
 /**
@@ -28,9 +27,9 @@ public enum CharCodecs implements CharCodecInterface, CodecInterface{
 
 		@Override
 		public char[] decode(byte[] inputData) {
-			return org.rcsb.mmtf.decoder.ArrayConverters.convertIntegerToChar(
+			return org.rcsb.mmtf.codec.ArrayConverters.convertIntegerToChar(
 					ArrayDecoders.runlengthDecode(
-							org.rcsb.mmtf.decoder.ArrayConverters.convertFourByteToIntegers(inputData)));
+							org.rcsb.mmtf.codec.ArrayConverters.convertFourByteToIntegers(inputData)));
 		}
 		
 		

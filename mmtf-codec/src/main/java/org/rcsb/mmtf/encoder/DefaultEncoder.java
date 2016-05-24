@@ -3,8 +3,8 @@ package org.rcsb.mmtf.encoder;
 import java.util.List;
 
 import org.rcsb.mmtf.api.StructureDataInterface;
+import org.rcsb.mmtf.codec.ArrayConverters;
 import org.rcsb.mmtf.dataholders.MmtfStructure;
-import org.rcsb.mmtf.encoder.ArrayConverters;
 import org.rcsb.mmtf.encoder.ArrayEncoders;
 
 /**

@@ -3,7 +3,6 @@ package org.rcsb.mmtf.codec;
 import java.util.Arrays;
 
 import org.rcsb.mmtf.decoder.ArrayDecoders;
-import org.rcsb.mmtf.encoder.ArrayConverters;
 import org.rcsb.mmtf.encoder.ArrayEncoders;
 
 /**
@@ -34,7 +33,7 @@ public enum IntCodecs implements IntCodecInterface, CodecInterface {
 		public int[] decode(byte[] inputData) {
 			return ArrayDecoders.deltaDecode(
 					ArrayDecoders.runlengthDecode(
-							org.rcsb.mmtf.decoder.ArrayConverters.convertFourByteToIntegers(inputData)));
+							org.rcsb.mmtf.codec.ArrayConverters.convertFourByteToIntegers(inputData)));
 		}
 	},
 	/**
@@ -52,7 +51,7 @@ public enum IntCodecs implements IntCodecInterface, CodecInterface {
 		@Override
 		public int[] decode(byte[] inputData) {
 			return ArrayDecoders.runlengthDecode(
-					org.rcsb.mmtf.decoder.ArrayConverters.convertFourByteToIntegers(inputData));
+					org.rcsb.mmtf.codec.ArrayConverters.convertFourByteToIntegers(inputData));
 		}
 		
 	},
@@ -69,7 +68,7 @@ public enum IntCodecs implements IntCodecInterface, CodecInterface {
 
 		@Override
 		public int[] decode(byte[] inputData) {
-			return org.rcsb.mmtf.decoder.ArrayConverters.convertFourByteToIntegers(inputData);
+			return org.rcsb.mmtf.codec.ArrayConverters.convertFourByteToIntegers(inputData);
 		}
 		
 	},
@@ -86,7 +85,7 @@ public enum IntCodecs implements IntCodecInterface, CodecInterface {
 
 		@Override
 		public int[] decode(byte[] inputData) {
-			return org.rcsb.mmtf.decoder.ArrayConverters.convertByteToIntegers(inputData);
+			return org.rcsb.mmtf.codec.ArrayConverters.convertByteToIntegers(inputData);
 		}
 		
 	};

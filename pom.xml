@@ -482,8 +482,6 @@
 	<modules>
 		<module>mmtf-serialization</module>
 		<module>mmtf-api</module>
-		<module>mmtf-decoder</module>
-		<module>mmtf-encoder</module>
 		<module>mmtf-codec</module>
 	</modules>
 	<inceptionYear>2015</inceptionYear>

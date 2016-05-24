@@ -2,8 +2,6 @@ package org.rcsb.mmtf.codec;
 
 import java.util.Arrays;
 
-import org.rcsb.mmtf.encoder.ArrayConverters;
-
 /**
  * An enum defining the string encoding and decoding strategies.
  * @author Anthony Bradley
@@ -24,7 +22,7 @@ public enum StringCodecs implements StringCodecsInterface, CodecInterface {
 
 		@Override
 		public String[] decode(byte[] inputData) {
-			return org.rcsb.mmtf.decoder.ArrayConverters.decodeChainList(inputData);
+			return org.rcsb.mmtf.codec.ArrayConverters.decodeChainList(inputData);
 		}
 		
 	};

@@ -1,6 +1,7 @@
 package org.rcsb.mmtf.decoder;
 
 import org.junit.Test;
+import org.rcsb.mmtf.codec.ArrayConverters;
 
 import static org.junit.Assert.*;
 

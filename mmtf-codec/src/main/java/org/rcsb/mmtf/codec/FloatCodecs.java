@@ -4,7 +4,6 @@ package org.rcsb.mmtf.codec;
 import java.util.Arrays;
 
 import org.rcsb.mmtf.decoder.ArrayDecoders;
-import org.rcsb.mmtf.encoder.ArrayConverters;
 import org.rcsb.mmtf.encoder.ArrayEncoders;
 
 /**
@@ -145,7 +144,7 @@ public enum FloatCodecs implements FloatCodecInterface, CodecInterface {
 	 * @return
 	 */
 	private static byte[] deltaEncode(float[] inputData, float accuracy) {
-		return ArrayConverters.convertIntegersToTwoBytes(CodecUtils.recursiveIndexEncode(
+		return ArrayConverters.convertIntegersToTwoBytes(ArrayConverters.recursiveIndexEncode(
 				ArrayEncoders.deltaEncode(
 						ArrayConverters.convertFloatsToInts(
 								inputData,
@@ -159,10 +158,10 @@ public enum FloatCodecs implements FloatCodecInterface, CodecInterface {
 	 * @return
 	 */
 	private static float[] deltaDecode(byte[] inputData, float accuracy) {
-		return org.rcsb.mmtf.decoder.ArrayConverters.convertIntsToFloats(
+		return org.rcsb.mmtf.codec.ArrayConverters.convertIntsToFloats(
 				ArrayDecoders.deltaDecode(
-						CodecUtils.recursiveIndexDecode(
-								org.rcsb.mmtf.decoder.ArrayConverters.convertTwoByteToIntegers(inputData))),
+						ArrayConverters.recursiveIndexDecode(
+								org.rcsb.mmtf.codec.ArrayConverters.convertTwoByteToIntegers(inputData))),
 				accuracy);
 	}
 	
@@ -186,9 +185,9 @@ public enum FloatCodecs implements FloatCodecInterface, CodecInterface {
 	 * @return
 	 */
 	private static float[] runLengthDecode(byte[] inputData, float accuracy) {
-		return org.rcsb.mmtf.decoder.ArrayConverters.convertIntsToFloats(
+		return org.rcsb.mmtf.codec.ArrayConverters.convertIntsToFloats(
 				ArrayDecoders.runlengthDecode(
-						org.rcsb.mmtf.decoder.ArrayConverters.convertFourByteToIntegers(inputData)),
+						org.rcsb.mmtf.codec.ArrayConverters.convertFourByteToIntegers(inputData)),
 				accuracy);
 	}
 	

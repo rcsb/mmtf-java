@@ -35,13 +35,28 @@ public class BasicTest {
 	
 	
 	/**
-	 * 
+	 * Test that roundtripping on the recursive index code owrks.
 	 */
 	@Test
 	public void testRecursvieRoundTrip() {
 		int[] inputArr = new int[] {1,1203,Short.MAX_VALUE, 1202, Short.MIN_VALUE};
-		int[] outputArr = CodecUtils.recursiveIndexDecode(CodecUtils.recursiveIndexEncode(inputArr));
+		int[] outputArr = ArrayConverters.recursiveIndexDecode(ArrayConverters.recursiveIndexEncode(inputArr));
 		assertArrayEquals(inputArr, outputArr);
+	}
+	
+	/**
+	 * Test that round tripping how it is currently done works as expected.
+	 */
+	@Test
+	public void testArrayRoundTrip() {
+		String[] inputStrings = new String[] {"1.3554545","2.9999999","3.939393"};
+		float[] inArray  = new float[inputStrings.length];
+		for(int i=0; i<inputStrings.length; i++){
+			double x = Double.parseDouble (inputStrings[i]);
+			inArray[i] = (float) x;
+			}
+		float[] outArray = ArrayConverters.convertIntsToFloats(ArrayConverters.convertFloatsToInts(inArray,MmtfStructure.COORD_DIVIDER), MmtfStructure.COORD_DIVIDER);
+		assertArrayEquals(inArray, outArray, 0.00099999f);
 	}
 
 }

@@ -6,6 +6,7 @@ import java.nio.ByteBuffer;
 import java.util.List;
 
 import org.junit.Test;
+import org.rcsb.mmtf.codec.ArrayConverters;
 
 /**
  * Tests the utility methods for converting arrays.
