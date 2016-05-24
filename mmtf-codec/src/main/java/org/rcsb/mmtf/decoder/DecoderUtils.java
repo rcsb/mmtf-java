@@ -1,4 +1,4 @@
-package org.rcsb.mmtf.decoder;
+	package org.rcsb.mmtf.decoder;
 
 import org.rcsb.mmtf.api.StructureDataInterface;
 import org.rcsb.mmtf.api.StructureAdapterInterface;

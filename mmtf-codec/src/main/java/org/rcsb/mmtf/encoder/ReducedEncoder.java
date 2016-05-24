@@ -24,14 +24,17 @@ public class ReducedEncoder implements EncoderInterface {
 	 * Constructor to implement the reduced encoder of the {@link StructureDataInterface}.
 	 * @param structureDataInterface the input {@link StructureDataInterface}
 	 */
-	public ReducedEncoder(StructureDataInterface structureDataInterface) {
-		// First convert to a reduced data type
-		structureDataInterface = ReducedEncoder.getReduced(structureDataInterface);
-		// Now just apply the default encoder on top of it
-		DefaultEncoder defaultEncoder = new DefaultEncoder(structureDataInterface);
-		this.mmtfStructure = defaultEncoder.getMmtfEncodedStructure();
+	public ReducedEncoder(StructureDataInterface structureDataInterface, EncoderInterface encoderInterface) {
+		this.mmtfStructure = encoderInterface.getMmtfEncodedStructure(getReduced(structureDataInterface));
 	}
 	
+	/**
+	 * Constructor to implement the reduced encoder of the {@link StructureDataInterface}.
+	 * @param structureDataInterface the input {@link StructureDataInterface}
+	 */
+	public ReducedEncoder(StructureDataInterface structureDataInterface) {
+		this.mmtfStructure = new GenericEncoder(structureDataInterface).getMmtfEncodedStructure(getReduced(structureDataInterface));
+	}
 	
 	/**
 	 * Get the reduced form of the input {@link StructureDataInterface}.
@@ -157,6 +160,12 @@ public class ReducedEncoder implements EncoderInterface {
 	@Override
 	public MmtfStructure getMmtfEncodedStructure() {
 		return mmtfStructure;
+	}
+
+
+	@Override
+	public MmtfStructure getMmtfEncodedStructure(StructureDataInterface structureDataInterface) {
+		return new ReducedEncoder(structureDataInterface).getMmtfEncodedStructure();
 	}
 
 

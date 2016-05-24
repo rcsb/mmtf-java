@@ -31,7 +31,7 @@ public class DefaultEncoder implements EncoderInterface {
 		mmtfBean.setxCoords(FloatCodecs.INT_DELTA_RECURSIVE_3.encode(structureDataInterface.getxCoords()));
 		mmtfBean.setyCoords(FloatCodecs.INT_DELTA_RECURSIVE_3.encode(structureDataInterface.getyCoords()));
 		mmtfBean.setzCoords(FloatCodecs.INT_DELTA_RECURSIVE_3.encode(structureDataInterface.getzCoords()));
-		mmtfBean.setbFactors(FloatCodecs.INT_DELTA_RECURSIVE_3.encode(structureDataInterface.getbFactors()));
+		mmtfBean.setbFactors(FloatCodecs.INT_DELTA_RECURSIVE_2.encode(structureDataInterface.getbFactors()));
 		// Run length encode the occupancy array
 		mmtfBean.setOccupancyList(ArrayConverters.convertIntegersToFourByte(
 				ArrayEncoders.runlengthEncode(
@@ -105,6 +105,13 @@ public class DefaultEncoder implements EncoderInterface {
 	public MmtfStructure getMmtfEncodedStructure() {
 		return mmtfBean;
 	}
+
+	@Override
+	public MmtfStructure getMmtfEncodedStructure(StructureDataInterface structureDataInterface) {
+		return new DefaultEncoder(structureDataInterface).getMmtfEncodedStructure();
+	}
+
+
 	
 
 

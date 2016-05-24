@@ -51,7 +51,6 @@ public enum StringCodecs implements StringCodecsInterface, CodecInterface {
 				return codecs;
 			}
 		}
-		// Return a null entry.
 		throw new IllegalArgumentException(inputByte+" not recognised as codec strategy.");
 	}
 	

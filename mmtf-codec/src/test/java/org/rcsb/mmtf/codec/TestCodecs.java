@@ -19,7 +19,6 @@ public class TestCodecs {
 	 */
 	@Test
 	public void testFloatCodecs() {
-		
 		for(float[] inputData : getFloatData()){
 			for (FloatCodecs floatCodecs : FloatCodecs.values()){
 				byte[] encoded = floatCodecs.encode(inputData);
@@ -36,7 +35,6 @@ public class TestCodecs {
 	 */
 	@Test
 	public void testIntCodecs() {
-		
 		for(int[] inputData : getIntData()){
 			for (IntCodecs codec : IntCodecs.values()){
 				byte[] encoded = codec.encode(inputData);
@@ -52,7 +50,6 @@ public class TestCodecs {
 	 */
 	@Test
 	public void testCharCodecs() {
-		
 		for(char[] inputData : getCharData()){
 			for (CharCodecs codec : CharCodecs.values()){
 				byte[] encoded = codec.encode(inputData);
