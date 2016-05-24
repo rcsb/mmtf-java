@@ -91,17 +91,16 @@ public enum IntCodecs implements IntCodecInterface, CodecInterface {
 		
 	};
 	
-	
-	private byte codecId;
-	private String codecName;
+	private final byte codecId;
+	private final String codecName;
 
 	/**
 	 * Constructor sets the codec type from a short.
 	 * @param codecId the input short (byte) indicating the strategy
 	 */
 	private IntCodecs(byte codecId, String codecName) {
-		this.setCodecId(codecId);
-		this.setCodecName(codecName);
+		this.codecId = codecId;
+		this.codecName = codecName;
 	}
 
 	/**
@@ -117,8 +116,7 @@ public enum IntCodecs implements IntCodecInterface, CodecInterface {
 				return codecs;
 			}
 		}
-		// Return a null entry.
-		return  null;
+		throw new IllegalArgumentException(inputByte+" not recognised as codec strategy.");
 	}
 	
 	/**
@@ -127,15 +125,8 @@ public enum IntCodecs implements IntCodecInterface, CodecInterface {
 	 * @return the decoded array as a int array
 	 */
 	public static int[] decodeArr(byte[] inputData){
-		for(IntCodecs codecs : IntCodecs.values())
-		{
-			if(inputData[0]==codecs.codecId)
-			{
-				return codecs.decode(Arrays.copyOfRange(inputData, 1, inputData.length));
-			}
-		}
-		// Return a null entry.
-		return  null;
+		IntCodecs intCodecs = getCodecFromByte(inputData[0]);
+		return intCodecs.decode(Arrays.copyOfRange(inputData, 1, inputData.length));
 	}
 
 	/**
@@ -145,12 +136,6 @@ public enum IntCodecs implements IntCodecInterface, CodecInterface {
 		return codecName;
 	}
 
-	/**
-	 * @param codecName the codec name - a string naming the codec
-	 */
-	public void setCodecName(String codecName) {
-		this.codecName = codecName;
-	}
 
 	/**
 	 * @return the codecId a short for the codec
@@ -158,14 +143,6 @@ public enum IntCodecs implements IntCodecInterface, CodecInterface {
 	public byte getCodecId() {
 		return codecId;
 	}
-
-	/**
-	 * @param codecId the codec id - a short for the codec
-	 */
-	public void setCodecId(byte codecId) {
-		this.codecId = codecId;
-	}
-
 
 
 }

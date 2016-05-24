@@ -3,7 +3,6 @@ package org.rcsb.mmtf.codec;
 
 import java.util.Arrays;
 
-import org.rcsb.mmtf.dataholders.MmtfStructure;
 import org.rcsb.mmtf.decoder.ArrayDecoders;
 import org.rcsb.mmtf.encoder.ArrayConverters;
 import org.rcsb.mmtf.encoder.ArrayEncoders;
@@ -70,9 +69,9 @@ public enum FloatCodecs implements FloatCodecInterface, CodecInterface {
 	
 	
 
-	private byte codecId;
-	private String codecName;
-	private float accuracy;
+	private final byte codecId;
+	private final String codecName;
+	private final float accuracy;
 	
 	/**
 	 * Constructor for the float codec Enum.
@@ -81,9 +80,9 @@ public enum FloatCodecs implements FloatCodecInterface, CodecInterface {
 	 * @param codecName the name of this encoding strategy
 	 */
 	private FloatCodecs(byte codecId, float accuracy, String codecName) {
-		this.setCodecId(codecId);
-		this.setCodecName(codecName);
-		this.setAccuracy(accuracy);
+		this.codecId = codecId;
+		this.accuracy = accuracy;
+		this.codecName = codecName;
 	}
 
 	/**
@@ -99,9 +98,10 @@ public enum FloatCodecs implements FloatCodecInterface, CodecInterface {
 				return codecs;
 			}
 		}
-		// Return a null entry.
-		return  null;
+		throw new IllegalArgumentException(inputByte+" not recognised as codec strategy.");
 	}
+	
+	
 	
 	/**
 	 * Decode a byte array from an input array.
@@ -109,15 +109,8 @@ public enum FloatCodecs implements FloatCodecInterface, CodecInterface {
 	 * @return the decoded array as a float array
 	 */
 	public static float[] decodeArr(byte[] inputData){
-		for(FloatCodecs codecs : FloatCodecs.values())
-		{
-			if(inputData[0]==codecs.codecId)
-			{
-				return codecs.decode(Arrays.copyOfRange(inputData, 1, inputData.length));
-			}
-		}
-		// Return a null entry.
-		return  null;
+		FloatCodecs codecs = getCodecFromByte(inputData[0]);
+		return codecs.decode(Arrays.copyOfRange(inputData, 1, inputData.length));
 	}
 	
 
@@ -130,25 +123,12 @@ public enum FloatCodecs implements FloatCodecInterface, CodecInterface {
 	}
 
 	/**
-	 * @param codecName the codec name - a string naming the codec
-	 */
-	public void setCodecName(String codecName) {
-		this.codecName = codecName;
-	}
-
-	/**
 	 * @return the codecId a short for the codec
 	 */
 	public byte getCodecId() {
 		return codecId;
 	}
 
-	/**
-	 * @param codecId the codec id - a short for the codec
-	 */
-	public void setCodecId(byte codecId) {
-		this.codecId = codecId;
-	}
 
 	/**
 	 * @return the accuracy
@@ -157,13 +137,6 @@ public enum FloatCodecs implements FloatCodecInterface, CodecInterface {
 		return accuracy;
 	}
 
-	/**
-	 * @param accuracy the accuracy to set
-	 */
-	public void setAccuracy(float accuracy) {
-		this.accuracy = accuracy;
-	}
-	
 
 	/**
 	 * 
@@ -172,11 +145,11 @@ public enum FloatCodecs implements FloatCodecInterface, CodecInterface {
 	 * @return
 	 */
 	private static byte[] deltaEncode(float[] inputData, float accuracy) {
-		return ArrayConverters.convertShortsToTwoBytes(ArrayConverters.bitPack(
+		return ArrayConverters.convertIntegersToTwoBytes(CodecUtils.recursiveIndexEncode(
 				ArrayEncoders.deltaEncode(
 						ArrayConverters.convertFloatsToInts(
 								inputData,
-								MmtfStructure.COORD_DIVIDER))));
+								accuracy))));
 	}
 	
 	/**
@@ -188,8 +161,8 @@ public enum FloatCodecs implements FloatCodecInterface, CodecInterface {
 	private static float[] deltaDecode(byte[] inputData, float accuracy) {
 		return org.rcsb.mmtf.decoder.ArrayConverters.convertIntsToFloats(
 				ArrayDecoders.deltaDecode(
-						ArrayConverters.bitUnpack(
-								org.rcsb.mmtf.decoder.ArrayConverters.convertTwoBytesToShorts(inputData))),
+						CodecUtils.recursiveIndexDecode(
+								org.rcsb.mmtf.decoder.ArrayConverters.convertTwoByteToIntegers(inputData))),
 				accuracy);
 	}
 	

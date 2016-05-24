@@ -63,7 +63,6 @@ public class ArrayConverters {
 	 * @param byteArray the input byte array
 	 * @return the converted integer array
 	 */
-	@Deprecated
 	public static int[] convertTwoByteToIntegers(byte[] byteArray) {
 		
 		ByteBuffer bb = ByteBuffer.wrap(byteArray);

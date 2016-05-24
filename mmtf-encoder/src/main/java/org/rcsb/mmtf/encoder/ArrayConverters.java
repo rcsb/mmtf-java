@@ -42,7 +42,6 @@ public class ArrayConverters {
 	 * @param intArray the input array of integers
 	 * @return the byte array of the integers
 	 */
-	@Deprecated
 	public static byte[] convertIntegersToTwoBytes(int[] intArray) {
 
 		ByteBuffer bb = ByteBuffer.allocate(intArray.length * 2);

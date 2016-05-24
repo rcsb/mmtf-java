@@ -36,12 +36,28 @@ public enum CharCodecs implements CharCodecInterface, CodecInterface{
 		
 	};
 	
-	private byte codecId;
-	private String codecName;
+	private final byte codecId;
+	private final String codecName;
 	
 	private CharCodecs(byte inputId, String name) {
 		this.codecId = inputId;
 		this.codecName = name;
+	}
+	
+	/**
+	 * Get the codec from an input byte. 
+	 * @param inputByte the byte defining the coding
+	 * @return the enum of the codec
+	 */
+	public static CharCodecs getCodecFromByte(byte inputByte){
+		for(CharCodecs codecs : CharCodecs.values())
+		{
+			if(inputByte==codecs.codecId)
+			{
+				return codecs;
+			}
+		}
+		throw new IllegalArgumentException(inputByte+" not recognised as codec strategy.");
 	}
 	
 
@@ -51,15 +67,8 @@ public enum CharCodecs implements CharCodecInterface, CodecInterface{
 	 * @return the decoded array as a char array
 	 */
 	public static char[] decodeArr(byte[] inputData){
-		for(CharCodecs codecs : CharCodecs.values())
-		{
-			if(inputData[0]==codecs.codecId)
-			{
-				return codecs.decode(Arrays.copyOfRange(inputData, 1, inputData.length));
-			}
-		}
-		// Return a null entry.
-		return  null;
+		CharCodecs codecs = CharCodecs.getCodecFromByte(inputData[0]);
+		return codecs.decode(Arrays.copyOfRange(inputData, 1, inputData.length));
 	}
 	
 	@Override
@@ -68,18 +77,9 @@ public enum CharCodecs implements CharCodecInterface, CodecInterface{
 	}
 
 	@Override
-	public void setCodecName(String codecName) {
-		this.codecName = codecName;
-	}
-
-	@Override
 	public byte getCodecId() {
 		return codecId;
 	}
 
-	@Override
-	public void setCodecId(byte codecId) {
-		this.codecId =codecId;
-	}
 
 }
