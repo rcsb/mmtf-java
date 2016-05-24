@@ -11,9 +11,10 @@ public enum StringCodecs implements StringCodecsInterface, CodecInterface {
 
 	
 	/**
-	 * Encode an array of chars to a byte array.
+	 * Encode an array of Strings to a byte array. Each String should be less than 
+	 * five characters long.
 	 */
-	ENCOODE_CHAINS((byte) 9, "Encode chains") {
+	ENCOODE_CHAINS((byte) 8, "Encode chains") {
 
 		@Override
 		public byte[] encode(String[] inputData) {

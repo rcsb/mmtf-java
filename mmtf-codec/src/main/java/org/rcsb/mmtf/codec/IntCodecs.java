@@ -32,31 +32,13 @@ public enum IntCodecs implements IntCodecInterface, CodecInterface {
 		public int[] decode(byte[] inputData) {
 			return ArrayDecoders.deltaDecode(
 					ArrayDecoders.runlengthDecode(
-							org.rcsb.mmtf.codec.ArrayConverters.convertFourByteToIntegers(inputData)));
+							ArrayConverters.convertFourByteToIntegers(inputData)));
 		}
 	},
 	/**
-	 * Run length encode integers, for repeated numbers, e.g. alt locations.
+	 * Convert integers to a byte array - encoding each integer as a four byte integer.
 	 */
-	RUN_LENGTH((byte) 6,"Run length"){
-
-		@Override
-		public byte[] encode(int[] inputData) {
-			return ArrayConverters.convertIntegersToFourByte(
-					ArrayEncoders.runlengthEncode(inputData));
-		}
-
-		@Override
-		public int[] decode(byte[] inputData) {
-			return ArrayDecoders.runlengthDecode(
-					org.rcsb.mmtf.codec.ArrayConverters.convertFourByteToIntegers(inputData));
-		}
-		
-	},
-	/**
-	 * Convert integers to four byte integers.
-	 */
-	CONVERT_4_BYTE((byte) 7, "Convert to bytes as 4 byte integers."){
+	CONVERT_4_BYTE((byte) 6, "Convert to bytes as 4 byte integers."){
 
 		@Override
 		public byte[] encode(int[] inputData) {
@@ -65,14 +47,14 @@ public enum IntCodecs implements IntCodecInterface, CodecInterface {
 
 		@Override
 		public int[] decode(byte[] inputData) {
-			return org.rcsb.mmtf.codec.ArrayConverters.convertFourByteToIntegers(inputData);
+			return ArrayConverters.convertFourByteToIntegers(inputData);
 		}
 		
 	},
 	/**
-	 * Convert integers to  byte integers.
+	 * Convert integers to  a byte array - encoding each integer as a one byte integer.
 	 */
-	CONVERT_BYTE((byte) 8, "Convert to bytes as  byte integers."){
+	CONVERT_BYTE((byte) 7, "Convert to bytes as  byte integers."){
 
 		@Override
 		public byte[] encode(int[] inputData) {
@@ -81,7 +63,7 @@ public enum IntCodecs implements IntCodecInterface, CodecInterface {
 
 		@Override
 		public int[] decode(byte[] inputData) {
-			return org.rcsb.mmtf.codec.ArrayConverters.convertByteToIntegers(inputData);
+			return ArrayConverters.convertByteToIntegers(inputData);
 		}
 		
 	};

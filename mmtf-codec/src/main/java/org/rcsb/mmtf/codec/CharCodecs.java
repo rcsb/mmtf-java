@@ -13,7 +13,8 @@ import org.rcsb.mmtf.encoder.ArrayEncoders;
 public enum CharCodecs implements CharCodecInterface, CodecInterface{
 	
 	/**
-	 * Run length encode an array of chars.
+	 * Run length codec for an array of chars (using ASCII code) http://www.asciitable.com/.
+	 * For example: ["A", "A", "A"] goes to [10,10,10] goest to [10,3].
 	 */
 	RUN_LENGTH((byte) 1, "Run length"){
 

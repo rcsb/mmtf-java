@@ -9,11 +9,13 @@ public interface CodecInterface {
 	
 
 	/**
-	 * @return the codec name - a string naming the codec
+	 * @return the codec name. A string naming the codec.
 	 */
 	public String getCodecName();
+	
+	
 	/**
-	 * @return the codecId a byte for the codec
+	 * @return the codec id. currently a byte defining the codec.
 	 */
 	public byte getCodecId();
 
