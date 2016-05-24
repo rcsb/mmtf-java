@@ -22,10 +22,9 @@ public enum IntCodecs implements IntCodecInterface, CodecInterface {
 
 		@Override
 		public byte[] encode(int[] inputData) {
-			return CodecUtils.prependByteArr(ArrayConverters.convertIntegersToFourByte(
+			return ArrayConverters.convertIntegersToFourByte(
 					ArrayEncoders.runlengthEncode(
-							ArrayEncoders.deltaEncode(inputData))),
-					this.getCodecId());
+							ArrayEncoders.deltaEncode(inputData)));
 
 		}
 
@@ -43,9 +42,8 @@ public enum IntCodecs implements IntCodecInterface, CodecInterface {
 
 		@Override
 		public byte[] encode(int[] inputData) {
-			return  CodecUtils.prependByteArr(ArrayConverters.convertIntegersToFourByte(
-					ArrayEncoders.runlengthEncode(inputData)),
-					this.getCodecId());
+			return ArrayConverters.convertIntegersToFourByte(
+					ArrayEncoders.runlengthEncode(inputData));
 		}
 
 		@Override
@@ -62,8 +60,7 @@ public enum IntCodecs implements IntCodecInterface, CodecInterface {
 
 		@Override
 		public byte[] encode(int[] inputData) {
-			return CodecUtils.prependByteArr(ArrayConverters.convertIntegersToFourByte(inputData),
-					this.getCodecId());
+			return ArrayConverters.convertIntegersToFourByte(inputData);
 		}
 
 		@Override
@@ -79,8 +76,7 @@ public enum IntCodecs implements IntCodecInterface, CodecInterface {
 
 		@Override
 		public byte[] encode(int[] inputData) {
-			return CodecUtils.prependByteArr(ArrayConverters.convertIntegersToBytes(inputData),
-					this.getCodecId());
+			return ArrayConverters.convertIntegersToBytes(inputData);
 		}
 
 		@Override

@@ -21,7 +21,7 @@ public enum FloatCodecs implements FloatCodecInterface, CodecInterface {
 
 		@Override
 		public byte[] encode(float[] inputData) {
-			return CodecUtils.prependByteArr(deltaEncode(inputData, this.getAccuracy()),this.getCodecId());
+			return deltaEncode(inputData, this.getAccuracy());
 		}
 
 		@Override
@@ -38,7 +38,7 @@ public enum FloatCodecs implements FloatCodecInterface, CodecInterface {
 
 		@Override
 		public byte[] encode(float[] inputData) {
-			return CodecUtils.prependByteArr(deltaEncode(inputData, this.getAccuracy()),this.getCodecId());
+			return deltaEncode(inputData, this.getAccuracy());
 		}
 
 		@Override
@@ -54,7 +54,7 @@ public enum FloatCodecs implements FloatCodecInterface, CodecInterface {
 
 		@Override
 		public byte[] encode(float[] inputData) {
-			return CodecUtils.prependByteArr(runLengthEncode(inputData, this.getAccuracy()),this.getCodecId());
+			return runLengthEncode(inputData, this.getAccuracy());
 		}
 
 

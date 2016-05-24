@@ -1,9 +1,13 @@
-package org.rcsb.mmtf.codec;
+package org.rcsb.mmtf.decoder;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.rcsb.mmtf.api.StructureDataInterface;
+import org.rcsb.mmtf.codec.CharCodecs;
+import org.rcsb.mmtf.codec.FloatCodecs;
+import org.rcsb.mmtf.codec.IntCodecs;
+import org.rcsb.mmtf.codec.StringCodecs;
 import org.rcsb.mmtf.dataholders.BioAssemblyData;
 import org.rcsb.mmtf.dataholders.Entity;
 import org.rcsb.mmtf.dataholders.Group;

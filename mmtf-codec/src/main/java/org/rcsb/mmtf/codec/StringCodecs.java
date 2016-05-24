@@ -17,7 +17,7 @@ public enum StringCodecs implements StringCodecsInterface, CodecInterface {
 
 		@Override
 		public byte[] encode(String[] inputData) {
-			return CodecUtils.prependByteArr(ArrayConverters.encodeChainList(inputData),this.getCodecId());
+			return ArrayConverters.encodeChainList(inputData);
 		}
 
 		@Override

@@ -1,13 +1,16 @@
 package org.rcsb.mmtf.codec;
 
 import java.io.IOException;
+import java.nio.file.Paths;
 
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.rcsb.mmtf.api.StructureDataInterface;
 import org.rcsb.mmtf.dataholders.MmtfStructure;
 import org.rcsb.mmtf.decoder.DefaultDecoder;
+import org.rcsb.mmtf.decoder.GenericDecoder;
 import org.rcsb.mmtf.decoder.ReaderUtils;
+import org.rcsb.mmtf.encoder.GenericEncoder;
 
 
 /**
@@ -23,7 +26,7 @@ public class BasicTest {
 	 */
 	@Test
 	public void testRoundtrip() throws IOException {
-		StructureDataInterface structureDataInterface = new DefaultDecoder(ReaderUtils.getDataFromUrl("4cup"));
+		StructureDataInterface structureDataInterface = new DefaultDecoder(ReaderUtils.getDataFromFile(Paths.get("/Users/anthony/mmtf-webapp/testdata/4CUP.mmtf")));
 		GenericEncoder genericEncoder = new GenericEncoder(structureDataInterface);
 		MmtfStructure mmtfStructure = genericEncoder.getMmtfEncodedStructure();
 		GenericDecoder genericDecoder = new GenericDecoder(mmtfStructure);

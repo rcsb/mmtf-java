@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.rcsb.mmtf.api.StructureDataInterface;
 import org.rcsb.mmtf.codec.ArrayConverters;
+import org.rcsb.mmtf.codec.FloatCodecs;
 import org.rcsb.mmtf.dataholders.BioAssemblyData;
 import org.rcsb.mmtf.dataholders.Entity;
 import org.rcsb.mmtf.dataholders.MmtfStructure;
@@ -25,30 +26,10 @@ public class DefaultDecoder implements StructureDataInterface {
 	public DefaultDecoder(MmtfStructure inputData) {
 		groupList = ArrayConverters.convertFourByteToIntegers(inputData.getGroupTypeList());
 		// Decode the coordinate  and B-factor arrays.
-		cartnX = ArrayConverters.convertIntsToFloats(
-				ArrayDecoders.deltaDecode(
-						ArrayConverters.combineIntegers(
-								ArrayConverters.convertTwoByteToIntegers(inputData.getxCoordSmall()),
-								ArrayConverters.convertFourByteToIntegers(inputData.getxCoordBig()))),
-				MmtfStructure.COORD_DIVIDER);
-		cartnY = ArrayConverters.convertIntsToFloats(
-				ArrayDecoders.deltaDecode(
-						ArrayConverters.combineIntegers(
-								ArrayConverters.convertTwoByteToIntegers(inputData.getyCoordSmall()),
-								ArrayConverters.convertFourByteToIntegers(inputData.getyCoordBig()))),
-				MmtfStructure.COORD_DIVIDER);
-		cartnZ = ArrayConverters.convertIntsToFloats(
-				ArrayDecoders.deltaDecode(
-						ArrayConverters.combineIntegers(
-								ArrayConverters.convertTwoByteToIntegers(inputData.getzCoordSmall()),
-								ArrayConverters.convertFourByteToIntegers(inputData.getzCoordBig()))),
-				MmtfStructure.COORD_DIVIDER);
-		bFactor = ArrayConverters.convertIntsToFloats(
-				ArrayDecoders.deltaDecode(
-						ArrayConverters.combineIntegers(
-								ArrayConverters.convertTwoByteToIntegers(inputData.getbFactorSmall()),
-								ArrayConverters.convertFourByteToIntegers(inputData.getbFactorBig()))),
-				MmtfStructure.OCCUPANCY_BFACTOR_DIVIDER);
+		cartnX = FloatCodecs.DELTA_SPLIT_3.decode(inputData.getxCoords());
+		cartnY = FloatCodecs.DELTA_SPLIT_3.decode(inputData.getyCoords());
+		cartnZ = FloatCodecs.DELTA_SPLIT_3.decode(inputData.getzCoords());
+		bFactor = FloatCodecs.DELTA_SPLIT_2.decode(inputData.getbFactors());
 		// Run length decode the occupancy array
 		occupancy = ArrayConverters.convertIntsToFloats(
 				ArrayDecoders.runlengthDecode(

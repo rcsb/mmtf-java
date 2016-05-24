@@ -5,6 +5,10 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.rcsb.mmtf.api.StructureDataInterface;
+import org.rcsb.mmtf.codec.CharCodecs;
+import org.rcsb.mmtf.codec.FloatCodecs;
+import org.rcsb.mmtf.codec.IntCodecs;
+import org.rcsb.mmtf.codec.StringCodecs;
 import org.rcsb.mmtf.dataholders.BioAssemblyData;
 import org.rcsb.mmtf.dataholders.BioAssemblyTransformation;
 import org.rcsb.mmtf.dataholders.Entity;
@@ -109,6 +113,66 @@ public class EncoderUtils {
 		}
 		System.err.println("ERROR FINDING ENTITY FOR CHAIN: "+chainInd);
 		return "NULL";
+	}
+	
+	/**
+	 * Method to prepend a byte array with a byte.
+	 * @param inputData the array to encode and prepend
+	 * @param inputByte the byte to prepend in the array
+	 * @return the updated array
+	 */
+	public static byte[] encodeByteArr(FloatCodecs inputCodec, float[] inputData){
+		byte[] prepend = new byte[] {inputCodec.getCodecId()};
+		byte[] inputArr = inputCodec.encode(inputData);
+		byte[] combined = new byte[inputArr.length+1];
+		System.arraycopy(prepend,0,combined,0,1);
+		System.arraycopy(inputArr,0,combined,1,inputArr.length);
+		return combined;
+	}
+	
+	/**
+	 * Method to prepend a byte array with a byte.
+	 * @param inputData the array to encode and prepend
+	 * @param inputByte the byte to prepend in the array
+	 * @return the updated array
+	 */
+	public static byte[] encodeByteArr(IntCodecs inputCodec, int[] inputData){
+		byte[] prepend = new byte[] {inputCodec.getCodecId()};
+		byte[] inputArr = inputCodec.encode(inputData);
+		byte[] combined = new byte[inputArr.length+1];
+		System.arraycopy(prepend,0,combined,0,1);
+		System.arraycopy(inputArr,0,combined,1,inputArr.length);
+		return combined;
+	}
+	
+	/**
+	 * Method to prepend a byte array with a byte.
+	 * @param inputData the array to encode and prepend
+	 * @param inputByte the byte to prepend in the array
+	 * @return the updated array
+	 */
+	public static byte[] encodeByteArr( CharCodecs inputCodec, char[] inputData){
+		byte[] prepend = new byte[] {inputCodec.getCodecId()};
+		byte[] inputArr = inputCodec.encode(inputData);
+		byte[] combined = new byte[inputArr.length+1];
+		System.arraycopy(prepend,0,combined,0,1);
+		System.arraycopy(inputArr,0,combined,1,inputArr.length);
+		return combined;
+	}
+	
+	/**
+	 * Method to prepend a byte array with a byte.
+	 * @param inputData the array to encode and prepend
+	 * @param inputByte the byte to prepend in the array
+	 * @return the updated array
+	 */
+	public static byte[] encodeByteArr(StringCodecs inputCodec, String[] inputData){
+		byte[] prepend = new byte[] {inputCodec.getCodecId()};
+		byte[] inputArr = inputCodec.encode(inputData);
+		byte[] combined = new byte[inputArr.length+1];
+		System.arraycopy(prepend,0,combined,0,1);
+		System.arraycopy(inputArr,0,combined,1,inputArr.length);
+		return combined;
 	}
 
 }

@@ -20,7 +20,7 @@ import org.unitils.reflectionassert.ReflectionAssert;
  * @author Anthony Bradley
  *
  */
-public class TestDefaultEncoder {
+public class TestEncoder {
 	
     /**
      * A test folder for testing writing files.
@@ -34,11 +34,34 @@ public class TestDefaultEncoder {
 	 * @throws IOException an error converting byte arrays
 	 */
 	@Test
-	public void testEncodeAllFields() throws IOException {
-
+	public void testDefaultEncoder() throws IOException {
 		DummyApiImpl dummyApiImpl = new DummyApiImpl();
-		DefaultEncoder defaultEncoder = new DefaultEncoder(dummyApiImpl);
-		ReflectionAssert.assertPropertiesNotNull("Some properties null after encoding", defaultEncoder.getMmtfEncodedStructure());
+		EncoderInterface encoder = new DefaultEncoder(dummyApiImpl);
+		ReflectionAssert.assertPropertiesNotNull("Some properties null after encoding",  encoder.getMmtfEncodedStructure());
+	}
+
+	
+	/**
+	 * Test whether calling all the set methods gives a none null get.
+	 * @throws IOException an error converting byte arrays
+	 */
+	@Test
+	public void testReducedEncoder() throws IOException {
+		DummyApiImpl dummyApiImpl = new DummyApiImpl();
+		EncoderInterface encoder = new ReducedEncoder(dummyApiImpl);
+		ReflectionAssert.assertPropertiesNotNull("Some properties null after encoding",  encoder.getMmtfEncodedStructure());
+	}
+	
+	
+	/**
+	 * Test whether calling all the set methods gives a none null get.
+	 * @throws IOException an error converting byte arrays
+	 */
+	@Test
+	public void testGenricEncoder() throws IOException {
+		DummyApiImpl dummyApiImpl = new DummyApiImpl();
+		EncoderInterface encoder = new GenericEncoder(dummyApiImpl);
+		ReflectionAssert.assertPropertiesNotNull("Some properties null after encoding",  encoder.getMmtfEncodedStructure());
 	}
 
 

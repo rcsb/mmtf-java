@@ -11,9 +11,9 @@ import org.rcsb.mmtf.dataholders.MmtfStructure;
  * @author Anthony Bradley
  *
  */
-public class ReducedEncoder {
+public class ReducedEncoder implements EncoderInterface {
 	
-	private static MmtfStructure mmtfStructure;
+	private MmtfStructure mmtfStructure;
 
 	private static final String CALPHA_NAME = "CA";
 	private static final String CARBON_ELEMENT = "C";
@@ -29,7 +29,7 @@ public class ReducedEncoder {
 		structureDataInterface = ReducedEncoder.getReduced(structureDataInterface);
 		// Now just apply the default encoder on top of it
 		DefaultEncoder defaultEncoder = new DefaultEncoder(structureDataInterface);
-		setMmtfStructure(defaultEncoder.getMmtfEncodedStructure());
+		this.mmtfStructure = defaultEncoder.getMmtfEncodedStructure();
 	}
 	
 	
@@ -154,19 +154,10 @@ public class ReducedEncoder {
 
 
 
-	/**
-	 * @return the mmtfStructure
-	 */
-	public static MmtfStructure getMmtfStructure() {
+	@Override
+	public MmtfStructure getMmtfEncodedStructure() {
 		return mmtfStructure;
 	}
 
-
-	/**
-	 * @param mmtfStructure the mmtfStructure to set
-	 */
-	public static void setMmtfStructure(MmtfStructure mmtfStructure) {
-		ReducedEncoder.mmtfStructure = mmtfStructure;
-	}
 
 }

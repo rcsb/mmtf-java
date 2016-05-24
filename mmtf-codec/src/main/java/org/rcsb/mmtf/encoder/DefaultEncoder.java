@@ -1,9 +1,9 @@
 package org.rcsb.mmtf.encoder;
 
-import java.util.List;
 
 import org.rcsb.mmtf.api.StructureDataInterface;
 import org.rcsb.mmtf.codec.ArrayConverters;
+import org.rcsb.mmtf.codec.FloatCodecs;
 import org.rcsb.mmtf.dataholders.MmtfStructure;
 import org.rcsb.mmtf.encoder.ArrayEncoders;
 
@@ -13,7 +13,7 @@ import org.rcsb.mmtf.encoder.ArrayEncoders;
  * @author Anthony Bradley
  *
  */
-public class DefaultEncoder {
+public class DefaultEncoder implements EncoderInterface {
 
 	private MmtfStructure mmtfBean;
 
@@ -28,47 +28,16 @@ public class DefaultEncoder {
 				ArrayConverters.convertIntegersToFourByte(
 						structureDataInterface.getGroupTypeIndices()));
 		// Encode the coordinate  and B-factor arrays.
-		List<int[]> xCoords = ArrayConverters.splitIntegers(
-				ArrayEncoders.deltaEncode(
-						ArrayConverters.convertFloatsToInts(
-								structureDataInterface.getxCoords(),
-								MmtfStructure.COORD_DIVIDER)));
-		mmtfBean.setxCoordBig(ArrayConverters.convertIntegersToFourByte(xCoords.get(0)));
-		mmtfBean.setxCoordSmall(ArrayConverters.convertIntegersToTwoBytes(xCoords.get(1)));
-
-		List<int[]> yCoords = ArrayConverters.splitIntegers(
-				ArrayEncoders.deltaEncode(
-						ArrayConverters.convertFloatsToInts(
-								structureDataInterface.getyCoords(),
-								MmtfStructure.COORD_DIVIDER)));
-		mmtfBean.setyCoordBig(ArrayConverters.convertIntegersToFourByte(yCoords.get(0)));
-		mmtfBean.setyCoordSmall(ArrayConverters.convertIntegersToTwoBytes(yCoords.get(1)));
-
-		List<int[]> zCoords = ArrayConverters.splitIntegers(
-				ArrayEncoders.deltaEncode(
-						ArrayConverters.convertFloatsToInts(
-								structureDataInterface.getzCoords(),
-								MmtfStructure.COORD_DIVIDER)));
-		mmtfBean.setzCoordBig(ArrayConverters.convertIntegersToFourByte(zCoords.get(0)));
-		mmtfBean.setzCoordSmall(ArrayConverters.convertIntegersToTwoBytes(zCoords.get(1)));
-
-
-		List<int[]> bFactor = ArrayConverters.splitIntegers(
-				ArrayEncoders.deltaEncode(
-						ArrayConverters.convertFloatsToInts(
-								structureDataInterface.getbFactors(),
-								MmtfStructure.OCCUPANCY_BFACTOR_DIVIDER)));
-		mmtfBean.setbFactorBig(ArrayConverters.convertIntegersToFourByte(bFactor.get(0)));
-		mmtfBean.setbFactorSmall(ArrayConverters.convertIntegersToTwoBytes(bFactor.get(1)));
-
-
+		mmtfBean.setxCoords(FloatCodecs.DELTA_SPLIT_3.encode(structureDataInterface.getxCoords()));
+		mmtfBean.setyCoords(FloatCodecs.DELTA_SPLIT_3.encode(structureDataInterface.getyCoords()));
+		mmtfBean.setzCoords(FloatCodecs.DELTA_SPLIT_3.encode(structureDataInterface.getzCoords()));
+		mmtfBean.setbFactors(FloatCodecs.DELTA_SPLIT_3.encode(structureDataInterface.getbFactors()));
 		// Run length encode the occupancy array
 		mmtfBean.setOccupancyList(ArrayConverters.convertIntegersToFourByte(
 				ArrayEncoders.runlengthEncode(
 						ArrayConverters.convertFloatsToInts(
 								structureDataInterface.getOccupancies(),
 								MmtfStructure.OCCUPANCY_BFACTOR_DIVIDER))));
-
 		// Run length and delta
 		mmtfBean.setAtomIdList(ArrayConverters.convertIntegersToFourByte(
 				ArrayEncoders.runlengthEncode(
@@ -132,12 +101,11 @@ public class DefaultEncoder {
 		mmtfBean.setSecStructList(ArrayConverters.convertIntegersToBytes(structureDataInterface.getSecStructList()));
 	}
 
-	/**
-	 * Get the MmtfBean of encoded data.
-	 * @return the encoded data as an MmtfBean
-	 */
+	@Override
 	public MmtfStructure getMmtfEncodedStructure() {
 		return mmtfBean;
 	}
+	
+
 
 }

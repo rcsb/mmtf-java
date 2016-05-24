@@ -19,10 +19,9 @@ public enum CharCodecs implements CharCodecInterface, CodecInterface{
 
 		@Override
 		public byte[] encode(char[] inputData) {
-			return CodecUtils.prependByteArr(ArrayConverters.convertIntegersToFourByte(
+			return ArrayConverters.convertIntegersToFourByte(
 					ArrayEncoders.runlengthEncode(
-							ArrayConverters.convertCharToIntegers(inputData))),
-					this.getCodecId());
+							ArrayConverters.convertCharToIntegers(inputData)));
 		}
 
 		@Override

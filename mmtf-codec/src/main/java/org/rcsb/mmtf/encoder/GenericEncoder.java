@@ -1,15 +1,18 @@
-package org.rcsb.mmtf.codec;
+package org.rcsb.mmtf.encoder;
 
 import org.rcsb.mmtf.api.StructureDataInterface;
+import org.rcsb.mmtf.codec.CharCodecs;
+import org.rcsb.mmtf.codec.FloatCodecs;
+import org.rcsb.mmtf.codec.IntCodecs;
+import org.rcsb.mmtf.codec.StringCodecs;
 import org.rcsb.mmtf.dataholders.MmtfStructure;
-import org.rcsb.mmtf.encoder.EncoderUtils;
 
 /**
  * An encoder for encoding with the generic strategy.
  * @author Anthony Bradley
  *
  */
-public class GenericEncoder {
+public class GenericEncoder implements EncoderInterface {
 	
 	
 	private MmtfStructure mmtfBean;
@@ -21,32 +24,32 @@ public class GenericEncoder {
 	public GenericEncoder(StructureDataInterface structureDataInterface) {
 		mmtfBean = new MmtfStructure();
 		// Delta split three and two
-		mmtfBean.setxCoords(FloatCodecs.DELTA_SPLIT_3.encode(structureDataInterface.getxCoords()));
-		mmtfBean.setyCoords(FloatCodecs.DELTA_SPLIT_3.encode(structureDataInterface.getyCoords()));
-		mmtfBean.setzCoords(FloatCodecs.DELTA_SPLIT_3.encode(structureDataInterface.getzCoords()));
-		mmtfBean.setbFactors(FloatCodecs.DELTA_SPLIT_2.encode(structureDataInterface.getbFactors()));
+		mmtfBean.setxCoords(EncoderUtils.encodeByteArr(FloatCodecs.DELTA_SPLIT_3,structureDataInterface.getxCoords()));
+		mmtfBean.setyCoords(EncoderUtils.encodeByteArr(FloatCodecs.DELTA_SPLIT_3,structureDataInterface.getyCoords()));
+		mmtfBean.setzCoords(EncoderUtils.encodeByteArr(FloatCodecs.DELTA_SPLIT_3,structureDataInterface.getzCoords()));
+		mmtfBean.setbFactors(EncoderUtils.encodeByteArr(FloatCodecs.DELTA_SPLIT_2,structureDataInterface.getbFactors()));
 		// Run length encode the occupancy array
-		mmtfBean.setOccupancyList(FloatCodecs.RUN_LENGTH_2.encode(structureDataInterface.getOccupancies()));
+		mmtfBean.setOccupancyList(EncoderUtils.encodeByteArr(FloatCodecs.RUN_LENGTH_2,structureDataInterface.getOccupancies()));
 		// Run length and delta
-		mmtfBean.setAtomIdList(IntCodecs.RUN_LENGTH_DELTA.encode(structureDataInterface.getAtomIds()));
+		mmtfBean.setAtomIdList(EncoderUtils.encodeByteArr(IntCodecs.RUN_LENGTH_DELTA,structureDataInterface.getAtomIds()));
 		// Run length encoded
-		mmtfBean.setAltLocList(CharCodecs.RUN_LENGTH.encode(structureDataInterface.getAltLocIds()));
-		mmtfBean.setInsCodeList(CharCodecs.RUN_LENGTH.encode(structureDataInterface.getInsCodes()));
+		mmtfBean.setAltLocList(EncoderUtils.encodeByteArr(CharCodecs.RUN_LENGTH,structureDataInterface.getAltLocIds()));
+		mmtfBean.setInsCodeList(EncoderUtils.encodeByteArr(CharCodecs.RUN_LENGTH,structureDataInterface.getInsCodes()));
 		// Set the groupNumber
-		mmtfBean.setGroupIdList(IntCodecs.RUN_LENGTH_DELTA.encode(structureDataInterface.getGroupIds()));
-		mmtfBean.setSequenceIndexList(IntCodecs.RUN_LENGTH_DELTA.encode(structureDataInterface.getGroupSequenceIndices()));
+		mmtfBean.setGroupIdList(EncoderUtils.encodeByteArr(IntCodecs.RUN_LENGTH_DELTA,structureDataInterface.getGroupIds()));
+		mmtfBean.setSequenceIndexList(EncoderUtils.encodeByteArr(IntCodecs.RUN_LENGTH_DELTA,structureDataInterface.getGroupSequenceIndices()));
 		// Set the indices for the groups mapping to the sequence
 		// Set the internal and public facing chain ids
-		mmtfBean.setChainNameList(StringCodecs.ENCOODE_CHAINS.encode(structureDataInterface.getChainNames()));
-		mmtfBean.setChainIdList(StringCodecs.ENCOODE_CHAINS.encode(structureDataInterface.getChainIds()));
+		mmtfBean.setChainNameList(EncoderUtils.encodeByteArr(StringCodecs.ENCOODE_CHAINS,structureDataInterface.getChainNames()));
+		mmtfBean.setChainIdList(EncoderUtils.encodeByteArr(StringCodecs.ENCOODE_CHAINS,structureDataInterface.getChainIds()));
 		// Four bytes
-		mmtfBean.setBondAtomList(IntCodecs.CONVERT_4_BYTE.encode(structureDataInterface.getInterGroupBondIndices()));
+		mmtfBean.setBondAtomList(EncoderUtils.encodeByteArr(IntCodecs.CONVERT_4_BYTE,structureDataInterface.getInterGroupBondIndices()));
 		// Set the group types
-		mmtfBean.setGroupTypeList(IntCodecs.CONVERT_4_BYTE.encode(structureDataInterface.getGroupTypeIndices()));
+		mmtfBean.setGroupTypeList(EncoderUtils.encodeByteArr(IntCodecs.CONVERT_4_BYTE,structureDataInterface.getGroupTypeIndices()));
 		// Single bytes
-		mmtfBean.setSecStructList(IntCodecs.CONVERT_BYTE.encode(structureDataInterface.getSecStructList()));
-		mmtfBean.setBondOrderList(IntCodecs.CONVERT_BYTE.encode(structureDataInterface.getInterGroupBondOrders()));
-		
+		mmtfBean.setSecStructList(EncoderUtils.encodeByteArr(IntCodecs.CONVERT_BYTE,structureDataInterface.getSecStructList()));
+		mmtfBean.setBondOrderList(EncoderUtils.encodeByteArr(IntCodecs.CONVERT_BYTE,structureDataInterface.getInterGroupBondOrders()));
+
 		// Slightly unusual thing
 		// Set the group map (all the unique groups in the structure).
 		mmtfBean.setGroupList(EncoderUtils.generateGroupMap(structureDataInterface));
@@ -76,13 +79,11 @@ public class GenericEncoder {
 		mmtfBean.setReleaseDate(structureDataInterface.getReleaseDate());
 	}
 
-
-
-	/**
-	 * Get the MmtfBean of encoded data.
-	 * @return the encoded data as an MmtfBean
-	 */
+	@Override
 	public MmtfStructure getMmtfEncodedStructure() {
 		return mmtfBean;
 	}
+
+
+
 }
