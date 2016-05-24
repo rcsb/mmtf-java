@@ -27,16 +27,6 @@
 			<artifactId>mmtf-serialization</artifactId>
 			<version>0.1.1-SNAPSHOT</version>
 		</dependency>
-		<dependency>
-			<groupId>org.rcsb</groupId>
-			<artifactId>mmtf-decoder</artifactId>
-			<version>0.1.1-SNAPSHOT</version>
-		</dependency>
-		<dependency>
-			<groupId>org.rcsb</groupId>
-			<artifactId>mmtf-encoder</artifactId>
-			<version>0.1.1-SNAPSHOT</version>
-		</dependency>
 		<!-- TEST DEPENEDENCIES -->
 		<dependency>
 			<groupId>commons-beanutils</groupId>
