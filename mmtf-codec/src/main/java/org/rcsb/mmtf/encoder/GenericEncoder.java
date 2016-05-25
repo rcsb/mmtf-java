@@ -24,12 +24,12 @@ public class GenericEncoder implements EncoderInterface {
 	public GenericEncoder(StructureDataInterface structureDataInterface) {
 		mmtfBean = new MmtfStructure();
 		// Delta split three and two
-		mmtfBean.setxCoords(EncoderUtils.encodeByteArr(FloatCodecs.INT_DELTA_RECURSIVE_3,structureDataInterface.getxCoords()));
-		mmtfBean.setyCoords(EncoderUtils.encodeByteArr(FloatCodecs.INT_DELTA_RECURSIVE_3,structureDataInterface.getyCoords()));
-		mmtfBean.setzCoords(EncoderUtils.encodeByteArr(FloatCodecs.INT_DELTA_RECURSIVE_3,structureDataInterface.getzCoords()));
-		mmtfBean.setbFactors(EncoderUtils.encodeByteArr(FloatCodecs.INT_DELTA_RECURSIVE_2,structureDataInterface.getbFactors()));
+		mmtfBean.setxCoords(EncoderUtils.encodeByteArr(FloatCodecs.INT_DELTA_RECURSIVE,structureDataInterface.getxCoords(),1000));
+		mmtfBean.setyCoords(EncoderUtils.encodeByteArr(FloatCodecs.INT_DELTA_RECURSIVE,structureDataInterface.getyCoords(),1000));
+		mmtfBean.setzCoords(EncoderUtils.encodeByteArr(FloatCodecs.INT_DELTA_RECURSIVE,structureDataInterface.getzCoords(),1000));
+		mmtfBean.setbFactors(EncoderUtils.encodeByteArr(FloatCodecs.INT_DELTA_RECURSIVE,structureDataInterface.getbFactors(),100));
 		// Run length encode the occupancy array
-		mmtfBean.setOccupancyList(EncoderUtils.encodeByteArr(FloatCodecs.INT_RUNLENGTH_2,structureDataInterface.getOccupancies()));
+		mmtfBean.setOccupancyList(EncoderUtils.encodeByteArr(FloatCodecs.INT_RUNLENGTH,structureDataInterface.getOccupancies(),100));
 		// Run length and delta
 		mmtfBean.setAtomIdList(EncoderUtils.encodeByteArr(IntCodecs.RUN_LENGTH_DELTA,structureDataInterface.getAtomIds()));
 		// Run length encoded

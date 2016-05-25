@@ -15,8 +15,8 @@ public interface CodecInterface {
 	
 	
 	/**
-	 * @return the codec id. currently a byte defining the codec.
+	 * @return the codec id. currently an integer defining the codec.
 	 */
-	public byte getCodecId();
+	public int getCodecId();
 
 }

@@ -1,7 +1,5 @@
 package org.rcsb.mmtf.codec;
 
-import java.util.Arrays;
-
 /**
  * An enum defining the string encoding and decoding strategies.
  * @author Anthony Bradley
@@ -14,7 +12,7 @@ public enum StringCodecs implements StringCodecsInterface, CodecInterface {
 	 * Encode an array of Strings to a byte array. Each String should be less than 
 	 * five characters long.
 	 */
-	ENCOODE_CHAINS((byte) 8, "Encode chains") {
+	ENCOODE_CHAINS(8, "Encode chains") {
 
 		@Override
 		public byte[] encode(String[] inputData) {
@@ -28,10 +26,10 @@ public enum StringCodecs implements StringCodecsInterface, CodecInterface {
 		
 	};
 	
-	private final byte codecId;
+	private final int codecId;
 	private final String codecName;
 	
-	private StringCodecs(byte inputId, String name) {
+	private StringCodecs(int inputId, String name) {
 		this.codecId = inputId;
 		this.codecName = name;
 	}
@@ -40,18 +38,18 @@ public enum StringCodecs implements StringCodecsInterface, CodecInterface {
 
 	/**
 	 * Decode a byte array from an input array.
-	 * @param inputData the byte specifying the encoding strategy
+	 * @param codecId the int specifying the encoding strategy
 	 * @return the decoded array as a String array
 	 */
-	public static StringCodecs getCodecFromByte(byte inputByte){
+	public static StringCodecs getCodec(int codecId){
 		for(StringCodecs codecs : StringCodecs.values())
 		{
-			if(inputByte==codecs.codecId)
+			if(codecId==codecs.codecId)
 			{
 				return codecs;
 			}
 		}
-		throw new IllegalArgumentException(inputByte+" not recognised as codec strategy.");
+		throw new IllegalArgumentException(codecId+" not recognised as codec strategy.");
 	}
 	
 	
@@ -61,8 +59,9 @@ public enum StringCodecs implements StringCodecsInterface, CodecInterface {
 	 * @return the decoded array as a int array
 	 */
 	public static String[] decodeArr(byte[] inputData){
-		StringCodecs stringCodecs = getCodecFromByte(inputData[0]);
-		return stringCodecs.decode(Arrays.copyOfRange(inputData, 1, inputData.length));
+		OptionParser optionParser = new OptionParser(inputData);
+		StringCodecs codecs = getCodec(optionParser.methodNumber);
+		return codecs.decode(optionParser.data);
 	}
 
 	@Override
@@ -71,7 +70,7 @@ public enum StringCodecs implements StringCodecsInterface, CodecInterface {
 	}
 	
 	@Override
-	public byte getCodecId() {
+	public int getCodecId() {
 		return codecId;
 	}
 

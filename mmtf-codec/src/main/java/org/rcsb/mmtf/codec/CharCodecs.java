@@ -1,7 +1,5 @@
 package org.rcsb.mmtf.codec;
 
-import java.util.Arrays;
-
 import org.rcsb.mmtf.decoder.ArrayDecoders;
 import org.rcsb.mmtf.encoder.ArrayEncoders;
 
@@ -16,7 +14,7 @@ public enum CharCodecs implements CharCodecInterface, CodecInterface{
 	 * Run length codec for an array of chars (using ASCII code) http://www.asciitable.com/.
 	 * For example: ["A", "A", "A"] goes to [10,10,10] goest to [10,3].
 	 */
-	RUN_LENGTH((byte) 1, "Run length"){
+	RUN_LENGTH(1, "Run length"){
 
 		@Override
 		public byte[] encode(char[] inputData) {
@@ -35,28 +33,28 @@ public enum CharCodecs implements CharCodecInterface, CodecInterface{
 		
 	};
 	
-	private final byte codecId;
+	private final int codecId;
 	private final String codecName;
 	
-	private CharCodecs(byte inputId, String name) {
+	private CharCodecs(int inputId, String name) {
 		this.codecId = inputId;
 		this.codecName = name;
 	}
 	
 	/**
-	 * Get the codec from an input byte. 
-	 * @param inputByte the byte defining the coding
+	 * Get the codec from an input integer. 
+	 * @param inputInt the integer defining the coding
 	 * @return the enum of the codec
 	 */
-	public static CharCodecs getCodecFromByte(byte inputByte){
+	public static CharCodecs getCodec(int inputInt){
 		for(CharCodecs codecs : CharCodecs.values())
 		{
-			if(inputByte==codecs.codecId)
+			if(inputInt==codecs.codecId)
 			{
 				return codecs;
 			}
 		}
-		throw new IllegalArgumentException(inputByte+" not recognised as codec strategy.");
+		throw new IllegalArgumentException(inputInt+" not recognised as codec strategy.");
 	}
 	
 
@@ -66,8 +64,9 @@ public enum CharCodecs implements CharCodecInterface, CodecInterface{
 	 * @return the decoded array as a char array
 	 */
 	public static char[] decodeArr(byte[] inputData){
-		CharCodecs codecs = CharCodecs.getCodecFromByte(inputData[0]);
-		return codecs.decode(Arrays.copyOfRange(inputData, 1, inputData.length));
+		OptionParser optionParser = new OptionParser(inputData);
+		CharCodecs codecs = CharCodecs.getCodec(optionParser.methodNumber);
+		return codecs.decode(optionParser.data);
 	}
 	
 	@Override
@@ -76,7 +75,7 @@ public enum CharCodecs implements CharCodecInterface, CodecInterface{
 	}
 
 	@Override
-	public byte getCodecId() {
+	public int getCodecId() {
 		return codecId;
 	}
 

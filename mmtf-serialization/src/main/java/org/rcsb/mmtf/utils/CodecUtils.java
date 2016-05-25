@@ -17,6 +17,8 @@ public class CodecUtils {
 
 	/** The maximum number of chars in a chain entry. */
 	public static final int MAX_CHARS_PER_CHAIN_ENTRY= 4;
+	
+
 
 	/**
 	 * Convert an integer list to an integer array
@@ -30,6 +32,4 @@ public class CodecUtils {
 		}
 		return integerArray;
 	}
-	
-
 }

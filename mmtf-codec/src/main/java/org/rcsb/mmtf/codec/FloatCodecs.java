@@ -1,8 +1,6 @@
 package org.rcsb.mmtf.codec;
 
 
-import java.util.Arrays;
-
 import org.rcsb.mmtf.decoder.ArrayDecoders;
 import org.rcsb.mmtf.encoder.ArrayEncoders;
 
@@ -17,72 +15,45 @@ public enum FloatCodecs implements FloatCodecInterface, CodecInterface {
 	 * Encoding a list of floats (e.g. coordinates) using integer encoding (3DP accuracy), 
 	 * delta encoding and then recursive indexing.
 	 */
-	INT_DELTA_RECURSIVE_3((byte) 2, 1000.0f, "Delta") {
+	INT_DELTA_RECURSIVE(2, "Delta") {
 
 		@Override
-		public byte[] encode(float[] inputData) {
+		public byte[] encode(float[] inputData, int param) {
 			return ArrayConverters.convertIntegersToTwoBytes(ArrayConverters.recursiveIndexEncode(
 					ArrayEncoders.deltaEncode(
-							ArrayConverters.convertFloatsToInts(
-									inputData,
-									this.getMultiplier()))));
+							ArrayConverters.convertFloatsToInts(inputData,param))));
 			}
 
 		@Override
-		public float[] decode(byte[] inputData) {
-			return ArrayConverters.convertIntsToFloats(
-					ArrayDecoders.deltaDecode(
-							ArrayConverters.recursiveIndexDecode(
-									ArrayConverters.convertTwoByteToIntegers(inputData))),
-					this.getMultiplier());
+		public float[] decode(byte[] inputData, int param) {
+			int[] intArr = ArrayDecoders.deltaDecode(
+					ArrayConverters.recursiveIndexDecode(
+							ArrayConverters.convertTwoByteToIntegers(inputData)));
+			return ArrayConverters.convertIntsToFloats(intArr,param);
 			}
  	},
 	
-	/**
-	 * Encoding a list of floats (e.g. coordinates) using integer encoding (2DP accuracy)
-	 * delta encoding and then recursive indexing.
-	 */
-	INT_DELTA_RECURSIVE_2((byte) 3, 100.0f, "Delta") {
-
-		@Override
-		public byte[] encode(float[] inputData) {
-			return ArrayConverters.convertIntegersToTwoBytes(ArrayConverters.recursiveIndexEncode(
-					ArrayEncoders.deltaEncode(
-							ArrayConverters.convertFloatsToInts(
-									inputData,
-									this.getMultiplier()))));
-			}
-
-		@Override
-		public float[] decode(byte[] inputData) {
-			return ArrayConverters.convertIntsToFloats(
-					ArrayDecoders.deltaDecode(
-							ArrayConverters.recursiveIndexDecode(
-									ArrayConverters.convertTwoByteToIntegers(inputData))),
-					this.getMultiplier());
-		}
- 	},
 	
 	/**
 	 * Encoding a list of floats (e.g. occupancy) using integer encoding (2DP accuracy) 
 	 * and then run length encoding.
 	 */
-	INT_RUNLENGTH_2((byte) 4, 100.0f, "Run length") {
+	INT_RUNLENGTH(4, "Run length") {
 
 		@Override
-		public byte[] encode(float[] inputData) {
+		public byte[] encode(float[] inputData, int param) {
 			return ArrayConverters.convertIntegersToFourByte(
 					ArrayEncoders.runlengthEncode(
-							ArrayConverters.convertFloatsToInts(inputData, this.getMultiplier())));
+							ArrayConverters.convertFloatsToInts(inputData, param)));
 		}
 
 
 		@Override
-		public float[] decode(byte[] inputData) {
+		public float[] decode(byte[] inputData, int param) {
 			return ArrayConverters.convertIntsToFloats(
 					ArrayDecoders.runlengthDecode(
 							ArrayConverters.convertFourByteToIntegers(inputData)),
-					this.getMultiplier());
+					param);
 		}
  		
  	};
@@ -90,36 +61,33 @@ public enum FloatCodecs implements FloatCodecInterface, CodecInterface {
 	
 	
 
-	private final byte codecId;
+	private final int codecId;
 	private final String codecName;
-	private final float multiplier;
 	
 	/**
 	 * Constructor for the float codec Enum.
 	 * @param codecId the byte encoding this codec strategy
-	 * @param multiplier the accuracy of this float encoding strategy
 	 * @param codecName the name of this encoding strategy
 	 */
-	private FloatCodecs(byte codecId, float multiplier, String codecName) {
+	private FloatCodecs(int codecId, String codecName) {
 		this.codecId = codecId;
-		this.multiplier = multiplier;
 		this.codecName = codecName;
 	}
 
 	/**
 	 * Get the codec from an input byte. 
-	 * @param inputByte the byte defining the coding
+	 * @param codecId the integer defining the coding
 	 * @return the enum of the codec
 	 */
-	public static FloatCodecs getCodecFromByte(byte inputByte){
+	public static FloatCodecs getCodec(int codecId){
 		for(FloatCodecs codecs : FloatCodecs.values())
 		{
-			if(inputByte==codecs.codecId)
+			if(codecId==codecs.codecId)
 			{
 				return codecs;
 			}
 		}
-		throw new IllegalArgumentException(inputByte+" not recognised as codec strategy.");
+		throw new IllegalArgumentException(codecId+" not recognised as codec strategy.");
 	}
 	
 	
@@ -130,8 +98,9 @@ public enum FloatCodecs implements FloatCodecInterface, CodecInterface {
 	 * @return the decoded array as a float array
 	 */
 	public static float[] decodeArr(byte[] inputData){
-		FloatCodecs codecs = getCodecFromByte(inputData[0]);
-		return codecs.decode(Arrays.copyOfRange(inputData, 1, inputData.length));
+		OptionParser optionParser = new OptionParser(inputData);
+		FloatCodecs codecs = getCodec(optionParser.methodNumber);
+		return codecs.decode(optionParser.data,optionParser.param);
 	}
 	
 
@@ -146,19 +115,10 @@ public enum FloatCodecs implements FloatCodecInterface, CodecInterface {
 	/**
 	 * @return the codecId. A byte describing the codec.
 	 */
-	public byte getCodecId() {
+	public int getCodecId() {
 		return codecId;
 	}
 
-
-	/**
-	 * @return the multiplier for converting between integers and floats. 
-	 * Encodes the precision.
-	 */
-	public float getMultiplier() {
-		return multiplier;
-	}
-	
 
 	
 

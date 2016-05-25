@@ -1,7 +1,5 @@
 package org.rcsb.mmtf.codec;
 
-import java.util.Arrays;
-
 import org.rcsb.mmtf.decoder.ArrayDecoders;
 import org.rcsb.mmtf.encoder.ArrayEncoders;
 
@@ -18,7 +16,7 @@ public enum IntCodecs implements IntCodecInterface, CodecInterface {
 	 * encoding on top. This is appropriate for serial numbers. 
 	 * 1,2,3,4,5,6 -> 1,1,1,1,1,1 -> 1,6
 	 */
-	RUN_LENGTH_DELTA((byte) 5, "Run length delta") {
+	RUN_LENGTH_DELTA(5, "Run length delta") {
 
 		@Override
 		public byte[] encode(int[] inputData) {
@@ -38,7 +36,7 @@ public enum IntCodecs implements IntCodecInterface, CodecInterface {
 	/**
 	 * Convert integers to a byte array - encoding each integer as a four byte integer.
 	 */
-	CONVERT_4_BYTE((byte) 6, "Convert to bytes as 4 byte integers."){
+	CONVERT_4_BYTE(6, "Convert to bytes as 4 byte integers."){
 
 		@Override
 		public byte[] encode(int[] inputData) {
@@ -54,7 +52,7 @@ public enum IntCodecs implements IntCodecInterface, CodecInterface {
 	/**
 	 * Convert integers to  a byte array - encoding each integer as a one byte integer.
 	 */
-	CONVERT_BYTE((byte) 7, "Convert to bytes as  byte integers."){
+	CONVERT_BYTE(7, "Convert to bytes as  byte integers."){
 
 		@Override
 		public byte[] encode(int[] inputData) {
@@ -68,32 +66,32 @@ public enum IntCodecs implements IntCodecInterface, CodecInterface {
 		
 	};
 	
-	private final byte codecId;
+	private final int codecId;
 	private final String codecName;
 
 	/**
 	 * Constructor sets the codec type from a short.
-	 * @param codecId the input short (byte) indicating the strategy
+	 * @param codecId the input integer indicating the strategy
 	 */
-	private IntCodecs(byte codecId, String codecName) {
+	private IntCodecs(int codecId, String codecName) {
 		this.codecId = codecId;
 		this.codecName = codecName;
 	}
 
 	/**
 	 * Get the codec from an input byte. 
-	 * @param inputByte the byte defining the coding
+	 * @param codecId the byte defining the coding
 	 * @return the enum of the codec
 	 */
-	public static IntCodecs getCodecFromByte(byte inputByte){
+	public static IntCodecs getCodec(int codecId){
 		for(IntCodecs codecs : IntCodecs.values())
 		{
-			if(inputByte==codecs.codecId)
+			if(codecId==codecs.codecId)
 			{
 				return codecs;
 			}
 		}
-		throw new IllegalArgumentException(inputByte+" not recognised as codec strategy.");
+		throw new IllegalArgumentException(codecId+" not recognised as codec strategy.");
 	}
 	
 	/**
@@ -102,8 +100,9 @@ public enum IntCodecs implements IntCodecInterface, CodecInterface {
 	 * @return the decoded array as a int array
 	 */
 	public static int[] decodeArr(byte[] inputData){
-		IntCodecs intCodecs = getCodecFromByte(inputData[0]);
-		return intCodecs.decode(Arrays.copyOfRange(inputData, 1, inputData.length));
+		OptionParser optionParser = new OptionParser(inputData);
+		IntCodecs codecs = getCodec(optionParser.methodNumber);
+		return codecs.decode(optionParser.data);
 	}
 
 	/**
@@ -117,7 +116,7 @@ public enum IntCodecs implements IntCodecInterface, CodecInterface {
 	/**
 	 * @return the codecId a short for the codec
 	 */
-	public byte getCodecId() {
+	public int getCodecId() {
 		return codecId;
 	}
 

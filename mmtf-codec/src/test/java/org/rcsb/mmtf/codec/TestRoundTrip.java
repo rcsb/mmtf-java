@@ -57,7 +57,7 @@ public class TestRoundTrip {
 		StructureDataInterface structureDataInterface = getDefaultFullData();
 		ReducedEncoder reducedEncoder = new ReducedEncoder(structureDataInterface);
 		MmtfStructure mmtfStructure = reducedEncoder.getMmtfEncodedStructure();
-		compareStructDataInfs(new GenericDecoder(mmtfStructure), new GenericDecoder(mmtfStructure));
+		compareStructDataInfs(new DefaultDecoder(mmtfStructure), new DefaultDecoder(mmtfStructure));
 	}
 
 	/**

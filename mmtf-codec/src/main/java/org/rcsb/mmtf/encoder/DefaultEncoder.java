@@ -28,10 +28,10 @@ public class DefaultEncoder implements EncoderInterface {
 				ArrayConverters.convertIntegersToFourByte(
 						structureDataInterface.getGroupTypeIndices()));
 		// Encode the coordinate  and B-factor arrays.
-		mmtfBean.setxCoords(FloatCodecs.INT_DELTA_RECURSIVE_3.encode(structureDataInterface.getxCoords()));
-		mmtfBean.setyCoords(FloatCodecs.INT_DELTA_RECURSIVE_3.encode(structureDataInterface.getyCoords()));
-		mmtfBean.setzCoords(FloatCodecs.INT_DELTA_RECURSIVE_3.encode(structureDataInterface.getzCoords()));
-		mmtfBean.setbFactors(FloatCodecs.INT_DELTA_RECURSIVE_2.encode(structureDataInterface.getbFactors()));
+		mmtfBean.setxCoords(FloatCodecs.INT_DELTA_RECURSIVE.encode(structureDataInterface.getxCoords(),1000));
+		mmtfBean.setyCoords(FloatCodecs.INT_DELTA_RECURSIVE.encode(structureDataInterface.getyCoords(),1000));
+		mmtfBean.setzCoords(FloatCodecs.INT_DELTA_RECURSIVE.encode(structureDataInterface.getzCoords(),1000));
+		mmtfBean.setbFactors(FloatCodecs.INT_DELTA_RECURSIVE.encode(structureDataInterface.getbFactors(),100));
 		// Run length encode the occupancy array
 		mmtfBean.setOccupancyList(ArrayConverters.convertIntegersToFourByte(
 				ArrayEncoders.runlengthEncode(

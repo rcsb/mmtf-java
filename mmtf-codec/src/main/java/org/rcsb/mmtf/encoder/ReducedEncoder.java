@@ -33,7 +33,7 @@ public class ReducedEncoder implements EncoderInterface {
 	 * @param structureDataInterface the input {@link StructureDataInterface}
 	 */
 	public ReducedEncoder(StructureDataInterface structureDataInterface) {
-		this.mmtfStructure = new GenericEncoder(structureDataInterface).getMmtfEncodedStructure(getReduced(structureDataInterface));
+		this.mmtfStructure = new DefaultEncoder(structureDataInterface).getMmtfEncodedStructure(getReduced(structureDataInterface));
 	}
 	
 	/**

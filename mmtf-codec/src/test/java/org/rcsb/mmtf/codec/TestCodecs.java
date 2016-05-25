@@ -21,10 +21,10 @@ public class TestCodecs {
 	public void testFloatCodecs() {
 		for(float[] inputData : getFloatData()){
 			for (FloatCodecs floatCodecs : FloatCodecs.values()){
-				byte[] encoded = floatCodecs.encode(inputData);
+				byte[] encoded = floatCodecs.encode(inputData,1000);
 				assertNotNull(encoded);
-				float[] decoded = floatCodecs.decode(encoded);
-				assertArrayEquals(decoded, inputData, getPrecision(floatCodecs.getMultiplier()));
+				float[] decoded = floatCodecs.decode(encoded, 1000);
+				assertArrayEquals(decoded, inputData, getPrecision(1000));
 			}
 		}
 	}

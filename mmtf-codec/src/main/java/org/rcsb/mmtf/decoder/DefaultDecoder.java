@@ -26,10 +26,10 @@ public class DefaultDecoder implements StructureDataInterface {
 	public DefaultDecoder(MmtfStructure inputData) {
 		groupList = ArrayConverters.convertFourByteToIntegers(inputData.getGroupTypeList());
 		// Decode the coordinate  and B-factor arrays.
-		cartnX = FloatCodecs.INT_DELTA_RECURSIVE_3.decode(inputData.getxCoords());
-		cartnY = FloatCodecs.INT_DELTA_RECURSIVE_3.decode(inputData.getyCoords());
-		cartnZ = FloatCodecs.INT_DELTA_RECURSIVE_3.decode(inputData.getzCoords());
-		bFactor = FloatCodecs.INT_DELTA_RECURSIVE_2.decode(inputData.getbFactors());
+		cartnX = FloatCodecs.INT_DELTA_RECURSIVE.decode(inputData.getxCoords(),1000);
+		cartnY = FloatCodecs.INT_DELTA_RECURSIVE.decode(inputData.getyCoords(),1000);
+		cartnZ = FloatCodecs.INT_DELTA_RECURSIVE.decode(inputData.getzCoords(),1000);
+		bFactor = FloatCodecs.INT_DELTA_RECURSIVE.decode(inputData.getbFactors(),100);
 		// Run length decode the occupancy array
 		occupancy = ArrayConverters.convertIntsToFloats(
 				ArrayDecoders.runlengthDecode(
