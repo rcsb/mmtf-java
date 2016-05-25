@@ -26,6 +26,8 @@ import org.rcsb.mmtf.dataholders.MmtfStructure;
  */
 public class EncoderUtils {
 
+	public static final int NULL_PARAM = 0;
+
 	/**
 	 * Regenerate a group map from the {@link StructureDataInterface}.
 	 * @param structureDataInterface the input interface
@@ -121,6 +123,7 @@ public class EncoderUtils {
 	 * Method to prepend a byte array with a byte.
 	 * @param inputData the array to encode and prepend
 	 * @param inputByte the byte to prepend in the array
+	 * @param param the input parameter
 	 * @return the updated array
 	 */
 	public static byte[] encodeByteArr(FloatCodecs inputCodec, float[] inputData, int param){
@@ -135,11 +138,12 @@ public class EncoderUtils {
 	 * Method to prepend a byte array with a byte.
 	 * @param inputData the array to encode and prepend
 	 * @param inputByte the byte to prepend in the array
+	 * @param param the input parameter
 	 * @return the updated array
 	 */
-	public static byte[] encodeByteArr(IntCodecs inputCodec, int[] inputData){
-		byte[] prepend = new OptionParser(inputCodec.getCodecId(), inputData.length).getHeader();
-		byte[] outputArr = inputCodec.encode(inputData);
+	public static byte[] encodeByteArr(IntCodecs inputCodec, int[] inputData, int param){
+		byte[] prepend = new OptionParser(inputCodec.getCodecId(), inputData.length, param).getHeader();
+		byte[] outputArr = inputCodec.encode(inputData, param);
 		return joinArrays(prepend, outputArr);
 	}
 	
@@ -149,9 +153,9 @@ public class EncoderUtils {
 	 * @param inputByte the byte to prepend in the array
 	 * @return the updated array
 	 */
-	public static byte[] encodeByteArr(CharCodecs inputCodec, char[] inputData){
-		byte[] prepend = new OptionParser(inputCodec.getCodecId(), inputData.length).getHeader();
-		byte[] outputArr = inputCodec.encode(inputData);
+	public static byte[] encodeByteArr(CharCodecs inputCodec, char[] inputData, int param){
+		byte[] prepend = new OptionParser(inputCodec.getCodecId(), inputData.length, param).getHeader();
+		byte[] outputArr = inputCodec.encode(inputData, param);
 		return joinArrays(prepend, outputArr);
 
 	}
@@ -162,9 +166,9 @@ public class EncoderUtils {
 	 * @param inputByte the byte to prepend in the array
 	 * @return the updated array
 	 */
-	public static byte[] encodeByteArr(StringCodecs inputCodec, String[] inputData){
-		byte[] prepend = new OptionParser(inputCodec.getCodecId(), inputData.length).getHeader();
-		byte[] outputArr = inputCodec.encode(inputData);
+	public static byte[] encodeByteArr(StringCodecs inputCodec, String[] inputData, int param){
+		byte[] prepend = new OptionParser(inputCodec.getCodecId(), inputData.length, param).getHeader();
+		byte[] outputArr = inputCodec.encode(inputData, param);
 		return joinArrays(prepend, outputArr);
 
 	}

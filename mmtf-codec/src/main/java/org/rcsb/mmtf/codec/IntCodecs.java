@@ -19,7 +19,7 @@ public enum IntCodecs implements IntCodecInterface, CodecInterface {
 	RUN_LENGTH_DELTA(5, "Run length delta") {
 
 		@Override
-		public byte[] encode(int[] inputData) {
+		public byte[] encode(int[] inputData, int param){
 			return ArrayConverters.convertIntegersToFourByte(
 					ArrayEncoders.runlengthEncode(
 							ArrayEncoders.deltaEncode(inputData)));
@@ -27,7 +27,7 @@ public enum IntCodecs implements IntCodecInterface, CodecInterface {
 		}
 
 		@Override
-		public int[] decode(byte[] inputData) {
+		public int[] decode(byte[] inputData, int param){
 			return ArrayDecoders.deltaDecode(
 					ArrayDecoders.runlengthDecode(
 							ArrayConverters.convertFourByteToIntegers(inputData)));
@@ -39,12 +39,12 @@ public enum IntCodecs implements IntCodecInterface, CodecInterface {
 	CONVERT_4_BYTE(6, "Convert to bytes as 4 byte integers."){
 
 		@Override
-		public byte[] encode(int[] inputData) {
+		public byte[] encode(int[] inputData, int param){
 			return ArrayConverters.convertIntegersToFourByte(inputData);
 		}
 
 		@Override
-		public int[] decode(byte[] inputData) {
+		public int[] decode(byte[] inputData, int param){
 			return ArrayConverters.convertFourByteToIntegers(inputData);
 		}
 		
@@ -55,12 +55,12 @@ public enum IntCodecs implements IntCodecInterface, CodecInterface {
 	CONVERT_BYTE(7, "Convert to bytes as  byte integers."){
 
 		@Override
-		public byte[] encode(int[] inputData) {
+		public byte[] encode(int[] inputData, int param){
 			return ArrayConverters.convertIntegersToBytes(inputData);
 		}
 
 		@Override
-		public int[] decode(byte[] inputData) {
+		public int[] decode(byte[] inputData, int param){
 			return ArrayConverters.convertByteToIntegers(inputData);
 		}
 		
@@ -102,7 +102,7 @@ public enum IntCodecs implements IntCodecInterface, CodecInterface {
 	public static int[] decodeArr(byte[] inputData){
 		OptionParser optionParser = new OptionParser(inputData);
 		IntCodecs codecs = getCodec(optionParser.methodNumber);
-		return codecs.decode(optionParser.data);
+		return codecs.decode(optionParser.data, optionParser.param);
 	}
 
 	/**

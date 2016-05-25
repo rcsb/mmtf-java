@@ -17,14 +17,14 @@ public enum CharCodecs implements CharCodecInterface, CodecInterface{
 	RUN_LENGTH(1, "Run length"){
 
 		@Override
-		public byte[] encode(char[] inputData) {
+		public byte[] encode(char[] inputData, int param) {
 			return ArrayConverters.convertIntegersToFourByte(
 					ArrayEncoders.runlengthEncode(
 							ArrayConverters.convertCharToIntegers(inputData)));
 		}
 
 		@Override
-		public char[] decode(byte[] inputData) {
+		public char[] decode(byte[] inputData, int param) {
 			return org.rcsb.mmtf.codec.ArrayConverters.convertIntegerToChar(
 					ArrayDecoders.runlengthDecode(
 							org.rcsb.mmtf.codec.ArrayConverters.convertFourByteToIntegers(inputData)));
@@ -66,7 +66,7 @@ public enum CharCodecs implements CharCodecInterface, CodecInterface{
 	public static char[] decodeArr(byte[] inputData){
 		OptionParser optionParser = new OptionParser(inputData);
 		CharCodecs codecs = CharCodecs.getCodec(optionParser.methodNumber);
-		return codecs.decode(optionParser.data);
+		return codecs.decode(optionParser.data, optionParser.param);
 	}
 	
 	@Override

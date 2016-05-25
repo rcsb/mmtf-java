@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Test;
+import org.rcsb.mmtf.encoder.EncoderUtils;
 
 /**
  * Class to test the codecs (anything that implements {@link CodecInterface}).
@@ -23,8 +24,8 @@ public class TestCodecs {
 			for (FloatCodecs floatCodecs : FloatCodecs.values()){
 				byte[] encoded = floatCodecs.encode(inputData,1000);
 				assertNotNull(encoded);
-				float[] decoded = floatCodecs.decode(encoded, 1000);
-				assertArrayEquals(decoded, inputData, getPrecision(1000));
+				float[] decoded = floatCodecs.decode(encoded,1000);
+				assertArrayEquals(decoded, inputData, 0.0009f);
 			}
 		}
 	}
@@ -37,9 +38,9 @@ public class TestCodecs {
 	public void testIntCodecs() {
 		for(int[] inputData : getIntData()){
 			for (IntCodecs codec : IntCodecs.values()){
-				byte[] encoded = codec.encode(inputData);
+				byte[] encoded = codec.encode(inputData,EncoderUtils.NULL_PARAM);
 				assertNotNull(encoded);
-				int[] decoded = codec.decode(encoded);
+				int[] decoded = codec.decode(encoded,EncoderUtils.NULL_PARAM);
 				assertArrayEquals(decoded, inputData);
 			}
 		}
@@ -52,9 +53,9 @@ public class TestCodecs {
 	public void testCharCodecs() {
 		for(char[] inputData : getCharData()){
 			for (CharCodecs codec : CharCodecs.values()){
-				byte[] encoded = codec.encode(inputData);
+				byte[] encoded = codec.encode(inputData,EncoderUtils.NULL_PARAM);
 				assertNotNull(encoded);
-				char[] decoded = codec.decode(encoded);
+				char[] decoded = codec.decode(encoded,EncoderUtils.NULL_PARAM);
 				assertArrayEquals(decoded, inputData);
 			}
 		}
@@ -69,9 +70,9 @@ public class TestCodecs {
 		
 		for(String[] inputData : getStringData()){
 			for (StringCodecs codec : StringCodecs.values()){
-				byte[] encoded = codec.encode(inputData);
+				byte[] encoded = codec.encode(inputData,EncoderUtils.NULL_PARAM);
 				assertNotNull(encoded);
-				String[] decoded = codec.decode(encoded);
+				String[] decoded = codec.decode(encoded,EncoderUtils.NULL_PARAM);
 				assertArrayEquals(decoded, inputData);
 			}
 		}
@@ -120,16 +121,6 @@ public class TestCodecs {
 		return data;
 	}
 
-	/**
-	 * Get the precision of a float codec.
-	 * @param accuracy the accuracy (e.g. 1000.0f - means 3dp accuracy).
-	 * @return the precision required (e.g. 0.0009f for 1000.0f)
-	 */
-	private float getPrecision(float accuracy) {
-		float maxPrecision = 1.0f/accuracy;
-		maxPrecision = maxPrecision / 10;
-		maxPrecision = maxPrecision * 0.9999999999999999999f;
-		return maxPrecision;
-	}
+
 
 }

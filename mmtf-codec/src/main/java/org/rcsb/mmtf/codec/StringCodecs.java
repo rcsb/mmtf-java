@@ -15,12 +15,12 @@ public enum StringCodecs implements StringCodecsInterface, CodecInterface {
 	ENCOODE_CHAINS(8, "Encode chains") {
 
 		@Override
-		public byte[] encode(String[] inputData) {
+		public byte[] encode(String[] inputData, int param) {
 			return ArrayConverters.encodeChainList(inputData);
 		}
 
 		@Override
-		public String[] decode(byte[] inputData) {
+		public String[] decode(byte[] inputData, int param) {
 			return org.rcsb.mmtf.codec.ArrayConverters.decodeChainList(inputData);
 		}
 		
@@ -61,7 +61,7 @@ public enum StringCodecs implements StringCodecsInterface, CodecInterface {
 	public static String[] decodeArr(byte[] inputData){
 		OptionParser optionParser = new OptionParser(inputData);
 		StringCodecs codecs = getCodec(optionParser.methodNumber);
-		return codecs.decode(optionParser.data);
+		return codecs.decode(optionParser.data, optionParser.param);
 	}
 
 	@Override
