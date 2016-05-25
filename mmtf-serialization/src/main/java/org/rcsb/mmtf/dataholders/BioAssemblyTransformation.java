@@ -19,13 +19,14 @@ public class BioAssemblyTransformation implements Serializable {
 	/** The indices of the chains this bioassembly references. */
 	private int[] chainIndexList;
 
-	/** The 4x4 matrix transformation specifying a rotation and a translation. */
+	/** The 4x4 matrix transformation specifying a rotation and a translation. 
+	 * 	Stored linearly in row major order.*/
 	private double[] matrix;
 
 
 	/**
 	 * Gets the 4x4 matrix transformation specifying a rotation and a translation.
-	 * FIXME is this row-packed or column-packed?
+	 * Stored linearly in row major order.
 	 * @return the transformation
 	 */
 	public double[] getMatrix() {
@@ -34,7 +35,7 @@ public class BioAssemblyTransformation implements Serializable {
 
 	/**
 	 * Sets the 4x4 matrix transformation specifying a rotation and a translation.
-	 * FIXME is this row-packed or column-packed?
+	 * Stored linearly in row major order.
 	 * @param transformation the new transformation
 	 */
 	public void setMatrix(double[] transformation) {
