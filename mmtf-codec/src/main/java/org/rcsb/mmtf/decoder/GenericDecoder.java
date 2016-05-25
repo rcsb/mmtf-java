@@ -50,15 +50,12 @@ public class GenericDecoder  implements StructureDataInterface {
 		interGroupBondIndices = IntCodecs.decodeArr(inputData.getBondAtomList());
 		interGroupBondOrders = IntCodecs.decodeArr(inputData.getBondOrderList());
 		secStructInfo = IntCodecs.decodeArr(inputData.getSecStructList());
-		
 		// Get the number of chains per model
 		chainsPerModel = inputData.getChainsPerModel();
 		groupsPerChain = inputData.getGroupsPerChain();
-
 		spaceGroup = inputData.getSpaceGroup();
 		unitCell = inputData.getUnitCell();
 		bioAssembly  = inputData.getBioAssemblyList();
-
 		mmtfVersion = inputData.getMmtfVersion();
 		mmtfProducer = inputData.getMmtfProducer();
 		entityList = inputData.getEntityList();
@@ -73,9 +70,10 @@ public class GenericDecoder  implements StructureDataInterface {
 		// Now get the relase information
 		depositionDate = inputData.getDepositionDate();
 		releaseDate = inputData.getReleaseDate();
+		numGroups = inputData.getNumGroups();
+		numChains = inputData.getNumChains();
+		numModels = inputData.getNumModels();
 	}
-
-
 
 	/** The X coordinates */
 	private float[] cartnX;
@@ -177,6 +175,13 @@ public class GenericDecoder  implements StructureDataInterface {
 	private String releaseDate;
 
 	private int[] secStructInfo;
+
+	private int numModels;
+	
+	private int numChains;
+	
+	private int numGroups;
+
 
 
 	@Override
@@ -291,17 +296,17 @@ public class GenericDecoder  implements StructureDataInterface {
 
 	@Override
 	public int getNumGroups() {
-		return this.groupList.length;
+		return numGroups;
 	}
 
 	@Override
 	public int getNumChains() {
-		return this.chainList.length;
+		return numChains;
 	}
 
 	@Override
 	public int getNumModels() {	
-		return this.chainsPerModel.length;
+		return numModels;
 	}
 
 	@Override

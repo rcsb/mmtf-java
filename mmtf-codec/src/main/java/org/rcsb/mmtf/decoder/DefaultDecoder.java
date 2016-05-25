@@ -63,6 +63,7 @@ public class DefaultDecoder implements StructureDataInterface {
 		// Get the number of chains per model
 		chainsPerModel = inputData.getChainsPerModel();
 		groupsPerChain = inputData.getGroupsPerChain();
+		
 		// Get the internal and public facing chain ids
 		publicChainIds = ArrayConverters.decodeChainList(inputData.getChainNameList());
 		chainList = ArrayConverters.decodeChainList(inputData.getChainIdList());
@@ -86,6 +87,9 @@ public class DefaultDecoder implements StructureDataInterface {
 		depositionDate = inputData.getDepositionDate();
 		releaseDate = inputData.getReleaseDate();
 		secStructInfo = ArrayConverters.convertByteToIntegers(inputData.getSecStructList());
+		numGroups = inputData.getNumGroups();
+		numChains = inputData.getNumChains();
+		numModels = inputData.getNumModels();
 	}
 
 	/** The X coordinates */
@@ -188,6 +192,12 @@ public class DefaultDecoder implements StructureDataInterface {
 	private String releaseDate;
 
 	private int[] secStructInfo;
+	
+	private int numModels;
+	
+	private int numChains;
+	
+	private int numGroups;
 
 
 	@Override
@@ -302,17 +312,18 @@ public class DefaultDecoder implements StructureDataInterface {
 
 	@Override
 	public int getNumGroups() {
-		return this.groupList.length;
+		return numGroups;
 	}
 
 	@Override
 	public int getNumChains() {
-		return this.chainList.length;
+		return numChains;
+
 	}
 
 	@Override
 	public int getNumModels() {	
-		return this.chainsPerModel.length;
+		return numModels;
 	}
 
 	@Override

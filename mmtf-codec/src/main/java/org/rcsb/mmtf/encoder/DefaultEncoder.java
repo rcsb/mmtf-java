@@ -91,6 +91,9 @@ public class DefaultEncoder implements EncoderInterface {
 		// Set some header data
 		mmtfBean.setNumAtoms(structureDataInterface.getNumAtoms());
 		mmtfBean.setNumBonds(structureDataInterface.getNumBonds());
+		mmtfBean.setNumChains(structureDataInterface.getNumChains());
+		mmtfBean.setNumGroups(structureDataInterface.getNumGroups());
+		mmtfBean.setNumModels(structureDataInterface.getNumModels());
 		mmtfBean.setrFree(structureDataInterface.getRfree());
 		mmtfBean.setrWork(structureDataInterface.getRwork());
 		mmtfBean.setResolution(structureDataInterface.getResolution());

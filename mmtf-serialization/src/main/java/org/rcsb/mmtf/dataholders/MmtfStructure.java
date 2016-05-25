@@ -37,15 +37,24 @@ public class MmtfStructure implements Serializable {
 
 	/** The number of bonds. */
 	private int numBonds;
+	
+	/** The number of atoms. */
+	private int numAtoms;
+	
+	/** The number of groups. */
+	private int numGroups;
+	
+	/** The number of chains. */
+	private int numChains;
+	
+	/** The number of models. */
+	private int numModels;
 
 	/** The structure Id. Most commonly this will be the four character PDB id. */
 	private String structureId;
 
 	/** The title. */
 	private String title;
-
-	/** The number of atoms. */
-	private int numAtoms;
 
 	/** The number of chains per model. */
 	private int[] chainsPerModel;
@@ -768,6 +777,48 @@ public class MmtfStructure implements Serializable {
 	 */
 	public void setbFactors(byte[] bFactors) {
 		this.bFactors = bFactors;
+	}
+
+	/**
+	 * @return the number of groups in the structure
+	 */
+	public int getNumGroups() {
+		return numGroups;
+	}
+
+	/**
+	 * @param numGroups the number of groups in the structure
+	 */
+	public void setNumGroups(int numGroups) {
+		this.numGroups = numGroups;
+	}
+
+	/**
+	 * @return the number of chains in the structure
+	 */
+	public int getNumChains() {
+		return numChains;
+	}
+
+	/**
+	 * @param numChains the number of chains in the structure
+	 */
+	public void setNumChains(int numChains) {
+		this.numChains = numChains;
+	}
+
+	/**
+	 * @return the number of models in the structure
+	 */
+	public int getNumModels() {
+		return numModels;
+	}
+
+	/**
+	 * @param numModels the number of models in the structure
+	 */
+	public void setNumModels(int numModels) {
+		this.numModels = numModels;
 	}
 
 }
