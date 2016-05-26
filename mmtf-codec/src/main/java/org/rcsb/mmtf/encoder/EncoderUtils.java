@@ -44,7 +44,7 @@ public class EncoderUtils {
 		for (int i=0; i<maxIndex+1; i++) {
 			// Generate this PDBGroup
 			Group pdbGroup = new Group();
-			pdbGroup.setAtomChargeList(structureDataInterface.getGroupAtomCharges(i));
+			pdbGroup.setFormalChargeList(structureDataInterface.getGroupAtomCharges(i));
 			pdbGroup.setAtomNameList(structureDataInterface.getGroupAtomNames(i));
 			pdbGroup.setBondAtomList(structureDataInterface.getGroupBondIndices(i));
 			pdbGroup.setBondOrderList(structureDataInterface.getGroupBondOrders(i));
