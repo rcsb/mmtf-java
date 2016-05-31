@@ -48,7 +48,7 @@ public class TestEncoder {
 	@Test
 	public void testReducedEncoder() throws IOException {
 		DummyApiImpl dummyApiImpl = new DummyApiImpl();
-		EncoderInterface encoder = new ReducedEncoder(dummyApiImpl);
+		DefaultEncoder encoder = new DefaultEncoder(ReducedEncoder.getReduced(dummyApiImpl));
 		ReflectionAssert.assertPropertiesNotNull("Some properties null after encoding",  encoder.getMmtfEncodedStructure());
 	}
 	

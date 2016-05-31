@@ -109,11 +109,6 @@ public class DefaultEncoder implements EncoderInterface {
 		return mmtfBean;
 	}
 
-	@Override
-	public MmtfStructure getMmtfEncodedStructure(StructureDataInterface structureDataInterface) {
-		return new DefaultEncoder(structureDataInterface).getMmtfEncodedStructure();
-	}
-
 
 	
 

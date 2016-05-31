@@ -4,39 +4,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.rcsb.mmtf.api.StructureDataInterface;
-import org.rcsb.mmtf.dataholders.MmtfStructure;
 
 /**
  * Convert a full format of the file to a reduced format.
  * @author Anthony Bradley
  *
  */
-public class ReducedEncoder implements EncoderInterface {
+public class ReducedEncoder {
 	
-	private MmtfStructure mmtfStructure;
-
 	private static final String CALPHA_NAME = "CA";
 	private static final String CARBON_ELEMENT = "C";
 	private static final String PHOSPHATE_NAME = "P";
 	private static final String PHOSPHATE_ELEMENT = "P";
 
-	/**
-	 * Constructor to implement the reduced encoder of the {@link StructureDataInterface}.
-	 * @param structureDataInterface the input {@link StructureDataInterface}
-	 */
-	public ReducedEncoder(StructureDataInterface structureDataInterface, EncoderInterface encoderInterface) {
-		this.mmtfStructure = encoderInterface.getMmtfEncodedStructure(getReduced(structureDataInterface));
-	}
-	
-	/**
-	 * Constructor to implement the reduced encoder of the {@link StructureDataInterface}.
-	 * @param structureDataInterface the input {@link StructureDataInterface}
-	 */
-	public ReducedEncoder(StructureDataInterface structureDataInterface) {
-		structureDataInterface = getReduced(structureDataInterface);
-		this.mmtfStructure = new DefaultEncoder(structureDataInterface).getMmtfEncodedStructure();
-	}
-	
+
 	/**
 	 * Get the reduced form of the input {@link StructureDataInterface}.
 	 * @param structureDataInterface the input {@link StructureDataInterface} 
@@ -83,8 +64,8 @@ public class ReducedEncoder implements EncoderInterface {
 					// If there's an atom to add in this group - add it
 					if(indicesToAdd.size()>0){
 						adapterToStructureData.setGroupInfo(structureDataInterface.getGroupName(groupType), structureDataInterface.getGroupIds()[groupCounter], 
-								structureDataInterface.getInsCodes()[groupCounter], structureDataInterface.getGroupChemCompType(groupType), structureDataInterface.getGroupAtomCharges(groupType).length,
-								structureDataInterface.getGroupBondOrders(groupType).length, structureDataInterface.getGroupSingleLetterCode(groupType), structureDataInterface.getGroupSequenceIndices()[groupCounter], 
+								structureDataInterface.getInsCodes()[groupCounter], structureDataInterface.getGroupChemCompType(groupType), indicesToAdd.size(),
+								0, structureDataInterface.getGroupSingleLetterCode(groupType), structureDataInterface.getGroupSequenceIndices()[groupCounter], 
 								structureDataInterface.getSecStructList()[groupCounter]);
 						numGroups++;
 					}
@@ -201,17 +182,6 @@ public class ReducedEncoder implements EncoderInterface {
 	}
 
 
-
-	@Override
-	public MmtfStructure getMmtfEncodedStructure() {
-		return mmtfStructure;
-	}
-
-
-	@Override
-	public MmtfStructure getMmtfEncodedStructure(StructureDataInterface structureDataInterface) {
-		return new ReducedEncoder(structureDataInterface).getMmtfEncodedStructure();
-	}
 
 
 }

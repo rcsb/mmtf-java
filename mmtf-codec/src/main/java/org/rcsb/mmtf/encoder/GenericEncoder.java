@@ -94,11 +94,6 @@ public class GenericEncoder implements EncoderInterface {
 		return mmtfBean;
 	}
 
-	@Override
-	public MmtfStructure getMmtfEncodedStructure(StructureDataInterface structureDataInterface) {
-		return new GenericEncoder(structureDataInterface).getMmtfEncodedStructure();
-	}
-
 
 
 }

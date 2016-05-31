@@ -55,8 +55,7 @@ public class TestRoundTrip {
 	@Test
 	public void testReducedGeneric() throws IOException {
 		StructureDataInterface structureDataInterface = getDefaultFullData();
-		ReducedEncoder reducedEncoder = new ReducedEncoder(structureDataInterface);
-		MmtfStructure mmtfStructure = reducedEncoder.getMmtfEncodedStructure();
+		MmtfStructure mmtfStructure = new DefaultEncoder(ReducedEncoder.getReduced(structureDataInterface)).getMmtfEncodedStructure();
 		compareStructDataInfs(new DefaultDecoder(mmtfStructure), new DefaultDecoder(mmtfStructure));
 	}
 
