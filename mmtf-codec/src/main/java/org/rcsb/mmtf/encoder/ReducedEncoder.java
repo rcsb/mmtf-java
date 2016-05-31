@@ -77,12 +77,13 @@ public class ReducedEncoder {
 									structureDataInterface.getOccupancies()[atomCounter], structureDataInterface.getbFactors()[atomCounter], structureDataInterface.getGroupElementNames(groupType)[l], structureDataInterface.getGroupAtomCharges(groupType)[l]);
 						}
 					}
+					int numAtomsBefore = atomCounter-structureDataInterface.getNumAtomsInGroup(groupType);
 					// Add the bonds if we've copied all the elements
 					if(indicesToAdd.size()>1 && indicesToAdd.size()==structureDataInterface.getGroupBondOrders(groupType).length){
 						for(int l=0; l<structureDataInterface.getGroupBondOrders(groupType).length; l++){
 							int bondOrder = structureDataInterface.getGroupBondOrders(groupType)[l];
-							int bondIndOne = structureDataInterface.getGroupBondIndices(groupType)[l*2];
-							int bondIndTwo = structureDataInterface.getGroupBondIndices(groupType)[l*2+1];
+							int bondIndOne = numAtomsBefore+structureDataInterface.getGroupBondIndices(groupType)[l*2];
+							int bondIndTwo = numAtomsBefore+structureDataInterface.getGroupBondIndices(groupType)[l*2+1];
 							adapterToStructureData.setInterGroupBond(bondIndOne, bondIndTwo, bondOrder);
 						}
 					}
