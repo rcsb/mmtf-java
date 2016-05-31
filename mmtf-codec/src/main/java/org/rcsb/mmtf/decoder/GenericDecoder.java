@@ -26,10 +26,10 @@ public class GenericDecoder  implements StructureDataInterface {
 	 */
 	public GenericDecoder(MmtfStructure inputData) {
 		// Decode the coordinate  and B-factor arrays.
-		cartnX = FloatCodecs.decodeArr(inputData.getxCoords());
-		cartnY = FloatCodecs.decodeArr(inputData.getyCoords());
-		cartnZ = FloatCodecs.decodeArr(inputData.getzCoords());
-		bFactor = FloatCodecs.decodeArr(inputData.getbFactors());
+		cartnX = FloatCodecs.decodeArr(inputData.getxCoordList());
+		cartnY = FloatCodecs.decodeArr(inputData.getyCoordList());
+		cartnZ = FloatCodecs.decodeArr(inputData.getzCoordList());
+		bFactor = FloatCodecs.decodeArr(inputData.getbFactorList());
 		// Run length decode the occupancy array
 		occupancy = FloatCodecs.decodeArr(inputData.getOccupancyList());
 		// Run length and delta 

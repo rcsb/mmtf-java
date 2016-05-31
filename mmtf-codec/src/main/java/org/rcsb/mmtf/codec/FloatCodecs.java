@@ -15,7 +15,7 @@ public enum FloatCodecs implements FloatCodecInterface, CodecInterface {
 	 * Encoding a list of floats (e.g. coordinates) using integer encoding (3DP accuracy), 
 	 * delta encoding and then recursive indexing.
 	 */
-	INT_DELTA_RECURSIVE(2, "Delta") {
+	INT_DELTA_RECURSIVE(10, "Delta") {
 
 		@Override
 		public byte[] encode(float[] inputData, int param) {
@@ -38,7 +38,7 @@ public enum FloatCodecs implements FloatCodecInterface, CodecInterface {
 	 * Encoding a list of floats (e.g. occupancy) using integer encoding (2DP accuracy) 
 	 * and then run length encoding.
 	 */
-	INT_RUNLENGTH(4, "Run length") {
+	INT_RUNLENGTH(9, "Run length") {
 
 		@Override
 		public byte[] encode(float[] inputData, int param) {

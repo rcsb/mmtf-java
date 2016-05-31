@@ -28,10 +28,10 @@ public class DefaultEncoder implements EncoderInterface {
 				ArrayConverters.convertIntegersToFourByte(
 						structureDataInterface.getGroupTypeIndices()));
 		// Encode the coordinate  and B-factor arrays.
-		mmtfBean.setxCoords(FloatCodecs.INT_DELTA_RECURSIVE.encode(structureDataInterface.getxCoords(),1000));
-		mmtfBean.setyCoords(FloatCodecs.INT_DELTA_RECURSIVE.encode(structureDataInterface.getyCoords(),1000));
-		mmtfBean.setzCoords(FloatCodecs.INT_DELTA_RECURSIVE.encode(structureDataInterface.getzCoords(),1000));
-		mmtfBean.setbFactors(FloatCodecs.INT_DELTA_RECURSIVE.encode(structureDataInterface.getbFactors(),100));
+		mmtfBean.setxCoordList(FloatCodecs.INT_DELTA_RECURSIVE.encode(structureDataInterface.getxCoords(),1000));
+		mmtfBean.setyCoordList(FloatCodecs.INT_DELTA_RECURSIVE.encode(structureDataInterface.getyCoords(),1000));
+		mmtfBean.setzCoordList(FloatCodecs.INT_DELTA_RECURSIVE.encode(structureDataInterface.getzCoords(),1000));
+		mmtfBean.setbFactorList(FloatCodecs.INT_DELTA_RECURSIVE.encode(structureDataInterface.getbFactors(),100));
 		// Run length encode the occupancy array
 		mmtfBean.setOccupancyList(ArrayConverters.convertIntegersToFourByte(
 				ArrayEncoders.runlengthEncode(
@@ -69,8 +69,8 @@ public class DefaultEncoder implements EncoderInterface {
 		mmtfBean.setChainsPerModel(structureDataInterface.getChainsPerModel());
 		mmtfBean.setGroupsPerChain(structureDataInterface.getGroupsPerChain());
 		// Set the internal and public facing chain ids
-		mmtfBean.setChainNameList(ArrayConverters.encodeChainList(structureDataInterface.getChainNames()));
-		mmtfBean.setChainIdList(ArrayConverters.encodeChainList(structureDataInterface.getChainIds()));
+		mmtfBean.setChainNameList(ArrayConverters.encodeChainList(structureDataInterface.getChainNames(),MmtfStructure.CHAIN_LENGTH));
+		mmtfBean.setChainIdList(ArrayConverters.encodeChainList(structureDataInterface.getChainIds(),MmtfStructure.CHAIN_LENGTH));
 		// Set the space group information
 		mmtfBean.setSpaceGroup(structureDataInterface.getSpaceGroup());
 		mmtfBean.setUnitCell(structureDataInterface.getUnitCell());

@@ -13,17 +13,18 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class MmtfStructure implements Serializable {
 
-
 	/** The number to divide coordinate int values by. */
-	public static final float COORD_DIVIDER = 1000.0f;
+	public static final int COORD_DIVIDER = 1000;
 	/** The number to divide occupancy and bfactor int values by. */
-	public static final float OCCUPANCY_BFACTOR_DIVIDER = 100.0f;
+	public static final int OCCUPANCY_BFACTOR_DIVIDER = 100;
 	/** The default value for Rfree and Rwork */
 	public static final float UNAVAILABLE_R_VALUE = 1.0f;
 	/** The default value for resolution when not available or not applicable  */
 	public static final float UNAVAILABLE_RESOLUTION_VALUE = 99.0f;
 	/** The default value for a missing or null string field */
 	public static final char UNAVAILABLE_CHAR_VALUE = '\0';
+	/** The number of characters in a chain.*/
+	public static final int CHAIN_LENGTH = 4;
 
 
 	/** Serial id for this version of the format. */
@@ -87,16 +88,16 @@ public class MmtfStructure implements Serializable {
 	private Group[] groupList;
 
 	/** The encoded X coordinates. */
-	private byte[] xCoords;
+	private byte[] xCoordList;
 
 	/** The encoded Y coordinates.  */
-	private byte[] yCoords;
+	private byte[] yCoordList;
 
 	/** The encoded Z coordinates.  */
-	private byte[] zCoords;
+	private byte[] zCoordList;
 
 	/** The encoded B-factors. */
-	private byte[] bFactors;
+	private byte[] bFactorList;
 
 	/** The secondary structure list. Stored as 1 byte ints. */
 	private byte[] secStructList;
@@ -147,9 +148,9 @@ public class MmtfStructure implements Serializable {
 	public MmtfStructure() {
 
 		/** The mmtf version. Set here. */
-		mmtfVersion = "0.1";
+		mmtfVersion = "0.2.0";
 
-		/** The mmtf producer. NA is default and means error. */
+		/** The mmtf producer. NA is default and for RCSB PDB data indicates an error. */
 		mmtfProducer = "NA";
 
 		/** The resolution in Angstrom. -1.0 if not applicable*/
@@ -726,57 +727,57 @@ public class MmtfStructure implements Serializable {
 	/**
 	 * @return the X coords as an encoded byte array.
 	 */
-	public byte[] getxCoords() {
-		return xCoords;
+	public byte[] getxCoordList() {
+		return xCoordList;
 	}
 
 	/**
 	 * @param xCoords the X coords as an encoded byte array.
 	 */
-	public void setxCoords(byte[] xCoords) {
-		this.xCoords = xCoords;
+	public void setxCoordList(byte[] xCoords) {
+		this.xCoordList = xCoords;
 	}
 
 	/**
 	 * @return the  the Y coords as an encoded byte array.
 	 */
-	public byte[] getyCoords() {
-		return yCoords;
+	public byte[] getyCoordList() {
+		return yCoordList;
 	}
 
 	/**
 	 * @param yCoords the Y  coords as an encoded byte array.
 	 */
-	public void setyCoords(byte[] yCoords) {
-		this.yCoords = yCoords;
+	public void setyCoordList(byte[] yCoords) {
+		this.yCoordList = yCoords;
 	}
 
 	/**
 	 * @return the Z coords as an encoded byte array.
 	 */
-	public byte[] getzCoords() {
-		return zCoords;
+	public byte[] getzCoordList() {
+		return zCoordList;
 	}
 
 	/**
 	 * @param zCoords the Z coords as an encoded byte array.
 	 */
-	public void setzCoords(byte[] zCoords) {
-		this.zCoords = zCoords;
+	public void setzCoordList(byte[] zCoords) {
+		this.zCoordList = zCoords;
 	}
 
 	/**
 	 * @return the atomic B-factors  as an encoded byte array.
 	 */
-	public byte[] getbFactors() {
-		return bFactors;
+	public byte[] getbFactorList() {
+		return bFactorList;
 	}
 
 	/**
 	 * @param bFactors the atomic B-factors  as an encoded byte array.
 	 */
-	public void setbFactors(byte[] bFactors) {
-		this.bFactors = bFactors;
+	public void setbFactorList(byte[] bFactors) {
+		this.bFactorList = bFactors;
 	}
 
 	/**

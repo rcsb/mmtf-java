@@ -93,7 +93,7 @@ public class TestRoundTrip {
 	private StructureDataInterface getDefaultFullData() throws IOException {
 		ClassLoader classLoader = getClass().getClassLoader();
 		Path inFile = Paths.get(classLoader.getResource("mmtf/4cup.mmtf").getFile());
-		return new DefaultDecoder(ReaderUtils.getDataFromFile(inFile));
+		return new GenericDecoder(ReaderUtils.getDataFromFile(inFile));
 	}
 
 

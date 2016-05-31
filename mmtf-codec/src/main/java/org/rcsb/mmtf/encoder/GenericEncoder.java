@@ -18,18 +18,25 @@ public class GenericEncoder implements EncoderInterface {
 	private MmtfStructure mmtfBean;
 
 	/**
+	 * Empty constructor. Requires a call of getMmtfEncoded structure to then work.
+	 */
+	public GenericEncoder(){
+		
+	}
+	
+	/**
 	 * The constructor for the encoder.
 	 * @param structureDataInterface the interface of data to be encoded.
 	 */
 	public GenericEncoder(StructureDataInterface structureDataInterface) {
 		mmtfBean = new MmtfStructure();
 		// Delta split three and two
-		mmtfBean.setxCoords(EncoderUtils.encodeByteArr(FloatCodecs.INT_DELTA_RECURSIVE,structureDataInterface.getxCoords(),1000));
-		mmtfBean.setyCoords(EncoderUtils.encodeByteArr(FloatCodecs.INT_DELTA_RECURSIVE,structureDataInterface.getyCoords(),1000));
-		mmtfBean.setzCoords(EncoderUtils.encodeByteArr(FloatCodecs.INT_DELTA_RECURSIVE,structureDataInterface.getzCoords(),1000));
-		mmtfBean.setbFactors(EncoderUtils.encodeByteArr(FloatCodecs.INT_DELTA_RECURSIVE,structureDataInterface.getbFactors(),100));
+		mmtfBean.setxCoordList(EncoderUtils.encodeByteArr(FloatCodecs.INT_DELTA_RECURSIVE,structureDataInterface.getxCoords(),MmtfStructure.COORD_DIVIDER));
+		mmtfBean.setyCoordList(EncoderUtils.encodeByteArr(FloatCodecs.INT_DELTA_RECURSIVE,structureDataInterface.getyCoords(),MmtfStructure.COORD_DIVIDER));
+		mmtfBean.setzCoordList(EncoderUtils.encodeByteArr(FloatCodecs.INT_DELTA_RECURSIVE,structureDataInterface.getzCoords(),MmtfStructure.COORD_DIVIDER));
+		mmtfBean.setbFactorList(EncoderUtils.encodeByteArr(FloatCodecs.INT_DELTA_RECURSIVE,structureDataInterface.getbFactors(),MmtfStructure.OCCUPANCY_BFACTOR_DIVIDER));
 		// Run length encode the occupancy array
-		mmtfBean.setOccupancyList(EncoderUtils.encodeByteArr(FloatCodecs.INT_RUNLENGTH,structureDataInterface.getOccupancies(),100));
+		mmtfBean.setOccupancyList(EncoderUtils.encodeByteArr(FloatCodecs.INT_RUNLENGTH,structureDataInterface.getOccupancies(),MmtfStructure.OCCUPANCY_BFACTOR_DIVIDER));
 		// Run length and delta
 		mmtfBean.setAtomIdList(EncoderUtils.encodeByteArr(IntCodecs.RUN_LENGTH_DELTA,structureDataInterface.getAtomIds(),EncoderUtils.NULL_PARAM));
 		// Run length encoded
@@ -40,8 +47,8 @@ public class GenericEncoder implements EncoderInterface {
 		mmtfBean.setSequenceIndexList(EncoderUtils.encodeByteArr(IntCodecs.RUN_LENGTH_DELTA,structureDataInterface.getGroupSequenceIndices(),EncoderUtils.NULL_PARAM));
 		// Set the indices for the groups mapping to the sequence
 		// Set the internal and public facing chain ids
-		mmtfBean.setChainNameList(EncoderUtils.encodeByteArr(StringCodecs.ENCOODE_CHAINS,structureDataInterface.getChainNames(),EncoderUtils.NULL_PARAM));
-		mmtfBean.setChainIdList(EncoderUtils.encodeByteArr(StringCodecs.ENCOODE_CHAINS,structureDataInterface.getChainIds(),EncoderUtils.NULL_PARAM));
+		mmtfBean.setChainNameList(EncoderUtils.encodeByteArr(StringCodecs.ENCOODE_CHAINS,structureDataInterface.getChainNames(),MmtfStructure.CHAIN_LENGTH));
+		mmtfBean.setChainIdList(EncoderUtils.encodeByteArr(StringCodecs.ENCOODE_CHAINS,structureDataInterface.getChainIds(),MmtfStructure.CHAIN_LENGTH));
 		// Four bytes
 		mmtfBean.setBondAtomList(EncoderUtils.encodeByteArr(IntCodecs.CONVERT_4_BYTE,structureDataInterface.getInterGroupBondIndices(),EncoderUtils.NULL_PARAM));
 		// Set the group types

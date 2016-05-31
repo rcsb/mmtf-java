@@ -17,11 +17,12 @@ public class ArrayConverters {
 
 	/**
 	 * Find all the chain ids from a single byte array. Each byte encodes a different ASCII character.
-	 * @param currentChainList the byte array of the chain list input. Each chain takes up 4 bytes.
+	 * @param currentChainList the byte array of the chain list input. 
+	 * @param the number of bytes array takes
 	 * @return the string array of the parsed chain ids
 	 */
-	public static String[] decodeChainList(byte[] currentChainList) {
-		int outputLength = currentChainList.length/4;
+	public static String[] decodeChainList(byte[] currentChainList, int length) {
+		int outputLength = currentChainList.length/length;
 		String[] outArray = new String[outputLength];
 		for (int i = 0; i < outputLength; i++){
 			outArray[i] = getChainId(currentChainList, i);
@@ -325,12 +326,13 @@ public class ArrayConverters {
 
 	
 	/**
-	 * Convert the chain names to a byte array
-	 * @param chainNames the list of chain names as strings. Max length of 4 characters.
-	 * @return the byte array of the chain names.
+	 * Convert the chain names to a byte array.
+	 * @param chainNames the list of chain names as string
+	 * @param length  max length of chars in a string
+	 * @return the byte array of the chain names
 	 */
-	public static byte[] encodeChainList(String[] chainNames) {
-		byte[] outArr = new byte[chainNames.length*4];
+	public static byte[] encodeChainList(String[] chainNames, int length) {
+		byte[] outArr = new byte[chainNames.length*length];
 		for(int i=0; i<chainNames.length;i++) {
 			setChainId(chainNames[i], outArr, i);
 		}

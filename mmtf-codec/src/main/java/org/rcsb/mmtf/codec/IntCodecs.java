@@ -16,7 +16,7 @@ public enum IntCodecs implements IntCodecInterface, CodecInterface {
 	 * encoding on top. This is appropriate for serial numbers. 
 	 * 1,2,3,4,5,6 -> 1,1,1,1,1,1 -> 1,6
 	 */
-	RUN_LENGTH_DELTA(5, "Run length delta") {
+	RUN_LENGTH_DELTA(8, "Run length delta") {
 
 		@Override
 		public byte[] encode(int[] inputData, int param){
@@ -36,7 +36,7 @@ public enum IntCodecs implements IntCodecInterface, CodecInterface {
 	/**
 	 * Convert integers to a byte array - encoding each integer as a four byte integer.
 	 */
-	CONVERT_4_BYTE(6, "Convert to bytes as 4 byte integers."){
+	CONVERT_4_BYTE(4, "Convert to bytes as 4 byte integers."){
 
 		@Override
 		public byte[] encode(int[] inputData, int param){
@@ -52,7 +52,7 @@ public enum IntCodecs implements IntCodecInterface, CodecInterface {
 	/**
 	 * Convert integers to  a byte array - encoding each integer as a one byte integer.
 	 */
-	CONVERT_BYTE(7, "Convert to bytes as  byte integers."){
+	CONVERT_BYTE(2, "Convert to bytes as  byte integers."){
 
 		@Override
 		public byte[] encode(int[] inputData, int param){

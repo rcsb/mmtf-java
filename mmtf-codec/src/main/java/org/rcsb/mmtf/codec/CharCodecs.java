@@ -14,7 +14,7 @@ public enum CharCodecs implements CharCodecInterface, CodecInterface{
 	 * Run length codec for an array of chars (using ASCII code) http://www.asciitable.com/.
 	 * For example: ["A", "A", "A"] goes to [10,10,10] goest to [10,3].
 	 */
-	RUN_LENGTH(1, "Run length"){
+	RUN_LENGTH(6, "Run length"){
 
 		@Override
 		public byte[] encode(char[] inputData, int param) {

@@ -12,16 +12,16 @@ public enum StringCodecs implements StringCodecsInterface, CodecInterface {
 	 * Encode an array of Strings to a byte array. Each String should be less than 
 	 * five characters long.
 	 */
-	ENCOODE_CHAINS(8, "Encode chains") {
+	ENCOODE_CHAINS(5, "Encode chains") {
 
 		@Override
 		public byte[] encode(String[] inputData, int param) {
-			return ArrayConverters.encodeChainList(inputData);
+			return ArrayConverters.encodeChainList(inputData, param);
 		}
 
 		@Override
 		public String[] decode(byte[] inputData, int param) {
-			return org.rcsb.mmtf.codec.ArrayConverters.decodeChainList(inputData);
+			return org.rcsb.mmtf.codec.ArrayConverters.decodeChainList(inputData, param);
 		}
 		
 	};

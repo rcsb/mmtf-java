@@ -26,10 +26,10 @@ public class DefaultDecoder implements StructureDataInterface {
 	public DefaultDecoder(MmtfStructure inputData) {
 		groupList = ArrayConverters.convertFourByteToIntegers(inputData.getGroupTypeList());
 		// Decode the coordinate  and B-factor arrays.
-		cartnX = FloatCodecs.INT_DELTA_RECURSIVE.decode(inputData.getxCoords(),1000);
-		cartnY = FloatCodecs.INT_DELTA_RECURSIVE.decode(inputData.getyCoords(),1000);
-		cartnZ = FloatCodecs.INT_DELTA_RECURSIVE.decode(inputData.getzCoords(),1000);
-		bFactor = FloatCodecs.INT_DELTA_RECURSIVE.decode(inputData.getbFactors(),100);
+		cartnX = FloatCodecs.INT_DELTA_RECURSIVE.decode(inputData.getxCoordList(),MmtfStructure.COORD_DIVIDER);
+		cartnY = FloatCodecs.INT_DELTA_RECURSIVE.decode(inputData.getyCoordList(),MmtfStructure.COORD_DIVIDER);
+		cartnZ = FloatCodecs.INT_DELTA_RECURSIVE.decode(inputData.getzCoordList(),MmtfStructure.COORD_DIVIDER);
+		bFactor = FloatCodecs.INT_DELTA_RECURSIVE.decode(inputData.getbFactorList(),MmtfStructure.OCCUPANCY_BFACTOR_DIVIDER);
 		// Run length decode the occupancy array
 		occupancy = ArrayConverters.convertIntsToFloats(
 				ArrayDecoders.runlengthDecode(
@@ -65,8 +65,8 @@ public class DefaultDecoder implements StructureDataInterface {
 		groupsPerChain = inputData.getGroupsPerChain();
 		
 		// Get the internal and public facing chain ids
-		publicChainIds = ArrayConverters.decodeChainList(inputData.getChainNameList());
-		chainList = ArrayConverters.decodeChainList(inputData.getChainIdList());
+		publicChainIds = ArrayConverters.decodeChainList(inputData.getChainNameList(),MmtfStructure.CHAIN_LENGTH);
+		chainList = ArrayConverters.decodeChainList(inputData.getChainIdList(),MmtfStructure.CHAIN_LENGTH);
 		spaceGroup = inputData.getSpaceGroup();
 		unitCell = inputData.getUnitCell();
 		bioAssembly  = inputData.getBioAssemblyList();

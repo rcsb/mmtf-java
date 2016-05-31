@@ -26,7 +26,7 @@ public class TestArrayConverters {
 				'A','B','C','\0',
 				'a','b','c','\0'};
 		String[] testStringList = {"A","ABC","abc"};
-		String[] stringList = ArrayConverters.decodeChainList(byteArray);
+		String[] stringList = ArrayConverters.decodeChainList(byteArray,4);
 		assertArrayEquals(testStringList, stringList);
 	}
 	
@@ -113,7 +113,7 @@ public class TestArrayConverters {
 				'A','B','C','\0',
 				'a','b','c','\0',
 				'a','b','c','d'};
-		byte[] byteArray = ArrayConverters.encodeChainList(stringList);
+		byte[] byteArray = ArrayConverters.encodeChainList(stringList,4);
 		assertArrayEquals(testByteArray, byteArray);
 	}
 	

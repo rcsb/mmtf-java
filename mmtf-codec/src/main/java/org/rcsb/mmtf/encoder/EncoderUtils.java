@@ -28,7 +28,6 @@ public class EncoderUtils {
 
 	/** The Null parameter for encoding (i.e. when no params are set). */
 	public static final int NULL_PARAM = 0;
-
 	/**
 	 * Regenerate a group map from the {@link StructureDataInterface}.
 	 * @param structureDataInterface the input interface

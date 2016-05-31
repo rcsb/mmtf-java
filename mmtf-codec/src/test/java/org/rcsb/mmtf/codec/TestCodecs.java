@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Test;
+import org.rcsb.mmtf.dataholders.MmtfStructure;
 import org.rcsb.mmtf.encoder.EncoderUtils;
 
 /**
@@ -53,9 +54,9 @@ public class TestCodecs {
 	public void testCharCodecs() {
 		for(char[] inputData : getCharData()){
 			for (CharCodecs codec : CharCodecs.values()){
-				byte[] encoded = codec.encode(inputData,EncoderUtils.NULL_PARAM);
+				byte[] encoded = codec.encode(inputData,MmtfStructure.CHAIN_LENGTH);
 				assertNotNull(encoded);
-				char[] decoded = codec.decode(encoded,EncoderUtils.NULL_PARAM);
+				char[] decoded = codec.decode(encoded,MmtfStructure.CHAIN_LENGTH);
 				assertArrayEquals(decoded, inputData);
 			}
 		}
@@ -70,9 +71,9 @@ public class TestCodecs {
 		
 		for(String[] inputData : getStringData()){
 			for (StringCodecs codec : StringCodecs.values()){
-				byte[] encoded = codec.encode(inputData,EncoderUtils.NULL_PARAM);
+				byte[] encoded = codec.encode(inputData,MmtfStructure.CHAIN_LENGTH);
 				assertNotNull(encoded);
-				String[] decoded = codec.decode(encoded,EncoderUtils.NULL_PARAM);
+				String[] decoded = codec.decode(encoded,MmtfStructure.CHAIN_LENGTH);
 				assertArrayEquals(decoded, inputData);
 			}
 		}
