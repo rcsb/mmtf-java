@@ -30,6 +30,8 @@ public class ReducedEncoder {
 				dataSummary.numChains, structureDataInterface.getNumModels(), structureDataInterface.getStructureId());
 		// Add the header and crystallographic information
 		adapterToStructureData.setXtalInfo(structureDataInterface.getSpaceGroup(), structureDataInterface.getUnitCell(), structureDataInterface.getNcsOperatorList());
+		adapterToStructureData.setHeaderInfo(structureDataInterface.getRfree(), structureDataInterface.getRwork(), structureDataInterface.getResolution(), 
+				structureDataInterface.getTitle(), structureDataInterface.getDepositionDate(), structureDataInterface.getReleaseDate(), structureDataInterface.getExperimentalMethods());
 		// Transfer the bioassembly info
 		for(int i=0; i<structureDataInterface.getNumBioassemblies(); i++) {
 			for(int j =0; j<structureDataInterface.getNumTransInBioassembly(i); j++){
