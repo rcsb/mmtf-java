@@ -139,6 +139,5 @@ public class TestRoundTrip {
 		assertArrayEquals(interfaceOne.getInsCodes(), interfaceTwo.getInsCodes());	
 		assertArrayEquals(interfaceOne.getInterGroupBondIndices(), interfaceTwo.getInterGroupBondIndices());
 		assertArrayEquals(interfaceOne.getInterGroupBondOrders(), interfaceTwo.getInterGroupBondOrders());
-
 	}
 }

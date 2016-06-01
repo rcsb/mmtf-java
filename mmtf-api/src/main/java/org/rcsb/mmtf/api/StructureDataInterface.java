@@ -401,5 +401,5 @@ public interface StructureDataInterface {
 	 * Returns the NCS operation matrix list.
 	 * @return the NCS operation matrix list for this structure
 	 */
-	double[] getNcsOperatorList();
+	double[][] getNcsOperatorList();
 }

@@ -144,7 +144,7 @@ public class AdapterToStructureData implements StructureDataInterface, Structure
 	/** The list of groups */
 	private List<Group> pdbGroupList;
 	/** The NCS operation matrix list */
-	private double[] ncsOperMatrixList;
+	private double[][] ncsOperMatrixList;
 
 
 	@Override
@@ -544,7 +544,7 @@ public class AdapterToStructureData implements StructureDataInterface, Structure
 	}
 
 	@Override
-	public void setXtalInfo(String spaceGroup, float[] unitCell,  double[] ncsOperMatrixList) {
+	public void setXtalInfo(String spaceGroup, float[] unitCell,  double[][] ncsOperMatrixList) {
 		this.spaceGroup = spaceGroup;
 		this.unitCell = unitCell;
 		this.ncsOperMatrixList = ncsOperMatrixList;
@@ -605,7 +605,7 @@ public class AdapterToStructureData implements StructureDataInterface, Structure
 	}
 
 	@Override
-	public double[] getNcsOperatorList() {
+	public double[][] getNcsOperatorList() {
 		return ncsOperMatrixList;
 	}
 

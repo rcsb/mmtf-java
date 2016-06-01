@@ -200,7 +200,7 @@ public class DefaultDecoder implements StructureDataInterface {
 	
 	private int numGroups;
 
-	private double[] ncsOperMatrixList;
+	private double[][] ncsOperMatrixList;
 
 	@Override
 	public float[] getxCoords() {
@@ -486,7 +486,7 @@ public class DefaultDecoder implements StructureDataInterface {
 	}
 
 	@Override
-	public double[] getNcsOperatorList() {
+	public double[][] getNcsOperatorList() {
 		return ncsOperMatrixList;
 	}
 

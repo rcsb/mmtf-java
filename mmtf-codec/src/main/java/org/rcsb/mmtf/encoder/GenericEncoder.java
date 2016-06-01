@@ -16,27 +16,38 @@ public class GenericEncoder implements EncoderInterface {
 	
 	
 	private MmtfStructure mmtfBean;
+	private int coordDivider = MmtfStructure.COORD_DIVIDER;
+	private int bfactorOccDivider = MmtfStructure.OCCUPANCY_BFACTOR_DIVIDER;
 
-	/**
-	 * Empty constructor. Requires a call of getMmtfEncoded structure to then work.
-	 */
-	public GenericEncoder(){
-		
-	}
 	
 	/**
 	 * The constructor for the encoder.
 	 * @param structureDataInterface the interface of data to be encoded.
 	 */
 	public GenericEncoder(StructureDataInterface structureDataInterface) {
+		encode(structureDataInterface);
+	}
+	
+	/**
+	 * The constructor for the encoder.
+	 * @param structureDataInterface the interface of data to be encoded
+	 * @param precision the precision for the storing of coordinate, B-factor and occupancy data
+	 */
+	public GenericEncoder(StructureDataInterface structureDataInterface, int precision) {
+		coordDivider = precision;
+		bfactorOccDivider = precision;
+		encode(structureDataInterface);
+	}
+
+	private void encode(StructureDataInterface structureDataInterface) {
 		mmtfBean = new MmtfStructure();
 		// Delta split three and two
-		mmtfBean.setxCoordList(EncoderUtils.encodeByteArr(FloatCodecs.INT_DELTA_RECURSIVE,structureDataInterface.getxCoords(),MmtfStructure.COORD_DIVIDER));
-		mmtfBean.setyCoordList(EncoderUtils.encodeByteArr(FloatCodecs.INT_DELTA_RECURSIVE,structureDataInterface.getyCoords(),MmtfStructure.COORD_DIVIDER));
-		mmtfBean.setzCoordList(EncoderUtils.encodeByteArr(FloatCodecs.INT_DELTA_RECURSIVE,structureDataInterface.getzCoords(),MmtfStructure.COORD_DIVIDER));
-		mmtfBean.setbFactorList(EncoderUtils.encodeByteArr(FloatCodecs.INT_DELTA_RECURSIVE,structureDataInterface.getbFactors(),MmtfStructure.OCCUPANCY_BFACTOR_DIVIDER));
+		mmtfBean.setxCoordList(EncoderUtils.encodeByteArr(FloatCodecs.INT_DELTA_RECURSIVE,structureDataInterface.getxCoords(),coordDivider));
+		mmtfBean.setyCoordList(EncoderUtils.encodeByteArr(FloatCodecs.INT_DELTA_RECURSIVE,structureDataInterface.getyCoords(),coordDivider));
+		mmtfBean.setzCoordList(EncoderUtils.encodeByteArr(FloatCodecs.INT_DELTA_RECURSIVE,structureDataInterface.getzCoords(),coordDivider));
+		mmtfBean.setbFactorList(EncoderUtils.encodeByteArr(FloatCodecs.INT_DELTA_RECURSIVE,structureDataInterface.getbFactors(),bfactorOccDivider));
 		// Run length encode the occupancy array
-		mmtfBean.setOccupancyList(EncoderUtils.encodeByteArr(FloatCodecs.INT_RUNLENGTH,structureDataInterface.getOccupancies(),MmtfStructure.OCCUPANCY_BFACTOR_DIVIDER));
+		mmtfBean.setOccupancyList(EncoderUtils.encodeByteArr(FloatCodecs.INT_RUNLENGTH,structureDataInterface.getOccupancies(),bfactorOccDivider));
 		// Run length and delta
 		mmtfBean.setAtomIdList(EncoderUtils.encodeByteArr(IntCodecs.RUN_LENGTH_DELTA,structureDataInterface.getAtomIds(),EncoderUtils.NULL_PARAM));
 		// Run length encoded
@@ -87,7 +98,7 @@ public class GenericEncoder implements EncoderInterface {
 		mmtfBean.setExperimentalMethods(structureDataInterface.getExperimentalMethods());
 		mmtfBean.setDepositionDate(structureDataInterface.getDepositionDate());
 		mmtfBean.setReleaseDate(structureDataInterface.getReleaseDate());
-		mmtfBean.setNcsOperatorList(structureDataInterface.getNcsOperatorList());
+		mmtfBean.setNcsOperatorList(structureDataInterface.getNcsOperatorList());		
 	}
 
 	@Override

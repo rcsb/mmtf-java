@@ -291,8 +291,8 @@ public class DummyApiImpl implements StructureDataInterface {
 	}
 
 	@Override
-	public double[] getNcsOperatorList() {
-		return new double[16];
+	public double[][] getNcsOperatorList() {
+		return new double[16][16];
 	}
 
 }

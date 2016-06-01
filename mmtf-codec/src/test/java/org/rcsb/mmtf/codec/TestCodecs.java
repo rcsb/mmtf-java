@@ -80,6 +80,16 @@ public class TestCodecs {
 	}
 	
 	/**
+	 * Test the lossy compression of floats
+	 */
+	@Test
+	public void testLossyCompression(){
+		float[] inputData = new float[] {1.23020f, 4.299239f, 1.9032f,12203.4023002f};
+		float[] expected = new float[] {1.2f, 4.3f, 1.9f,12203.4f};
+		assertArrayEquals(expected, FloatCodecs.INT_DELTA_RECURSIVE.decode(FloatCodecs.INT_DELTA_RECURSIVE.encode(inputData, 10),10),0.0f);
+	}
+	
+	/**
 	 * Get the character array data to test all the methods with.
 	 * @return a list of character arrays to be used as test data.
 	 */

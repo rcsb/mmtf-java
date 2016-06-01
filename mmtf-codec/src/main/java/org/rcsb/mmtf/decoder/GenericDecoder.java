@@ -183,7 +183,7 @@ public class GenericDecoder  implements StructureDataInterface {
 	
 	private int numGroups;
 	
-	private double[] ncsOperMatrixList;
+	private double[][] ncsOperMatrixList;
 
 
 
@@ -470,7 +470,7 @@ public class GenericDecoder  implements StructureDataInterface {
 	}
 
 	@Override
-	public double[] getNcsOperatorList() {
+	public double[][] getNcsOperatorList() {
 		return ncsOperMatrixList;
 	}
 

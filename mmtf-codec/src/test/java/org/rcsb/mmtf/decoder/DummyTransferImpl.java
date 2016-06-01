@@ -53,7 +53,7 @@ public class DummyTransferImpl implements StructureAdapterInterface {
 	}
 
 	@Override
-	public void setXtalInfo(String spaceGroup, float[] unitCell, double[] ncsOperMatrix) {
+	public void setXtalInfo(String spaceGroup, float[] unitCell, double[][] ncsOperatorList) {
 		
 	}
 

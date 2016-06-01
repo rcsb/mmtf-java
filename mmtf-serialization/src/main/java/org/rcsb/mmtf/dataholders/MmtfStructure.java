@@ -145,7 +145,7 @@ public class MmtfStructure implements Serializable {
 	private String releaseDate;
 	
 	/** A float array for the NCS operator expression matrices, derived from the mmCIF file. */
-	private double[] ncsOperatorList;
+	private double[][] ncsOperatorList;
 	
 	/** Constructor to set the default values for floats */
 	public MmtfStructure() {
@@ -828,15 +828,15 @@ public class MmtfStructure implements Serializable {
 	/**
 	 * @return the ncsOperMatrixList
 	 */
-	public double[] getNcsOperatorList() {
+	public double[][] getNcsOperatorList() {
 		return ncsOperatorList;
 	}
 
 	/**
-	 * @param ncsOperMatrixList the ncsOperMatrixList to set
+	 * @param ncsOperatorList the ncsOperMatrixList to set
 	 */
-	public void setNcsOperatorList(double[] ncsOperMatrixList) {
-		this.ncsOperatorList = ncsOperMatrixList;
+	public void setNcsOperatorList(double[][] ncsOperatorList) {
+		this.ncsOperatorList = ncsOperatorList;
 	}
 
 }

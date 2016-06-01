@@ -100,9 +100,9 @@ public interface StructureAdapterInterface {
 	 *
 	 * @param spaceGroup the space group name, e.g. "P 21 21 21"
 	 * @param unitCell an array of length 6 with the unit cell parameters in order: a, b, c, alpha, beta, gamma
-	 * @param ncsOperMatrix the list of NCS operation matrices
+	 * @param ncsOperatorList the list of NCS operation matrices
 	 */
-	void setXtalInfo(String spaceGroup, float[] unitCell, double[] ncsOperMatrix);
+	void setXtalInfo(String spaceGroup, float[] unitCell, double[][] ncsOperatorList);
 
 	/**
 	 * Sets an intra-group bond.
