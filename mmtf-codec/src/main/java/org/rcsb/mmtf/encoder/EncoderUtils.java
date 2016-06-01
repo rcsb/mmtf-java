@@ -66,6 +66,8 @@ public class EncoderUtils {
 		List<BioAssemblyData> outList = new ArrayList<>();
 		for (int i=0; i<numBioassemblies; i++) {
 			BioAssemblyData bioAssemblyData = new BioAssemblyData();
+			String name = Integer.toString(i+1);
+			bioAssemblyData.setName(name);
 			outList.add(bioAssemblyData);
 			List<BioAssemblyTransformation> transformList = new ArrayList<>();
 			bioAssemblyData.setTransformList(transformList);

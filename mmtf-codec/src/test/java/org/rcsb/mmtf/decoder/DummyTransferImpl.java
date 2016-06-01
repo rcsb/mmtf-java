@@ -48,12 +48,12 @@ public class DummyTransferImpl implements StructureAdapterInterface {
 	}
 
 	@Override
-	public void setBioAssemblyTrans(int bioAssemblyIndex, int[] inputChainIndices, double[] inputTransform) {
+	public void setBioAssemblyTrans(int bioAssemblyIndex, int[] inputChainIndices, double[] inputTransform, String name) {
 		
 	}
 
 	@Override
-	public void setXtalInfo(String spaceGroup, float[] unitCell) {
+	public void setXtalInfo(String spaceGroup, float[] unitCell, double[] ncsOperMatrix) {
 		
 	}
 
@@ -66,6 +66,8 @@ public class DummyTransferImpl implements StructureAdapterInterface {
 	public void setInterGroupBond(int atomIndexOne, int atomIndexTwo, int bondOrder) {
 		
 	}
+
+
 
 	@Override
 	public void setHeaderInfo(float rFree, float rWork, float resolution, String title, String depositionDate,

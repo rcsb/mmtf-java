@@ -23,7 +23,6 @@ public class BioAssemblyTransformation implements Serializable {
 	 * 	Stored linearly in row major order.*/
 	private double[] matrix;
 
-
 	/**
 	 * Gets the 4x4 matrix transformation specifying a rotation and a translation.
 	 * Stored linearly in row major order.
@@ -59,5 +58,4 @@ public class BioAssemblyTransformation implements Serializable {
 	public void setChainIndexList(int[] inputChainId) {
 		this.chainIndexList = inputChainId;
 	}
-
 }

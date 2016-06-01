@@ -87,6 +87,7 @@ public class GenericEncoder implements EncoderInterface {
 		mmtfBean.setExperimentalMethods(structureDataInterface.getExperimentalMethods());
 		mmtfBean.setDepositionDate(structureDataInterface.getDepositionDate());
 		mmtfBean.setReleaseDate(structureDataInterface.getReleaseDate());
+		mmtfBean.setNcsOperatorList(structureDataInterface.getNcsOperatorList());
 	}
 
 	@Override

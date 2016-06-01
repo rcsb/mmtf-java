@@ -16,13 +16,12 @@ public class BioAssemblyData implements Serializable {
 	
 	/** Serial id for this version of the format. */
 	private static final long serialVersionUID = -8448351152898393978L;
-	
-	
-	/**
-	 * The specific transformations of this bioassembly.
-	 */
-	private List<BioAssemblyTransformation> transformList;
 
+	/** The transformations of this bioassembly. */
+	private List<BioAssemblyTransformation> transformList;
+	
+	/** The name of the Bioassembly. Can be user defined. */
+	private String name;
 
 	/**
 	 * Gets the list of transforms.
@@ -41,6 +40,20 @@ public class BioAssemblyData implements Serializable {
 	public final void setTransformList(final
 			List<BioAssemblyTransformation> inputTransforms) {
 		this.transformList = inputTransforms;
+	}
+
+	/**
+	 * @return the name of the bioassembly - e.g. the assembly_id from mmCIF files.
+	 */
+	public String getName() {
+		return name;
+	}
+
+	/**
+	 * @param name the name to set - e.g. the assembly_id from mmCIF files
+	 */
+	public void setName(String name) {
+		this.name = name;
 	}
 }
 

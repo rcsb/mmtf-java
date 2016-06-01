@@ -290,4 +290,9 @@ public class DummyApiImpl implements StructureDataInterface {
 		return new int[numGroups];
 	}
 
+	@Override
+	public double[] getNcsOperatorList() {
+		return new double[16];
+	}
+
 }

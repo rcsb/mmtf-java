@@ -143,7 +143,10 @@ public class MmtfStructure implements Serializable {
 
 	/** The release data of the structure in ISO time standard format. https://www.cl.cam.ac.uk/~mgk25/iso-time.html */
 	private String releaseDate;
-
+	
+	/** A float array for the NCS operator expression matrices, derived from the mmCIF file. */
+	private double[] ncsOperMatrixList;
+	
 	/** Constructor to set the default values for floats */
 	public MmtfStructure() {
 
@@ -820,6 +823,20 @@ public class MmtfStructure implements Serializable {
 	 */
 	public void setNumModels(int numModels) {
 		this.numModels = numModels;
+	}
+
+	/**
+	 * @return the ncsOperMatrixList
+	 */
+	public double[] getNcsOperatorList() {
+		return ncsOperMatrixList;
+	}
+
+	/**
+	 * @param ncsOperMatrixList the ncsOperMatrixList to set
+	 */
+	public void setNcsOperatorList(double[] ncsOperMatrixList) {
+		this.ncsOperMatrixList = ncsOperMatrixList;
 	}
 
 }

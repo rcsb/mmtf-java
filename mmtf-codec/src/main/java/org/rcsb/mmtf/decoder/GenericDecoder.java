@@ -73,6 +73,7 @@ public class GenericDecoder  implements StructureDataInterface {
 		numGroups = inputData.getNumGroups();
 		numChains = inputData.getNumChains();
 		numModels = inputData.getNumModels();
+		ncsOperMatrixList = inputData.getNcsOperatorList();
 	}
 
 	/** The X coordinates */
@@ -181,6 +182,8 @@ public class GenericDecoder  implements StructureDataInterface {
 	private int numChains;
 	
 	private int numGroups;
+	
+	private double[] ncsOperMatrixList;
 
 
 
@@ -464,6 +467,11 @@ public class GenericDecoder  implements StructureDataInterface {
 	@Override
 	public String getReleaseDate() {
 		return releaseDate;
+	}
+
+	@Override
+	public double[] getNcsOperatorList() {
+		return ncsOperMatrixList;
 	}
 
 }

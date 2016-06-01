@@ -102,6 +102,7 @@ public class DefaultEncoder implements EncoderInterface {
 		mmtfBean.setDepositionDate(structureDataInterface.getDepositionDate());
 		mmtfBean.setReleaseDate(structureDataInterface.getReleaseDate());
 		mmtfBean.setSecStructList(ArrayConverters.convertIntegersToBytes(structureDataInterface.getSecStructList()));
+		mmtfBean.setNcsOperatorList(structureDataInterface.getNcsOperatorList());
 	}
 
 	@Override

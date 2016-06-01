@@ -11,12 +11,11 @@ import org.rcsb.mmtf.api.StructureDataInterface;
  *
  */
 public class ReducedEncoder {
-	
+
 	private static final String CALPHA_NAME = "CA";
 	private static final String CARBON_ELEMENT = "C";
 	private static final String PHOSPHATE_NAME = "P";
 	private static final String PHOSPHATE_ELEMENT = "P";
-
 
 	/**
 	 * Get the reduced form of the input {@link StructureDataInterface}.
@@ -30,15 +29,14 @@ public class ReducedEncoder {
 		adapterToStructureData.initStructure(dataSummary.numBonds, dataSummary.numAtoms, dataSummary.numGroups, 
 				dataSummary.numChains, structureDataInterface.getNumModels(), structureDataInterface.getStructureId());
 		// Add the header and crystallographic information
-		adapterToStructureData.setXtalInfo(structureDataInterface.getSpaceGroup(), structureDataInterface.getUnitCell());
-		adapterToStructureData.setHeaderInfo(structureDataInterface.getRfree(), structureDataInterface.getRwork(), structureDataInterface.getResolution(), 
-				structureDataInterface.getTitle(), structureDataInterface.getDepositionDate(), structureDataInterface.getReleaseDate(), structureDataInterface.getExperimentalMethods());
+		adapterToStructureData.setXtalInfo(structureDataInterface.getSpaceGroup(), structureDataInterface.getUnitCell(), structureDataInterface.getNcsOperatorList());
 		// Transfer the bioassembly info
 		for(int i=0; i<structureDataInterface.getNumBioassemblies(); i++) {
 			for(int j =0; j<structureDataInterface.getNumTransInBioassembly(i); j++){
-				adapterToStructureData.setBioAssemblyTrans(i, 
+				adapterToStructureData.setBioAssemblyTrans(i+1, 
 						structureDataInterface.getChainIndexListForTransform(i, j), 
-						structureDataInterface.getMatrixForTransform(i, j));
+						structureDataInterface.getMatrixForTransform(i, j),
+						Integer.toString(i+1));
 			}
 		}
 		// Transfer the entity info
@@ -60,31 +58,30 @@ public class ReducedEncoder {
 				for(int k=0; k<structureDataInterface.getGroupsPerChain()[chainCounter]; k++){
 					groupCounter++;
 					int groupType = structureDataInterface.getGroupTypeIndices()[groupCounter];
-					List<Integer> indicesToAdd = getIndicesToAdd(structureDataInterface, groupType, chainType);
+					List<Integer> atomIndicesToAdd = getIndicesToAdd(structureDataInterface, groupType, chainType);
+					int bondsToAdd = findBondsToAdd(atomIndicesToAdd, structureDataInterface, groupType);
 					// If there's an atom to add in this group - add it
-					if(indicesToAdd.size()>0){
+					if(atomIndicesToAdd.size()>0){
 						adapterToStructureData.setGroupInfo(structureDataInterface.getGroupName(groupType), structureDataInterface.getGroupIds()[groupCounter], 
-								structureDataInterface.getInsCodes()[groupCounter], structureDataInterface.getGroupChemCompType(groupType), indicesToAdd.size(),
-								0, structureDataInterface.getGroupSingleLetterCode(groupType), structureDataInterface.getGroupSequenceIndices()[groupCounter], 
+								structureDataInterface.getInsCodes()[groupCounter], structureDataInterface.getGroupChemCompType(groupType), atomIndicesToAdd.size(),
+								bondsToAdd, structureDataInterface.getGroupSingleLetterCode(groupType), structureDataInterface.getGroupSequenceIndices()[groupCounter], 
 								structureDataInterface.getSecStructList()[groupCounter]);
 						numGroups++;
 					}
 					for(int l=0; l<structureDataInterface.getNumAtomsInGroup(groupType);l++){
 						atomCounter++;
-						if(indicesToAdd.contains(l)){
+						if(atomIndicesToAdd.contains(l)){
 							adapterToStructureData.setAtomInfo(structureDataInterface.getGroupAtomNames(groupType)[l], structureDataInterface.getAtomIds()[atomCounter], structureDataInterface.getAltLocIds()[atomCounter], 
 									structureDataInterface.getxCoords()[atomCounter], structureDataInterface.getyCoords()[atomCounter], structureDataInterface.getzCoords()[atomCounter], 
 									structureDataInterface.getOccupancies()[atomCounter], structureDataInterface.getbFactors()[atomCounter], structureDataInterface.getGroupElementNames(groupType)[l], structureDataInterface.getGroupAtomCharges(groupType)[l]);
 						}
 					}
-					int numAtomsBefore = atomCounter-structureDataInterface.getNumAtomsInGroup(groupType);
-					// Add the bonds if we've copied all the elements
-					if(indicesToAdd.size()>1 && indicesToAdd.size()==structureDataInterface.getGroupBondOrders(groupType).length){
+					if(bondsToAdd>0){
 						for(int l=0; l<structureDataInterface.getGroupBondOrders(groupType).length; l++){
 							int bondOrder = structureDataInterface.getGroupBondOrders(groupType)[l];
-							int bondIndOne = numAtomsBefore+structureDataInterface.getGroupBondIndices(groupType)[l*2];
-							int bondIndTwo = numAtomsBefore+structureDataInterface.getGroupBondIndices(groupType)[l*2+1];
-							adapterToStructureData.setInterGroupBond(bondIndOne, bondIndTwo, bondOrder);
+							int bondIndOne = structureDataInterface.getGroupBondIndices(groupType)[l*2];
+							int bondIndTwo = structureDataInterface.getGroupBondIndices(groupType)[l*2+1];
+							adapterToStructureData.setGroupBond(bondIndOne, bondIndTwo, bondOrder);
 						}
 					}
 				}
@@ -95,6 +92,23 @@ public class ReducedEncoder {
 		adapterToStructureData.finalizeStructure();
 		// Return the AdapterToStructureData
 		return adapterToStructureData;
+	}
+
+	/**
+	 * Find if bonds need adding - to be used in later processing.
+	 * @param indicesToAdd the indices of the atoms to add
+	 * @param structureDataInterface the {@link StructureDataInterface} of the total structure
+	 * @param groupType the index of the groupType
+	 * @return the integer number of bonds to add
+	 */
+	private static int findBondsToAdd(List<Integer> indicesToAdd, StructureDataInterface structureDataInterface, int groupType) {
+		// Add the bonds if we've copied all the elements
+		if(indicesToAdd.size()>1){
+			if(indicesToAdd.size()==structureDataInterface.getNumAtomsInGroup(groupType)){
+				return structureDataInterface.getGroupBondOrders(groupType).length;
+			}
+		}
+		return 0;
 	}
 
 	/**

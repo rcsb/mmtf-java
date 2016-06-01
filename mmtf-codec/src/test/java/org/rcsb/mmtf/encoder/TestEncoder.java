@@ -113,8 +113,8 @@ public class TestEncoder {
 		adapterToStructureData.setGroupBond(0, 0, 1);
 		adapterToStructureData.setHeaderInfo(1.0f, 1.0f, 1.0f, "A", "A", "A", new String[1]);
 		adapterToStructureData.setInterGroupBond(0, 0, 1);
-		adapterToStructureData.setBioAssemblyTrans(0, new int[1], new double[6]);
-		adapterToStructureData.setXtalInfo("A", new float[6]);
+		adapterToStructureData.setBioAssemblyTrans(0, new int[1], new double[6], "1");
+		adapterToStructureData.setXtalInfo("A", new float[6], new double[12]);
 		adapterToStructureData.finalizeStructure();
 		return adapterToStructureData;
 	}

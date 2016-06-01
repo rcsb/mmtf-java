@@ -143,6 +143,8 @@ public class AdapterToStructureData implements StructureDataInterface, Structure
 	private int totalNumBonds;
 	/** The list of groups */
 	private List<Group> pdbGroupList;
+	/** The NCS operation matrix list */
+	private double[] ncsOperMatrixList;
 
 
 	@Override
@@ -523,7 +525,7 @@ public class AdapterToStructureData implements StructureDataInterface, Structure
 	}
 
 	@Override
-	public void setBioAssemblyTrans(int bioAssemblyIndex, int[] chainIndices, double[] transform) {
+	public void setBioAssemblyTrans(int bioAssemblyIndex, int[] chainIndices, double[] transform, String name) {
 		BioAssemblyData bioAssemblyData;
 		List<BioAssemblyTransformation> bioAssemblyTranList;
 		if (bioAssembly.size()>bioAssemblyIndex) {
@@ -542,9 +544,10 @@ public class AdapterToStructureData implements StructureDataInterface, Structure
 	}
 
 	@Override
-	public void setXtalInfo(String spaceGroup, float[] unitCell) {
+	public void setXtalInfo(String spaceGroup, float[] unitCell,  double[] ncsOperMatrixList) {
 		this.spaceGroup = spaceGroup;
 		this.unitCell = unitCell;
+		this.ncsOperMatrixList = ncsOperMatrixList;
 	}
 
 	@Override
@@ -576,6 +579,7 @@ public class AdapterToStructureData implements StructureDataInterface, Structure
 		this.depositionDate = depositionDate;
 		this.releaseDate = releaseDate;
 		this.experimentalMethods = experimnetalMethods;
+		
 
 	}
 
@@ -598,6 +602,11 @@ public class AdapterToStructureData implements StructureDataInterface, Structure
 	@Override
 	public String getReleaseDate() {
 		return releaseDate;
+	}
+
+	@Override
+	public double[] getNcsOperatorList() {
+		return ncsOperMatrixList;
 	}
 
 }
