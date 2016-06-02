@@ -47,7 +47,6 @@ public class TestDefaultDecoder {
 		}
 	}
 
-
 	/**
 	 * Test that we can pass data into the inflator.
 	 */
