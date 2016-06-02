@@ -4,6 +4,7 @@ All notable changes to this project will be documented in this file, following t
 ## v0.1.0 - 2016-04-22
 ### Added
 - Initial release
+
 ## v0.2.0 - 2016-06-03
 ### Added
 - mmtf-codec module - consolidating mmtf-encoder and mmtf-decoder
@@ -11,7 +12,11 @@ All notable changes to this project will be documented in this file, following t
 - NCS Operator information
 - R-work and release date information
 - Number models, number chains and number groups
+- Reduced format encoder
+
 ### Changed
 - Decoder and Encoder now add 12 bytes
+
 ### Removed
-- mmtf-encoder and mmtf-decoder packages
+- mmtf-encoder and mmtf-decoder modules
+
