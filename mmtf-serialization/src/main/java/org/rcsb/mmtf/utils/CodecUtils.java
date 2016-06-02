@@ -12,7 +12,7 @@ public class CodecUtils {
 	
 	
 	/** The base url for this version of MMTF. */
-	public static final String BASE_URL = "http://mmtf.rcsb.org/v0/full/";
+	public static final String BASE_URL = "http://mmtf.rcsb.org/v0.2/full/";
 	
 
 	/** The maximum number of chars in a chain entry. */
