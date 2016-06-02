@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.rcsb.mmtf.api.StructureDataInterface;
+import org.rcsb.mmtf.decoder.DecoderUtils;
 
 /**
  * Convert a full format of the file to a reduced format.
@@ -28,24 +29,10 @@ public class ReducedEncoder {
 		SummaryData dataSummary = getDataSummaryData(structureDataInterface);
 		adapterToStructureData.initStructure(dataSummary.numBonds, dataSummary.numAtoms, dataSummary.numGroups, 
 				dataSummary.numChains, structureDataInterface.getNumModels(), structureDataInterface.getStructureId());
-		// Add the header and crystallographic information
-		adapterToStructureData.setXtalInfo(structureDataInterface.getSpaceGroup(), structureDataInterface.getUnitCell(), structureDataInterface.getNcsOperatorList());
-		adapterToStructureData.setHeaderInfo(structureDataInterface.getRfree(), structureDataInterface.getRwork(), structureDataInterface.getResolution(), 
-				structureDataInterface.getTitle(), structureDataInterface.getDepositionDate(), structureDataInterface.getReleaseDate(), structureDataInterface.getExperimentalMethods());
-		// Transfer the bioassembly info
-		for(int i=0; i<structureDataInterface.getNumBioassemblies(); i++) {
-			for(int j =0; j<structureDataInterface.getNumTransInBioassembly(i); j++){
-				adapterToStructureData.setBioAssemblyTrans(i+1, 
-						structureDataInterface.getChainIndexListForTransform(i, j), 
-						structureDataInterface.getMatrixForTransform(i, j),
-						Integer.toString(i+1));
-			}
-		}
-		// Transfer the entity info
-		for(int i=0; i<structureDataInterface.getNumEntities(); i++){
-			adapterToStructureData.setEntityInfo(structureDataInterface.getEntityChainIndexList(i), structureDataInterface.getEntitySequence(i), 
-					structureDataInterface.getEntityDescription(i), structureDataInterface.getEntityType(i));
-		}
+		DecoderUtils.addXtalographicInfo(structureDataInterface, adapterToStructureData);
+		DecoderUtils.addHeaderInfo(structureDataInterface, adapterToStructureData);
+		DecoderUtils.generateBioAssembly(structureDataInterface, adapterToStructureData);		
+		DecoderUtils.addEntityInfo(structureDataInterface, adapterToStructureData);
 		// Loop through the Structure data interface this with the appropriate data
 		int atomCounter=-1;
 		int groupCounter=-1;

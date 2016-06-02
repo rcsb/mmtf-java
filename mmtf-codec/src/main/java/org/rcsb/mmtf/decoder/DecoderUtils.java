@@ -19,7 +19,7 @@ public class DecoderUtils {
 	public static void generateBioAssembly(StructureDataInterface dataApi, StructureAdapterInterface structInflator) {
 		for (int i=0; i<dataApi.getNumBioassemblies(); i++) {
 			for(int j=0; j<dataApi.getNumTransInBioassembly(i); j++) {
-				structInflator.setBioAssemblyTrans(i+1, dataApi.getChainIndexListForTransform(i, j), dataApi.getMatrixForTransform(i,j), Integer.toString(i+1));    
+				structInflator.setBioAssemblyTrans(i, dataApi.getChainIndexListForTransform(i, j), dataApi.getMatrixForTransform(i,j), Integer.toString(i+1));    
 			}
 		}
 	}

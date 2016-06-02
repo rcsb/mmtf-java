@@ -179,4 +179,22 @@ public class EncoderUtils {
 		ByteBuffer buffer = ByteBuffer.allocate(prepend.length+outputArr.length);
 		return buffer.put(prepend, 0, prepend.length).put(outputArr, 0, outputArr.length).array();
 	}
+
+	/**
+	 * Transfer bioassembly data from a {@link StructureDataInterface} to an {@link AdapterToStructureData}.
+	 * @param structureDataInterface the input {@link StructureDataInterface}
+	 * @param adapterToStructureData the {@link AdapterToStructureData} to pass the data to
+	 */
+	public static void transferBioassembly(StructureDataInterface structureDataInterface,
+			AdapterToStructureData adapterToStructureData) {
+		for(int i=0; i<structureDataInterface.getNumBioassemblies(); i++) {
+			for(int j =0; j<structureDataInterface.getNumTransInBioassembly(i); j++){
+				adapterToStructureData.setBioAssemblyTrans(i, 
+						structureDataInterface.getChainIndexListForTransform(i, j), 
+						structureDataInterface.getMatrixForTransform(i, j),
+						Integer.toString(i));
+			}
+		}
+		
+	}
 }
