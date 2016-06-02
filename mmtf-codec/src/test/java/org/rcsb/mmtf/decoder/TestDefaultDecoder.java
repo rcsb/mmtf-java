@@ -7,13 +7,11 @@ import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.nio.file.Paths;
 
 import org.junit.Test;
 import org.rcsb.mmtf.dataholders.MmtfStructure;
 import org.unitils.reflectionassert.ReflectionAssert;
-
-import uk.co.jemos.podam.api.PodamFactory;
-import uk.co.jemos.podam.api.PodamFactoryImpl;
 
 /**
  * Test that the {@link DefaultDecoder} works.
@@ -25,15 +23,15 @@ public class TestDefaultDecoder {
 	/**
 	 * Check that we decode all fields and that all getters are not null.
 	 * @throws IOException an error reading in data
-	 * @throws IntrospectionException an error doing reflection
-	 * @throws IllegalAccessException an error doing reflection
-	 * @throws IllegalArgumentException an error doing reflection
-	 * @throws InvocationTargetException an error doing reflection
+	 * @throws IntrospectionException an error with introspection
+	 * @throws InvocationTargetException  an error with introspection
+	 * @throws IllegalArgumentException  an error with introspection
+	 * @throws IllegalAccessException  an error with introspection
 	 */
 	@Test
-	public void testDecodeAllFields() throws IOException, IntrospectionException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
-		PodamFactory factory = new PodamFactoryImpl();
-		MmtfStructure mmtfBean = factory.manufacturePojo(MmtfStructure.class);
+	public void testDecodeAllFields() throws IOException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, IntrospectionException {
+		ClassLoader classLoader = getClass().getClassLoader();
+		MmtfStructure mmtfBean = ReaderUtils.getDataFromFile(Paths.get(classLoader.getResource("mmtf/4cup.mmtf").getFile()));
 		GenericDecoder defaultDecoder = new GenericDecoder(mmtfBean);
 		ReflectionAssert.assertPropertiesNotNull("Some properties null after decoding", defaultDecoder);
 		for(PropertyDescriptor propertyDescriptor : 
