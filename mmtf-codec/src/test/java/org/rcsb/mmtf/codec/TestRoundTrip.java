@@ -1,5 +1,8 @@
 package org.rcsb.mmtf.codec;
 
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
+
 import java.beans.IntrospectionException;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
@@ -9,15 +12,11 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import org.junit.Test;
-import static org.junit.Assert.*;
 import org.rcsb.mmtf.api.StructureDataInterface;
 import org.rcsb.mmtf.dataholders.MmtfStructure;
-import org.rcsb.mmtf.decoder.DefaultDecoder;
 import org.rcsb.mmtf.decoder.GenericDecoder;
 import org.rcsb.mmtf.decoder.ReaderUtils;
-import org.rcsb.mmtf.encoder.DefaultEncoder;
 import org.rcsb.mmtf.encoder.GenericEncoder;
-import org.rcsb.mmtf.encoder.ReducedEncoder;
 
 
 /**
@@ -35,28 +34,6 @@ public class TestRoundTrip {
 	public void testGenericGeneric() throws IOException {
 		StructureDataInterface structureDataInterface = getDefaultFullData();
 		compareStructDataInfs(structureDataInterface, new GenericDecoder(new GenericEncoder(structureDataInterface).getMmtfEncodedStructure()));
-	}
-
-
-	/**
-	 * Test that a simple roundtripping works - using DefaultEncoder and GenericDecoder
-	 * @throws IOException error reading the file from the resources
-	 */
-	@Test
-	public void testDefaultDefault() throws IOException {
-		StructureDataInterface structureDataInterface = getDefaultFullData();
-		compareStructDataInfs(structureDataInterface, new DefaultDecoder(new DefaultEncoder(structureDataInterface).getMmtfEncodedStructure()));
-	}
-
-	/**
-	 * Test that the encoding the reduce format and reading it in works.
-	 * @throws IOException error reading the file from the resources
-	 */
-	@Test
-	public void testReducedGeneric() throws IOException {
-		StructureDataInterface structureDataInterface = getDefaultFullData();
-		MmtfStructure mmtfStructure = new DefaultEncoder(ReducedEncoder.getReduced(structureDataInterface)).getMmtfEncodedStructure();
-		compareStructDataInfs(new DefaultDecoder(mmtfStructure), new DefaultDecoder(mmtfStructure));
 	}
 
 	/**

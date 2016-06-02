@@ -13,10 +13,11 @@ import org.rcsb.mmtf.dataholders.Group;
 
 /**
  * Default decoder. Takes a {@link MmtfStructure} and passes data into the
- * {@link StructureDataInterface}.
+ * {@link StructureDataInterface}.  Works for v0.1.0 data.
  * @author Anthony Bradley
  *
  */
+@Deprecated
 public class DefaultDecoder implements StructureDataInterface {
 
 	/**

@@ -9,10 +9,11 @@ import org.rcsb.mmtf.encoder.ArrayEncoders;
 
 /**
  * Default encoding class. Converts a {@link StructureDataInterface} into an
- * {@link MmtfStructure}.
+ * {@link MmtfStructure}. Works for v0.1.0 data.
  * @author Anthony Bradley
  *
  */
+@Deprecated
 public class DefaultEncoder implements EncoderInterface {
 
 	private MmtfStructure mmtfBean;

@@ -40,9 +40,9 @@ public class WriterUtils {
 	public static byte[] getDataAsByteArr(AdapterToStructureData writerToEncoder) throws IOException {
 		MessagePackSerialization mmtfBeanSeDerializerInterface = new MessagePackSerialization();
 		// Get to bean
-		DefaultEncoder getToBean = new DefaultEncoder(writerToEncoder);
+		GenericEncoder genericEncoder = new GenericEncoder(writerToEncoder);
 		ByteArrayOutputStream bos = new ByteArrayOutputStream();
-		mmtfBeanSeDerializerInterface.serialize(getToBean.getMmtfEncodedStructure(), bos);
+		mmtfBeanSeDerializerInterface.serialize(genericEncoder.getMmtfEncodedStructure(), bos);
 		return bos.toByteArray();
 	}
 

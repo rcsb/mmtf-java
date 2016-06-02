@@ -34,7 +34,7 @@ public class TestDefaultDecoder {
 	public void testDecodeAllFields() throws IOException, IntrospectionException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 		PodamFactory factory = new PodamFactoryImpl();
 		MmtfStructure mmtfBean = factory.manufacturePojo(MmtfStructure.class);
-		DefaultDecoder defaultDecoder = new DefaultDecoder(mmtfBean);
+		GenericDecoder defaultDecoder = new GenericDecoder(mmtfBean);
 		ReflectionAssert.assertPropertiesNotNull("Some properties null after decoding", defaultDecoder);
 		for(PropertyDescriptor propertyDescriptor : 
 			Introspector.getBeanInfo(MmtfStructure.class).getPropertyDescriptors()){
@@ -42,7 +42,7 @@ public class TestDefaultDecoder {
 		}
 		// Check the decoder has been populated to
 		for(PropertyDescriptor propertyDescriptor :
-			Introspector.getBeanInfo(DefaultDecoder.class).getPropertyDescriptors()){
+			Introspector.getBeanInfo(GenericDecoder.class).getPropertyDescriptors()){
 			if(propertyDescriptor.getReadMethod()!=null){
 				assertNotNull(propertyDescriptor.getReadMethod().invoke(defaultDecoder));
 			}

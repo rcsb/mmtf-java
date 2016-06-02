@@ -26,32 +26,7 @@ public class TestEncoder {
      * A test folder for testing writing files.
      */
     @Rule
-    public TemporaryFolder testFolder = new TemporaryFolder();
-	
-
-	/**
-	 * Test whether calling all the set methods gives a none null get.
-	 * @throws IOException an error converting byte arrays
-	 */
-	@Test
-	public void testDefaultEncoder() throws IOException {
-		DummyApiImpl dummyApiImpl = new DummyApiImpl();
-		EncoderInterface encoder = new DefaultEncoder(dummyApiImpl);
-		ReflectionAssert.assertPropertiesNotNull("Some properties null after encoding",  encoder.getMmtfEncodedStructure());
-	}
-
-	
-	/**
-	 * Test whether calling all the set methods gives a none null get.
-	 * @throws IOException an error converting byte arrays
-	 */
-	@Test
-	public void testReducedEncoder() throws IOException {
-		DummyApiImpl dummyApiImpl = new DummyApiImpl();
-		DefaultEncoder encoder = new DefaultEncoder(ReducedEncoder.getReduced(dummyApiImpl));
-		ReflectionAssert.assertPropertiesNotNull("Some properties null after encoding",  encoder.getMmtfEncodedStructure());
-	}
-	
+    public TemporaryFolder testFolder = new TemporaryFolder();	
 	
 	/**
 	 * Test whether calling all the set methods gives a none null get.
