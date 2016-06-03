@@ -18,7 +18,7 @@ public class ArrayConverters {
 	/**
 	 * Find all the chain ids from a single byte array. Each byte encodes a different ASCII character.
 	 * @param currentChainList the byte array of the chain list input. 
-	 * @param the number of bytes array takes
+	 * @param length the number of bytes array takes
 	 * @return the string array of the parsed chain ids
 	 */
 	public static String[] decodeChainList(byte[] currentChainList, int length) {

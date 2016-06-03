@@ -123,9 +123,9 @@ public class EncoderUtils {
 	
 	/**
 	 * Method to prepend a byte array with a byte.
+	 * @param inputCodec the codec to be used
 	 * @param inputData the array to encode and prepend
-	 * @param inputByte the byte to prepend in the array
-	 * @param param the input parameter
+	 * @param param the input parameter - an integer to be used in the encoding
 	 * @return the updated array
 	 */
 	public static byte[] encodeByteArr(FloatCodecs inputCodec, float[] inputData, int param){
@@ -138,9 +138,9 @@ public class EncoderUtils {
 
 	/**
 	 * Method to prepend a byte array with a byte.
+	 * @param inputCodec the codec to be used
 	 * @param inputData the array to encode and prepend
-	 * @param inputByte the byte to prepend in the array
-	 * @param param the input parameter
+	 * @param param the input parameter - an integer to be used in the encoding
 	 * @return the updated array
 	 */
 	public static byte[] encodeByteArr(IntCodecs inputCodec, int[] inputData, int param){
@@ -152,7 +152,8 @@ public class EncoderUtils {
 	/**
 	 * Method to prepend a byte array with a byte.
 	 * @param inputData the array to encode and prepend
-	 * @param inputByte the byte to prepend in the array
+	 * @param inputCodec the codec to be used
+	 * @param param the input parameter - an integer to be used in the encoding
 	 * @return the updated array
 	 */
 	public static byte[] encodeByteArr(CharCodecs inputCodec, char[] inputData, int param){
@@ -165,7 +166,8 @@ public class EncoderUtils {
 	/**
 	 * Method to prepend a byte array with a byte.
 	 * @param inputData the array to encode and prepend
-	 * @param inputByte the byte to prepend in the array
+	 * @param inputCodec the codec to be used
+	 * @param param the input parameter - an integer to be used in the encoding
 	 * @return the updated array
 	 */
 	public static byte[] encodeByteArr(StringCodecs inputCodec, String[] inputData, int param){

@@ -23,7 +23,7 @@ public class OptionParser {
 	/**
 	 * Constructor to take the options from the byte array and allow 
 	 * access to the options and the raw data.
-	 * @param inputData
+	 * @param inputData the input byte array (with 12 byte header)
 	 */
 	public OptionParser(byte[] inputData) {
 		ByteBuffer buffer = ByteBuffer.wrap(inputData);

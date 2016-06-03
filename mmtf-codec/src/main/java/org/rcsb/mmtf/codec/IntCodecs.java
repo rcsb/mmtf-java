@@ -14,7 +14,7 @@ public enum IntCodecs implements IntCodecInterface, CodecInterface {
 	/**
 	 * Encoding first performs delta encoding and then run length
 	 * encoding on top. This is appropriate for serial numbers. 
-	 * 1,2,3,4,5,6 -> 1,1,1,1,1,1 -> 1,6
+	 * 1,2,3,4,5,6 go to 1,1,1,1,1,1 go to 1,6
 	 */
 	RUN_LENGTH_DELTA(8, "Run length delta") {
 

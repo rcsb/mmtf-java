@@ -50,7 +50,7 @@ public class WriterUtils {
 	 * Compress a byte array using Gzip.
 	 * @param byteArray the input byte array
 	 * @return the compressed byte array
-	 * @throws IOException
+	 * @throws IOException an exception creating the GZIP stream
 	 */
 	public static byte[] gzipCompress(byte[] byteArray) throws IOException {
 		// Function to gzip compress the data for the hashmaps
