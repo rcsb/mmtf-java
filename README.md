@@ -1,7 +1,7 @@
 [![Build Status](https://travis-ci.org/rcsb/mmtf-java.svg?branch=master)](https://travis-ci.org/rcsb/mmtf-java)
 [![Coverage Status](https://coveralls.io/repos/github/rcsb/mmtf-java/badge.svg?branch=master)](https://coveralls.io/github/rcsb/mmtf-java?branch=master)
 [![Dependency Status](https://www.versioneye.com/user/projects/56feb8e5fcd19a0039f1553c/badge.svg?style=flat)](https://www.versioneye.com/user/projects/56feb8e5fcd19a0039f1553c)
-[![Version](http://img.shields.io/badge/version-0.1.0-blue.svg?style=flat)](https://github.com/rcsb/mmtf-java/) [![License](http://img.shields.io/badge/license-Apache 2.0-blue.svg?style=flat)](https://github.com/rcsb/mmtf-java/blob/master/LICENSE.txt)
+[![Version](http://img.shields.io/badge/version-0.2.0-blue.svg?style=flat)](https://github.com/rcsb/mmtf-java/) [![License](http://img.shields.io/badge/license-Apache 2.0-blue.svg?style=flat)](https://github.com/rcsb/mmtf-java/blob/master/LICENSE.txt)
 
 
 
@@ -16,12 +16,12 @@ The alpha release is available on Maven central.
 		<dependency>
 			<groupId>org.rcsb</groupId>
 			<artifactId>mmtf-decoder</artifactId>
-			<version>0.1.1</version>
+			<version>0.2.0</version>
 		</dependency>
         <dependency>
             <groupId>org.rcsb</groupId>
             <artifactId>mmtf-api</artifactId>
-            <version>0.1.1</version>
+            <version>0.2.0</version>
         </dependency>
 ```
 

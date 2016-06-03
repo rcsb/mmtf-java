@@ -88,19 +88,21 @@ public interface StructureAdapterInterface {
 
 	/**
 	 * Sets a single Bioassembly transformation to a structure. bioAssemblyId indicates the index of the bioassembly.
-	 * @param bioAssemblyIndex An integer index of this bioassembly.
-	 * @param inputChainIndices The integer indices of the chains involved in this bioassembly. 
-	 * @param inputTransform A list of doubles indicating the transform for this bioassembly.
+	 * @param bioAssemblyIndex an integer index of this bioassembly.
+	 * @param inputChainIndices the integer indices of the chains involved in this bioassembly. 
+	 * @param inputTransform a list of doubles indicating the transform for this bioassembly.
+	 * @param name the name of the bioassembly
 	 */
-	void setBioAssemblyTrans(int bioAssemblyIndex, int[] inputChainIndices, double[] inputTransform);
+	void setBioAssemblyTrans(int bioAssemblyIndex, int[] inputChainIndices, double[] inputTransform, String name);
 
 	/**
 	 * Sets the space group and unit cell information.
 	 *
 	 * @param spaceGroup the space group name, e.g. "P 21 21 21"
 	 * @param unitCell an array of length 6 with the unit cell parameters in order: a, b, c, alpha, beta, gamma
+	 * @param ncsOperatorList the list of NCS operation matrices
 	 */
-	void setXtalInfo(String spaceGroup, float[] unitCell);
+	void setXtalInfo(String spaceGroup, float[] unitCell, double[][] ncsOperatorList);
 
 	/**
 	 * Sets an intra-group bond.
@@ -132,7 +134,5 @@ public interface StructureAdapterInterface {
 	 */
 	void setHeaderInfo(float rFree, float rWork, float resolution, String title, String depositionDate, 
 			String releaseDate, String[] experimnetalMethods);
-
-
 
 }

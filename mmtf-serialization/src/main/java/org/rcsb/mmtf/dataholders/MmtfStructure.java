@@ -13,17 +13,20 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class MmtfStructure implements Serializable {
 
-
 	/** The number to divide coordinate int values by. */
-	public static final float COORD_DIVIDER = 1000.0f;
+	public static final int COORD_DIVIDER = 1000;
 	/** The number to divide occupancy and bfactor int values by. */
-	public static final float OCCUPANCY_BFACTOR_DIVIDER = 100.0f;
+	public static final int OCCUPANCY_BFACTOR_DIVIDER = 100;
 	/** The default value for Rfree and Rwork */
 	public static final float UNAVAILABLE_R_VALUE = 1.0f;
 	/** The default value for resolution when not available or not applicable  */
 	public static final float UNAVAILABLE_RESOLUTION_VALUE = 99.0f;
 	/** The default value for a missing or null string field */
 	public static final char UNAVAILABLE_CHAR_VALUE = '\0';
+	/** The number of characters in a chain.*/
+	public static final int CHAIN_LENGTH = 4;
+	/** The version of MMTF */
+	public static final String VERSION = "0.2.0";
 
 
 	/** Serial id for this version of the format. */
@@ -37,15 +40,24 @@ public class MmtfStructure implements Serializable {
 
 	/** The number of bonds. */
 	private int numBonds;
+	
+	/** The number of atoms. */
+	private int numAtoms;
+	
+	/** The number of groups. */
+	private int numGroups;
+	
+	/** The number of chains. */
+	private int numChains;
+	
+	/** The number of models. */
+	private int numModels;
 
 	/** The structure Id. Most commonly this will be the four character PDB id. */
 	private String structureId;
 
 	/** The title. */
 	private String title;
-
-	/** The number of atoms. */
-	private int numAtoms;
 
 	/** The number of chains per model. */
 	private int[] chainsPerModel;
@@ -77,29 +89,17 @@ public class MmtfStructure implements Serializable {
 	/** The list of different PDBGroups in the structure. */
 	private Group[] groupList;
 
-	/** The x coord big. 4 byte integers in pairs. */
-	private byte[] xCoordBig;
+	/** The encoded X coordinates. */
+	private byte[] xCoordList;
 
-	/** The y coord big. 4 byte integers in pairs. */
-	private byte[] yCoordBig;
+	/** The encoded Y coordinates.  */
+	private byte[] yCoordList;
 
-	/** The z coord big. 4 byte integers in pairs. */
-	private byte[] zCoordBig;
+	/** The encoded Z coordinates.  */
+	private byte[] zCoordList;
 
-	/** The b factor big. 4 byte integers in pairs. */
-	private byte[] bFactorBig;
-
-	/** The x coord small. 2 byte integers. */
-	private byte[] xCoordSmall;
-
-	/** The y coord small. 2 byte integers.*/
-	private byte[] yCoordSmall;
-
-	/** The z coord small. 2 byte integers.*/
-	private byte[] zCoordSmall;
-
-	/** The b factor small. 2 byte integers.*/
-	private byte[] bFactorSmall;
+	/** The encoded B-factors. */
+	private byte[] bFactorList;
 
 	/** The secondary structure list. Stored as 1 byte ints. */
 	private byte[] secStructList;
@@ -145,14 +145,17 @@ public class MmtfStructure implements Serializable {
 
 	/** The release data of the structure in ISO time standard format. https://www.cl.cam.ac.uk/~mgk25/iso-time.html */
 	private String releaseDate;
-
+	
+	/** A float array for the NCS operator expression matrices, derived from the mmCIF file. */
+	private double[][] ncsOperatorList;
+	
 	/** Constructor to set the default values for floats */
 	public MmtfStructure() {
 
 		/** The mmtf version. Set here. */
-		mmtfVersion = "0.1";
+		mmtfVersion = MmtfStructure.VERSION;
 
-		/** The mmtf producer. NA is default and means error. */
+		/** The mmtf producer. NA is default and for RCSB PDB data indicates an error. */
 		mmtfProducer = "NA";
 
 		/** The resolution in Angstrom. -1.0 if not applicable*/
@@ -243,7 +246,7 @@ public class MmtfStructure implements Serializable {
 	 *
 	 * @return the space group
 	 */
-	public final String getSpaceGroup() {
+	public String getSpaceGroup() {
 		return spaceGroup;
 	}
 
@@ -252,7 +255,7 @@ public class MmtfStructure implements Serializable {
 	 *
 	 * @param inputSpaceGroup the new space group
 	 */
-	public final void setSpaceGroup(final String inputSpaceGroup) {
+	public void setSpaceGroup(String inputSpaceGroup) {
 		this.spaceGroup = inputSpaceGroup;
 	}
 
@@ -261,7 +264,7 @@ public class MmtfStructure implements Serializable {
 	 *
 	 * @return the unit cell
 	 */
-	public final float[] getUnitCell() {
+	public float[] getUnitCell() {
 		return unitCell;
 	}
 
@@ -270,7 +273,7 @@ public class MmtfStructure implements Serializable {
 	 *
 	 * @param inputUnitCell the new unit cell
 	 */
-	public final void setUnitCell(final float[] inputUnitCell) {
+	public void setUnitCell(float[] inputUnitCell) {
 		this.unitCell = inputUnitCell;
 	}
 
@@ -279,7 +282,7 @@ public class MmtfStructure implements Serializable {
 	 *
 	 * @return the group num list
 	 */
-	public final byte[] getGroupIdList() {
+	public byte[] getGroupIdList() {
 		return groupIdList;
 	}
 
@@ -288,152 +291,8 @@ public class MmtfStructure implements Serializable {
 	 *
 	 * @param inputGroupNumList the new group num list
 	 */
-	public final void setGroupIdList(final byte[] inputGroupNumList) {
+	public void setGroupIdList(byte[] inputGroupNumList) {
 		this.groupIdList = inputGroupNumList;
-	}
-
-	/**
-	 * Gets the x coordinate big.
-	 *
-	 * @return the x coordinate big
-	 */
-	public final byte[] getxCoordBig() {
-		return xCoordBig;
-	}
-
-	/**
-	 * Sets the x coordinate big.
-	 *
-	 * @param inputXCoordBig the new 4 byte integer x coordinate array
-	 */
-	public final void setxCoordBig(final byte[] inputXCoordBig) {
-		this.xCoordBig = inputXCoordBig;
-	}
-
-	/**
-	 * Gets the y coord big.
-	 *
-	 * @return the y coord big
-	 */
-	public final byte[] getyCoordBig() {
-		return yCoordBig;
-	}
-
-	/**
-	 * Sets the y coordinate big.
-	 *
-	 * @param inputYCoordBig the new 4 byte integer y coordinate array
-	 */
-	public final void setyCoordBig(final byte[] inputYCoordBig) {
-		this.yCoordBig = inputYCoordBig;
-	}
-
-	/**
-	 * Gets the z coordinate big.
-	 *
-	 * @return the z coordinate big
-	 */
-	public final byte[] getzCoordBig() {
-		return zCoordBig;
-	}
-
-	/**
-	 * Sets the z coordinate big.
-	 *
-	 * @param inputZCoordBig the new 4 byte integer z coordinate array
-	 */
-	public final void setzCoordBig(final byte[] inputZCoordBig) {
-		this.zCoordBig = inputZCoordBig;
-	}
-
-	/**
-	 * Gets the x coordinate small.
-	 *
-	 * @return the x coordinate small
-	 */
-	public final byte[] getxCoordSmall() {
-		return xCoordSmall;
-	}
-
-	/**
-	 * Sets the x coordinate small.
-	 *
-	 * @param inputXCoordSmall the new 2 byte integer x coordinate array
-	 */
-	public final void setxCoordSmall(final byte[] inputXCoordSmall) {
-		this.xCoordSmall = inputXCoordSmall;
-	}
-
-	/**
-	 * Gets the y coordinate small.
-	 *
-	 * @return the y coordinate small
-	 */
-	public final byte[] getyCoordSmall() {
-		return yCoordSmall;
-	}
-
-	/**
-	 * Sets the y coordinate small.
-	 *
-	 * @param inputYCoordSmall the new 2 byte integer y coordinate array
-	 */
-	public final void setyCoordSmall(final byte[] inputYCoordSmall) {
-		this.yCoordSmall = inputYCoordSmall;
-	}
-
-	/**
-	 * Gets the z coordinate small.
-	 *
-	 * @return the z coordinate small
-	 */
-	public final byte[] getzCoordSmall() {
-		return zCoordSmall;
-	}
-
-	/**
-	 * Sets the z coordinate small.
-	 *
-	 * @param inputZCoordSmall the new 2 byte integer z coordinate array
-	 */
-	public final void setzCoordSmall(final byte[] inputZCoordSmall) {
-		this.zCoordSmall = inputZCoordSmall;
-	}
-
-	/**
-	 * Gets the b factor big.
-	 *
-	 * @return the b factor big
-	 */
-	public final byte[] getbFactorBig() {
-		return bFactorBig;
-	}
-
-	/**
-	 * Sets the b factor big.
-	 *
-	 * @param inputBigBFactor the new b factor big
-	 */
-	public final void setbFactorBig(final byte[] inputBigBFactor) {
-		this.bFactorBig = inputBigBFactor;
-	}
-
-	/**
-	 * Gets the b factor small.
-	 *
-	 * @return the b factor small
-	 */
-	public final byte[] getbFactorSmall() {
-		return bFactorSmall;
-	}
-
-	/**
-	 * Sets the b factor small.
-	 *
-	 * @param inputSmallBFactor the new b factor 2 byte array
-	 */
-	public final void setbFactorSmall(final byte[] inputSmallBFactor) {
-		this.bFactorSmall = inputSmallBFactor;
 	}
 
 	/**
@@ -441,7 +300,7 @@ public class MmtfStructure implements Serializable {
 	 *
 	 * @return the alternate location list
 	 */
-	public final byte[] getAltLocList() {
+	public byte[] getAltLocList() {
 		return altLocList;
 	}
 
@@ -450,7 +309,7 @@ public class MmtfStructure implements Serializable {
 	 *
 	 * @param inputAltLocList the new alternation location label list
 	 */
-	public final void setAltLocList(final byte[] inputAltLocList) {
+	public void setAltLocList(byte[] inputAltLocList) {
 		this.altLocList = inputAltLocList;
 	}
 
@@ -459,7 +318,7 @@ public class MmtfStructure implements Serializable {
 	 *
 	 * @return the bio assembly
 	 */
-	public final List<BioAssemblyData> getBioAssemblyList() {
+	public List<BioAssemblyData> getBioAssemblyList() {
 		return bioAssemblyList;
 	}
 
@@ -468,7 +327,7 @@ public class MmtfStructure implements Serializable {
 	 *
 	 * @return the chain list
 	 */
-	public final byte[] getChainNameList() {
+	public byte[] getChainNameList() {
 		return chainNameList;
 	}
 
@@ -477,7 +336,7 @@ public class MmtfStructure implements Serializable {
 	 *
 	 * @param inputChainList the new chain list
 	 */
-	public final void setChainNameList(final byte[] inputChainList) {
+	public void setChainNameList(byte[] inputChainList) {
 		this.chainNameList = inputChainList;
 	}
 
@@ -486,7 +345,7 @@ public class MmtfStructure implements Serializable {
 	 *
 	 * @param inputBioAssembly the bio assembly
 	 */
-	public final void setBioAssemblyList(final List<BioAssemblyData> inputBioAssembly) {
+	public void setBioAssemblyList(List<BioAssemblyData> inputBioAssembly) {
 		this.bioAssemblyList = inputBioAssembly;
 	}
 
@@ -495,7 +354,7 @@ public class MmtfStructure implements Serializable {
 	 *
 	 * @return the num atoms
 	 */
-	public final int getNumAtoms() {
+	public int getNumAtoms() {
 		return numAtoms;
 	}
 
@@ -504,7 +363,7 @@ public class MmtfStructure implements Serializable {
 	 *
 	 * @param inputNumAtoms the new num atoms
 	 */
-	public final void setNumAtoms(final int inputNumAtoms) {
+	public void setNumAtoms(int inputNumAtoms) {
 		this.numAtoms = inputNumAtoms;
 	}
 
@@ -513,7 +372,7 @@ public class MmtfStructure implements Serializable {
 	 *
 	 * @return the occupancy list - an encoded per atom list of occupancy values.
 	 */
-	public final byte[] getOccupancyList() {
+	public byte[] getOccupancyList() {
 		return occupancyList;
 	}
 
@@ -522,7 +381,7 @@ public class MmtfStructure implements Serializable {
 	 *
 	 * @param inputOccupancyList the occupancy list - an encoded per atom list of occupancy values.
 	 */
-	public final void setOccupancyList(final byte[] inputOccupancyList) {
+	public void setOccupancyList(byte[] inputOccupancyList) {
 		this.occupancyList = inputOccupancyList;
 	}
 
@@ -531,7 +390,7 @@ public class MmtfStructure implements Serializable {
 	 *
 	 * @return the insertion code list
 	 */
-	public final byte[] getInsCodeList() {
+	public byte[] getInsCodeList() {
 		return insCodeList;
 	}
 
@@ -540,7 +399,7 @@ public class MmtfStructure implements Serializable {
 	 *
 	 * @param inputInsertionCodeList the new insertion code list
 	 */
-	public final void setInsCodeList(final byte[] inputInsertionCodeList) {
+	public void setInsCodeList(byte[] inputInsertionCodeList) {
 		this.insCodeList = inputInsertionCodeList;
 	}
 
@@ -549,7 +408,7 @@ public class MmtfStructure implements Serializable {
 	 *
 	 * @return the group map
 	 */
-	public final Group[] getGroupList() {
+	public Group[] getGroupList() {
 		return groupList;
 	}
 
@@ -870,6 +729,116 @@ public class MmtfStructure implements Serializable {
 		this.releaseDate = releaseDate;
 	}
 
+	/**
+	 * @return the X coords as an encoded byte array.
+	 */
+	public byte[] getxCoordList() {
+		return xCoordList;
+	}
 
+	/**
+	 * @param xCoords the X coords as an encoded byte array.
+	 */
+	public void setxCoordList(byte[] xCoords) {
+		this.xCoordList = xCoords;
+	}
+
+	/**
+	 * @return the  the Y coords as an encoded byte array.
+	 */
+	public byte[] getyCoordList() {
+		return yCoordList;
+	}
+
+	/**
+	 * @param yCoords the Y  coords as an encoded byte array.
+	 */
+	public void setyCoordList(byte[] yCoords) {
+		this.yCoordList = yCoords;
+	}
+
+	/**
+	 * @return the Z coords as an encoded byte array.
+	 */
+	public byte[] getzCoordList() {
+		return zCoordList;
+	}
+
+	/**
+	 * @param zCoords the Z coords as an encoded byte array.
+	 */
+	public void setzCoordList(byte[] zCoords) {
+		this.zCoordList = zCoords;
+	}
+
+	/**
+	 * @return the atomic B-factors  as an encoded byte array.
+	 */
+	public byte[] getbFactorList() {
+		return bFactorList;
+	}
+
+	/**
+	 * @param bFactors the atomic B-factors  as an encoded byte array.
+	 */
+	public void setbFactorList(byte[] bFactors) {
+		this.bFactorList = bFactors;
+	}
+
+	/**
+	 * @return the number of groups in the structure
+	 */
+	public int getNumGroups() {
+		return numGroups;
+	}
+
+	/**
+	 * @param numGroups the number of groups in the structure
+	 */
+	public void setNumGroups(int numGroups) {
+		this.numGroups = numGroups;
+	}
+
+	/**
+	 * @return the number of chains in the structure
+	 */
+	public int getNumChains() {
+		return numChains;
+	}
+
+	/**
+	 * @param numChains the number of chains in the structure
+	 */
+	public void setNumChains(int numChains) {
+		this.numChains = numChains;
+	}
+
+	/**
+	 * @return the number of models in the structure
+	 */
+	public int getNumModels() {
+		return numModels;
+	}
+
+	/**
+	 * @param numModels the number of models in the structure
+	 */
+	public void setNumModels(int numModels) {
+		this.numModels = numModels;
+	}
+
+	/**
+	 * @return the ncsOperMatrixList
+	 */
+	public double[][] getNcsOperatorList() {
+		return ncsOperatorList;
+	}
+
+	/**
+	 * @param ncsOperatorList the ncsOperMatrixList to set
+	 */
+	public void setNcsOperatorList(double[][] ncsOperatorList) {
+		this.ncsOperatorList = ncsOperatorList;
+	}
 
 }

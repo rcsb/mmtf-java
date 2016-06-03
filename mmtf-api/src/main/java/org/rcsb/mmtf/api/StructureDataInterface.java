@@ -391,9 +391,15 @@ public interface StructureDataInterface {
 	String getReleaseDate();
 	
 	/**
-	 * The secondary structure information for the structure as a list of integers
+	 * Returns the secondary structure information for the structure as a list of integers
 	 * @return the array of secondary structure informations
 	 */
 	int[] getSecStructList();
 	
+	
+	/**
+	 * Returns the NCS operation matrix list.
+	 * @return the NCS operation matrix list for this structure
+	 */
+	double[][] getNcsOperatorList();
 }

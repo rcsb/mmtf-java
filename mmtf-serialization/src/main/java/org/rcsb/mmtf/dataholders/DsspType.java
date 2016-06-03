@@ -1,5 +1,6 @@
 package org.rcsb.mmtf.dataholders;
 
+import java.io.Serializable;
 
 /**
  * The encoding of secondary structure types.
@@ -8,7 +9,7 @@ package org.rcsb.mmtf.dataholders;
  * Biopolymers 22 (12): 2577–637. doi:10.1002/bip.360221211. PMID 6667333.
  * @author Anthony Bradley
  */
-public enum DsspType {
+public enum DsspType implements Serializable {
 
 	/** A pi helix.*/
 	PI_HELIX("pi Helix",0),

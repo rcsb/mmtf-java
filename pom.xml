@@ -13,7 +13,7 @@
 	<groupId>org.rcsb</groupId>
 	<artifactId>mmtf</artifactId>
 	<packaging>pom</packaging>
-	<version>0.1.2-SNAPSHOT</version>
+	<version>0.2.0-SNAPSHOT</version>
 	<name>mmtf</name>
 	<description>MMTF is a compressed, fast and useful format for serving macromolecular data.
     </description>
@@ -482,8 +482,7 @@
 	<modules>
 		<module>mmtf-serialization</module>
 		<module>mmtf-api</module>
-		<module>mmtf-decoder</module>
-		<module>mmtf-encoder</module>
+		<module>mmtf-codec</module>
 	</modules>
 	<inceptionYear>2015</inceptionYear>
 	<issueManagement>

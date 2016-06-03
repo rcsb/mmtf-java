@@ -14,3 +14,25 @@ All notable changes to this project will be documented in this file, following t
 ### Added
 - Added a new reduced encoder to produce the reduced format of the data.
 
+## v0.2.0 - 2016-06-03
+### Added
+- mmtf-codec module - consolidating mmtf-encoder and mmtf-decoder
+- org.rcsb.mmtf.codec package - with enums for encoding and decoding generic data
+- NCS Operator information
+- R-work and release date information
+- Number models, number chains and number groups in the MMTF data
+- Reduced format encoder
+- Enums to define the different encoding strategy
+- common-lang dependency
+- OptionParser class to parse type, length and parameter from 12 byte header
+
+### Changed
+- Codecs defined in 12 bytes at start of byte arrays. https://github.com/rcsb/mmtf/blob/master/spec.md#codecs
+- Split lists are now recursive index encoded as single lists
+- atomChargeList to formalChargeList
+- xCoords -> xCoordList (and y,z and B-factors)
+
+### Removed
+- mmtf-encoder and mmtf-decoder modules
+
+

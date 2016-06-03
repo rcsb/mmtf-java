@@ -33,7 +33,7 @@ public class TestGroup {
 	
 	private Group makegroup() {
 		Group group = new Group();
-		group.setAtomChargeList(new int[] {1,1});
+		group.setFormalChargeList(new int[] {1,1});
 		group.setAtomNameList(new String[] {"A","B"});
 		group.setBondAtomList(new int[] {0,1});
 		group.setBondOrderList(new int[] {1});
@@ -67,7 +67,7 @@ public class TestGroup {
 	 */
 	@Test
 	public void testgroupNotEqualsCharge() {
-		groupOne.setAtomChargeList(new int[] {0,1});
+		groupOne.setFormalChargeList(new int[] {0,1});
 		assertFalse(groupOne.equals(groupTwo));
 	}
 	/**
