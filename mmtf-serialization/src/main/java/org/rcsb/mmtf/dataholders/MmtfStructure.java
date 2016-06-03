@@ -25,6 +25,8 @@ public class MmtfStructure implements Serializable {
 	public static final char UNAVAILABLE_CHAR_VALUE = '\0';
 	/** The number of characters in a chain.*/
 	public static final int CHAIN_LENGTH = 4;
+	/** The version of MMTF */
+	public static final String VERSION = "0.2.0";
 
 
 	/** Serial id for this version of the format. */
@@ -151,7 +153,7 @@ public class MmtfStructure implements Serializable {
 	public MmtfStructure() {
 
 		/** The mmtf version. Set here. */
-		mmtfVersion = "0.2.0";
+		mmtfVersion = MmtfStructure.VERSION;
 
 		/** The mmtf producer. NA is default and for RCSB PDB data indicates an error. */
 		mmtfProducer = "NA";

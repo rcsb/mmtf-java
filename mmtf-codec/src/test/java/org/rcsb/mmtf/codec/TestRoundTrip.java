@@ -1,13 +1,8 @@
 package org.rcsb.mmtf.codec;
 
 import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
 
-import java.beans.IntrospectionException;
-import java.beans.Introspector;
-import java.beans.PropertyDescriptor;
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
@@ -16,11 +11,9 @@ import org.rcsb.mmtf.api.StructureDataInterface;
 import org.rcsb.mmtf.dataholders.MmtfStructure;
 import org.rcsb.mmtf.decoder.GenericDecoder;
 import org.rcsb.mmtf.decoder.ReaderUtils;
-import org.rcsb.mmtf.encoder.GenericEncoder;
-
 
 /**
- * Basic integration tests of the new codec suite.
+ * Basic integration tests of the codec suite.
  * @author Anthony Bradley
  *
  */
@@ -28,14 +21,13 @@ public class TestRoundTrip {
 
 	/**
 	 * Test that a simple roundtripping works - using GenericEncoder and GenericDecoder
-	 * @throws IOException error reading the file from the resources
+	 * @throws IOException error reading the file from the resource
 	 */
 	@Test
 	public void testGenericGeneric() throws IOException {
-		StructureDataInterface structureDataInterface = getDefaultFullData();
-		compareStructDataInfs(structureDataInterface, new GenericDecoder(new GenericEncoder(structureDataInterface).getMmtfEncodedStructure()));
+		Utils.compare(getDefaultFullData());
 	}
-
+	
 	/**
 	 * Test that roundtripping on the recursive index code works.
 	 */
@@ -70,51 +62,5 @@ public class TestRoundTrip {
 		ClassLoader classLoader = getClass().getClassLoader();
 		Path inFile = Paths.get(classLoader.getResource("mmtf/4cup.mmtf").getFile());
 		return new GenericDecoder(ReaderUtils.getDataFromFile(inFile));
-	}
-
-
-	/**
-	 * Compare the data in two {@link StructureDataInterface}s.
-	 * @param interfaceOne the first {@link StructureDataInterface}
-	 * @param interfaceTwo the second {@link StructureDataInterface}
-	 */
-	private void compareStructDataInfs(StructureDataInterface interfaceOne, StructureDataInterface interfaceTwo) {
-		
-		// Check the non-array values
-		try {
-			for(PropertyDescriptor propertyDescriptor :
-				Introspector.getBeanInfo(StructureDataInterface.class).getPropertyDescriptors()){
-				if(propertyDescriptor.getReadMethod()!=null){
-					if(propertyDescriptor.getReadMethod().invoke(interfaceOne).getClass().isArray()){
-						
-					}
-					else{
-						assertEquals(propertyDescriptor.getReadMethod().invoke(interfaceOne),propertyDescriptor.getReadMethod().invoke(interfaceTwo));
-					}
-				}
-			}
-		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException
-				| IntrospectionException e) {
-			throw new RuntimeException();
-		}
-		// Now check the arrays
-		assertArrayEquals(interfaceOne.getAtomIds(), interfaceTwo.getAtomIds());
-		assertArrayEquals(interfaceOne.getxCoords(), interfaceTwo.getxCoords(),0.0009f);
-		assertArrayEquals(interfaceOne.getyCoords(), interfaceTwo.getyCoords(),0.0009f);
-		assertArrayEquals(interfaceOne.getzCoords(), interfaceTwo.getzCoords(),0.0009f);
-		assertArrayEquals(interfaceOne.getbFactors(), interfaceTwo.getbFactors(), 0.009f);
-		assertArrayEquals(interfaceOne.getOccupancies(), interfaceTwo.getOccupancies(), 0.009f);		
-		assertArrayEquals(interfaceOne.getAltLocIds(), interfaceTwo.getAltLocIds());		
-		assertArrayEquals(interfaceOne.getChainIds(), interfaceTwo.getChainIds());
-		assertArrayEquals(interfaceOne.getSecStructList(), interfaceTwo.getSecStructList());
-		assertArrayEquals(interfaceOne.getChainNames(), interfaceTwo.getChainNames());
-		assertArrayEquals(interfaceOne.getExperimentalMethods(), interfaceTwo.getExperimentalMethods());
-		assertArrayEquals(interfaceOne.getGroupIds(), interfaceTwo.getGroupIds());
-		assertArrayEquals(interfaceOne.getGroupSequenceIndices(), interfaceTwo.getGroupSequenceIndices());
-		assertArrayEquals(interfaceOne.getGroupsPerChain(), interfaceTwo.getGroupsPerChain());
-		assertArrayEquals(interfaceOne.getGroupTypeIndices(), interfaceTwo.getGroupTypeIndices());
-		assertArrayEquals(interfaceOne.getInsCodes(), interfaceTwo.getInsCodes());	
-		assertArrayEquals(interfaceOne.getInterGroupBondIndices(), interfaceTwo.getInterGroupBondIndices());
-		assertArrayEquals(interfaceOne.getInterGroupBondOrders(), interfaceTwo.getInterGroupBondOrders());
 	}
 }

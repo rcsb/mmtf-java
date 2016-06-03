@@ -15,7 +15,8 @@ All notable changes to this project will be documented in this file, following t
 - Reduced format encoder
 
 ### Changed
-- Decoder and Encoder now add 12 bytes
+- Codecs defined in 12 bytes at start of byte arrays. https://github.com/rcsb/mmtf/blob/master/spec.md#codecs
+
 
 ### Removed
 - mmtf-encoder and mmtf-decoder modules

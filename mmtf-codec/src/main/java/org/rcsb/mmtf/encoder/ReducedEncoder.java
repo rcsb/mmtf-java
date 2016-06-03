@@ -133,10 +133,8 @@ public class ReducedEncoder {
 						}
 					}
 					// Add the bonds if we've copied all the elements
-					if(indicesToAdd.size()>1 && indicesToAdd.size()==structureDataInterface.getGroupBondOrders(groupType).length){
-						for(int l=0; l<structureDataInterface.getGroupBondOrders(groupType).length; l++){
-							summaryData.numBonds++;
-						}
+					if (findBondsToAdd(indicesToAdd, structureDataInterface, groupType)>0){
+						summaryData.numBonds+=structureDataInterface.getGroupBondOrders(groupType).length;
 					}
 				}
 			}

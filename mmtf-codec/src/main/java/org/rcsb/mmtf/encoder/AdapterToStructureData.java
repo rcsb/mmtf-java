@@ -10,6 +10,7 @@ import org.rcsb.mmtf.dataholders.BioAssemblyData;
 import org.rcsb.mmtf.dataholders.BioAssemblyTransformation;
 import org.rcsb.mmtf.dataholders.Entity;
 import org.rcsb.mmtf.dataholders.Group;
+import org.rcsb.mmtf.dataholders.MmtfStructure;
 import org.rcsb.mmtf.utils.CodecUtils;
 
 /**
@@ -85,7 +86,7 @@ public class AdapterToStructureData implements StructureDataInterface, Structure
 	private String[] chainList;
 
 	/** The mmtf version */
-	private String mmtfVersion = "UNKNOWN";
+	private String mmtfVersion = MmtfStructure.VERSION;
 
 	/** The mmtf prodcuer */
 	private String mmtfProducer = "UNKNOWN";
