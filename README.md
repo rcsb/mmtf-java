@@ -16,12 +16,12 @@ The alpha release is available on Maven central.
 		<dependency>
 			<groupId>org.rcsb</groupId>
 			<artifactId>mmtf-decoder</artifactId>
-			<version>0.1.0</version>
+			<version>0.1.1</version>
 		</dependency>
         <dependency>
             <groupId>org.rcsb</groupId>
             <artifactId>mmtf-api</artifactId>
-            <version>0.1.0</version>
+            <version>0.1.1</version>
         </dependency>
 ```
 
