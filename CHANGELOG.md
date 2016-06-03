@@ -5,6 +5,15 @@ All notable changes to this project will be documented in this file, following t
 ### Added
 - Initial release
 
+## v0.1.1 - 2016-06-02
+### Changed
+- Find max in empty int array now returns -1. Added a test to do so.
+- Refactored some of the code to remove repitition
+- Added private to several class level variables
+
+### Added
+- Added a new reduced encoder to produce the reduced format of the data.
+
 ## v0.2.0 - 2016-06-03
 ### Added
 - mmtf-codec module - consolidating mmtf-encoder and mmtf-decoder
@@ -26,12 +35,4 @@ All notable changes to this project will be documented in this file, following t
 ### Removed
 - mmtf-encoder and mmtf-decoder modules
 
-## v0.1.1 - 2016-06-02
-### Changed
-- Find max in empty int array now returns -1. Added a test to do so.
-- Refactored some of the code to remove repitition
-- Added private to several class level variables
-
-### Added
-- Added a new reduced encoder to produce the reduced format of the data.
 
