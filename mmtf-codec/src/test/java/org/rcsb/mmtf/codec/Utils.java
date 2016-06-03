@@ -44,7 +44,6 @@ public class Utils {
 						
 					}
 					else{
-						System.out.println(propertyDescriptor.getReadMethod());
 						assertEquals(propertyDescriptor.getReadMethod().invoke(interfaceOne),propertyDescriptor.getReadMethod().invoke(interfaceTwo));
 					}
 				}
