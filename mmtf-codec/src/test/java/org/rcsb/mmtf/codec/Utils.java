@@ -22,7 +22,7 @@ public class Utils {
 
 	/**
 	 * Compare the data after roundtripping {@link StructureDataInterface}s.
-	 * @param interfaceOne the {@link StructureDataInterface}
+	 * @param structureDataInterface the {@link StructureDataInterface}
 	 */
 	public static void compare(StructureDataInterface structureDataInterface) {
 		compareStructDataInfs(structureDataInterface, new GenericDecoder(new GenericEncoder(structureDataInterface).getMmtfEncodedStructure()));		

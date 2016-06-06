@@ -14,11 +14,11 @@ import org.rcsb.mmtf.dataholders.MmtfStructure;
 import org.unitils.reflectionassert.ReflectionAssert;
 
 /**
- * Test that the {@link DefaultDecoder} works.
+ * Test that the {@link GenericDecoder} works.
  * @author Anthony Bradley
  *
  */
-public class TestDefaultDecoder {
+public class TestGenericDecoder {
 
 	/**
 	 * Check that we decode all fields and that all getters are not null.
@@ -32,8 +32,8 @@ public class TestDefaultDecoder {
 	public void testDecodeAllFields() throws IOException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, IntrospectionException {
 		ClassLoader classLoader = getClass().getClassLoader();
 		MmtfStructure mmtfBean = ReaderUtils.getDataFromFile(Paths.get(classLoader.getResource("mmtf/4cup.mmtf").getFile()));
-		GenericDecoder defaultDecoder = new GenericDecoder(mmtfBean);
-		ReflectionAssert.assertPropertiesNotNull("Some properties null after decoding", defaultDecoder);
+		GenericDecoder genericDecoder = new GenericDecoder(mmtfBean);
+		ReflectionAssert.assertPropertiesNotNull("Some properties null after decoding", genericDecoder);
 		for(PropertyDescriptor propertyDescriptor : 
 			Introspector.getBeanInfo(MmtfStructure.class).getPropertyDescriptors()){
 			assertNotNull(propertyDescriptor.getReadMethod().invoke(mmtfBean));
@@ -42,7 +42,7 @@ public class TestDefaultDecoder {
 		for(PropertyDescriptor propertyDescriptor :
 			Introspector.getBeanInfo(GenericDecoder.class).getPropertyDescriptors()){
 			if(propertyDescriptor.getReadMethod()!=null){
-				assertNotNull(propertyDescriptor.getReadMethod().invoke(defaultDecoder));
+				assertNotNull(propertyDescriptor.getReadMethod().invoke(genericDecoder));
 			}
 		}
 	}
