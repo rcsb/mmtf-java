@@ -1,6 +1,6 @@
 package org.rcsb.mmtf.encoder;
 
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 
 import java.beans.IntrospectionException;
 import java.beans.Introspector;
@@ -35,7 +35,33 @@ public class TestReducedEncoder {
 		Utils.compare(structureDataInterface);
 		}
 
+	/**
+	 * Test that data can be converted to reduced and certain core data stays the same.
+	 * @throws IOException error reading the file from the resource
+	 */
+	@Test
+	public void testReducedData() throws IOException {
+		StructureDataInterface full = getDefaultFullData();
+		StructureDataInterface reduced = ReducedEncoder.getReduced(full);
+		// Check that the chain names are the same
+		assertArrayEquals(full.getChainNames(), reduced.getChainNames());
+		assertArrayEquals(full.getChainIds(), reduced.getChainIds());
+		// Check that all non water groups are included
+		assertEquals(removeWaters(full), reduced.getGroupTypeIndices().length);
+	}
 	
+	
+	private int removeWaters(StructureDataInterface structureDataInterface) {
+		int outCounter = 0;
+		for (int groupType : structureDataInterface.getGroupTypeIndices()){
+			if(structureDataInterface.getGroupName(groupType).equals("HOH")){
+				continue;
+			}
+			outCounter++;
+		}
+		return outCounter;
+	}
+
 	/**
 	 * Check that the data read in is not null.
 	 * @param structDataInterface
@@ -89,5 +115,4 @@ public class TestReducedEncoder {
 		Path inFile = Paths.get(classLoader.getResource("mmtf/4cup.mmtf").getFile());
 		return new GenericDecoder(ReaderUtils.getDataFromFile(inFile));
 	}
-
 }

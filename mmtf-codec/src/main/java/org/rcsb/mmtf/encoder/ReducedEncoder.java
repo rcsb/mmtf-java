@@ -74,8 +74,8 @@ public class ReducedEncoder {
 						}
 					}
 				}
-				adapterToStructureData.setChainInfo(structureDataInterface.getChainIds()[i],
-						structureDataInterface.getChainNames()[i], numGroups);
+				adapterToStructureData.setChainInfo(structureDataInterface.getChainIds()[chainCounter],
+						structureDataInterface.getChainNames()[chainCounter], numGroups);
 			}
 		}
 		adapterToStructureData.finalizeStructure();
