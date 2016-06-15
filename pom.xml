@@ -13,7 +13,7 @@
 	<groupId>org.rcsb</groupId>
 	<artifactId>mmtf</artifactId>
 	<packaging>pom</packaging>
-	<version>0.2.1-SNAPSHOT</version>
+	<version>0.2.1</version>
 	<name>mmtf</name>
 	<description>MMTF is a compressed, fast and useful format for serving macromolecular data.
     </description>
@@ -43,7 +43,7 @@
 		<developerConnection>scm:git:git@github.com:rcsb/mmtf-java.git</developerConnection>
 		<url>https://github.com/rcsb/mmtf-java</url>
 
-		<tag>HEAD</tag>
+		<tag>mmtf-0.2.1</tag>
 	</scm>
 	<build>
 		<pluginManagement>
