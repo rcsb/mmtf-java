@@ -15,7 +15,7 @@ The alpha release is available on Maven central.
 ```xml
 		<dependency>
 			<groupId>org.rcsb</groupId>
-			<artifactId>mmtf-decoder</artifactId>
+			<artifactId>mmtf-codec</artifactId>
 			<version>0.2.1</version>
 		</dependency>
         <dependency>
@@ -32,7 +32,7 @@ Quick getting started.
 
 1) Get the data for a PDB structure and print the number of chains:
 ```java
-StructureDataInterface dataInterface = new DefaultDecoder(ReaderUtils.getDataFromUrl("4cup"));
+StructureDataInterface dataInterface = new GenericDecoder(ReaderUtils.getDataFromUrl("4cup"));
 System.out.println("PDB Code: "+dataInterface.getStructureId()+" has "+dataInterface.getNumChains()+" chains");
 ```
 
