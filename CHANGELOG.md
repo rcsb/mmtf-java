@@ -35,4 +35,11 @@ All notable changes to this project will be documented in this file, following t
 ### Removed
 - mmtf-encoder and mmtf-decoder modules
 
+## v0.2.1 - 2016-06-15
+### Changed
+ - Bugfix for the Reduced encoder. Chain name list and chain id list are now transferred correctly.
+ - Update to the latest version of the dependencies
+ - Added package info for the codec project
+ - Improved docs and refactoring of test names
+
 
