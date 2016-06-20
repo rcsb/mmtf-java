@@ -25,9 +25,6 @@ The alpha release is available on Maven central.
         </dependency>
 ```
 
-Or you can clone this repo and install yourself.
-
-
 Quick getting started.
 
 1) Get the data for a PDB structure and print the number of chains:
