@@ -46,6 +46,7 @@ All notable changes to this project will be documented in this file, following t
 ### Changed
  - Refactored the generation of Bioassemblies  
  - Refactored generateGroupMap to generateGroupList
+ - Update to the serialization module - only construct object mapper once
 
 ### Added 
  - getBioassemblyName added to the API - return the BioassemblyName as a string.
