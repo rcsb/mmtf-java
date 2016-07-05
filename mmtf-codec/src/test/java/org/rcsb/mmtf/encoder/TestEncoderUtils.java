@@ -9,6 +9,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.rcsb.mmtf.api.StructureAdapterInterface;
 import org.rcsb.mmtf.api.StructureDataInterface;
 import org.rcsb.mmtf.codec.CharCodecs;
 import org.rcsb.mmtf.codec.FloatCodecs;
@@ -56,6 +57,10 @@ public class TestEncoderUtils {
 		}
 	}
 
+	/**
+	 * Test that Bioassemblies can be generated correctly form a {@link StructureDataInterface}
+	 * to a {@link StructureAdapterInterface}
+	 */
 	@Test
 	public void testGenerateBioassemblies() {
 		List<BioAssemblyData> bioAssemblyData = new ArrayList<>();
@@ -88,8 +93,11 @@ public class TestEncoderUtils {
 				generateBioass.get(0).getTransformList().get(0).getMatrix(),0.0);
 	}
 	
+	/**
+	 * Test that the entity type can be retrieved from a chain index
+	 */
 	@Test
-	public void testGetEntityType() throws IOException {
+	public void testGetEntityType() {
 		StructureDataInterface structureDataInterface = getDefaultFullData();
 		assertEquals(EncoderUtils.getTypeFromChainId(structureDataInterface, 0),"polymer");
 		assertEquals(EncoderUtils.getTypeFromChainId(structureDataInterface, 1),"non-polymer");
@@ -99,8 +107,11 @@ public class TestEncoderUtils {
 		assertEquals(EncoderUtils.getTypeFromChainId(structureDataInterface, 5),"water");
 	}
 	
+	/**
+	 * Test that the entityList can be generated correctly.
+	 */
 	@Test
-	public void testGenerateEntityList() throws IOException {
+	public void testGenerateEntityList() {
 		StructureDataInterface structureDataInterface = getDefaultFullData();
 		Entity[] entities = EncoderUtils.generateEntityList(structureDataInterface);
 		assertEquals(entities.length, 4);
@@ -127,8 +138,11 @@ public class TestEncoderUtils {
 
 	}
 	
+	/**
+	 * Test that the groupList can be generated correctly
+	 */
 	@Test
-	public void testGenerateGroupMap() throws IOException {
+	public void testGenerateGroupMap() {
 		StructureDataInterface structureDataInterface = getDefaultFullData();
 		Group[] groupList = EncoderUtils.generateGroupList(structureDataInterface);
 		assertEquals(groupList.length, 29);
@@ -137,12 +151,16 @@ public class TestEncoderUtils {
 	/**
 	 * Get the default data for the full format.
 	 * @return a {@link StructureDataInterface} for the full data.
-	 * @throws IOException
 	 */
-	private StructureDataInterface getDefaultFullData() throws IOException {
+	private StructureDataInterface getDefaultFullData() {
 		ClassLoader classLoader = getClass().getClassLoader();
 		Path inFile = Paths.get(classLoader.getResource("mmtf/4cup.mmtf").getFile());
-		return new GenericDecoder(ReaderUtils.getDataFromFile(inFile));
+		try {
+			return new GenericDecoder(ReaderUtils.getDataFromFile(inFile));
+		} catch (IOException e) {
+			e.printStackTrace();
+			throw new RuntimeException();
+		}
 	}
 
 	private void testOutput(byte[] encodeByteArr, int codecId) {
