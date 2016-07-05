@@ -42,4 +42,12 @@ All notable changes to this project will be documented in this file, following t
  - Added package info for the codec project
  - Improved docs and refactoring of test names
 
+## v0.2.2 - 2016-07-05
+### Changed
+ - Refactored the generation of Bioassemblies  
+ - Refactored generateGroupMap to generateGroupList
+
+### Added 
+ - getBioassemblyName added to the API - returin the BioassemblyName as a string.
+ - Tests for EncoderUtils
 
