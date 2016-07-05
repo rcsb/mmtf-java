@@ -48,6 +48,6 @@ All notable changes to this project will be documented in this file, following t
  - Refactored generateGroupMap to generateGroupList
 
 ### Added 
- - getBioassemblyName added to the API - returin the BioassemblyName as a string.
+ - getBioassemblyName added to the API - return the BioassemblyName as a string.
  - Tests for EncoderUtils
 
