@@ -33,7 +33,7 @@ public class EncoderUtils {
 	 * @param structureDataInterface the input interface
 	 * @return a list of all the groups in the molecule
 	 */
-	public static Group[] generateGroupMap(StructureDataInterface structureDataInterface) {
+	public static Group[] generateGroupList(StructureDataInterface structureDataInterface) {
 		int[] groupTypeIndices = structureDataInterface.getGroupTypeIndices();
 		if(groupTypeIndices.length==0){
 			return new Group[0];
