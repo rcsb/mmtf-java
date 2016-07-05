@@ -474,4 +474,9 @@ public class GenericDecoder  implements StructureDataInterface {
 		return ncsOperMatrixList;
 	}
 
+	@Override
+	public String getBioassemblyName(int bioassemblyIndex) {
+		return bioAssembly.get(bioassemblyIndex).getName();
+	}
+
 }

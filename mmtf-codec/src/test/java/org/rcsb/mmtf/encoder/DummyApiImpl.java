@@ -295,4 +295,9 @@ public class DummyApiImpl implements StructureDataInterface {
 		return new double[16][16];
 	}
 
+	@Override
+	public String getBioassemblyName(int bioassemblyIndex) {
+		return "NA";
+	}
+
 }

@@ -216,9 +216,16 @@ public interface StructureDataInterface {
 	/**
 	 * Returns the number of transformations in a given bioassembly.
 	 * @param bioassemblyIndex an integer specifying the bioassembly index (zero indexed).
-	 * @return an integer specifying of transformations in a given bioassembly.
+	 * @return an integer specifying the number of transformations in a given bioassembly.
 	 */
 	int getNumTransInBioassembly(int bioassemblyIndex);
+	
+	/**
+	 * Returns the name of the transformation for a bioassembly.
+	 * @param bioassemblyIndex an integer specifying the bioassembly index (zero indexed).
+	 * @return a string specifying the name of a given bioassembly.
+	 */
+	String getBioassemblyName(int bioassemblyIndex);
 	
 	/**
 	 * Returns the list of chain indices for the given transformation for the given bioassembly.
