@@ -528,20 +528,17 @@ public class AdapterToStructureData implements StructureDataInterface, Structure
 	@Override
 	public void setBioAssemblyTrans(int bioAssemblyIndex, int[] chainIndices, double[] transform, String name) {
 		BioAssemblyData bioAssemblyData;
-		List<BioAssemblyTransformation> bioAssemblyTranList;
 		if (bioAssembly.size()>bioAssemblyIndex) {
-			bioAssemblyTranList = bioAssembly.get(bioAssemblyIndex).getTransformList();
+			bioAssemblyData = bioAssembly.get(bioAssemblyIndex);
 		}
 		else{
-			bioAssemblyData = new BioAssemblyData();
-			bioAssemblyTranList = new ArrayList<>();
-			bioAssemblyData.setTransformList(bioAssemblyTranList);
+			bioAssemblyData = new BioAssemblyData(name);
 			bioAssembly.add(bioAssemblyData);
 		}
 		BioAssemblyTransformation bioAssemblyTrans = new BioAssemblyTransformation();
 		bioAssemblyTrans.setChainIndexList(chainIndices);
 		bioAssemblyTrans.setMatrix(transform);
-		bioAssemblyTranList.add(bioAssemblyTrans);
+		bioAssemblyData.getTransformList().add(bioAssemblyTrans);
 	}
 
 	@Override
@@ -608,6 +605,11 @@ public class AdapterToStructureData implements StructureDataInterface, Structure
 	@Override
 	public double[][] getNcsOperatorList() {
 		return ncsOperMatrixList;
+	}
+
+	@Override
+	public String getBioassemblyName(int bioassemblyIndex) {
+		return bioAssembly.get(bioassemblyIndex).getName();
 	}
 
 }

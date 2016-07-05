@@ -33,7 +33,7 @@ public class EncoderUtils {
 	 * @param structureDataInterface the input interface
 	 * @return a list of all the groups in the molecule
 	 */
-	public static Group[] generateGroupMap(StructureDataInterface structureDataInterface) {
+	public static Group[] generateGroupList(StructureDataInterface structureDataInterface) {
 		int[] groupTypeIndices = structureDataInterface.getGroupTypeIndices();
 		if(groupTypeIndices.length==0){
 			return new Group[0];
@@ -59,30 +59,36 @@ public class EncoderUtils {
 	/**
 	 * Find the bioassembly information as a list from the {@link StructureDataInterface}.
 	 * @param structureDataInterface the interface from where to find the data
-	 * @return a list of bioassembly information
+	 * @return a list of bioassembly information to be stored in the MMTF data structure.
 	 */
 	public static List<BioAssemblyData> generateBioassemblies(StructureDataInterface structureDataInterface) {
 		int numBioassemblies = structureDataInterface.getNumBioassemblies();
 		List<BioAssemblyData> outList = new ArrayList<>();
 		for (int i=0; i<numBioassemblies; i++) {
-			BioAssemblyData bioAssemblyData = new BioAssemblyData();
-			String name = Integer.toString(i+1);
-			bioAssemblyData.setName(name);
-			outList.add(bioAssemblyData);
-			List<BioAssemblyTransformation> transformList = new ArrayList<>();
-			bioAssemblyData.setTransformList(transformList);
+			BioAssemblyData bioassembly = new BioAssemblyData(structureDataInterface.getBioassemblyName(i));
+			outList.add(bioassembly);
 			int numTrans = structureDataInterface.getNumTransInBioassembly(i);
 			for (int j=0; j<numTrans; j++) {
-				BioAssemblyTransformation bioAssemblyTrans = new BioAssemblyTransformation();
-				transformList.add(bioAssemblyTrans);
-				bioAssemblyTrans.setChainIndexList(
-						structureDataInterface.getChainIndexListForTransform(i, j));
-				bioAssemblyTrans.setMatrix(
-						structureDataInterface.getMatrixForTransform(i,j));
+				addTransform(bioassembly, structureDataInterface.getChainIndexListForTransform(i, j),
+						structureDataInterface.getMatrixForTransform(i, j));
 			}
 		}
 		return outList;
 	}
+
+	/**
+	 * Add a transform to a given {@link BioAssemblyData} object.
+	 * @param bioassembly the {@link BioAssemblyData} object
+	 * @param chainIndices the integer list of chain indices to add
+	 * @param transformation the list of doubles describing a transformation
+	 */
+	private static void addTransform(BioAssemblyData bioassembly, int[] chainIndices, double[] transformation) {
+		BioAssemblyTransformation bioAssemblyTrans = new BioAssemblyTransformation();
+		bioassembly.getTransformList().add(bioAssemblyTrans);
+		bioAssemblyTrans.setChainIndexList(chainIndices);
+		bioAssemblyTrans.setMatrix(transformation);		
+	}
+
 
 	/**
 	 * Generate the entity level information from the {@link StructureDataInterface}.
@@ -194,7 +200,7 @@ public class EncoderUtils {
 				adapterToStructureData.setBioAssemblyTrans(i, 
 						structureDataInterface.getChainIndexListForTransform(i, j), 
 						structureDataInterface.getMatrixForTransform(i, j),
-						Integer.toString(i));
+						structureDataInterface.getBioassemblyName(i));
 			}
 		}
 		

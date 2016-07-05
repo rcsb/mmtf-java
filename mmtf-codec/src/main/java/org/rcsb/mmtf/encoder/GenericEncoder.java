@@ -70,7 +70,7 @@ public class GenericEncoder implements EncoderInterface {
 
 		// Slightly unusual thing
 		// Set the group map (all the unique groups in the structure).
-		mmtfBean.setGroupList(EncoderUtils.generateGroupMap(structureDataInterface));
+		mmtfBean.setGroupList(EncoderUtils.generateGroupList(structureDataInterface));
 		// Set the bioassembly and entity information
 		mmtfBean.setBioAssemblyList(EncoderUtils.generateBioassemblies(structureDataInterface));
 		mmtfBean.setEntityList(EncoderUtils.generateEntityList(structureDataInterface));

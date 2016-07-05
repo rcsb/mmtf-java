@@ -90,7 +90,7 @@
 				</plugin>
 				<plugin>
 					<artifactId>maven-jar-plugin</artifactId>
-					<version>3.0.1</version>
+					<version>3.0.2</version>
 				</plugin>
 				<plugin>
 					<artifactId>maven-scm-plugin</artifactId>
@@ -98,7 +98,7 @@
 				</plugin>
 				<plugin>
 					<artifactId>maven-source-plugin</artifactId>
-					<version>3.0.0</version>
+					<version>3.0.1</version>
 				</plugin>
 				<plugin>
 					<artifactId>maven-failsafe-plugin</artifactId>
@@ -309,7 +309,7 @@
 			<plugin>
 				<groupId>com.versioneye</groupId>
 				<artifactId>versioneye-maven-plugin</artifactId>
-				<version>3.9.2</version>
+				<version>3.10.0</version>
 			</plugin>
 
 		</plugins>

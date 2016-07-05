@@ -1,6 +1,7 @@
 package org.rcsb.mmtf.dataholders;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -22,6 +23,22 @@ public class BioAssemblyData implements Serializable {
 	
 	/** The name of the Bioassembly. Can be user defined. */
 	private String name;
+
+	/**
+	 * Constructor setting the name and initialising an empty transform list.
+	 * @param name the name of this {@link BioAssemblyData} object
+	 */
+	public BioAssemblyData(String name) {
+		transformList = new ArrayList<BioAssemblyTransformation>();
+		this.name = name;
+		}
+	
+	/**
+	 * Constructor without setting the name.
+	 */
+	public BioAssemblyData() {
+		transformList = new ArrayList<BioAssemblyTransformation>();
+	}
 
 	/**
 	 * Gets the list of transforms.
