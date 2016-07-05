@@ -3,9 +3,13 @@ package org.rcsb.mmtf.encoder;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
+import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.rcsb.mmtf.api.StructureDataInterface;
 import org.rcsb.mmtf.codec.CharCodecs;
 import org.rcsb.mmtf.codec.FloatCodecs;
 import org.rcsb.mmtf.codec.IntCodecs;
@@ -13,6 +17,10 @@ import org.rcsb.mmtf.codec.OptionParser;
 import org.rcsb.mmtf.codec.StringCodecs;
 import org.rcsb.mmtf.dataholders.BioAssemblyData;
 import org.rcsb.mmtf.dataholders.BioAssemblyTransformation;
+import org.rcsb.mmtf.dataholders.Entity;
+import org.rcsb.mmtf.dataholders.Group;
+import org.rcsb.mmtf.decoder.GenericDecoder;
+import org.rcsb.mmtf.decoder.ReaderUtils;
 
 /**
  * Tests for the {@link EncoderUtils} class of static methods.
@@ -64,7 +72,7 @@ public class TestEncoderUtils {
 		bioAssemblyOneTransforms.add(bioassOneTransTwo);
 		bioAssemblyOne.setTransformList(bioAssemblyOneTransforms);
 		AdapterToStructureData adapterToStructureData = new AdapterToStructureData();
-		adapterToStructureData.initStructure(0,0,0,0,0,"DUMY");
+		adapterToStructureData.initStructure(0,0,0,0,0,"DUMMY");
 		for (int i=0; i< bioAssemblyData.size(); i++){
 			for (int j=0; j< bioAssemblyData.get(i).getTransformList().size();j++)
 			adapterToStructureData.setBioAssemblyTrans(i, 
@@ -73,7 +81,6 @@ public class TestEncoderUtils {
 					bioAssemblyData.get(i).getName());
 		}
 		List<BioAssemblyData> generateBioass = EncoderUtils.generateBioassemblies(adapterToStructureData);
-		
 		assertEquals(bioAssemblyData.get(0).getName(), generateBioass.get(0).getName());
 		assertArrayEquals(bioAssemblyData.get(0).getTransformList().get(0).getChainIndexList(),
 				generateBioass.get(0).getTransformList().get(0).getChainIndexList());
@@ -81,6 +88,62 @@ public class TestEncoderUtils {
 				generateBioass.get(0).getTransformList().get(0).getMatrix(),0.0);
 	}
 	
+	@Test
+	public void testGetEntityType() throws IOException {
+		StructureDataInterface structureDataInterface = getDefaultFullData();
+		assertEquals(EncoderUtils.getTypeFromChainId(structureDataInterface, 0),"polymer");
+		assertEquals(EncoderUtils.getTypeFromChainId(structureDataInterface, 1),"non-polymer");
+		assertEquals(EncoderUtils.getTypeFromChainId(structureDataInterface, 2),"non-polymer");
+		assertEquals(EncoderUtils.getTypeFromChainId(structureDataInterface, 3),"non-polymer");
+		assertEquals(EncoderUtils.getTypeFromChainId(structureDataInterface, 4),"non-polymer");
+		assertEquals(EncoderUtils.getTypeFromChainId(structureDataInterface, 5),"water");
+	}
+	
+	@Test
+	public void testGenerateEntityList() throws IOException {
+		StructureDataInterface structureDataInterface = getDefaultFullData();
+		Entity[] entities = EncoderUtils.generateEntityList(structureDataInterface);
+		assertEquals(entities.length, 4);
+		assertArrayEquals(entities[0].getChainIndexList(), new int[] {0});
+		assertArrayEquals(entities[1].getChainIndexList(), new int[] {1});
+		assertArrayEquals(entities[2].getChainIndexList(), new int[] {2,3,4});
+		assertArrayEquals(entities[3].getChainIndexList(), new int[] {5});
+
+		assertEquals(entities[0].getDescription(),"BROMODOMAIN ADJACENT TO ZINC FINGER DOMAIN PROTEIN 2B");
+		assertEquals(entities[1].getDescription(),"4-FLUOROBENZAMIDOXIME");
+		assertEquals(entities[2].getDescription(),"METHANOL");
+		assertEquals(entities[3].getDescription(),"water");
+		
+		
+		assertEquals(entities[0].getSequence(),"SMSVKKPKRDDSKDLALCSMILTEMETHEDAWPFLLPVNLKLVPGYKKVIKKPMDFSTIREKLSSGQYPNLETFALDVRLVFDNCETFNEDDSDIGRAGHNMRKYFEKKWTDTFKVS");
+		assertEquals(entities[1].getSequence(),"");
+		assertEquals(entities[2].getSequence(),"");
+		assertEquals(entities[3].getSequence(),"");
+
+		assertEquals(entities[0].getType(),"polymer");
+		assertEquals(entities[1].getType(),"non-polymer");
+		assertEquals(entities[2].getType(),"non-polymer");
+		assertEquals(entities[3].getType(),"water");
+
+	}
+	
+	@Test
+	public void testGenerateGroupMap() throws IOException {
+		StructureDataInterface structureDataInterface = getDefaultFullData();
+		Group[] groupList = EncoderUtils.generateGroupList(structureDataInterface);
+		assertEquals(groupList.length, 29);
+	}
+	
+	/**
+	 * Get the default data for the full format.
+	 * @return a {@link StructureDataInterface} for the full data.
+	 * @throws IOException
+	 */
+	private StructureDataInterface getDefaultFullData() throws IOException {
+		ClassLoader classLoader = getClass().getClassLoader();
+		Path inFile = Paths.get(classLoader.getResource("mmtf/4cup.mmtf").getFile());
+		return new GenericDecoder(ReaderUtils.getDataFromFile(inFile));
+	}
 
 	private void testOutput(byte[] encodeByteArr, int codecId) {
 		assertArrayEquals(encodeByteArr, new OptionParser(codecId, 0, 0).getHeader());
