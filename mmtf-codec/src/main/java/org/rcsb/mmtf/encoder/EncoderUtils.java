@@ -65,32 +65,30 @@ public class EncoderUtils {
 		int numBioassemblies = structureDataInterface.getNumBioassemblies();
 		List<BioAssemblyData> outList = new ArrayList<>();
 		for (int i=0; i<numBioassemblies; i++) {
-			BioAssemblyData bioassembly = addBioassembly(structureDataInterface, outList, i);
+			BioAssemblyData bioassembly = new BioAssemblyData(structureDataInterface.getBioassemblyName(i));
+			outList.add(bioassembly);
 			int numTrans = structureDataInterface.getNumTransInBioassembly(i);
 			for (int j=0; j<numTrans; j++) {
-				addTransform(bioassembly, structureDataInterface, i, j);
+				addTransform(bioassembly, structureDataInterface.getChainIndexListForTransform(i, j),
+						structureDataInterface.getMatrixForTransform(i, j));
 			}
 		}
 		return outList;
 	}
 
-	private static void addTransform(BioAssemblyData bioassembly, StructureDataInterface structureDataInterface, int i, int j) {
+	/**
+	 * Add a transform to a given {@link BioAssemblyData} object.
+	 * @param bioassembly the {@link BioAssemblyData} object
+	 * @param chainIndices the integer list of chain indices to add
+	 * @param transformation the list of doubles describing a transformation
+	 */
+	private static void addTransform(BioAssemblyData bioassembly, int[] chainIndices, double[] transformation) {
 		BioAssemblyTransformation bioAssemblyTrans = new BioAssemblyTransformation();
 		bioassembly.getTransformList().add(bioAssemblyTrans);
-		bioAssemblyTrans.setChainIndexList(
-				structureDataInterface.getChainIndexListForTransform(i, j));
-		bioAssemblyTrans.setMatrix(
-				structureDataInterface.getMatrixForTransform(i,j));		
+		bioAssemblyTrans.setChainIndexList(chainIndices);
+		bioAssemblyTrans.setMatrix(transformation);		
 	}
 
-	private static BioAssemblyData addBioassembly(StructureDataInterface structureDataInterface, List<BioAssemblyData> outList, int i) {
-		BioAssemblyData bioAssemblyData = new BioAssemblyData();
-		bioAssemblyData.setName(structureDataInterface.getBioassemblyName(i));
-		outList.add(bioAssemblyData);
-		List<BioAssemblyTransformation> transformList = new ArrayList<>();
-		bioAssemblyData.setTransformList(transformList);
-		return bioAssemblyData;
-	}
 
 	/**
 	 * Generate the entity level information from the {@link StructureDataInterface}.
