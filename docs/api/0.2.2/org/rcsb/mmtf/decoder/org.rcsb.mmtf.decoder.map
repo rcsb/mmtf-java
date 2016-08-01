@@ -1,0 +1,12 @@
+<map id="G" name="G">
+<area shape="rect" id="node1_0" href="./StructureDataToAdapter.html" title="org.rcsb.mmtf.decoder.StructureDataToAdapter" alt="" coords="16,451,631,523"/>
+<area shape="rect" id="node1" href="./StructureDataToAdapter.html" title="&lt;TABLE&gt;" alt="" coords="5,445,641,528"/>
+<area shape="rect" id="node2_1" href="./ReaderUtils.html" title="org.rcsb.mmtf.decoder.ReaderUtils" alt="" coords="677,427,1005,547"/>
+<area shape="rect" id="node2" href="./ReaderUtils.html" title="&lt;TABLE&gt;" alt="" coords="666,421,1015,552"/>
+<area shape="rect" id="node3_2" href="./GenericDecoder.html" title="org.rcsb.mmtf.decoder.GenericDecoder" alt="" coords="1051,11,1591,963"/>
+<area shape="rect" id="node3" href="./GenericDecoder.html" title="&lt;TABLE&gt;" alt="" coords="1040,5,1601,968"/>
+<area shape="rect" id="node4_3" href="./DecoderUtils.html" title="org.rcsb.mmtf.decoder.DecoderUtils" alt="" coords="1637,411,2239,563"/>
+<area shape="rect" id="node4" href="./DecoderUtils.html" title="&lt;TABLE&gt;" alt="" coords="1626,405,2250,568"/>
+<area shape="rect" id="node5_4" href="./ArrayDecoders.html" title="org.rcsb.mmtf.decoder.ArrayDecoders" alt="" coords="2285,435,2562,539"/>
+<area shape="rect" id="node5" href="./ArrayDecoders.html" title="&lt;TABLE&gt;" alt="" coords="2274,429,2573,544"/>
+</map>

@@ -1,0 +1,12 @@
+<map id="G" name="G">
+<area shape="rect" id="node1_0" href="./StringCodecs.html" title="org.rcsb.mmtf.codec.StringCodecs" alt="" coords="16,189,159,277"/>
+<area shape="rect" id="node1" href="./StringCodecs.html" title="&lt;TABLE&gt;" alt="" coords="5,184,169,283"/>
+<area shape="rect" id="node2_1" href="./IntCodecs.html" title="org.rcsb.mmtf.codec.IntCodecs" alt="" coords="204,173,360,293"/>
+<area shape="rect" id="node2" href="./IntCodecs.html" title="&lt;TABLE&gt;" alt="" coords="193,168,371,299"/>
+<area shape="rect" id="node3_2" href="./FloatCodecs.html" title="org.rcsb.mmtf.codec.FloatCodecs" alt="" coords="405,181,577,285"/>
+<area shape="rect" id="node3" href="./FloatCodecs.html" title="&lt;TABLE&gt;" alt="" coords="395,176,588,291"/>
+<area shape="rect" id="node4_3" href="./CodecInterface.html" title="org.rcsb.mmtf.codec.CodecInterface" alt="" coords="298,11,474,115"/>
+<area shape="rect" id="node4" href="./CodecInterface.html" title="&lt;TABLE&gt;" alt="" coords="287,5,485,120"/>
+<area shape="rect" id="node5_4" href="./CharCodecs.html" title="org.rcsb.mmtf.codec.CharCodecs" alt="" coords="623,189,731,277"/>
+<area shape="rect" id="node5" href="./CharCodecs.html" title="&lt;TABLE&gt;" alt="" coords="612,184,741,283"/>
+</map>
