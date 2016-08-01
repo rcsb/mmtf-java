@@ -1,0 +1,7 @@
+org.rcsb.mmtf.api
+org.rcsb.mmtf.codec
+org.rcsb.mmtf.dataholders
+org.rcsb.mmtf.decoder
+org.rcsb.mmtf.encoder
+org.rcsb.mmtf.serialization
+org.rcsb.mmtf.utils

@@ -1,0 +1,8 @@
+<map id="G" name="G">
+<area shape="rect" id="node1_0" href="./StructureDataInterface.html" title="org.rcsb.mmtf.api.StructureDataInterface" alt="" coords="468,11,1008,963"/>
+<area shape="rect" id="node1" href="./StructureDataInterface.html" title="&lt;TABLE&gt;" alt="" coords="457,5,1019,968"/>
+<area shape="rect" id="node2_1" href="../decoder/GenericDecoder.html" title="org.rcsb.mmtf.decoder.GenericDecoder" alt="" coords="16,1117,556,2069"/>
+<area shape="rect" id="node2" href="../decoder/GenericDecoder.html" title="&lt;TABLE&gt;" alt="" coords="5,1112,567,2075"/>
+<area shape="rect" id="node3_2" href="../encoder/AdapterToStructureData.html" title="org.rcsb.mmtf.encoder.AdapterToStructureData" alt="" coords="601,1021,1779,2165"/>
+<area shape="rect" id="node3" href="../encoder/AdapterToStructureData.html" title="&lt;TABLE&gt;" alt="" coords="591,1016,1789,2171"/>
+</map>
