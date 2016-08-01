@@ -1,8 +1,0 @@
-<map id="G" name="G">
-<area shape="rect" id="node1_0" href="./CodecInterface.html" title="org.rcsb.mmtf.codec.CodecInterface" alt="" coords="16,11,192,115"/>
-<area shape="rect" id="node1" href="./CodecInterface.html" title="&lt;TABLE&gt;" alt="" coords="5,5,203,120"/>
-<area shape="rect" id="node2_1" href="./CharCodecs.html" title="org.rcsb.mmtf.codec.CharCodecs" alt="" coords="191,173,299,261"/>
-<area shape="rect" id="node2" href="./CharCodecs.html" title="&lt;TABLE&gt;" alt="" coords="181,168,310,267"/>
-<area shape="rect" id="node3_2" href="./CharCodecInterface.html" title="org.rcsb.mmtf.codec.CharCodecInterface" alt="" coords="238,11,535,115"/>
-<area shape="rect" id="node3" href="./CharCodecInterface.html" title="&lt;TABLE&gt;" alt="" coords="227,5,546,120"/>
-</map>
