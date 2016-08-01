@@ -1,8 +1,0 @@
-<map id="G" name="G">
-<area shape="rect" id="node1_0" href="../api/StructureDataInterface.html" title="org.rcsb.mmtf.api.StructureDataInterface" alt="" coords="16,11,556,963"/>
-<area shape="rect" id="node1" href="../api/StructureDataInterface.html" title="&lt;TABLE&gt;" alt="" coords="5,5,567,968"/>
-<area shape="rect" id="node3_1" href="./AdapterToStructureData.html" title="org.rcsb.mmtf.encoder.AdapterToStructureData" alt="" coords="161,1021,1339,2165"/>
-<area shape="rect" id="node3" href="./AdapterToStructureData.html" title="&lt;TABLE&gt;" alt="" coords="151,1016,1349,2171"/>
-<area shape="rect" id="node2_2" href="../api/StructureAdapterInterface.html" title="org.rcsb.mmtf.api.StructureAdapterInterface" alt="" coords="601,355,1829,619"/>
-<area shape="rect" id="node2" href="../api/StructureAdapterInterface.html" title="&lt;TABLE&gt;" alt="" coords="591,349,1840,624"/>
-</map>
