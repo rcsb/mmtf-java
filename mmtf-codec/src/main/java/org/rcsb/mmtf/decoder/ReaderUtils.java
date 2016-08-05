@@ -4,6 +4,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -32,25 +33,35 @@ public class ReaderUtils {
 	 */
 	public static MmtfStructure getDataFromUrl(String pdbCode) throws IOException {	
 		// Get these as an inputstream
+		byte[] byteArr = getByteArrayFromUrl(pdbCode);
+		// Now return the gzip deflated and deserialized byte array
+		MessagePackSerialization mmtfBeanSeDeMessagePackImpl = new MessagePackSerialization();
+		return mmtfBeanSeDeMessagePackImpl.deserialize(new ByteArrayInputStream(deflateGzip(byteArr)));
+	}
+	
+	/**
+	 * Get the GZIP compressed and messagepack serialized data from the MMTF servers
+	 * @param pdbCode the PDB code for the data required
+	 * @return the byte array (GZIP compressed) of the data from the URL
+	 * @throws IOException an error reading the URL
+	 */
+	public static byte[] getByteArrayFromUrl(String pdbCode)  throws IOException {
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		InputStream is = null;
+		InputStream inputStream = null;
 		URL url = new URL(CodecUtils.BASE_URL + pdbCode);
 		try {
-			is = url.openStream();
+			inputStream = url.openStream();
 			byte[] byteChunk = new byte[BYTE_BUFFER_CHUNK_SIZE]; // Or whatever size you want to read in at a time.
 			int n;
-			while ( (n = is.read(byteChunk)) > 0 ) {
+			while ( (n = inputStream.read(byteChunk)) > 0 ) {
 				baos.write(byteChunk, 0, n);
 			}
 		} finally {
-			if (is != null) { is.close(); }
+			if (inputStream != null) { inputStream.close(); }
 		}
-		byte[] b = baos.toByteArray();
-		// Now return the gzip deflated and deserialized byte array
-		MessagePackSerialization mmtfBeanSeDeMessagePackImpl = new MessagePackSerialization();
-		return mmtfBeanSeDeMessagePackImpl.deserialize(new ByteArrayInputStream(deflateGzip(b)));
+		return baos.toByteArray();
 	}
-	
+
 	/**
 	 * Deflate a gzip byte array.
 	 * @param inputBytes a gzip compressed byte array
