@@ -309,7 +309,7 @@
 			<plugin>
 				<groupId>com.versioneye</groupId>
 				<artifactId>versioneye-maven-plugin</artifactId>
-				<version>3.10.0</version>
+				<version>3.10.2</version>
 			</plugin>
 
 		</plugins>
