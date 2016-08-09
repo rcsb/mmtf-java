@@ -43,6 +43,10 @@ public class Group implements Serializable {
 	/** A string (taken from the chemical component dictionary) indicating 
 	 * the type of the group. Corresponds to: http://mmcif.wwpdb.org/dictionaries/mmcif_pdbx.dic/Items/_chem_comp.type.html */
 	private String chemCompType;
+	
+	/** A string (taken from the chemical component dictionary) indicating 
+	 * the name of the group. Corresponds to: http://mmcif.wwpdb.org/dictionaries/mmcif_pdbx.dic/Items/_chem_comp.name.html */
+	private String chemCompName;
 
 	/* (non-Javadoc)
 	 * @see java.lang.Object#hashCode()
@@ -56,6 +60,7 @@ public class Group implements Serializable {
 		result = prime * result + Arrays.hashCode(bondAtomList);
 		result = prime * result + Arrays.hashCode(bondOrderList);
 		result = prime * result + ((chemCompType == null) ? 0 : chemCompType.hashCode());
+		result = prime * result + ((chemCompName== null) ? 0 : chemCompName.hashCode());
 		result = prime * result + Arrays.hashCode(elementList);
 		result = prime * result + ((groupName == null) ? 0 : groupName.hashCode());
 		result = prime * result + singleLetterCode;
@@ -86,6 +91,11 @@ public class Group implements Serializable {
 			if (other.chemCompType != null)
 				return false;
 		} else if (!chemCompType.equals(other.chemCompType))
+			return false;
+		if (chemCompName == null) {
+			if (other.chemCompName != null)
+				return false;
+		} else if (!chemCompName.equals(other.chemCompName))
 			return false;
 		if (!Arrays.equals(elementList, other.elementList))
 			return false;
@@ -236,6 +246,20 @@ public class Group implements Serializable {
 	 */
 	public void setElementList(String[] elementList) {
 		this.elementList = elementList;
+	}
+
+	/**
+	 * @return the chemCompName  (corresponds to _chem_comp.name) 
+	 */
+	public String getChemCompName() {
+		return chemCompName;
+	}
+
+	/**
+	 * @param chemCompName the chemCompName (corresponds to _chem_comp.name) to set
+	 */
+	public void setChemCompName(String chemCompName) {
+		this.chemCompName = chemCompName;
 	}
 
 }
