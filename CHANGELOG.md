@@ -55,3 +55,7 @@ All notable changes to this project will be documented in this file, following t
 ## v0.2.3 - WIP
 ### Added
  - API function to get a byte array from the URL
+ - chemCompName to Group defintion
+
+### Changed
+ - run length decode uses Array not List
