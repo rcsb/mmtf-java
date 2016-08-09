@@ -108,7 +108,7 @@ public class StructureDataToAdapter {
 		char insertionCode = dataApi.getInsCodes()[currentGroupIndex];
 		structInflator.setGroupInfo(dataApi.getGroupName(groupInd), currentGroupNumber, insertionCode,
 				dataApi.getGroupChemCompType(groupInd), atomCount, dataApi.getNumBonds(), dataApi.getGroupSingleLetterCode(groupInd),
-				dataApi.getGroupSequenceIndices()[currentGroupIndex], dataApi.getSecStructList()[currentGroupIndex]);
+				dataApi.getGroupSequenceIndices()[currentGroupIndex], dataApi.getSecStructList()[currentGroupIndex], dataApi.getGroupChemCompName(groupInd));
 		// A counter for the atom information
 		atomInGroupCounter = 0;
 		// Now read the next atoms

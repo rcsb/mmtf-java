@@ -82,7 +82,7 @@ public class TestEncoder {
 		adapterToStructureData.initStructure(1, 1, 1, 1, 1, "ABC");
 		adapterToStructureData.setModelInfo(0, 1);
 		adapterToStructureData.setChainInfo("A","A",10);
-		adapterToStructureData.setGroupInfo("HET", 1, 'a', "D", 1, 1, 'A', 0, -1);
+		adapterToStructureData.setGroupInfo("HET", 1, 'a', "D", 1, 1, 'A', 0, -1,"CC_NAME");
 		adapterToStructureData.setAtomInfo("A", 1, 'a', 1.0f, 1.0f, 1.0f,1.0f, 1.0f, "A", 1);
 		adapterToStructureData.setEntityInfo(new int[1], "A", "A", "A");
 		adapterToStructureData.setGroupBond(0, 0, 1);

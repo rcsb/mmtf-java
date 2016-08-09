@@ -56,17 +56,18 @@ public interface StructureAdapterInterface {
 	 * @param groupName 3 letter code name of this group/residue
 	 * @param groupNumber sequence position of this group
 	 * @param insertionCode the one letter insertion code
-	 * @param groupType a string indicating the type of group (as found in the chemcomp dictionary. Empty string if none available.
+	 * @param groupType a string indicating the type of group (as found in the chemcomp dictionary). Empty string if none available.
 	 * @param atomCount the number of atoms in the group
 	 * @param bondCount the number of unique bonds in the group
 	 * @param singleLetterCode the single letter code of the group
 	 * @param sequenceIndex the index of this group in the sequence
 	 * @param secondaryStructureType the type of secondary structure used (types are according to DSSP and number to 
 	 * type mappings are defined in the specification)
+	 * @param chemCompName a string indicating the name of the group (as found in the chemcomp dictionary). Empty string if none available.
 	 */
 	void setGroupInfo(String groupName, int groupNumber, char insertionCode,
 			String groupType, int atomCount, int bondCount, char singleLetterCode, 
-			int sequenceIndex, int secondaryStructureType);
+			int sequenceIndex, int secondaryStructureType, String chemCompName);
 
 
 	/**

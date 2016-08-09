@@ -479,4 +479,9 @@ public class GenericDecoder  implements StructureDataInterface {
 		return bioAssembly.get(bioassemblyIndex).getName();
 	}
 
+	@Override
+	public String getGroupChemCompName(int groupInd) {
+		return groupMap[groupInd].getChemCompName();
+	}
+
 }

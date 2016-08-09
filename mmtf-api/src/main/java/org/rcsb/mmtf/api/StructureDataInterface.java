@@ -150,6 +150,15 @@ public interface StructureDataInterface {
 	 * <a href="http://mmcif.wwpdb.org/dictionaries/mmcif_pdbx.dic/Items/_chem_comp.type.html">http://mmcif.wwpdb.org/dictionaries/mmcif_pdbx.dic/Items/_chem_comp.type.html</a>
 	 */
 	String getGroupChemCompType(int groupInd);
+	
+	/** 
+	 * Returns the chemical component name for the group specified in {@link #getGroupTypeIndices()}.
+	 * @param groupInd The index of the group specified in {@link #getGroupTypeIndices()}.
+	 * @return a string (taken from the chemical component dictionary) indicating 
+	 * the type of the group. Corresponds to 
+	 * <a href="http://mmcif.wwpdb.org/dictionaries/mmcif_pdbx.dic/Items/_chem_comp.name.html">http://mmcif.wwpdb.org/dictionaries/mmcif_pdbx.dic/Items/_chem_comp.name.html</a>
+	 */
+	String getGroupChemCompName(int groupInd);
 
 	/**
 	 * Returns an array containing indices to be used to obtain group level information, 

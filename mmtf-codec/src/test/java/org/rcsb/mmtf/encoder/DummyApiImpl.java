@@ -108,6 +108,11 @@ public class DummyApiImpl implements StructureDataInterface {
 	public String getGroupChemCompType(int groupInd) {
 		return "CHEM";
 	}
+	
+	@Override
+	public String getGroupChemCompName(int groupInd) {
+		return "CC_NAME";
+	}
 
 	@Override
 	public int[] getGroupTypeIndices() {

@@ -299,4 +299,9 @@ public class DummyApiImpl implements StructureDataInterface {
 		return "NA";
 	}
 
+	@Override
+	public String getGroupChemCompName(int groupInd) {
+		return "CC_NAME";
+	}
+
 }

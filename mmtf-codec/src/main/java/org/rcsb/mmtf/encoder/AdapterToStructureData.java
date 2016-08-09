@@ -240,6 +240,11 @@ public class AdapterToStructureData implements StructureDataInterface, Structure
 	public String getGroupChemCompType(int groupInd) {
 		return getGroup(groupInd).getChemCompType();
 	}
+	
+	@Override
+	public String getGroupChemCompName(int groupInd) {
+		return getGroup(groupInd).getChemCompName();
+	}
 
 
 	@Override
@@ -406,6 +411,37 @@ public class AdapterToStructureData implements StructureDataInterface, Structure
 	public String getDepositionDate() {
 		return depositionDate;
 	}
+	
+	private Group getGroup(int groupInd) {
+		return groupMap.get(groupInd);
+	}
+
+
+	@Override
+	public int getNumBonds() {
+		return totalNumBonds;
+	}
+
+	@Override
+	public int[] getSecStructList() {
+		return secStructInfo;
+	}
+
+
+	@Override
+	public String getReleaseDate() {
+		return releaseDate;
+	}
+
+	@Override
+	public double[][] getNcsOperatorList() {
+		return ncsOperMatrixList;
+	}
+
+	@Override
+	public String getBioassemblyName(int bioassemblyIndex) {
+		return bioAssembly.get(bioassemblyIndex).getName();
+	}
 
 
 	@Override
@@ -483,7 +519,7 @@ public class AdapterToStructureData implements StructureDataInterface, Structure
 
 	@Override
 	public void setGroupInfo(String groupName, int groupNumber, char insertionCode, String polymerType, 
-			int atomCount, int bondCount, char singleAtomCode, int sequenceIndex, int secStructType) {
+			int atomCount, int bondCount, char singleAtomCode, int sequenceIndex, int secStructType, String chemCompName) {
 		// Make a new PDBGroup to store the repeated information
 		pdbGroup = new Group();
 		pdbGroupList.add(pdbGroup);
@@ -492,6 +528,7 @@ public class AdapterToStructureData implements StructureDataInterface, Structure
 		pdbGroup.setBondAtomList(new int[bondCount*2]);
 		pdbGroup.setBondOrderList(new int[bondCount]);
 		pdbGroup.setChemCompType(polymerType);
+		pdbGroup.setChemCompName(chemCompName);
 		pdbGroup.setElementList(new String[atomCount]);
 		pdbGroup.setGroupName(groupName);
 		pdbGroup.setSingleLetterCode(singleAtomCode);
@@ -579,37 +616,6 @@ public class AdapterToStructureData implements StructureDataInterface, Structure
 		this.experimentalMethods = experimnetalMethods;
 		
 
-	}
-
-	private Group getGroup(int groupInd) {
-		return groupMap.get(groupInd);
-	}
-
-
-	@Override
-	public int getNumBonds() {
-		return totalNumBonds;
-	}
-
-	@Override
-	public int[] getSecStructList() {
-		return secStructInfo;
-	}
-
-
-	@Override
-	public String getReleaseDate() {
-		return releaseDate;
-	}
-
-	@Override
-	public double[][] getNcsOperatorList() {
-		return ncsOperMatrixList;
-	}
-
-	@Override
-	public String getBioassemblyName(int bioassemblyIndex) {
-		return bioAssembly.get(bioassemblyIndex).getName();
 	}
 
 }

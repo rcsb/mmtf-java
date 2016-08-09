@@ -54,7 +54,7 @@ public class ReducedEncoder {
 						adapterToStructureData.setGroupInfo(structureDataInterface.getGroupName(groupType), structureDataInterface.getGroupIds()[groupCounter], 
 								structureDataInterface.getInsCodes()[groupCounter], structureDataInterface.getGroupChemCompType(groupType), atomIndicesToAdd.size(),
 								bondsToAdd, structureDataInterface.getGroupSingleLetterCode(groupType), structureDataInterface.getGroupSequenceIndices()[groupCounter], 
-								structureDataInterface.getSecStructList()[groupCounter]);
+								structureDataInterface.getSecStructList()[groupCounter],structureDataInterface.getGroupChemCompName(groupType));
 						numGroups++;
 					}
 					for(int l=0; l<structureDataInterface.getNumAtomsInGroup(groupType);l++){

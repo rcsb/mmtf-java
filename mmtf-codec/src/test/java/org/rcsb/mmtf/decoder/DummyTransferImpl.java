@@ -37,7 +37,7 @@ public class DummyTransferImpl implements StructureAdapterInterface {
 
 	@Override
 	public void setGroupInfo(String groupName, int groupNumber, char insertionCode, String groupType, int atomCount,
-			int boundCount, char singleLetterCode, int sequenceIndex, int secondaryStructureType) {
+			int boundCount, char singleLetterCode, int sequenceIndex, int secondaryStructureType, String chemCompName) {
 		
 	}
 
