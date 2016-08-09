@@ -33,15 +33,21 @@ public class ArrayDecoders {
 	 * @return the decoded integer array
 	 */
 	public static int[] runlengthDecode(int[] integerArray) {
-		// We don't know the length so need a List 
-		List<Integer> outList = new ArrayList<>();
+		// Calculate the length
+		int totCount =0;
+		for(int i=0; i<integerArray.length;i+=2){
+			totCount+=integerArray[i+1];
+		}
+		int[] outArray = new int[totCount];
+		int index = 0;
 		for (int i=0; i<integerArray.length; i+=2) {
 			int currentInt = integerArray[i];
 			int currentCount = integerArray[i+1];
 			for (int j=0; j<currentCount;j++){
-				outList.add(currentInt);
+				outArray[index] = currentInt;
+				index++;
 			}
 		}
-		return CodecUtils.convertToIntArray(outList);
+		return outArray;
 	}
 }
