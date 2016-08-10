@@ -4,7 +4,6 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -115,7 +114,6 @@ public class ReaderUtils {
 	 * @throws IOException an error reading the file 
 	 */
 	private static byte[] readFile(Path path) throws IOException {
-		
 		byte[] data = Files.readAllBytes(path);
 		return data;
 	}
