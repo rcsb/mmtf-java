@@ -2,7 +2,7 @@
 [![Coverage Status](https://coveralls.io/repos/github/rcsb/mmtf-java/badge.svg?branch=master)](https://coveralls.io/github/rcsb/mmtf-java?branch=master)
 [![Dependency Status](https://www.versioneye.com/user/projects/56feb8e5fcd19a0039f1553c/badge.svg?style=flat)](https://www.versioneye.com/user/projects/56feb8e5fcd19a0039f1553c)
 [![Version](http://img.shields.io/badge/version-0.2.2-blue.svg?style=flat)](https://github.com/rcsb/mmtf-java/) [![License](http://img.shields.io/badge/license-Apache 2.0-blue.svg?style=flat)](https://github.com/rcsb/mmtf-java/blob/master/LICENSE.txt)
-
+[![Changelog](https://img.shields.io/badge/changelog--lightgrey.svg?style=flat)](https://github.com/rcsb/mmtf-java/blob/master/CHANGELOG.md)
 
 
 The **m**acro**m**olecular **t**ransmission **f**ormat (MMTF) is a binary encoding of biological structures.
