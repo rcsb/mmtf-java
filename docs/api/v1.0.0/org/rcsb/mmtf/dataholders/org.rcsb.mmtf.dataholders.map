@@ -1,0 +1,14 @@
+<map id="G" name="G">
+<area shape="rect" id="node1_0" href="./MmtfStructure.html" title="org.rcsb.mmtf.dataholders.MmtfStructure" alt="" coords="16,11,428,1427"/>
+<area shape="rect" id="node1" href="./MmtfStructure.html" title="&lt;TABLE&gt;" alt="" coords="5,5,439,1432"/>
+<area shape="rect" id="node2_1" href="./Group.html" title="org.rcsb.mmtf.dataholders.Group" alt="" coords="474,539,802,899"/>
+<area shape="rect" id="node2" href="./Group.html" title="&lt;TABLE&gt;" alt="" coords="463,533,813,904"/>
+<area shape="rect" id="node3_2" href="./Entity.html" title="org.rcsb.mmtf.dataholders.Entity" alt="" coords="847,619,1109,819"/>
+<area shape="rect" id="node3" href="./Entity.html" title="&lt;TABLE&gt;" alt="" coords="837,613,1119,824"/>
+<area shape="rect" id="node4_3" href="./DsspType.html" title="org.rcsb.mmtf.dataholders.DsspType" alt="" coords="1154,611,1261,827"/>
+<area shape="rect" id="node4" href="./DsspType.html" title="&lt;TABLE&gt;" alt="" coords="1143,605,1271,832"/>
+<area shape="rect" id="node5_4" href="./BioAssemblyTransformation.html" title="org.rcsb.mmtf.dataholders.BioAssemblyTransformation" alt="" coords="1306,651,1557,787"/>
+<area shape="rect" id="node5" href="./BioAssemblyTransformation.html" title="&lt;TABLE&gt;" alt="" coords="1295,645,1567,792"/>
+<area shape="rect" id="node6_5" href="./BioAssemblyData.html" title="org.rcsb.mmtf.dataholders.BioAssemblyData" alt="" coords="1603,643,2049,795"/>
+<area shape="rect" id="node6" href="./BioAssemblyData.html" title="&lt;TABLE&gt;" alt="" coords="1592,637,2060,800"/>
+</map>
