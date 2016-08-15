@@ -52,6 +52,9 @@ All notable changes to this project will be documented in this file, following t
  - getBioassemblyName added to the API - return the BioassemblyName as a string.
  - Tests for EncoderUtils
 
-## v0.2.3 - WIP
+## v1.0.0 - 2016-08-15
+### Changed
+ - Updated to the URL to the v1.0 version
+
 ### Added
  - API function to get a byte array from the URL
