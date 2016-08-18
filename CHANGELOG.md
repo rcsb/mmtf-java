@@ -58,3 +58,8 @@ All notable changes to this project will be documented in this file, following t
 
 ### Added
  - API function to get a byte array from the URL
+
+
+## v1.0.1 - 2016-08-18
+### Changed
+ - Added saccharides to the reduced format
