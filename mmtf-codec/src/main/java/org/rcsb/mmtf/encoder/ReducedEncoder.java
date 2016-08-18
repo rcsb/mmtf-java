@@ -166,6 +166,10 @@ public class ReducedEncoder {
 				if(atomName.equals(PHOSPHATE_NAME) && elementName.equals(PHOSPHATE_ELEMENT)){
 					outList.add(i);
 				}
+				// Check if it's a saccharide
+				if(structureDataInterface.getGroupChemCompType(groupType).toUpperCase().contains("SACCHARIDE")) {
+					outList.add(i);
+				}
 			}
 		}
 		// Check if it's a non-polymer 
