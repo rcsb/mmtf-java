@@ -39,7 +39,6 @@ public class WriterUtils {
 	 */
 	public static byte[] getDataAsByteArr(AdapterToStructureData writerToEncoder) throws IOException {
 		MessagePackSerialization mmtfBeanSeDerializerInterface = new MessagePackSerialization();
-		// Get to bean
 		GenericEncoder genericEncoder = new GenericEncoder(writerToEncoder);
 		ByteArrayOutputStream bos = new ByteArrayOutputStream();
 		mmtfBeanSeDerializerInterface.serialize(genericEncoder.getMmtfEncodedStructure(), bos);
@@ -53,13 +52,10 @@ public class WriterUtils {
 	 * @throws IOException an exception creating the GZIP stream
 	 */
 	public static byte[] gzipCompress(byte[] byteArray) throws IOException {
-		// Function to gzip compress the data for the hashmaps
-		ByteArrayOutputStream byteStream =
-				new ByteArrayOutputStream(byteArray.length);
+		ByteArrayOutputStream byteStream = new ByteArrayOutputStream(byteArray.length);
 		try
 		{
-			GZIPOutputStream zipStream =
-					new GZIPOutputStream(byteStream);
+			GZIPOutputStream zipStream = new GZIPOutputStream(byteStream);
 			try
 			{
 				zipStream.write(byteArray);
@@ -73,7 +69,6 @@ public class WriterUtils {
 		{
 			byteStream.close();
 		}
-		byte[] compressedData = byteStream.toByteArray();
-		return compressedData;
+		return byteStream.toByteArray();
 	}
 }
