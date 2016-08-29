@@ -68,3 +68,4 @@ All notable changes to this project will be documented in this file, following t
 ## v1.0.2 - 2016-08-29
 ### Changed
  - Added inter group saccharide bonds to the reduced format
+ - Cleanup of WriterUtils
