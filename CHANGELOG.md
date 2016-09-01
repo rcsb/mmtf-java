@@ -70,3 +70,4 @@ All notable changes to this project will be documented in this file, following t
  - Added inter group saccharide bonds to the reduced format
  - Cleanup of WriterUtils
  - Updated version string in MmtfStructure
+ - Updated test data
