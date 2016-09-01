@@ -3,6 +3,7 @@ package org.rcsb.mmtf.encoder;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.ArrayUtils;
 import org.rcsb.mmtf.api.StructureDataInterface;
 import org.rcsb.mmtf.decoder.DecoderUtils;
 
@@ -34,9 +35,12 @@ public class ReducedEncoder {
 		DecoderUtils.generateBioAssembly(structureDataInterface, adapterToStructureData);		
 		DecoderUtils.addEntityInfo(structureDataInterface, adapterToStructureData);
 		// Loop through the Structure data interface this with the appropriate data
-		int atomCounter=-1;
-		int groupCounter=-1;
-		int chainCounter=-1;
+		int atomCounter= - 1;
+		int redAtomCounter = -1;
+		int groupCounter= - 1;
+		int chainCounter= - 1;
+		List<Integer> interGroupBondsToAdd = new ArrayList<>();
+		List<Integer> interGroupRedIndsToAdd = new ArrayList<>();
 		for (int i=0; i<structureDataInterface.getNumModels(); i++){
 			int numChains = structureDataInterface.getChainsPerModel()[i];
 			adapterToStructureData.setModelInfo(i, numChains);
@@ -48,7 +52,7 @@ public class ReducedEncoder {
 					groupCounter++;
 					int groupType = structureDataInterface.getGroupTypeIndices()[groupCounter];
 					List<Integer> atomIndicesToAdd = getIndicesToAdd(structureDataInterface, groupType, chainType);
-					int bondsToAdd = findBondsToAdd(atomIndicesToAdd, structureDataInterface, groupType);
+					int bondsToAdd = findBondsToAdd(atomIndicesToAdd, structureDataInterface, groupType,atomCounter+1);
 					// If there's an atom to add in this group - add it
 					if(atomIndicesToAdd.size()>0){
 						adapterToStructureData.setGroupInfo(structureDataInterface.getGroupName(groupType), structureDataInterface.getGroupIds()[groupCounter], 
@@ -60,9 +64,14 @@ public class ReducedEncoder {
 					for(int l=0; l<structureDataInterface.getNumAtomsInGroup(groupType);l++){
 						atomCounter++;
 						if(atomIndicesToAdd.contains(l)){
+							redAtomCounter++;
 							adapterToStructureData.setAtomInfo(structureDataInterface.getGroupAtomNames(groupType)[l], structureDataInterface.getAtomIds()[atomCounter], structureDataInterface.getAltLocIds()[atomCounter], 
 									structureDataInterface.getxCoords()[atomCounter], structureDataInterface.getyCoords()[atomCounter], structureDataInterface.getzCoords()[atomCounter], 
 									structureDataInterface.getOccupancies()[atomCounter], structureDataInterface.getbFactors()[atomCounter], structureDataInterface.getGroupElementNames(groupType)[l], structureDataInterface.getGroupAtomCharges(groupType)[l]);
+							if (structureDataInterface.getGroupChemCompType(groupType).toUpperCase().contains("SACCHARIDE")){
+								interGroupBondsToAdd.add(atomCounter);
+								interGroupRedIndsToAdd.add(redAtomCounter);
+							}
 						}
 					}
 					if(bondsToAdd>0){
@@ -78,6 +87,17 @@ public class ReducedEncoder {
 						structureDataInterface.getChainNames()[chainCounter], numGroups);
 			}
 		}
+		// Add the inter group bonds
+		for(int i=0; i<structureDataInterface.getInterGroupBondOrders().length;i++){
+			int bondIndOne = structureDataInterface.getInterGroupBondIndices()[i*2];
+			int bondIndTwo = structureDataInterface.getInterGroupBondIndices()[i*2+1];
+			int bondOrder = structureDataInterface.getInterGroupBondOrders()[i];
+			if(interGroupBondsToAdd.contains(bondIndOne) && interGroupBondsToAdd.contains(bondIndTwo) ){
+				int indexOne = interGroupBondsToAdd.indexOf(bondIndOne);
+				int indexTwo = interGroupBondsToAdd.indexOf(bondIndTwo);
+				adapterToStructureData.setInterGroupBond(interGroupRedIndsToAdd.get(indexOne), interGroupRedIndsToAdd.get(indexTwo), bondOrder);
+			}
+		}
 		adapterToStructureData.finalizeStructure();
 		// Return the AdapterToStructureData
 		return adapterToStructureData;
@@ -88,17 +108,29 @@ public class ReducedEncoder {
 	 * @param indicesToAdd the indices of the atoms to add
 	 * @param structureDataInterface the {@link StructureDataInterface} of the total structure
 	 * @param groupType the index of the groupType
+	 * @param atomCounter the current atom counter position
 	 * @return the integer number of bonds to add
 	 */
-	private static int findBondsToAdd(List<Integer> indicesToAdd, StructureDataInterface structureDataInterface, int groupType) {
+	private static int findBondsToAdd(List<Integer> indicesToAdd, StructureDataInterface structureDataInterface, int groupType, int atomCounter) {
 		// Add the bonds if we've copied all the elements
+		int interGroupBonds = 0;
 		if(indicesToAdd.size()>1){
+			if (structureDataInterface.getGroupChemCompType(groupType).toUpperCase().contains("SACCHARIDE")){
+				for(int i=0; i<structureDataInterface.getGroupBondOrders(groupType).length; i++) {
+					if(ArrayUtils.contains(structureDataInterface.getInterGroupBondIndices(),atomCounter+i)){
+						interGroupBonds++;
+					}
+				}
+			}
 			if(indicesToAdd.size()==structureDataInterface.getNumAtomsInGroup(groupType)){
-				return structureDataInterface.getGroupBondOrders(groupType).length;
+				return structureDataInterface.getGroupBondOrders(groupType).length+interGroupBonds;
 			}
 		}
 		return 0;
 	}
+
+
+
 
 	/**
 	 * Get the number of bonds, atoms and groups as a map.
@@ -113,6 +145,7 @@ public class ReducedEncoder {
 		summaryData.numBonds = 0;
 		int groupCounter = -1;
 		int chainCounter=-1;
+		int atomCounter = 0;
 		for (int i=0; i<structureDataInterface.getNumModels(); i++){
 			int numChains = structureDataInterface.getChainsPerModel()[i];
 			for(int j=0; j<numChains; j++){
@@ -131,11 +164,10 @@ public class ReducedEncoder {
 						if(indicesToAdd.contains(l)){
 							summaryData.numAtoms++;
 						}
+						atomCounter++;
 					}
 					// Add the bonds if we've copied all the elements
-					if (findBondsToAdd(indicesToAdd, structureDataInterface, groupType)>0){
-						summaryData.numBonds+=structureDataInterface.getGroupBondOrders(groupType).length;
-					}
+					summaryData.numBonds+=findBondsToAdd(indicesToAdd, structureDataInterface, groupType, atomCounter);
 				}
 			}
 		}
