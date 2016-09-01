@@ -26,7 +26,7 @@ public class MmtfStructure implements Serializable {
 	/** The number of characters in a chain.*/
 	public static final int CHAIN_LENGTH = 4;
 	/** The version of MMTF */
-	public static final String VERSION = "1.0.2";
+	public static final String VERSION = "1.0.0";
 
 
 	/** Serial id for this version of the format. */
