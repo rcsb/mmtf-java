@@ -47,7 +47,7 @@ public class ReaderUtils {
 	public static byte[] getByteArrayFromUrl(String pdbCode)  throws IOException {
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		InputStream inputStream = null;
-		URL url = new URL(CodecUtils.BASE_URL + pdbCode);
+		URL url = new URL(getUrl(pdbCode));
 		try {
 			inputStream = url.openStream();
 			byte[] byteChunk = new byte[BYTE_BUFFER_CHUNK_SIZE]; // Or whatever size you want to read in at a time.
@@ -103,8 +103,7 @@ public class ReaderUtils {
 	 */
 	public static MmtfStructure getDataFromFile(Path filePath) throws IOException {
 		// Now return the gzip deflated and deserialized byte array
-		MessagePackSerialization mmtfBeanSeDeMessagePackImpl = new MessagePackSerialization();
-		return mmtfBeanSeDeMessagePackImpl.deserialize(new ByteArrayInputStream(readFile(filePath)));
+		return getDataFromInputStream(new ByteArrayInputStream(readFile(filePath)));
 	}
 
 	/**
@@ -116,5 +115,25 @@ public class ReaderUtils {
 	private static byte[] readFile(Path path) throws IOException {
 		byte[] data = Files.readAllBytes(path);
 		return data;
+	}
+
+	/**
+	 * Read an input stream to an {@link MmtfStructure} object.
+	 * @param inStream the {@link InputStream} to read.
+	 * @return the {@link MmtfStructure} to be returned 
+	 */
+	public static MmtfStructure getDataFromInputStream(InputStream inStream) {
+		MessagePackSerialization mmtfBeanSeDeMessagePackImpl = new MessagePackSerialization();
+		return mmtfBeanSeDeMessagePackImpl.deserialize(inStream);
+		
+	}
+
+	/**
+	 * Get the URL to return a given PDB id
+	 * @param pdbId the input PDB id
+	 * @return the URL {@link String} to get data from
+	 */
+	public static String getUrl(String pdbId) {
+		return CodecUtils.BASE_URL + pdbId;
 	}
 }
