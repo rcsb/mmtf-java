@@ -71,3 +71,8 @@ All notable changes to this project will be documented in this file, following t
  - Cleanup of WriterUtils
  - Updated version string in MmtfStructure
  - Updated test data
+
+
+## v1.0.3 - 2016-09-13
+### Added
+ - API functions to get the URL as a string and the data as an inputstream
