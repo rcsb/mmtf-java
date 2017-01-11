@@ -102,19 +102,8 @@ public class ReaderUtils {
 	 * @throws IOException an error reading the file 
 	 */
 	public static MmtfStructure getDataFromFile(Path filePath) throws IOException {
-		// Now return the gzip deflated and deserialized byte array
-		return getDataFromInputStream(new ByteArrayInputStream(readFile(filePath)));
-	}
 
-	/**
-	 * Read a byte array from a file
-	 * @param path the input file path
-	 * @return the returned byte array
-	 * @throws IOException an error reading the file 
-	 */
-	private static byte[] readFile(Path path) throws IOException {
-		byte[] data = Files.readAllBytes(path);
-		return data;
+		return getDataFromInputStream(Files.newInputStream(filePath));
 	}
 
 	/**
