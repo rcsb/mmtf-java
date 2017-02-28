@@ -4,7 +4,6 @@ import static org.junit.Assert.assertArrayEquals;
 
 import java.io.IOException;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 
 import org.junit.Test;
 import org.rcsb.mmtf.api.StructureDataInterface;
@@ -59,8 +58,7 @@ public class TestRoundTrip {
 	 * @throws IOException
 	 */
 	private StructureDataInterface getDefaultFullData() throws IOException {
-		ClassLoader classLoader = getClass().getClassLoader();
-		Path inFile = Paths.get(classLoader.getResource("mmtf/4cup.mmtf").getFile());
-		return new GenericDecoder(ReaderUtils.getDataFromFile(inFile));
+		Path p = Utils.getResource("/mmtf/4cup.mmtf");
+		return new GenericDecoder(ReaderUtils.getDataFromFile(p));
 	}
 }

@@ -16,6 +16,7 @@ import org.rcsb.mmtf.codec.FloatCodecs;
 import org.rcsb.mmtf.codec.IntCodecs;
 import org.rcsb.mmtf.codec.OptionParser;
 import org.rcsb.mmtf.codec.StringCodecs;
+import org.rcsb.mmtf.codec.Utils;
 import org.rcsb.mmtf.dataholders.BioAssemblyData;
 import org.rcsb.mmtf.dataholders.BioAssemblyTransformation;
 import org.rcsb.mmtf.dataholders.Entity;
@@ -153,9 +154,8 @@ public class TestEncoderUtils {
 	 * @return a {@link StructureDataInterface} for the full data.
 	 */
 	private StructureDataInterface getDefaultFullData() {
-		ClassLoader classLoader = getClass().getClassLoader();
-		Path inFile = Paths.get(classLoader.getResource("mmtf/4cup.mmtf").getFile());
 		try {
+			Path inFile = Utils.getResource("/mmtf/4cup.mmtf");
 			return new GenericDecoder(ReaderUtils.getDataFromFile(inFile));
 		} catch (IOException e) {
 			e.printStackTrace();

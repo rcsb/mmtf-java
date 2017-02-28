@@ -6,10 +6,15 @@ import static org.junit.Assert.assertEquals;
 import java.beans.IntrospectionException;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
+import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import org.rcsb.mmtf.api.StructureDataInterface;
 import org.rcsb.mmtf.decoder.GenericDecoder;
+import org.rcsb.mmtf.decoder.ReaderUtils;
 import org.rcsb.mmtf.encoder.GenericEncoder;
 
 /**
@@ -71,5 +76,13 @@ public class Utils {
 		assertArrayEquals(interfaceOne.getInsCodes(), interfaceTwo.getInsCodes());	
 		assertArrayEquals(interfaceOne.getInterGroupBondIndices(), interfaceTwo.getInterGroupBondIndices());
 		assertArrayEquals(interfaceOne.getInterGroupBondOrders(), interfaceTwo.getInterGroupBondOrders());
+	}
+	
+	/**
+	 * path = "/mmtf/4cup.mmtf"
+	 */
+	public static Path getResource(String p) throws IOException {			
+		File f = new File(Utils.class.getClass().getResource(p).getFile());
+		return Paths.get(f.getAbsolutePath());
 	}
 }

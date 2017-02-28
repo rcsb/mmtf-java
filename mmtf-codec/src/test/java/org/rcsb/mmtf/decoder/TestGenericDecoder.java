@@ -10,6 +10,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Paths;
 
 import org.junit.Test;
+import org.rcsb.mmtf.codec.Utils;
 import org.rcsb.mmtf.dataholders.MmtfStructure;
 import org.unitils.reflectionassert.ReflectionAssert;
 
@@ -31,7 +32,7 @@ public class TestGenericDecoder {
 	@Test
 	public void testDecodeAllFields() throws IOException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, IntrospectionException {
 		ClassLoader classLoader = getClass().getClassLoader();
-		MmtfStructure mmtfBean = ReaderUtils.getDataFromFile(Paths.get(classLoader.getResource("mmtf/4cup.mmtf").getFile()));
+		MmtfStructure mmtfBean = ReaderUtils.getDataFromFile(Utils.getResource("/mmtf/4cup.mmtf"));
 		GenericDecoder genericDecoder = new GenericDecoder(mmtfBean);
 		ReflectionAssert.assertPropertiesNotNull("Some properties null after decoding", genericDecoder);
 		for(PropertyDescriptor propertyDescriptor : 

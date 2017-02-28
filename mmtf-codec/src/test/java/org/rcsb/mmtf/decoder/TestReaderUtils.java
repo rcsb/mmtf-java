@@ -10,6 +10,7 @@ import static org.junit.Assert.assertNotEquals;
 
 import java.io.IOException;
 import java.nio.file.Paths;
+import org.rcsb.mmtf.codec.Utils;
 
 /**
  * Test the reader utils class functions work.
@@ -83,7 +84,7 @@ public class TestReaderUtils {
 	@Test 
 	public void testReadFromFile() throws IOException {
 		ClassLoader classLoader = getClass().getClassLoader();
-		MmtfStructure mmtfBean = ReaderUtils.getDataFromFile(Paths.get(classLoader.getResource("mmtf/4cup.mmtf").getFile()));
+		MmtfStructure mmtfBean = ReaderUtils.getDataFromFile(Utils.getResource("/mmtf/4cup.mmtf"));
 		assertNotEquals(mmtfBean, null);
 		assertEquals(mmtfBean.getDepositionDate(), "2014-03-21");
 	}

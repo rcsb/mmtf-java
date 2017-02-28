@@ -111,8 +111,7 @@ public class TestReducedEncoder {
 	 * @throws IOException
 	 */
 	private StructureDataInterface getDefaultFullData() throws IOException {
-		ClassLoader classLoader = getClass().getClassLoader();
-		Path inFile = Paths.get(classLoader.getResource("mmtf/4cup.mmtf").getFile());
-		return new GenericDecoder(ReaderUtils.getDataFromFile(inFile));
+		Path p = Utils.getResource("/mmtf/4cup.mmtf");
+		return new GenericDecoder(ReaderUtils.getDataFromFile(p));
 	}
 }
