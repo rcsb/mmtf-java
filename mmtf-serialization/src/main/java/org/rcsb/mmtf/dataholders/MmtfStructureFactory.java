@@ -51,7 +51,7 @@ public class MmtfStructureFactory {
 		s.setNumGroups(tree.i("numGroups"));
 		s.setNumChains(tree.i("numChains"));
 		s.setNumModels(tree.i("numModels"));
-		s.setNcsOperatorList(ffdd(tree.faa("ncsOperatorList")));
+		s.setNcsOperatorList(tree.daa("ncsOperatorList"));
 		return s;
 	}
 
@@ -102,8 +102,8 @@ public class MmtfStructureFactory {
 		ObjectTree t = new ObjectTree((Hashtable<String, Object>) o);
 		BioAssemblyTransformation bat = new BioAssemblyTransformation();
 		bat.setChainIndexList(t.ia("chainIndexList"));
-		float[] fs = t.fa("matrix");
-		bat.setMatrix(fd(fs));
+		double[] ds = t.da("matrix");
+		bat.setMatrix(ds);
 		return bat;
 	}
 
@@ -123,28 +123,6 @@ public class MmtfStructureFactory {
 		e.setSequence(t.s("sequence"));
 		e.setType(t.s("type"));
 		return e;
-	}
-
-	private double preserveDecimalDigits(float f) {
-		return Double.parseDouble(Float.toString(f));
-	}		
-
-	private double[] fd(float[] in) {
-		double[] out = new double[in.length];
-		for (int x = 0; x < out.length; x++) {
-			out[x] = preserveDecimalDigits(in[x]);
-		}
-		return out;
-	}
-
-	private double[][] ffdd(float[][] in) {
-		double[][] out = new double[in.length][];
-		for (int x = 0; x < out.length; x++) {
-			for (int y = 0; y < out[x].length; y++) {
-				out[x][y] = preserveDecimalDigits(in[x][y]);
-			}
-		}
-		return out;
 	}
 
 }

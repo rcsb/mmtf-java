@@ -76,16 +76,16 @@ public class ObjectTree {
 		return (double[]) root.get(s);
 	}
 
-	public float[][] faa(String s) {
+	public double[][] daa(String s) {
 		Object o = root.get(s);
-		float[][] aa;
+		double[][] aa;
 		if (o == null) {
-			aa = new float[0][0];
+			aa = new double[0][0];
 		} else {
 			Object[] a = (Object[]) o;
-			aa = new float[a.length][];
+			aa = new double[a.length][];
 			for (int i = 0; i < a.length; i++) {
-				aa[i] = (float[]) a[i];
+				aa[i] = (double[]) a[i];
 			}
 		}
 		return aa;

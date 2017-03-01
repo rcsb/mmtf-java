@@ -37,6 +37,10 @@ public class MessagePackSerialization implements MmtfStructureSerializationInter
 		objectMapper.setSerializationInclusion(Include.NON_NULL);
 	}
 	
+	public static void setJackson(boolean allowed) {
+		useJackson = allowed;
+	}
+	
 	@Override
 	public MmtfStructure deserialize(InputStream inputStream) {
 		if (useJackson) {
