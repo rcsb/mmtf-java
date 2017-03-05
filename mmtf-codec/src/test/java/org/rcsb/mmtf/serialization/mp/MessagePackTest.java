@@ -1,14 +1,13 @@
 package org.rcsb.mmtf.serialization.mp;
 
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
-import java.net.MalformedURLException;
+import java.io.InputStream;
 import java.net.URL;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -87,30 +86,28 @@ public class MessagePackTest extends TestCase {
 		return gd;
 	}
 
-	public static void downloadMmtf(String code, Path path) {
+	private byte[] fetchMmtf(String code) {
+		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 		try {
-			if (Files.notExists(path)) {
-				download("http://mmtf.rcsb.org/v1.0/full/" + code + ".mmtf.gz",
-					path);
+			byte[] chunk = new byte[4096];
+			int bytesRead;
+			String url = "http://mmtf.rcsb.org/v1.0/full/" + code + ".mmtf.gz";
+			InputStream is = new URL(url).openStream();
+			while ((bytesRead = is.read(chunk)) > 0) {
+				outputStream.write(chunk, 0, bytesRead);
 			}
-		} catch (MalformedURLException e) {
-			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
+			return null;
 		}
-	}
-
-	public static void download(String sourceUrl, Path targetFile) throws MalformedURLException, IOException {
-		URL url = new URL(sourceUrl);
-		Files.copy(url.openStream(), targetFile, StandardCopyOption.REPLACE_EXISTING);
+		return outputStream.toByteArray();
 	}
 
 	public void testByComparisonWithJackson() throws IOException {
 		for (String code : testCodes) {
 			System.out.println("Testing " + code);
-			Path p = Paths.get(code);
-			downloadMmtf(code, p);
-			byte[] bytes = ReaderUtils.deflateGzip(Files.readAllBytes(p));
+			byte[] zipped = fetchMmtf(code);
+			byte[] bytes = ReaderUtils.deflateGzip(zipped);
 
 			MessagePackSerialization.setJackson(false);
 			StructureDataInterface sdiJmol = parse(bytes);
