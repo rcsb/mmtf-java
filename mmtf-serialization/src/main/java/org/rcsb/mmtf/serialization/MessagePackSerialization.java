@@ -12,10 +12,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.BufferedInputStream;
 import java.util.Map;
 import org.rcsb.mmtf.dataholders.MmtfStructureFactory;
-import org.rcsb.mmtf.serialization.mp.BinaryDocument;
-import org.rcsb.mmtf.serialization.mp.GenericBinaryDocument;
-import org.rcsb.mmtf.serialization.mp.MessagePackReader;
-import org.rcsb.mmtf.serialization.mp.ObjectTree;
+import org.rcsb.mmtf.serialization.quickmessagepackdeserialization.BinaryDocument;
+import org.rcsb.mmtf.serialization.quickmessagepackdeserialization.GenericBinaryDocument;
+import org.rcsb.mmtf.serialization.quickmessagepackdeserialization.MessagePackReader;
+import org.rcsb.mmtf.serialization.quickmessagepackdeserialization.ObjectTree;
 
 /**
  * A message pack implementation of the {@link MmtfStructure} serializer / deserializer.

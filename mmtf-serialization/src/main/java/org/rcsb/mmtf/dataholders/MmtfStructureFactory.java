@@ -3,7 +3,7 @@ package org.rcsb.mmtf.dataholders;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
-import org.rcsb.mmtf.serialization.mp.ObjectTree;
+import org.rcsb.mmtf.serialization.quickmessagepackdeserialization.ObjectTree;
 
 /**
  *

@@ -1,4 +1,4 @@
-package org.rcsb.mmtf.serialization.mp;
+package org.rcsb.mmtf.serialization.quickmessagepackdeserialization;
 
 import java.io.BufferedInputStream;
 import java.io.DataInputStream;

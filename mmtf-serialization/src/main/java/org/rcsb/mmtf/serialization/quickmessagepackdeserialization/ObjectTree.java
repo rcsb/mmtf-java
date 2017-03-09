@@ -1,4 +1,4 @@
-package org.rcsb.mmtf.serialization.mp;
+package org.rcsb.mmtf.serialization.quickmessagepackdeserialization;
 
 import java.util.Hashtable;
 import java.util.Map;
