@@ -32,18 +32,17 @@ public class MessagePackTest extends TestCase {
 	private int n = 10; // how many structures should be tested
 	private List<String> testCodes;
 
-	public MessagePackTest() {
+	public MessagePackTest() throws IOException {
 		testCodes = getTestCodes();
 	}
 
-	private List<String> getTestCodes() {
+	private List<String> getTestCodes() throws IOException {
 		List<String> result = new ArrayList<>();
 		Random random = new Random();
 		int seed = random.nextInt();
 		System.out.println("Using seed " + seed + " to select " + n + " random "
 			+ "structures for MessagePack testing.");
 		random = new Random(seed);
-
 		List<String> codes = getAllPdbCodes();
 		for (int i = 0; i < Math.min(n, codes.size()); i++) {
 			int r = random.nextInt(codes.size());
@@ -59,21 +58,15 @@ public class MessagePackTest extends TestCase {
 		return Paths.get(f.getAbsolutePath());
 	}
 
-	public List<String> getAllPdbCodes() {
-		try {
-			Path p = getResource("pdb_entry_type.txt");
-			List<String> codes = new ArrayList<>();
-			LineFile lf = new LineFile(p.toFile());
-			List<String> lines = lf.readLines();
-			for (String line : lines) {
-				StringTokenizer st = new StringTokenizer(line, " \t");
-				String code = st.nextToken();
-				codes.add(code);
-			}
-			return codes;
-		} catch (Exception ex) {
-			throw new RuntimeException(ex);
+	public List<String> getAllPdbCodes() throws IOException {
+		Path p = getResource("pdb_entry_type.zip");
+		List<String> codes = new ArrayList<>();
+		for (String line : ZippedTextFile.readLines(p.toFile())) {
+			StringTokenizer st = new StringTokenizer(line, " \t");
+			String code = st.nextToken();
+			codes.add(code);
 		}
+		return codes;
 	}
 
 	/**
@@ -86,19 +79,15 @@ public class MessagePackTest extends TestCase {
 		return gd;
 	}
 
-	private byte[] fetchMmtf(String code) {
+	private byte[] fetchMmtf(String code) throws IOException {
 		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-		try {
+		String url = "http://mmtf.rcsb.org/v1.0/full/" + code + ".mmtf.gz";
+		try (InputStream is = new URL(url).openStream()) {
 			byte[] chunk = new byte[4096];
 			int bytesRead;
-			String url = "http://mmtf.rcsb.org/v1.0/full/" + code + ".mmtf.gz";
-			InputStream is = new URL(url).openStream();
 			while ((bytesRead = is.read(chunk)) > 0) {
 				outputStream.write(chunk, 0, bytesRead);
 			}
-		} catch (IOException e) {
-			e.printStackTrace();
-			return null;
 		}
 		return outputStream.toByteArray();
 	}
