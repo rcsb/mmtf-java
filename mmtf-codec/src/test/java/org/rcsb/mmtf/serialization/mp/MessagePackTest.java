@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.StringTokenizer;
 
-import junit.framework.TestCase;
+import org.junit.Test;
 import org.rcsb.mmtf.api.StructureDataInterface;
 import org.rcsb.mmtf.dataholders.MmtfStructure;
 import org.rcsb.mmtf.decoder.GenericDecoder;
@@ -27,7 +27,7 @@ import org.unitils.reflectionassert.ReflectionAssert;
  * creation gives identical data.
  *
  */
-public class MessagePackTest extends TestCase {
+public class MessagePackTest {
 
 	private int n = 10; // how many structures should be tested
 	private List<String> testCodes;
@@ -53,15 +53,10 @@ public class MessagePackTest extends TestCase {
 		return result;
 	}
 
-	public Path getResource(String p) throws IOException {
-		File f = new File(getClass().getResource(p).getFile());
-		return Paths.get(f.getAbsolutePath());
-	}
-
 	public List<String> getAllPdbCodes() throws IOException {
-		Path p = getResource("pdb_entry_type.zip");
+		URL url = getClass().getResource("pdb_entry_type.gz");
 		List<String> codes = new ArrayList<>();
-		for (String line : ZippedTextFile.readLines(p.toFile())) {
+		for (String line : GzTxtFile.readLines(url)) {
 			StringTokenizer st = new StringTokenizer(line, " \t");
 			String code = st.nextToken();
 			codes.add(code);
@@ -92,6 +87,7 @@ public class MessagePackTest extends TestCase {
 		return outputStream.toByteArray();
 	}
 
+	@Test
 	public void testByComparisonWithJackson() throws IOException {
 		for (String code : testCodes) {
 			System.out.println("Testing " + code);

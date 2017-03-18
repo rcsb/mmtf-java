@@ -18,55 +18,56 @@ import org.rcsb.mmtf.serialization.quickmessagepackdeserialization.MessagePackRe
 import org.rcsb.mmtf.serialization.quickmessagepackdeserialization.ObjectTree;
 
 /**
- * A message pack implementation of the {@link MmtfStructure} serializer / deserializer.
+ * A message pack implementation of the {@link MmtfStructure} serializer /
+ * deserializer.
+ *
  * @author Anthony Bradley
  * @author Antonin Pavelka
  *
  */
 public class MessagePackSerialization implements MmtfStructureSerializationInterface {
-	
+
 	private ObjectMapper objectMapper;
 	private static boolean useJackson = false;
-	
+
 	/**
-	 * Constructor for the {@link MessagePackSerialization} class.
-	 * Generates {@link ObjectMapper} and sets to include non-null.
+	 * Constructor for the {@link MessagePackSerialization} class. Generates
+	 * {@link ObjectMapper} and sets to include non-null.
 	 */
 	public MessagePackSerialization() {
 		objectMapper = new ObjectMapper(new MessagePackFactory());
 		objectMapper.setSerializationInclusion(Include.NON_NULL);
 	}
-	
+
 	public static void setJackson(boolean allowed) {
 		useJackson = allowed;
 	}
-	
+
 	@Override
-	public MmtfStructure deserialize(InputStream inputStream) {
+	public MmtfStructure deserialize(InputStream inputStream)
+		throws IOException {
 		if (useJackson) {
 			return deserializeJackson(inputStream);
 		} else {
 			return deserializeQuick(inputStream);
 		}
 	}
-	
+
 	/**
 	 * Elegant, but slow (comparable to unzipping).
 	 */
-	public MmtfStructure deserializeJackson(InputStream inputStream){
+	private MmtfStructure deserializeJackson(InputStream inputStream)
+		throws IOException {
 		MmtfStructure mmtfBean = null;
-		try {
-			mmtfBean = objectMapper.readValue(inputStream, MmtfStructure.class);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		mmtfBean = objectMapper.readValue(inputStream, MmtfStructure.class);
 		return mmtfBean;
 	}
-	
+
 	/**
 	 * Several times faster.
 	 */
-	private MmtfStructure deserializeQuick(InputStream inputStream) {
+	private MmtfStructure deserializeQuick(InputStream inputStream)
+		throws IOException {
 		try {
 			GenericBinaryDocument binaryDoc = new BinaryDocument();
 			binaryDoc.setStream(new BufferedInputStream(inputStream), true);
@@ -76,17 +77,15 @@ public class MessagePackSerialization implements MmtfStructureSerializationInter
 			MmtfStructure s = f.create(new ObjectTree(map));
 			return s;
 		} catch (Exception e) {
-			throw new RuntimeException(e);
+			throw new IOException(e);
 		}
 	}
-	
+
 	@Override
-	public void serialize(MmtfStructure mmtfStructure, OutputStream outputStream) {
-		try {
-			objectMapper.writeValue(outputStream, mmtfStructure);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+	public void serialize(MmtfStructure mmtfStructure,
+		OutputStream outputStream) throws IOException {
+		objectMapper.writeValue(outputStream, mmtfStructure);
+
 	}
 
 }

@@ -125,7 +125,8 @@ public class ReaderUtils {
 	 * @param inStream the {@link InputStream} to read.
 	 * @return the {@link MmtfStructure} to be returned
 	 */
-	public static MmtfStructure getDataFromInputStream(InputStream inStream) {
+	public static MmtfStructure getDataFromInputStream(InputStream inStream)
+		throws IOException {
 		MessagePackSerialization mmtfBeanSeDeMessagePackImpl
 			= new MessagePackSerialization();
 		return mmtfBeanSeDeMessagePackImpl.deserialize(inStream);
