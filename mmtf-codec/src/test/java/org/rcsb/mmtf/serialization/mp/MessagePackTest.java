@@ -1,5 +1,6 @@
 package org.rcsb.mmtf.serialization.mp;
 
+import org.rcsb.mmtf.utils.Lines;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -53,10 +54,9 @@ public class MessagePackTest {
 		return result;
 	}
 
-	public List<String> getAllPdbCodes() throws IOException {
-		URL url = getClass().getResource("pdb_entry_type.gz");
+	public List<String> getAllPdbCodes() throws IOException {	
 		List<String> codes = new ArrayList<>();
-		for (String line : GzTxtFile.readLines(url)) {
+		for (String line : Lines.readResource("/mmtf/pdb_entry_type.gz")) {
 			StringTokenizer st = new StringTokenizer(line, " \t");
 			String code = st.nextToken();
 			codes.add(code);
