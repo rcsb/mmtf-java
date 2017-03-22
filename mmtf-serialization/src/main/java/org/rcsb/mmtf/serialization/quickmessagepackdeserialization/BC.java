@@ -151,8 +151,6 @@ public class BC {
     fracIEEE = new float[270];
     for (int i = 0; i < 270; i++)
       fracIEEE[i] = (float) Math.pow(2, i - 141);
-    //    System.out.println(fracIEEE[0] + "  " + Parser.FLOAT_MIN_SAFE);
-    //    System.out.println(fracIEEE[269] + "  " + Float.MAX_VALUE);
   }
 
   /**
@@ -169,19 +167,5 @@ public class BC {
       return Float.MAX_VALUE;
     return f * fracIEEE[i + 140];
   }
-
-//  static {
-//    setFracIEEE();
-//    for (int i = -50; i < 50; i++) {
-//      float f = i * (float) (Math.random() * Math.pow(2, Math.random() * 100 - 50));
-//      int x = Float.floatToIntBits(f);
-//      int m = ((x & 0x7F800000) >> 23);
-//      float f1 = (float) (f == 0 ? 0 : ((x & 0x80000000) == 0 ? 1 : -1) * shiftIEEE((x & 0x7FFFFF) | 0x800000, m - 149));
-//      System.out.println(f + "  " + f1);
-//    }
-//    System.out.println("binarydo");
-//  }
-
-
 
 }

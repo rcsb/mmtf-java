@@ -47,7 +47,7 @@ public class MessagePackSerialization implements MmtfStructureSerializationInter
 	public MmtfStructure deserialize(InputStream inputStream)
 		throws IOException {
 		if (useJackson) {
-			return deserializeJackson(inputStream);
+			return deserializeByJackson(inputStream);
 		} else {
 			return deserializeQuick(inputStream);
 		}
@@ -56,7 +56,7 @@ public class MessagePackSerialization implements MmtfStructureSerializationInter
 	/**
 	 * Elegant, but slow (comparable to unzipping).
 	 */
-	private MmtfStructure deserializeJackson(InputStream inputStream)
+	private MmtfStructure deserializeByJackson(InputStream inputStream)
 		throws IOException {
 		MmtfStructure mmtfBean = null;
 		mmtfBean = objectMapper.readValue(inputStream, MmtfStructure.class);
@@ -85,7 +85,6 @@ public class MessagePackSerialization implements MmtfStructureSerializationInter
 	public void serialize(MmtfStructure mmtfStructure,
 		OutputStream outputStream) throws IOException {
 		objectMapper.writeValue(outputStream, mmtfStructure);
-
 	}
 
 }

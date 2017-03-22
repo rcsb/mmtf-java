@@ -336,15 +336,4 @@ public class BinaryDocument extends BC implements GenericBinaryDocument {
                                Map<String, String> fileData) {
   }
 
-
-/*  random access -- application only:
- * 
-    void seekFile(long offset) {
-    try {
-      file.seek(offset);
-    } catch (IOException e) {
-      System.out.println(e.getMessage());
-    }
-  }
-*/
 }
