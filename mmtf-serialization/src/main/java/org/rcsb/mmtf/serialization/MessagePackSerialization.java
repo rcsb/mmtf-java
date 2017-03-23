@@ -9,11 +9,9 @@ import org.rcsb.mmtf.dataholders.MmtfStructure;
 
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.BufferedInputStream;
+import java.io.DataInputStream;
 import java.util.Map;
 import org.rcsb.mmtf.dataholders.MmtfStructureFactory;
-import org.rcsb.mmtf.serialization.quickmessagepackdeserialization.BinaryDocument;
-import org.rcsb.mmtf.serialization.quickmessagepackdeserialization.GenericBinaryDocument;
 import org.rcsb.mmtf.serialization.quickmessagepackdeserialization.MessagePackReader;
 import org.rcsb.mmtf.serialization.quickmessagepackdeserialization.ObjectTree;
 
@@ -69,9 +67,8 @@ public class MessagePackSerialization implements MmtfStructureSerializationInter
 	private MmtfStructure deserializeQuick(InputStream inputStream)
 		throws IOException {
 		try {
-			GenericBinaryDocument binaryDoc = new BinaryDocument();
-			binaryDoc.setStream(new BufferedInputStream(inputStream), true);
-			MessagePackReader mpr = new MessagePackReader(binaryDoc, true);
+			MessagePackReader mpr = new MessagePackReader(
+				new DataInputStream(inputStream), true);
 			Map<String, Object> map = mpr.readMap();
 			MmtfStructureFactory f = new MmtfStructureFactory();
 			MmtfStructure s = f.create(new ObjectTree(map));
