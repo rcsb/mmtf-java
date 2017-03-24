@@ -4,6 +4,11 @@ import java.util.Hashtable;
 import java.util.Map;
 
 /**
+ * Utility class represeting an object whose attributes does not have types yet.
+ * The methods of the instance of this class can be called to retrieve the
+ * attributes in correct type specified by their name. Only several primitive
+ * types and their arrays are supported, application specific types are resolved
+ * elsewhere.
  *
  * @author Antonin Pavelka
  */
@@ -110,15 +115,6 @@ public class ObjectTree {
 			return new Object[0];
 		} else {
 			return (Object[]) root.get(s);
-		}
-	}
-
-	public Hashtable l(String s) {
-		Object o = root.get(s);
-		if (o == null) {
-			return new Hashtable();
-		} else {
-			return (Hashtable) root.get(s);
 		}
 	}
 }

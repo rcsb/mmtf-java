@@ -3,16 +3,12 @@ package org.rcsb.mmtf.serialization.mp;
 import org.rcsb.mmtf.utils.Lines;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.StringTokenizer;
 
 import org.junit.Test;
 import org.rcsb.mmtf.api.StructureDataInterface;
@@ -30,8 +26,8 @@ import org.unitils.reflectionassert.ReflectionAssert;
  */
 public class MessagePackTest {
 
-	private int n = 10; // how many structures should be tested
-	private List<String> testCodes;
+	private final int n = 10; // how many structures should be tested
+	private final List<String> testCodes;
 
 	public MessagePackTest() throws IOException {
 		testCodes = getTestCodes();
@@ -54,11 +50,10 @@ public class MessagePackTest {
 		return result;
 	}
 
-	public List<String> getAllPdbCodes() throws IOException {	
+	public List<String> getAllPdbCodes() throws IOException {
 		List<String> codes = new ArrayList<>();
-		for (String line : Lines.readResource("/mmtf/pdb_entry_type.gz")) {
-			StringTokenizer st = new StringTokenizer(line, " \t");
-			String code = st.nextToken();
+		for (String line : Lines.readResource("/mmtf/pdb_codes.gz")) {
+			String code = line.trim().substring(0, 4);
 			codes.add(code);
 		}
 		return codes;
@@ -87,10 +82,37 @@ public class MessagePackTest {
 		return outputStream.toByteArray();
 	}
 
+	public void mem() {
+		int mb = 1024 * 1024;
+		//Getting the runtime reference from system
+		Runtime runtime = Runtime.getRuntime();
+
+		System.out.println("##### Heap utilization statistics [MB] #####");
+
+		//Print used memory
+		System.out.println("Used Memory:"
+			+ (runtime.totalMemory() - runtime.freeMemory()) / mb);
+
+		//Print free memory
+		System.out.println("Free Memory:"
+			+ runtime.freeMemory() / mb);
+
+		//Print total available memory
+		System.out.println("Total Memory:" + runtime.totalMemory() / mb);
+
+		//Print Maximum available memory
+		System.out.println("Max Memory:" + runtime.maxMemory() / mb);
+
+	}
+
 	@Test
 	public void testByComparisonWithJackson() throws IOException {
+
 		for (String code : testCodes) {
-			System.out.println("Testing " + code);
+
+			System.out.println();
+			
+			System.out.println("Testing MessagePack parser on " + code);
 			byte[] zipped = fetchMmtf(code);
 			byte[] bytes = ReaderUtils.deflateGzip(zipped);
 
@@ -102,6 +124,8 @@ public class MessagePackTest {
 
 			ReflectionAssert.assertReflectionEquals(sdiJackson, sdiJmol);
 			System.out.println("OK");
+			
+			mem();
 		}
 	}
 

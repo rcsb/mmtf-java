@@ -1,6 +1,5 @@
 package org.rcsb.mmtf.serialization.quickmessagepackdeserialization;
 
-import java.io.BufferedInputStream;
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.util.Hashtable;
@@ -22,28 +21,13 @@ import java.util.Map;
  * homogeneousArrays == true will deliver null for empty array.
  *
  *
- * Use in MMTF:
- *
- *
- * BufferedInputStream bs = [whatever]
- *
- * GenericBinaryDocument binaryDoc = new javajs.util.BinaryDocument();
- *
- * binaryDoc.setStream(bs, true);
- *
- *
- * map = (new MessagePackReader(binaryDoc, true)).readMap();
- *
- * entities = (Object[]) map.get("entityList");
- *
- * float[] x = (float[]) decode((byte[]) map.get("xCoordList"))
- *
- *
  * @author Bob Hanson hansonr@stolaf.edu
+ * @author Antonin Pavelka
+ *
  */
 public class MessagePackReader {
 
-	private boolean isHomo;// homogeneous arrays -- use int[] not Integer
+	private final boolean isHomo;// homogeneous arrays -- use int[] not Integer
 
 	// these maps must be checked for the specific number of bits, in the following order:
 	private final static int POSITIVEFIXINT_x80 = 0x80; //0xxxxxxx
@@ -108,7 +92,7 @@ public class MessagePackReader {
 				((int[]) array)[pt] = b;
 				return null;
 			}
-			return Integer.valueOf(b);
+			return b;
 		}
 		switch (be0) {
 			case NEGATIVEFIXINT_xE0:
@@ -117,7 +101,7 @@ public class MessagePackReader {
 					((int[]) array)[pt] = b;
 					return null;
 				}
-				return Integer.valueOf(b);
+				return b;
 			case FIXSTR_xE0: {
 				String s = readString(b & 0x1F);
 				if (array != null) {
@@ -138,34 +122,26 @@ public class MessagePackReader {
 						return Boolean.TRUE;
 					case EXT8: {
 						int n = readUInt8();
-						return new Object[]{Integer.valueOf(readUInt8()),
-							readBytes(n)};
+						return new Object[]{readUInt8(), readBytes(n)};
 					}
 					case EXT16: {
 						int n = readUnsignedShort();
-						return new Object[]{Integer.valueOf(readUInt8()),
-							readBytes(n)};
+						return new Object[]{readUInt8(), readBytes(n)};
 					}
 					case EXT32: {
 						int n = readInt(); // should be unsigned int
-						return new Object[]{Integer.valueOf(readUInt8()),
-							readBytes(n)};
+						return new Object[]{readUInt8(), readBytes(n)};
 					}
 					case FIXEXT1:
-						return new Object[]{Integer.valueOf(readUInt8()),
-							readBytes(1)};
+						return new Object[]{readUInt8(), readBytes(1)};
 					case FIXEXT2:
-						return new Object[]{Integer.valueOf(readUInt8()),
-							readBytes(2)};
+						return new Object[]{readUInt8(), readBytes(2)};
 					case FIXEXT4:
-						return new Object[]{Integer.valueOf(readUInt8()),
-							readBytes(4)};
+						return new Object[]{readUInt8(), readBytes(4)};
 					case FIXEXT8:
-						return new Object[]{Integer.valueOf(readUInt8()),
-							readBytes(8)};
+						return new Object[]{readUInt8(), readBytes(8)};
 					case FIXEXT16:
-						return new Object[]{Integer.valueOf(readUInt8()),
-							readBytes(16)};
+						return new Object[]{readUInt8(), readBytes(16)};
 					case ARRAY16:
 						return getArray(readUnsignedShort());
 					case ARRAY32:
@@ -186,25 +162,25 @@ public class MessagePackReader {
 				if (array == null) {
 					switch (b) {
 						case FLOAT32:
-							return Float.valueOf(readFloat());
+							return readFloat();
 						case FLOAT64:
 							return readDouble();
 						case UINT8:
-							return Integer.valueOf(readUInt8());
+							return readUInt8();
 						case UINT16:
-							return Integer.valueOf(readUnsignedShort());
+							return readUnsignedShort();
 						case UINT32:
-							return Integer.valueOf(readInt()); // should be unsigned int
+							return readInt(); // should be unsigned int
 						case UINT64:
-							return Long.valueOf(readLong()); // should be unsigned long; incompatible with JavaScript!
+							return readLong(); // should be unsigned long; incompatible with JavaScript!
 						case INT8:
-							return Integer.valueOf(readByte());
+							return readByte();
 						case INT16:
-							return Integer.valueOf(readShort());
+							return readShort();
 						case INT32:
-							return Integer.valueOf(readInt()); // should be Unsigned Int here
+							return readInt(); // should be Unsigned Int here
 						case INT64:
-							return Long.valueOf(readLong());
+							return readLong();
 						case STR8:
 							return readString(readUInt8());
 						case STR16:
@@ -366,7 +342,7 @@ public class MessagePackReader {
 	}
 
 	private short ioReadShort() throws IOException {
-		return  stream.readShort();
+		return stream.readShort();
 	}
 
 	private int readInt() throws IOException {

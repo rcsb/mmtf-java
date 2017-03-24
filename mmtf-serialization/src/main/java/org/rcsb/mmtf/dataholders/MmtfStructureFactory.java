@@ -6,6 +6,12 @@ import java.util.List;
 import org.rcsb.mmtf.serialization.quickmessagepackdeserialization.ObjectTree;
 
 /**
+ * This class constructs MmtfStructure objects from tree-like structure
+ * containing the data. The general types of the data are converted to proper
+ * type by this class.
+ *
+ * A solution using reflection, such as Jackson, is more elegant, but also
+ * slower.
  *
  * @author Antonin Pavelka
  */
