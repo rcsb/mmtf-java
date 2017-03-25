@@ -13,7 +13,7 @@
 	<groupId>org.rcsb</groupId>
 	<artifactId>mmtf</artifactId>
 	<packaging>pom</packaging>
-	<version>1.0.5-SNAPSHOT</version>
+	<version>1.0.4-SNAPSHOT</version>
 	<name>mmtf</name>
 	<description>MMTF is a compressed, fast and useful format for serving macromolecular data.
     </description>

@@ -26,17 +26,17 @@ import org.unitils.reflectionassert.ReflectionAssert;
  */
 public class MessagePackTest {
 
-	private final int n = 10; // how many structures should be tested
+	private final int n = 10000; // how many structures should be tested
 	private final List<String> testCodes;
 
 	public MessagePackTest() throws IOException {
 		testCodes = getTestCodes();
 	}
 
-	private List<String> getTestCodes() throws IOException {
+	private List<String> getTestCodes() throws IOException {		
 		List<String> result = new ArrayList<>();
 		Random random = new Random();
-		int seed = random.nextInt();
+		int seed = random.nextInt();		
 		System.out.println("Using seed " + seed + " to select " + n + " random "
 			+ "structures for MessagePack testing.");
 		random = new Random(seed);
@@ -82,50 +82,24 @@ public class MessagePackTest {
 		return outputStream.toByteArray();
 	}
 
-	public void mem() {
-		int mb = 1024 * 1024;
-		//Getting the runtime reference from system
-		Runtime runtime = Runtime.getRuntime();
-
-		System.out.println("##### Heap utilization statistics [MB] #####");
-
-		//Print used memory
-		System.out.println("Used Memory:"
-			+ (runtime.totalMemory() - runtime.freeMemory()) / mb);
-
-		//Print free memory
-		System.out.println("Free Memory:"
-			+ runtime.freeMemory() / mb);
-
-		//Print total available memory
-		System.out.println("Total Memory:" + runtime.totalMemory() / mb);
-
-		//Print Maximum available memory
-		System.out.println("Max Memory:" + runtime.maxMemory() / mb);
-
-	}
-
 	@Test
 	public void testByComparisonWithJackson() throws IOException {
 
 		for (String code : testCodes) {
+			try {
+				byte[] zipped = fetchMmtf(code);
+				byte[] bytes = ReaderUtils.deflateGzip(zipped);
 
-			System.out.println();
-			
-			System.out.println("Testing MessagePack parser on " + code);
-			byte[] zipped = fetchMmtf(code);
-			byte[] bytes = ReaderUtils.deflateGzip(zipped);
+				MessagePackSerialization.setJackson(false);
+				StructureDataInterface sdiJmol = parse(bytes);
 
-			MessagePackSerialization.setJackson(false);
-			StructureDataInterface sdiJmol = parse(bytes);
+				MessagePackSerialization.setJackson(true);
+				StructureDataInterface sdiJackson = parse(bytes);
 
-			MessagePackSerialization.setJackson(true);
-			StructureDataInterface sdiJackson = parse(bytes);
-
-			ReflectionAssert.assertReflectionEquals(sdiJackson, sdiJmol);
-			System.out.println("OK");
-			
-			mem();
+				ReflectionAssert.assertReflectionEquals(sdiJackson, sdiJmol);
+			} catch (Exception ex) {
+				throw new RuntimeException(code, ex);
+			}
 		}
 	}
 
