@@ -24,11 +24,11 @@ public class Lines {
 	 * something like project_dir/src/main/resources
 	 *
 	 * @param name Name of the resouce.
-	 * @return List of all lines in the gzipped resouce.
+	 * @return Array containing all lines in the gzipped resouce.
 	 * @throws java.io.IOException
 	 */
-	public static List<String> readResource(String name) throws IOException {
-		URL url = Lines.class.getResource(name);		
+	public static String[] readResource(String name) throws IOException {
+		URL url = Lines.class.getResource(name);
 		try (InputStream is = url.openStream()) {
 			return readLines(is);
 		}
@@ -41,13 +41,13 @@ public class Lines {
 	 * @return List of all lines in the gzipped resouce.
 	 * @throws java.io.IOException
 	 */
-	public static List<String> readFile(File f) throws IOException {
+	public static String[] readFile(File f) throws IOException {
 		try (FileInputStream fis = new FileInputStream(f)) {
 			return readLines(fis);
 		}
 	}
 
-	private static List<String> readLines(InputStream is) throws IOException {
+	private static String[] readLines(InputStream is) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(
 			new GZIPInputStream(is)));
 		List<String> lines = new ArrayList<>();
@@ -55,7 +55,8 @@ public class Lines {
 		while ((line = br.readLine()) != null) {
 			lines.add(line);
 		}
-		return lines;
+		String[] a = lines.toArray(new String[lines.size()]);
+		return a;
 	}
 
 }
