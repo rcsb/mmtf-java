@@ -26,7 +26,7 @@ import org.unitils.reflectionassert.ReflectionAssert;
  */
 public class MessagePackTest {
 
-	private final int n = 10000; // how many structures should be tested
+	private final int n = 10; // how many structures should be tested
 	private final List<String> testCodes;
 
 	public MessagePackTest() throws IOException {
