@@ -54,11 +54,8 @@ public class MessagePackSerialization implements MmtfStructureSerializationInter
 	/**
 	 * Elegant, but slow (comparable to unzipping).
 	 */
-	private MmtfStructure deserializeByJackson(InputStream inputStream)
-		throws IOException {
-		MmtfStructure mmtfBean = null;
-		mmtfBean = objectMapper.readValue(inputStream, MmtfStructure.class);
-		return mmtfBean;
+	private MmtfStructure deserializeByJackson(InputStream inputStream) throws IOException {
+		return objectMapper.readValue(inputStream, MmtfStructure.class);
 	}
 
 	/**

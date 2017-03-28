@@ -25,12 +25,12 @@ import org.unitils.reflectionassert.ReflectionAssert;
  * creation gives identical data.
  *
  */
-public class MessagePackTest {
+public class MessagePackSerializationTest {
 
 	private final int n = 10; // how many structures should be tested
 	private final List<String> testCodes;
 
-	public MessagePackTest() throws IOException {
+	public MessagePackSerializationTest() throws IOException {
 		testCodes = getTestCodes();
 	}
 
