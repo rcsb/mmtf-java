@@ -5,6 +5,7 @@ import static org.junit.Assert.assertNotNull;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.text.ParseException;
 
 import org.junit.Test;
 import org.rcsb.mmtf.dataholders.MmtfStructure;
@@ -24,7 +25,7 @@ public class TestMessagePack {
 	 * Test the deserialize.
 	 */
 	@Test
-	public void testDeserialize() throws IOException {
+	public void testDeserialize() throws ParseException, IOException {
 		MessagePackSerialization mmtfBeanSeDeMessagePackImpl = new MessagePackSerialization();
 		byte[] source = new byte[] {(byte) (char) 129, (byte) (char)162, (byte) (char)100, (byte) (char)111, (byte) (char)1};
 		ByteArrayInputStream bis = new ByteArrayInputStream(source);

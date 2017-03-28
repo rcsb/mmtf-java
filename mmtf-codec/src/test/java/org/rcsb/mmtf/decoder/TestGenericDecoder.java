@@ -7,7 +7,7 @@ import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
-import java.nio.file.Paths;
+import java.text.ParseException;
 
 import org.junit.Test;
 import org.rcsb.mmtf.codec.Utils;
@@ -30,11 +30,13 @@ public class TestGenericDecoder {
 	 * @throws IllegalAccessException  an error with introspection
 	 */
 	@Test
-	public void testDecodeAllFields() throws IOException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, IntrospectionException {
+	public void testDecodeAllFields() throws IOException, ParseException, IllegalAccessException,
+		IllegalArgumentException, InvocationTargetException, IntrospectionException {
 		ClassLoader classLoader = getClass().getClassLoader();
 		MmtfStructure mmtfBean = ReaderUtils.getDataFromFile(Utils.getResource("/mmtf/4cup.mmtf"));
 		GenericDecoder genericDecoder = new GenericDecoder(mmtfBean);
-		ReflectionAssert.assertPropertiesNotNull("Some properties null after decoding", genericDecoder);
+		ReflectionAssert.assertPropertiesNotNull("Some properties null after decoding", 
+			genericDecoder);
 		for(PropertyDescriptor propertyDescriptor : 
 			Introspector.getBeanInfo(MmtfStructure.class).getPropertyDescriptors()){
 			assertNotNull(propertyDescriptor.getReadMethod().invoke(mmtfBean));

@@ -8,7 +8,7 @@ import java.beans.PropertyDescriptor;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.text.ParseException;
 
 import org.junit.Test;
 import org.rcsb.mmtf.api.StructureDataInterface;
@@ -29,7 +29,7 @@ public class TestReducedEncoder {
 	 * @throws IOException error reading the file from the resource
 	 */
 	@Test
-	public void testReducedRoundTrip() throws IOException {
+	public void testReducedRoundTrip() throws IOException, ParseException {
 		StructureDataInterface structureDataInterface = ReducedEncoder.getReduced(getDefaultFullData());
 		testStructDataInterface(structureDataInterface);
 		Utils.compare(structureDataInterface);
@@ -40,7 +40,7 @@ public class TestReducedEncoder {
 	 * @throws IOException error reading the file from the resource
 	 */
 	@Test
-	public void testReducedData() throws IOException {
+	public void testReducedData() throws IOException, ParseException {
 		StructureDataInterface full = getDefaultFullData();
 		StructureDataInterface reduced = ReducedEncoder.getReduced(full);
 		// Check that the chain names are the same
@@ -110,7 +110,7 @@ public class TestReducedEncoder {
 	 * @return a {@link StructureDataInterface} for the full data.
 	 * @throws IOException
 	 */
-	private StructureDataInterface getDefaultFullData() throws IOException {
+	private StructureDataInterface getDefaultFullData() throws IOException, ParseException {
 		Path p = Utils.getResource("/mmtf/4cup.mmtf");
 		return new GenericDecoder(ReaderUtils.getDataFromFile(p));
 	}

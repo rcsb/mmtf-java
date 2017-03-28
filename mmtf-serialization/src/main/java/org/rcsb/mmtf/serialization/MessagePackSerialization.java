@@ -10,14 +10,14 @@ import org.rcsb.mmtf.dataholders.MmtfStructure;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.DataInputStream;
+import java.text.ParseException;
 import java.util.Map;
 import org.rcsb.mmtf.dataholders.MmtfStructureFactory;
 import org.rcsb.mmtf.serialization.quickmessagepackdeserialization.MessagePackReader;
 import org.rcsb.mmtf.serialization.quickmessagepackdeserialization.ObjectTree;
 
 /**
- * A message pack implementation of the {@link MmtfStructure} serializer /
- * deserializer.
+ * A message pack implementation of the {@link MmtfStructure} serializer / deserializer.
  *
  * @author Anthony Bradley
  * @author Antonin Pavelka
@@ -29,8 +29,8 @@ public class MessagePackSerialization implements MmtfStructureSerializationInter
 	private static boolean useJackson = false;
 
 	/**
-	 * Constructor for the {@link MessagePackSerialization} class. Generates
-	 * {@link ObjectMapper} and sets to include non-null.
+	 * Constructor for the {@link MessagePackSerialization} class. Generates {@link ObjectMapper}
+	 * and sets to include non-null.
 	 */
 	public MessagePackSerialization() {
 		objectMapper = new ObjectMapper(new MessagePackFactory());
@@ -43,7 +43,7 @@ public class MessagePackSerialization implements MmtfStructureSerializationInter
 
 	@Override
 	public MmtfStructure deserialize(InputStream inputStream)
-		throws IOException {
+		throws ParseException, IOException {
 		if (useJackson) {
 			return deserializeByJackson(inputStream);
 		} else {
@@ -65,17 +65,12 @@ public class MessagePackSerialization implements MmtfStructureSerializationInter
 	 * Several times faster.
 	 */
 	private MmtfStructure deserializeQuick(InputStream inputStream)
-		throws IOException {
-		try {
-			MessagePackReader mpr = new MessagePackReader(
-				new DataInputStream(inputStream), true);
-			Map<String, Object> map = mpr.readMap();
-			MmtfStructureFactory f = new MmtfStructureFactory();
-			MmtfStructure s = f.create(new ObjectTree(map));
-			return s;
-		} catch (Exception e) {
-			throw new IOException(e);
-		}
+		throws ParseException, IOException {
+		MessagePackReader mpr = new MessagePackReader(new DataInputStream(inputStream), true);
+		Map<String, Object> map = mpr.readMap();
+		MmtfStructureFactory f = new MmtfStructureFactory();
+		MmtfStructure s = f.create(new ObjectTree(map));
+		return s;
 	}
 
 	@Override

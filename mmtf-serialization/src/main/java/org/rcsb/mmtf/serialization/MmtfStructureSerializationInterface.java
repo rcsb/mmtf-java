@@ -3,6 +3,7 @@ package org.rcsb.mmtf.serialization;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.text.ParseException;
 
 import org.rcsb.mmtf.dataholders.MmtfStructure;
 
@@ -31,6 +32,6 @@ public interface MmtfStructureSerializationInterface {
 	 * @return the compressed structure data.
 	 */
 	public MmtfStructure deserialize(InputStream inputStream)
-		throws IOException;
+		throws ParseException, IOException;
 
 }

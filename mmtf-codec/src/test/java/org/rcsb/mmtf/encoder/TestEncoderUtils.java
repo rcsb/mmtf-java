@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 
 import java.io.IOException;
 import java.nio.file.Path;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -100,7 +101,7 @@ public class TestEncoderUtils {
 	 * @throws java.io.IOException
 	 */
 	@Test
-	public void testGetEntityType() throws IOException {
+	public void testGetEntityType() throws IOException, ParseException {
 		StructureDataInterface structureDataInterface = getDefaultFullData();
 		assertEquals(EncoderUtils.getTypeFromChainId(structureDataInterface, 0), "polymer");
 		assertEquals(EncoderUtils.getTypeFromChainId(structureDataInterface, 1), "non-polymer");
@@ -115,7 +116,7 @@ public class TestEncoderUtils {
 	 * @throws java.io.IOException
 	 */
 	@Test
-	public void testGenerateEntityList() throws IOException {
+	public void testGenerateEntityList() throws IOException, ParseException {
 		StructureDataInterface structureDataInterface = getDefaultFullData();
 		Entity[] entities = EncoderUtils.generateEntityList(structureDataInterface);
 		assertEquals(entities.length, 4);
@@ -146,7 +147,7 @@ public class TestEncoderUtils {
 	 * @throws java.io.IOException
 	 */
 	@Test
-	public void testGenerateGroupMap() throws IOException {
+	public void testGenerateGroupMap() throws IOException, ParseException {
 		StructureDataInterface structureDataInterface = getDefaultFullData();
 		Group[] groupList = EncoderUtils.generateGroupList(structureDataInterface);
 		assertEquals(groupList.length, 29);
@@ -157,7 +158,7 @@ public class TestEncoderUtils {
 	 *
 	 * @return a {@link StructureDataInterface} for the full data.
 	 */
-	private StructureDataInterface getDefaultFullData() throws IOException {
+	private StructureDataInterface getDefaultFullData() throws IOException, ParseException {
 		Path inFile = Utils.getResource("/mmtf/4cup.mmtf");
 		return new GenericDecoder(ReaderUtils.getDataFromFile(inFile));
 	}

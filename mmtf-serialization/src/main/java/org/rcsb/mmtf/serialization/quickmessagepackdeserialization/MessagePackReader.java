@@ -2,19 +2,18 @@ package org.rcsb.mmtf.serialization.quickmessagepackdeserialization;
 
 import java.io.DataInputStream;
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.Hashtable;
 import java.util.Map;
 
 /**
  * A simple MessagePack reader. Adopted from Jmol code:
- * https://github.com/msgpack/msgpack/blob/master/spec.md with very few
- * dependencies. In contrast to original implementation, float64 is interpreted
- * as double.
+ * https://github.com/msgpack/msgpack/blob/master/spec.md with very few dependencies. In contrast to
+ * original implementation, float64 is interpreted as double.
  *
  * Nuances:
  *
- * Does not implement unsigned int32 or int64 (delivers simple integers in all
- * cases).
+ * Does not implement unsigned int32 or int64 (delivers simple integers in all cases).
  *
  * Note:
  *
@@ -80,11 +79,12 @@ public class MessagePackReader {
 		this.stream = dis;
 	}
 
-	public Map<String, Object> readMap() throws Exception {
+	public Map<String, Object> readMap() throws ParseException, IOException {
 		return (Map<String, Object>) getNext(null, 0);
 	}
 
-	private Object getNext(Object array, int pt) throws Exception {
+	private Object getNext(Object array, int pt)
+		throws ParseException, IOException {
 		int b = readByte() & 0xFF;
 		int be0 = b & 0xE0;
 		if ((b & POSITIVEFIXINT_x80) == 0) {
@@ -235,7 +235,7 @@ public class MessagePackReader {
 		return null;
 	}
 
-	private Object getArray(int n) throws Exception {
+	private Object getArray(int n) throws ParseException, IOException {
 		if (isHomo) {
 			if (n == 0) {
 				return null;
@@ -277,7 +277,7 @@ public class MessagePackReader {
 		return o;
 	}
 
-	private Object getMap(int n) throws Exception {
+	private Object getMap(int n) throws ParseException, IOException {
 		Map<String, Object> map = new Hashtable<String, Object>();
 		for (int i = 0; i < n; i++) {
 			String key = getNext(null, 0).toString();
@@ -382,7 +382,7 @@ public class MessagePackReader {
 		return bytesToInt(t8, 0, false);
 	}
 
-	private float readFloat() throws Exception {
+	private float readFloat() throws ParseException, IOException {
 		return intToFloat(readInt());
 	}
 
@@ -414,12 +414,11 @@ public class MessagePackReader {
 			| (bytes[j++] & 0xff) << 16 | (bytes[j++] & 0xff) << 24);
 	}
 
-	private static float intToFloat(int x) throws Exception {
+	private static float intToFloat(int x) throws ParseException {
 		/**
 		 * see http://en.wikipedia.org/wiki/Binary32
 		 *
-		 * [sign] [8 bits power] [23 bits fraction] 0x80000000 0x7F800000
-		 * 0x7FFFFF
+		 * [sign] [8 bits power] [23 bits fraction] 0x80000000 0x7F800000 0x7FFFFF
 		 *
 		 * (untested)
 		 *

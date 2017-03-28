@@ -6,6 +6,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -62,7 +63,7 @@ public class MessagePackTest {
 	/**
 	 * Decodes the MMTF from the MessagePack data.
 	 */
-	private StructureDataInterface parse(byte[] bytes) throws IOException {
+	private StructureDataInterface parse(byte[] bytes) throws IOException, ParseException {
 		MmtfStructure mmtf = ReaderUtils.getDataFromInputStream(
 			new ByteArrayInputStream(bytes));
 		GenericDecoder gd = new GenericDecoder(mmtf);
