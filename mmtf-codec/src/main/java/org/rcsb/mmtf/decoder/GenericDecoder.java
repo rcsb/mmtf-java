@@ -73,6 +73,10 @@ public class GenericDecoder  implements StructureDataInterface {
 		numGroups = inputData.getNumGroups();
 		numChains = inputData.getNumChains();
 		numModels = inputData.getNumModels();
+		numIntergroupBonds = interGroupBondOrders.length;
+		for(int groupIndex : groupList) {
+			numIntergroupBonds += groupMap[groupIndex].getBondOrderList().length;
+		}
 		ncsOperMatrixList = inputData.getNcsOperatorList();
 	}
 
@@ -182,6 +186,8 @@ public class GenericDecoder  implements StructureDataInterface {
 	private int numChains;
 	
 	private int numGroups;
+
+	private int numIntergroupBonds;
 	
 	private double[][] ncsOperMatrixList;
 
@@ -451,11 +457,7 @@ public class GenericDecoder  implements StructureDataInterface {
 	}
 
 	@Override
-	public int getNumBonds() {
-		int numIntergroupBonds = interGroupBondOrders.length;
-		for(int groupIndex : groupList) {
-			numIntergroupBonds+=groupMap[groupIndex].getBondOrderList().length;
-		}
+	public int getNumBonds() {		
 		return numIntergroupBonds;
 	}
 
