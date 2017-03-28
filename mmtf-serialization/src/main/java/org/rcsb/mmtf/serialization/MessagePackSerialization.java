@@ -10,7 +10,6 @@ import org.rcsb.mmtf.dataholders.MmtfStructure;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.DataInputStream;
-import java.text.ParseException;
 import java.util.Map;
 import org.rcsb.mmtf.dataholders.MmtfStructureFactory;
 import org.rcsb.mmtf.serialization.quickmessagepackdeserialization.MessagePackReader;
@@ -43,7 +42,7 @@ public class MessagePackSerialization implements MmtfStructureSerializationInter
 
 	@Override
 	public MmtfStructure deserialize(InputStream inputStream)
-		throws ParseException, IOException {
+		throws IOException {
 		if (useJackson) {
 			return deserializeByJackson(inputStream);
 		} else {
@@ -62,7 +61,7 @@ public class MessagePackSerialization implements MmtfStructureSerializationInter
 	 * Several times faster.
 	 */
 	private MmtfStructure deserializeQuick(InputStream inputStream)
-		throws ParseException, IOException {
+		throws IOException {
 		MessagePackReader mpr = new MessagePackReader(new DataInputStream(inputStream), true);
 		Map<String, Object> map = mpr.readMap();
 		MmtfStructureFactory f = new MmtfStructureFactory();
