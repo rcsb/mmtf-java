@@ -28,7 +28,7 @@ public class ObjectTree {
 		return root.get(s);
 	}
 
-	public String s(String s) {
+	public String getString(String s) {
 		Object o = root.get(s);
 		if (o == null) {
 			return "";
@@ -37,7 +37,7 @@ public class ObjectTree {
 		}
 	}
 
-	public int i(String s) {
+	public int getInt(String s) {
 		Object o = root.get(s);
 		if (o == null) {
 			return 0;
@@ -46,7 +46,7 @@ public class ObjectTree {
 		}
 	}
 
-	public float f(String s) {
+	public float getFloat(String s) {
 		Object o = root.get(s);
 		if (o == null) {
 			return 0;
@@ -55,7 +55,7 @@ public class ObjectTree {
 		}
 	}
 
-	public byte[] ba(String s) {
+	public byte[] getByteArray(String s) {
 		Object o = root.get(s);
 		if (o == null) {
 			return new byte[0];
@@ -64,7 +64,7 @@ public class ObjectTree {
 		}
 	}
 
-	public int[] ia(String s) {
+	public int[] getIntArray(String s) {
 		Object o = root.get(s);
 		if (o == null) {
 			return new int[0];
@@ -73,15 +73,15 @@ public class ObjectTree {
 		}
 	}
 
-	public float[] fa(String s) {
+	public float[] getFloatArray(String s) {
 		return (float[]) root.get(s);
 	}
 
-	public double[] da(String s) {
+	public double[] getDoubleArray(String s) {
 		return (double[]) root.get(s);
 	}
 
-	public double[][] daa(String s) {
+	public double[][] getDoubleArray2d(String s) {
 		Object o = root.get(s);
 		double[][] aa;
 		if (o == null) {
@@ -96,7 +96,7 @@ public class ObjectTree {
 		return aa;
 	}
 
-	public char c(String s) {
+	public char getChar(String s) {
 		Object o = root.get(s);
 		if (o == null) {
 			return 0;
@@ -105,11 +105,11 @@ public class ObjectTree {
 		}
 	}
 
-	public String[] sa(String s) {
+	public String[] getStringArray(String s) {
 		return (String[]) root.get(s);
 	}
 
-	public Object[] oa(String s) {
+	public Object[] getObjectArray(String s) {
 		Object o = root.get(s);
 		if (o == null) {
 			return new Object[0];

@@ -19,45 +19,45 @@ public class MmtfStructureFactory {
 
 	public MmtfStructure create(ObjectTree tree) {
 		MmtfStructure s = new MmtfStructure();
-		s.setxCoordList(tree.ba("xCoordList"));
-		s.setyCoordList(tree.ba("yCoordList"));
-		s.setzCoordList(tree.ba("zCoordList"));
-		s.setbFactorList(tree.ba("bFactorList"));
-		s.setOccupancyList(tree.ba("occupancyList"));
-		s.setNumAtoms(tree.i("numAtoms"));
-		s.setAtomIdList(tree.ba("atomIdList"));
-		s.setAltLocList(tree.ba("altLocList"));
-		s.setInsCodeList(tree.ba("insCodeList"));
-		s.setGroupIdList(tree.ba("groupIdList"));
-		s.setGroupList(createGroupList(tree.oa("groupList")));
-		s.setSequenceIndexList(tree.ba("sequenceIndexList"));
-		s.setGroupTypeList(tree.ba("groupTypeList"));
-		s.setChainNameList(tree.ba("chainNameList"));
-		s.setChainIdList(tree.ba("chainIdList"));
-		s.setNumBonds(tree.i("numBonds"));
-		s.setBondAtomList(tree.ba("bondAtomList"));
-		s.setBondOrderList(tree.ba("bondOrderList"));
-		s.setSecStructList(tree.ba("secStructList"));
-		s.setChainsPerModel(tree.ia("chainsPerModel"));
-		s.setGroupsPerChain(tree.ia("groupsPerChain"));
-		s.setSpaceGroup(tree.s("spaceGroup"));
-		s.setUnitCell(tree.fa("unitCell"));
-		s.setBioAssemblyList(createBioAssemblyList(tree.oa("bioAssemblyList")));
-		s.setMmtfVersion(tree.s("mmtfVersion"));
-		s.setMmtfProducer(tree.s("mmtfProducer"));
-		s.setEntityList(createEntityList(tree.oa("entityList")));
-		s.setStructureId(tree.s("structureId"));
-		s.setrFree(tree.f("rFree"));
-		s.setrWork(tree.f("rWork"));
-		s.setResolution(tree.f("resolution"));
-		s.setTitle(tree.s("title"));
-		s.setExperimentalMethods(tree.sa("experimentalMethods"));
-		s.setDepositionDate(tree.s("depositionDate"));
-		s.setReleaseDate(tree.s("releaseDate"));
-		s.setNumGroups(tree.i("numGroups"));
-		s.setNumChains(tree.i("numChains"));
-		s.setNumModels(tree.i("numModels"));
-		s.setNcsOperatorList(tree.daa("ncsOperatorList"));
+		s.setxCoordList(tree.getByteArray("xCoordList"));
+		s.setyCoordList(tree.getByteArray("yCoordList"));
+		s.setzCoordList(tree.getByteArray("zCoordList"));
+		s.setbFactorList(tree.getByteArray("bFactorList"));
+		s.setOccupancyList(tree.getByteArray("occupancyList"));
+		s.setNumAtoms(tree.getInt("numAtoms"));
+		s.setAtomIdList(tree.getByteArray("atomIdList"));
+		s.setAltLocList(tree.getByteArray("altLocList"));
+		s.setInsCodeList(tree.getByteArray("insCodeList"));
+		s.setGroupIdList(tree.getByteArray("groupIdList"));
+		s.setGroupList(createGroupList(tree.getObjectArray("groupList")));
+		s.setSequenceIndexList(tree.getByteArray("sequenceIndexList"));
+		s.setGroupTypeList(tree.getByteArray("groupTypeList"));
+		s.setChainNameList(tree.getByteArray("chainNameList"));
+		s.setChainIdList(tree.getByteArray("chainIdList"));
+		s.setNumBonds(tree.getInt("numBonds"));
+		s.setBondAtomList(tree.getByteArray("bondAtomList"));
+		s.setBondOrderList(tree.getByteArray("bondOrderList"));
+		s.setSecStructList(tree.getByteArray("secStructList"));
+		s.setChainsPerModel(tree.getIntArray("chainsPerModel"));
+		s.setGroupsPerChain(tree.getIntArray("groupsPerChain"));
+		s.setSpaceGroup(tree.getString("spaceGroup"));
+		s.setUnitCell(tree.getFloatArray("unitCell"));
+		s.setBioAssemblyList(createBioAssemblyList(tree.getObjectArray("bioAssemblyList")));
+		s.setMmtfVersion(tree.getString("mmtfVersion"));
+		s.setMmtfProducer(tree.getString("mmtfProducer"));
+		s.setEntityList(createEntityList(tree.getObjectArray("entityList")));
+		s.setStructureId(tree.getString("structureId"));
+		s.setrFree(tree.getFloat("rFree"));
+		s.setrWork(tree.getFloat("rWork"));
+		s.setResolution(tree.getFloat("resolution"));
+		s.setTitle(tree.getString("title"));
+		s.setExperimentalMethods(tree.getStringArray("experimentalMethods"));
+		s.setDepositionDate(tree.getString("depositionDate"));
+		s.setReleaseDate(tree.getString("releaseDate"));
+		s.setNumGroups(tree.getInt("numGroups"));
+		s.setNumChains(tree.getInt("numChains"));
+		s.setNumModels(tree.getInt("numModels"));
+		s.setNcsOperatorList(tree.getDoubleArray2d("ncsOperatorList"));
 		return s;
 	}
 
@@ -72,14 +72,14 @@ public class MmtfStructureFactory {
 	private Group createGroup(Object o) {
 		ObjectTree t = new ObjectTree((Hashtable<String, Object>) o);
 		Group g = new Group();
-		g.setGroupName(t.s("groupName"));
-		g.setAtomNameList(t.sa("atomNameList"));
-		g.setElementList(t.sa("elementList"));
-		g.setBondOrderList(t.ia("bondOrderList"));
-		g.setBondAtomList(t.ia("bondAtomList"));
-		g.setFormalChargeList(t.ia("formalChargeList"));
-		g.setSingleLetterCode(t.s("singleLetterCode").charAt(0));
-		g.setChemCompType(t.s("chemCompType"));
+		g.setGroupName(t.getString("groupName"));
+		g.setAtomNameList(t.getStringArray("atomNameList"));
+		g.setElementList(t.getStringArray("elementList"));
+		g.setBondOrderList(t.getIntArray("bondOrderList"));
+		g.setBondAtomList(t.getIntArray("bondAtomList"));
+		g.setFormalChargeList(t.getIntArray("formalChargeList"));
+		g.setSingleLetterCode(t.getString("singleLetterCode").charAt(0));
+		g.setChemCompType(t.getString("chemCompType"));
 		return g;
 	}
 
@@ -94,9 +94,9 @@ public class MmtfStructureFactory {
 	private BioAssemblyData createBioAssemblyData(Object o) {
 		ObjectTree t = new ObjectTree((Hashtable<String, Object>) o);
 		BioAssemblyData data = new BioAssemblyData();
-		data.setName(t.s("name"));
+		data.setName(t.getString("name"));
 		List<BioAssemblyTransformation> ts = new ArrayList<>();
-		Object[] tls = t.oa("transformList");
+		Object[] tls = t.getObjectArray("transformList");
 		for (Object tl : tls) {
 			ts.add(createBioAssemblyTransformation(tl));
 		}
@@ -107,8 +107,8 @@ public class MmtfStructureFactory {
 	private BioAssemblyTransformation createBioAssemblyTransformation(Object o) {
 		ObjectTree t = new ObjectTree((Hashtable<String, Object>) o);
 		BioAssemblyTransformation bat = new BioAssemblyTransformation();
-		bat.setChainIndexList(t.ia("chainIndexList"));
-		double[] ds = t.da("matrix");
+		bat.setChainIndexList(t.getIntArray("chainIndexList"));
+		double[] ds = t.getDoubleArray("matrix");
 		bat.setMatrix(ds);
 		return bat;
 	}
@@ -124,10 +124,10 @@ public class MmtfStructureFactory {
 	private Entity createEntity(Object o) {
 		ObjectTree t = new ObjectTree((Hashtable<String, Object>) o);
 		Entity e = new Entity();
-		e.setChainIndexList(t.ia("chainIndexList"));
-		e.setDescription(t.s("description"));
-		e.setSequence(t.s("sequence"));
-		e.setType(t.s("type"));
+		e.setChainIndexList(t.getIntArray("chainIndexList"));
+		e.setDescription(t.getString("description"));
+		e.setSequence(t.getString("sequence"));
+		e.setType(t.getString("type"));
 		return e;
 	}
 
