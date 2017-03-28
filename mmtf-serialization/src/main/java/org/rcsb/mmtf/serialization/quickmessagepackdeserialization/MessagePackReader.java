@@ -2,7 +2,6 @@ package org.rcsb.mmtf.serialization.quickmessagepackdeserialization;
 
 import java.io.DataInputStream;
 import java.io.IOException;
-import java.text.ParseException;
 import java.util.Hashtable;
 import java.util.Map;
 
@@ -79,12 +78,12 @@ public class MessagePackReader {
 		this.stream = dis;
 	}
 
-	public Map<String, Object> readMap() throws ParseException, IOException {
+	public Map<String, Object> readMap() throws IOException {
 		return (Map<String, Object>) getNext(null, 0);
 	}
 
 	private Object getNext(Object array, int pt)
-		throws ParseException, IOException {
+		throws IOException {
 		int b = readByte() & 0xFF;
 		int be0 = b & 0xE0;
 		if ((b & POSITIVEFIXINT_x80) == 0) {
@@ -235,7 +234,7 @@ public class MessagePackReader {
 		return null;
 	}
 
-	private Object getArray(int n) throws ParseException, IOException {
+	private Object getArray(int n) throws IOException {
 		if (isHomo) {
 			if (n == 0) {
 				return null;
@@ -277,7 +276,7 @@ public class MessagePackReader {
 		return o;
 	}
 
-	private Object getMap(int n) throws ParseException, IOException {
+	private Object getMap(int n) throws IOException {
 		Map<String, Object> map = new Hashtable<String, Object>();
 		for (int i = 0; i < n; i++) {
 			String key = getNext(null, 0).toString();
@@ -382,7 +381,7 @@ public class MessagePackReader {
 		return bytesToInt(t8, 0, false);
 	}
 
-	private float readFloat() throws ParseException, IOException {
+	private float readFloat() throws IOException {
 		return intToFloat(readInt());
 	}
 
@@ -414,7 +413,7 @@ public class MessagePackReader {
 			| (bytes[j++] & 0xff) << 16 | (bytes[j++] & 0xff) << 24);
 	}
 
-	private static float intToFloat(int x) throws ParseException {
+	private static float intToFloat(int x) {
 		/**
 		 * see http://en.wikipedia.org/wiki/Binary32
 		 *
