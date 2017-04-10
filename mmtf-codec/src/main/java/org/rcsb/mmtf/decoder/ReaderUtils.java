@@ -35,7 +35,6 @@ public class ReaderUtils {
 	 * @throws IOException if the data cannot be read from the URL
 	 */
 	public static MmtfStructure getDataFromUrl(String pdbId) throws IOException {
-		System.out.println("Getting: " + pdbId);
 	    return getDataFromUrl(pdbId, false, false);
 	}
 
