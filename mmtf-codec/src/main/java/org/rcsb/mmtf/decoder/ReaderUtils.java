@@ -163,13 +163,4 @@ public class ReaderUtils {
 		return mmtfBeanSeDeMessagePackImpl.deserialize(inStream);
 	}
 
-	/**
-	 * Get the URL to return a given PDB id
-	 *
-	 * @param pdbId the input PDB id
-	 * @return the URL {@link String} to get data from
-	 */
-	public static String getUrl(String pdbId) {
-		return CodecUtils.BASE_URL + pdbId;
-	}
 }

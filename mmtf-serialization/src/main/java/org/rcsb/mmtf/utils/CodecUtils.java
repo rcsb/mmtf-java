@@ -4,16 +4,11 @@ import java.util.List;
 
 /**
  * A utility class of static methods and constants
- * for the codec project.
  * @author Anthony Bradley
  *
  */
 public class CodecUtils {
-	
-	
-	/** The base url for this version of MMTF. */
-	public static final String BASE_URL = "http://mmtf.rcsb.org/v1.0/full/";
-	
+
 	/**
 	 * Path to MMTF files compatible with MMTF Specification version 1.0
 	 */
@@ -26,9 +21,9 @@ public class CodecUtils {
 	 * Returns the RESTful URL to an MMTF encoded PDB entry. This methods support http and https protocols and two MMTF representations: full and reduced.
 	 * reduced: C-alpha atoms for polypeptides, P for polynucleotides, and all atom for all other groups (residues) at 0.1 A coordinate precision;
 	 * full: all atoms at 0.001 A coordinate precision
-	 * @param pdbId PDB Id to 
+	 * @param pdbId PDB Id
 	 * @param https if true, use HTTPS instead of HTTP
-	 * @param reduced if true, use reduced version of MMTF file instead of full version
+	 * @param reduced if true, use reduced representation of MMTF file instead of full representation
 	 * @return
 	 */
 	public static String getMmtfEntryUrl(String pdbId, boolean https, boolean reduced) {
@@ -36,7 +31,7 @@ public class CodecUtils {
 	}
 
 	/**
-	 * Returns the base URL to retrieve MMTF files 
+	 * Returns the base URL to retrieve MMTF files.
 	 * @param https if true, returns https URL, otherwise http URL
 	 * @param reduced if true, returns URL to 
 	 * reduced MMTF files (C-alpha: polypeptides, P polynucleotides, all other groups: all atom, limited precision), 
