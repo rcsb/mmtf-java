@@ -87,5 +87,61 @@ public class TestReaderUtils {
 		MmtfStructure mmtfBean = ReaderUtils.getDataFromFile(Utils.getResource("/mmtf/4cup.mmtf"));
 		assertNotEquals(mmtfBean, null);
 		assertEquals(mmtfBean.getDepositionDate(), "2014-03-21");
+		assertEquals(mmtfBean.getNumAtoms(), 1107);
+		assertEquals(mmtfBean.getNumBonds(), 978);
+	}
+	
+	/**
+	 * Test that we can read an mmtf file from the MMTF web server
+	 * @throws IOException error accessing the data
+	 */
+	@Test 
+	public void testReadFromUrl() throws IOException, ParseException {
+		MmtfStructure mmtfBean = ReaderUtils.getDataFromUrl("4cup");
+		assertNotEquals(mmtfBean, null);
+		assertEquals(mmtfBean.getDepositionDate(), "2014-03-21");
+		assertEquals(mmtfBean.getNumAtoms(), 1107);
+		assertEquals(mmtfBean.getNumBonds(), 978);
+	}
+	
+	/**
+	 * Test that we can read an mmtf file from the MMTF web server using HTTPS
+	 * @throws IOException error accessing the data
+	 */
+	@Test 
+	public void testReadFromHttpsUrl() throws IOException, ParseException {
+		MmtfStructure mmtfBean = ReaderUtils.getDataFromUrl("4cup", true, false);
+		assertNotEquals(mmtfBean, null);
+		assertEquals(mmtfBean.getDepositionDate(), "2014-03-21");
+		assertEquals(mmtfBean.getNumAtoms(), 1107);
+		assertEquals(mmtfBean.getNumBonds(), 978);
+	}
+	
+	/**
+	 * Test that we can read a reduced mmtf file from the MMTF web server using HTTP
+	 * @throws IOException error accessing the data
+	 */
+	@Test 
+	public void testReadFromReducedUrl() throws IOException, ParseException {
+		MmtfStructure mmtfBean = ReaderUtils.getDataFromUrl("4cup", true, true);
+		assertNotEquals(mmtfBean, null);
+		assertEquals(mmtfBean.getDepositionDate(), "2014-03-21");
+		// Actual number of atoms is 24 ligand atoms + 115 CA = 139 atoms. 
+		// Problem: residue A1945 has two alternate locations for the side chain, however, there is only 1 CA location. 
+		assertEquals(mmtfBean.getNumAtoms(), 140);
+		assertEquals(mmtfBean.getNumBonds(), 21);
+	}
+	
+	/**
+	 * Test that we can read a reduced mmtf file from the MMTF web server using HTTPS
+	 * @throws IOException error accessing the data
+	 */
+	@Test 
+	public void testReadFromReducedHttpsUrl() throws IOException, ParseException {
+		MmtfStructure mmtfBean = ReaderUtils.getDataFromUrl("4cup", true, true);
+		assertNotEquals(mmtfBean, null);
+		assertEquals(mmtfBean.getDepositionDate(), "2014-03-21");
+		assertEquals(mmtfBean.getNumAtoms(), 140); 
+		assertEquals(mmtfBean.getNumBonds(), 21);
 	}
 }

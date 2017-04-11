@@ -14,7 +14,7 @@ import org.rcsb.mmtf.serialization.MessagePackSerialization;
 import org.rcsb.mmtf.utils.CodecUtils;
 
 /**
- * A class of static utility methods for reading data.
+ * This class provides methods to retrieve and decode MMTF data from the MMTF server and MMTF files. 
  *
  * @author Anthony Bradley
  *
@@ -26,35 +26,66 @@ public class ReaderUtils {
 	 */
 	private static final int BYTE_BUFFER_CHUNK_SIZE = 4096;
 
+	
 	/**
-	 * Find the message pack byte array from the web using the input code and a base url. Caches the
-	 * file if possible.
+	 * Returns a full (atom atom) MmmtfStructure given a PDB Id from the MMTF web server using HTTP.
 	 *
-	 * @param pdbCode the pdb code for the desired structure.
-	 * @return the MMTFBean of the deserialized data
+	 * @param pdbId the pdb code for the desired structure.
+	 * @return MmtfStructure containing the decoded structure
 	 * @throws IOException if the data cannot be read from the URL
 	 */
-	public static MmtfStructure getDataFromUrl(String pdbCode)
+	public static MmtfStructure getDataFromUrl(String pdbId) throws IOException {
+	    return getDataFromUrl(pdbId, false, false);
+	}
+
+	/**
+	 * Returns an MmmtfStructure given a PDB Id from the MMTF web server. 
+	 * It requests, gets, decompresses, deserializes and decodes the message pack byte array from the MMTF web server.
+	 * This methods support http and https protocols and two MMTF representations: full and reduced.
+	 * reduced: C-alpha atoms for polypeptides, P for polynucleotides, and all atom for all other groups (residues) at 0.1 A coordinate precision;
+	 * full: all atoms at 0.001 A coordinate precision
+	 *
+	 * @param pdbId the pdb code for the desired structure.
+	 * @return decoded MmmtfStructure
+	 * @throws IOException if the data cannot be read from the URL
+	 */
+	public static MmtfStructure getDataFromUrl(String pdbId, boolean https, boolean reduced)
 		throws IOException {
 		// Get these as an inputstream
-		byte[] bytes = getByteArrayFromUrl(pdbCode);
+		byte[] bytes = getByteArrayFromUrl(pdbId, https, reduced);
 		// Now return the gzip deflated and deserialized byte array
 		MessagePackSerialization mmtfBeanSeDeMessagePackImpl
 			= new MessagePackSerialization();
 		return mmtfBeanSeDeMessagePackImpl.deserialize(new ByteArrayInputStream(
 			deflateGzip(bytes)));
 	}
+	
+
 
 	/**
-	 * Get the GZIP compressed and messagepack serialized data from the MMTF servers
+	 * Gets the GZIP compressed and messagepack serialized data from the MMTF servers
 	 *
-	 * @param pdbCode the PDB code for the data required
+	 * @param pdbId the PDB code for the data required
 	 * @return the byte array (GZIP compressed) of the data from the URL
 	 * @throws IOException an error reading the URL
 	 */
-	public static byte[] getByteArrayFromUrl(String pdbCode)
+	public static byte[] getByteArrayFromUrl(String pdbId) throws IOException {
+		return getByteArrayFromUrl(pdbId, false, false);
+	}
+	
+	/**
+	 * Gets the GZIP compressed and messagepack serialized data from the MMTF servers.
+	 * This methods support http and https protocols and two MMTF representations: full and reduced.
+	 * reduced: C-alpha atoms for polypeptides, P for polynucleotides, and all atom for all other groups (residues) at 0.1 A coordinate precision;
+	 * full: all atoms at 0.001 A coordinate precision
+	 *
+	 * @param pdbId the PDB Id to retrieve
+	 * @return the byte array (GZIP compressed) of the data from the URL
+	 * @throws IOException an error reading the URL
+	 */
+	public static byte[] getByteArrayFromUrl(String pdbId, boolean https, boolean reduced)
 		throws IOException {
-		URL url = new URL(getUrl(pdbCode));
+		URL url = new URL(CodecUtils.getMmtfEntryUrl(pdbId, https, reduced));
 		try (InputStream inputStream = url.openStream();
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();) {
 			byte[] byteChunk = new byte[BYTE_BUFFER_CHUNK_SIZE];
@@ -92,7 +123,7 @@ public class ReaderUtils {
 	}
 
 	/**
-	 * A function to get MMTF data from a file path.
+	 * Reads and deserializes an uncompressed MMTF file.
 	 *
 	 * @param filePath the full path of the file to be read
 	 * @return the deserialized {@link MmtfStructure}
@@ -132,13 +163,4 @@ public class ReaderUtils {
 		return mmtfBeanSeDeMessagePackImpl.deserialize(inStream);
 	}
 
-	/**
-	 * Get the URL to return a given PDB id
-	 *
-	 * @param pdbId the input PDB id
-	 * @return the URL {@link String} to get data from
-	 */
-	public static String getUrl(String pdbId) {
-		return CodecUtils.BASE_URL + pdbId;
-	}
 }
