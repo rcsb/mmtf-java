@@ -1,5 +1,6 @@
 package org.rcsb.mmtf.encoder;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -19,8 +20,8 @@ import org.rcsb.mmtf.utils.CodecUtils;
  * @author Anthony Bradley
  *
  */
-public class AdapterToStructureData implements StructureDataInterface, StructureAdapterInterface {
-
+public class AdapterToStructureData implements StructureDataInterface, StructureAdapterInterface, Serializable {
+	private static final long serialVersionUID = 4984676010601174880L;
 
 	/** The X coordinates */
 	private float[] cartnX;
