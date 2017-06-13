@@ -1,5 +1,6 @@
 package org.rcsb.mmtf.decoder;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,7 +19,8 @@ import org.rcsb.mmtf.dataholders.MmtfStructure;
  * @author Anthony Bradley
  *
  */
-public class GenericDecoder  implements StructureDataInterface {
+public class GenericDecoder  implements StructureDataInterface, Serializable {
+	private static final long serialVersionUID = 1109812420718081496L;
 
 	/**
 	 * Constructor for the default decoder.

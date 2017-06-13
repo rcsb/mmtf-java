@@ -1,5 +1,7 @@
 package org.rcsb.mmtf.encoder;
 
+import java.io.Serializable;
+
 import org.rcsb.mmtf.api.StructureDataInterface;
 import org.rcsb.mmtf.codec.CharCodecs;
 import org.rcsb.mmtf.codec.FloatCodecs;
@@ -12,9 +14,8 @@ import org.rcsb.mmtf.dataholders.MmtfStructure;
  * @author Anthony Bradley
  *
  */
-public class GenericEncoder implements EncoderInterface {
-	
-	
+public class GenericEncoder implements EncoderInterface, Serializable {
+	private static final long serialVersionUID = 4128892132322015448L;
 	private MmtfStructure mmtfBean;
 	private int coordDivider = MmtfStructure.COORD_DIVIDER;
 	private int bfactorOccDivider = MmtfStructure.OCCUPANCY_BFACTOR_DIVIDER;
