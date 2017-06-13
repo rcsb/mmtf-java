@@ -33,7 +33,7 @@ public class TestGenericDecoder {
 	public void testDecodeAllFields() throws IOException, ParseException, IllegalAccessException,
 		IllegalArgumentException, InvocationTargetException, IntrospectionException {
 		ClassLoader classLoader = getClass().getClassLoader();
-		MmtfStructure mmtfBean = ReaderUtils.getDataFromFile(Utils.getResource("/mmtf/4cup.mmtf"));
+		MmtfStructure mmtfBean = ReaderUtils.getDataFromFile(Utils.getResource("/mmtf/4CUP.mmtf"));
 		GenericDecoder genericDecoder = new GenericDecoder(mmtfBean);
 		ReflectionAssert.assertPropertiesNotNull("Some properties null after decoding", 
 			genericDecoder);

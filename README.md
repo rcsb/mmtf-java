@@ -29,7 +29,7 @@ Quick getting started.
 
 1) Get the data for a PDB structure and print the number of chains:
 ```java
-StructureDataInterface dataInterface = new GenericDecoder(ReaderUtils.getDataFromUrl("4cup"));
+StructureDataInterface dataInterface = new GenericDecoder(ReaderUtils.getDataFromUrl("4CUP"));
 System.out.println("PDB Code: "+dataInterface.getStructureId()+" has "+dataInterface.getNumChains()+" chains");
 ```
 
