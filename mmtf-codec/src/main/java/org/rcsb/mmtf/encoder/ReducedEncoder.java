@@ -237,7 +237,8 @@ public class ReducedEncoder  implements Serializable {
 					atomIndices.add(i);
 				}
 			}
-		} else if (! structure.getGroupName(groupIndex).equals("HOH")){
+		} else if (! structure.getGroupName(groupIndex).equals("HOH")
+				|| structure.getGroupName(groupIndex).equals("DOD")) {
 			// Keep all non-polymer atoms, except for water.
 			// Water should be of type "water", however, a few structures (1ZY8, 2G10, 2Q44, 2Q40)
 			// contain waters as non-polymers. These structures have in common that water has
