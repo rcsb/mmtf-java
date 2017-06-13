@@ -19,10 +19,23 @@ import org.rcsb.mmtf.decoder.ReaderUtils;
 public class TestReducedEncoderComprehensive {
 
 	@Test
+	/**
+	 * Test case documentation:
+	 * See {@linktourl https://github.com/rcsb/mmtf/blob/master/test-suite/file-list.json}
+	 * In addition, 5MNX was added (contains DOD)
+	 * @throws IOException
+	 * @throws ParseException
+	 */
 	public void test() throws IOException, ParseException {
-		StructureDataInterface full = getDefaultFullData();
-		StructureDataInterface reduced = ReducedEncoder.getReduced(getDefaultFullData());
-		compareFullVsReduced(full.getStructureId(), full, reduced);
+		List<String> pdbIds = Arrays.asList("173D","1AA6","1AUY","1BNA","1CAG","1IGT",
+				"1L2Q","1LPV","1MSH","1O2F","1SKM","1O2F","1SKM","3NJW","3ZYB","4CK4",
+				"4CUP", "4OPJ","4P3R","4QXX","4V5A","4Y60","5EMG","5ESW","5MNX");
+		
+		for (String pdbId: pdbIds) {
+			StructureDataInterface full = getDefaultFullData(pdbId);
+			StructureDataInterface reduced = ReducedEncoder.getReduced(getDefaultFullData(pdbId));
+			compareFullVsReduced(full.getStructureId(), full, reduced);
+		}
 	}
 
 	// check
@@ -152,12 +165,12 @@ public class TestReducedEncoderComprehensive {
 	}
 
 	/**
-	 * Get the default data for the full format.
+	 * Gets the default data for the full format.
 	 * @return a {@link StructureDataInterface} for the full data.
 	 * @throws IOException
 	 */
-	private StructureDataInterface getDefaultFullData() throws IOException, ParseException {
-		Path p = Utils.getResource("/mmtf/4cup.mmtf");
+	private StructureDataInterface getDefaultFullData(String pdbId) throws IOException, ParseException {
+		Path p = Utils.getResource("/mmtf/" + pdbId + ".mmtf");
 		return new GenericDecoder(ReaderUtils.getDataFromFile(p));
 	}
 }
