@@ -59,7 +59,7 @@ public class TestRoundTrip {
 	 * @throws IOException
 	 */
 	private StructureDataInterface getDefaultFullData() throws IOException, ParseException {
-		Path p = Utils.getResource("/mmtf/4cup.mmtf");
+		Path p = Utils.getResource("/mmtf/4CUP.mmtf");
 		return new GenericDecoder(ReaderUtils.getDataFromFile(p));
 	}
 }
