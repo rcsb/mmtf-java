@@ -2,7 +2,6 @@
 [![Coverage Status](https://coveralls.io/repos/github/rcsb/mmtf-java/badge.svg?branch=master)](https://coveralls.io/github/rcsb/mmtf-java?branch=master)
 [![Dependency Status](https://www.versioneye.com/user/projects/56feb8e5fcd19a0039f1553c/badge.svg?style=flat)](https://www.versioneye.com/user/projects/56feb8e5fcd19a0039f1553c)
 [![Version](http://img.shields.io/badge/version-1.0.5-blue.svg?style=flat)](https://github.com/rcsb/mmtf-java/) 
-[![License](http://img.shields.io/badge/license-Apache 2.0-blue.svg?style=flat)](https://github.com/rcsb/mmtf-java/blob/master/LICENSE.txt)
 [![Changelog](https://img.shields.io/badge/changelog--lightgrey.svg?style=flat)](https://github.com/rcsb/mmtf-java/blob/master/CHANGELOG.md)
 
 
@@ -15,9 +14,9 @@ Releases are available on Maven central.
 
 ```xml
 	<dependency>
-		<groupId>org.rcsb</groupId>
-		<artifactId>mmtf-codec</artifactId>
-		<version>1.0.5</version>
+	    <groupId>org.rcsb</groupId>
+	    <artifactId>mmtf-codec</artifactId>
+	    <version>1.0.5</version>
 	</dependency>
         <dependency>
             <groupId>org.rcsb</groupId>
