@@ -89,7 +89,7 @@ public class AdapterToStructureData implements StructureDataInterface, Structure
 	/** The mmtf version */
 	private String mmtfVersion = MmtfStructure.VERSION;
 
-	/** The mmtf prodcuer */
+	/** The mmtf producer */
 	private String mmtfProducer = "UNKNOWN";
 
 	/** The list of entities in this structure. */
@@ -139,14 +139,15 @@ public class AdapterToStructureData implements StructureDataInterface, Structure
 	private int modelIndex = 0;
 	/** Add the atom information for the current group */
 	private Group pdbGroup;
-	/** A List for Entities as the number of entities is not defined*/
-	private List<Entity> entities;
 	/** The total number of bonds in the structure */
 	private int totalNumBonds;
 	/** The list of groups */
 	private List<Group> pdbGroupList;
 	/** The NCS operation matrix list */
 	private double[][] ncsOperMatrixList;
+	
+	/** Temporary list of entities */
+	private transient List<Entity> entities;
 
 
 	@Override
@@ -413,10 +414,10 @@ public class AdapterToStructureData implements StructureDataInterface, Structure
 	public void initStructure(int totalNumBonds, int totalNumAtoms, int totalNumGroups, 
 			int totalNumChains, int totalNumModels, String structureId) {
 		this.totalNumBonds = totalNumBonds;
-		// Intitialise the bond level info
+		// Initialize the bond level info
 		interGroupBondIndices = new ArrayList<>();
 		interGroupBondOrders = new ArrayList<>();
-		// Intitialise the atom level arrays
+		// Initialize the atom level arrays
 		cartnX = new float[totalNumAtoms];
 		cartnY= new float[totalNumAtoms];
 		cartnZ = new float[totalNumAtoms];
@@ -424,37 +425,42 @@ public class AdapterToStructureData implements StructureDataInterface, Structure
 		bFactor = new float[totalNumAtoms];
 		atomId = new int[totalNumAtoms];	
 		altId = new char[totalNumAtoms];
-		// Initialise the group level data
+		// Initialize the group level data
 		groupNum = new int[totalNumGroups];
-		// List for storing the group level information
-		pdbGroupList = new ArrayList<>();
 		insertionCodeList = new char[totalNumGroups];
 		seqResGroupList = new int[totalNumGroups];
 		secStructInfo = new int[totalNumGroups];
-		// Intialise the chain level data 	 	
+		// List for storing the group level information
+		pdbGroupList = new ArrayList<>();
+		// Initialize the chain level data 	 	
 		chainList = new String[totalNumChains];
 		publicChainIds = new String[totalNumChains];
 		groupsPerChain = new int[totalNumChains];
-		// Initialise the model level information
+		// Initialize the model level information
 		numModels = totalNumModels;
 		// Set the name
 		pdbId = structureId;
 		bioAssembly = new ArrayList<>();
-		entities = new ArrayList<>();
 		chainsPerModel = new int[totalNumModels];
+		
+		// temporary data structure
+		entities = new ArrayList<>();
 	}
 
 	@Override
 	public void finalizeStructure() {
 		// Convert the entities array to a list
 		entityList = entities.toArray(new Entity[0]);
+		// clear temporary data structure to avoid "memory leak"
+		entities.clear();
+
 		// Cleanup the group list
 		groupMap = new ArrayList<>(new HashSet<>(pdbGroupList));
 		groupList = new int[pdbGroupList.size()];
 		for(int i=0; i<pdbGroupList.size(); i++){		
 			// Find the index of this groups information.
 			groupList[i] = groupMap.indexOf(pdbGroupList.get(i));
-		}
+		}	
 	}
 
 	@Override
@@ -581,6 +587,10 @@ public class AdapterToStructureData implements StructureDataInterface, Structure
 		
 
 	}
+	
+	public void setMmtfProducer(String mmtfProducer) {
+		this.mmtfProducer = mmtfProducer;
+	}
 
 	private Group getGroup(int groupInd) {
 		return groupMap.get(groupInd);
@@ -612,5 +622,4 @@ public class AdapterToStructureData implements StructureDataInterface, Structure
 	public String getBioassemblyName(int bioassemblyIndex) {
 		return bioAssembly.get(bioassemblyIndex).getName();
 	}
-
 }

@@ -1,173 +1,208 @@
 package org.rcsb.mmtf.encoder;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.io.Serializable;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
-import org.apache.commons.lang.ArrayUtils;
 import org.rcsb.mmtf.api.StructureDataInterface;
 import org.rcsb.mmtf.decoder.DecoderUtils;
+import org.rcsb.mmtf.encoder.AdapterToStructureData;
+import org.rcsb.mmtf.encoder.EncoderUtils;
 
 /**
- * Convert a full format of the file to a reduced format.
+ * Converts a full (all-atom) MMTF structure data representation to a reduced version.
+ * The reduced version contains only the C-alpha atoms of polypeptide and the
+ * P atom of polynucleotide chains. Alternative locations of the C-alpha and P atoms
+ * are excluded, as well as any water molecules.
+ * 
  * @author Anthony Bradley
+ * @author Peter Rose
  *
  */
-public class ReducedEncoder {
-
+public class ReducedEncoder  implements Serializable {
+	private static final long serialVersionUID = -528732924956087110L;
+	
 	private static final String CALPHA_NAME = "CA";
 	private static final String CARBON_ELEMENT = "C";
 	private static final String PHOSPHATE_NAME = "P";
 	private static final String PHOSPHATE_ELEMENT = "P";
 
 	/**
-	 * Get the reduced form of the input {@link StructureDataInterface}.
-	 * @param structureDataInterface the input {@link StructureDataInterface} 
+	 * Gets the reduced form of the input {@link StructureDataInterface}.
+	 * @param full the input {@link StructureDataInterface} 
 	 * @return the reduced form of the {@link StructureDataInterface} as another {@link StructureDataInterface}
 	 */
-	public static StructureDataInterface getReduced(StructureDataInterface structureDataInterface) {
-		// The transmission of the data goes through this
-		AdapterToStructureData adapterToStructureData = new AdapterToStructureData();
-		SummaryData dataSummary = getDataSummaryData(structureDataInterface);
-		adapterToStructureData.initStructure(dataSummary.numBonds, dataSummary.numAtoms, dataSummary.numGroups, 
-				dataSummary.numChains, structureDataInterface.getNumModels(), structureDataInterface.getStructureId());
-		DecoderUtils.addXtalographicInfo(structureDataInterface, adapterToStructureData);
-		DecoderUtils.addHeaderInfo(structureDataInterface, adapterToStructureData);
-		DecoderUtils.generateBioAssembly(structureDataInterface, adapterToStructureData);		
-		DecoderUtils.addEntityInfo(structureDataInterface, adapterToStructureData);
-		// Loop through the Structure data interface this with the appropriate data
-		int atomCounter= - 1;
-		int redAtomCounter = -1;
-		int groupCounter= - 1;
-		int chainCounter= - 1;
-		List<Integer> interGroupBondsToAdd = new ArrayList<>();
-		List<Integer> interGroupRedIndsToAdd = new ArrayList<>();
-		for (int i=0; i<structureDataInterface.getNumModels(); i++){
-			int numChains = structureDataInterface.getChainsPerModel()[i];
-			adapterToStructureData.setModelInfo(i, numChains);
-			for(int j=0; j<numChains; j++){
-				chainCounter++;
-				String chainType = EncoderUtils.getTypeFromChainId(structureDataInterface, chainCounter);
-				int numGroups=0;
-				for(int k=0; k<structureDataInterface.getGroupsPerChain()[chainCounter]; k++){
-					groupCounter++;
-					int groupType = structureDataInterface.getGroupTypeIndices()[groupCounter];
-					List<Integer> atomIndicesToAdd = getIndicesToAdd(structureDataInterface, groupType, chainType);
-					int bondsToAdd = findBondsToAdd(atomIndicesToAdd, structureDataInterface, groupType,atomCounter+1);
-					// If there's an atom to add in this group - add it
-					if(atomIndicesToAdd.size()>0){
-						adapterToStructureData.setGroupInfo(structureDataInterface.getGroupName(groupType), structureDataInterface.getGroupIds()[groupCounter], 
-								structureDataInterface.getInsCodes()[groupCounter], structureDataInterface.getGroupChemCompType(groupType), atomIndicesToAdd.size(),
-								bondsToAdd, structureDataInterface.getGroupSingleLetterCode(groupType), structureDataInterface.getGroupSequenceIndices()[groupCounter], 
-								structureDataInterface.getSecStructList()[groupCounter]);
-						numGroups++;
+	public static StructureDataInterface getReduced(StructureDataInterface full) {
+		// maps atom indices in full structure to reduced structure
+        Map<Integer, Integer> atomMap = new HashMap<>();
+			
+		// get indices to C-alpha and P atoms for polypeptides and polynucleotides, respectively
+		Integer[] centerAtomIndices = getCenterAtomGroupIndices(full);
+		
+		// Set header and metadata
+		AdapterToStructureData reduced = new AdapterToStructureData();
+		
+		reduced.setMmtfProducer(full.getMmtfProducer());
+		SummaryData dataSummary = getDataSummaryData(full, centerAtomIndices);
+		reduced.initStructure(dataSummary.numBonds, dataSummary.numAtoms, dataSummary.numGroups, 
+				dataSummary.numChains, full.getNumModels(), full.getStructureId());
+		
+		DecoderUtils.addXtalographicInfo(full, reduced);
+		DecoderUtils.addHeaderInfo(full, reduced);
+		DecoderUtils.generateBioAssembly(full, reduced);		
+		DecoderUtils.addEntityInfo(full, reduced);
+
+		// traverse data structure and copy data to reduced representation.
+		// Note, atomCount, groupCount, and chainCount keep track of the total number of atoms, groups, and chains.
+		// They are required to index the data structure.
+		
+		for (int i = 0, atomCount = 0, groupCount = 0, chainCount = 0, reducedAtomCount = -1; i<full.getNumModels(); i++) {
+			int numChains = full.getChainsPerModel()[i];
+			reduced.setModelInfo(i, numChains);
+			
+			for (int j = 0; j < numChains; j++, chainCount++){
+				String chainType = EncoderUtils.getTypeFromChainId(full, chainCount);
+				int reducedGroupsPerChain = 0;
+
+				for (int k = 0; k < full.getGroupsPerChain()[chainCount]; k++, groupCount++) {
+					int groupType = full.getGroupTypeIndices()[groupCount];
+					
+					Set<Integer> atomIndicesToAdd = getIndicesToAdd(full, groupType, chainType, centerAtomIndices);
+					int bondsToAdd = getNumIntraGroupBonds(atomIndicesToAdd, full, groupType, centerAtomIndices);
+					
+					if (atomIndicesToAdd.size() > 0) {
+						
+						// Set Group information
+						reduced.setGroupInfo(full.getGroupName(groupType), full.getGroupIds()[groupCount], 
+								full.getInsCodes()[groupCount], full.getGroupChemCompType(groupType), atomIndicesToAdd.size(),
+								bondsToAdd, full.getGroupSingleLetterCode(groupType), full.getGroupSequenceIndices()[groupCount], 
+								full.getSecStructList()[groupCount]);
+						
+						reducedGroupsPerChain ++;
 					}
-					for(int l=0; l<structureDataInterface.getNumAtomsInGroup(groupType);l++){
-						atomCounter++;
-						if(atomIndicesToAdd.contains(l)){
-							redAtomCounter++;
-							adapterToStructureData.setAtomInfo(structureDataInterface.getGroupAtomNames(groupType)[l], structureDataInterface.getAtomIds()[atomCounter], structureDataInterface.getAltLocIds()[atomCounter], 
-									structureDataInterface.getxCoords()[atomCounter], structureDataInterface.getyCoords()[atomCounter], structureDataInterface.getzCoords()[atomCounter], 
-									structureDataInterface.getOccupancies()[atomCounter], structureDataInterface.getbFactors()[atomCounter], structureDataInterface.getGroupElementNames(groupType)[l], structureDataInterface.getGroupAtomCharges(groupType)[l]);
-							if (structureDataInterface.getGroupChemCompType(groupType).toUpperCase().contains("SACCHARIDE")){
-								interGroupBondsToAdd.add(atomCounter);
-								interGroupRedIndsToAdd.add(redAtomCounter);
+					
+					for (int l = 0; l < full.getNumAtomsInGroup(groupType); l++, atomCount++) {
+						if (atomIndicesToAdd.contains(l)) {
+							// this atom counter keeps track of the atoms in the reduced structure
+							reducedAtomCount++; 
+							// this map keeps track of which atoms need to be kept for reduced version
+							atomMap.put(atomCount,  reducedAtomCount); 
+			
+							// Set Atom information
+							reduced.setAtomInfo(full.getGroupAtomNames(groupType)[l], full.getAtomIds()[atomCount], full.getAltLocIds()[atomCount], 
+									full.getxCoords()[atomCount], full.getyCoords()[atomCount], full.getzCoords()[atomCount], 
+									full.getOccupancies()[atomCount], full.getbFactors()[atomCount], full.getGroupElementNames(groupType)[l], full.getGroupAtomCharges(groupType)[l]);
 							}
+					}
+
+					if (bondsToAdd > 0){
+						
+						// Set bond information
+						for(int l=0; l<full.getGroupBondOrders(groupType).length; l++){
+							int index1 = full.getGroupBondIndices(groupType)[l*2];
+							int index2 = full.getGroupBondIndices(groupType)[l*2+1];
+							int bondOrder = full.getGroupBondOrders(groupType)[l];
+							reduced.setGroupBond(index1, index2, bondOrder);
 						}
 					}
-					if(bondsToAdd>0){
-						for(int l=0; l<structureDataInterface.getGroupBondOrders(groupType).length; l++){
-							int bondOrder = structureDataInterface.getGroupBondOrders(groupType)[l];
-							int bondIndOne = structureDataInterface.getGroupBondIndices(groupType)[l*2];
-							int bondIndTwo = structureDataInterface.getGroupBondIndices(groupType)[l*2+1];
-							adapterToStructureData.setGroupBond(bondIndOne, bondIndTwo, bondOrder);
-						}
-					}
-				}
-				adapterToStructureData.setChainInfo(structureDataInterface.getChainIds()[chainCounter],
-						structureDataInterface.getChainNames()[chainCounter], numGroups);
+				};
+				
+				// Set chain information
+				reduced.setChainInfo(full.getChainIds()[chainCount],
+						full.getChainNames()[chainCount], reducedGroupsPerChain );
 			}
 		}
-		// Add the inter group bonds
-		for(int i=0; i<structureDataInterface.getInterGroupBondOrders().length;i++){
-			int bondIndOne = structureDataInterface.getInterGroupBondIndices()[i*2];
-			int bondIndTwo = structureDataInterface.getInterGroupBondIndices()[i*2+1];
-			int bondOrder = structureDataInterface.getInterGroupBondOrders()[i];
-			if(interGroupBondsToAdd.contains(bondIndOne) && interGroupBondsToAdd.contains(bondIndTwo) ){
-				int indexOne = interGroupBondsToAdd.indexOf(bondIndOne);
-				int indexTwo = interGroupBondsToAdd.indexOf(bondIndTwo);
-				adapterToStructureData.setInterGroupBond(interGroupRedIndsToAdd.get(indexOne), interGroupRedIndsToAdd.get(indexTwo), bondOrder);
-			}
-		}
-		adapterToStructureData.finalizeStructure();
-		// Return the AdapterToStructureData
-		return adapterToStructureData;
+		
+		addInterGroupBonds(full, reduced, atomMap);
+		
+		// finalize the data structure
+		reduced.finalizeStructure();
+		
+		return reduced;
 	}
 
 	/**
-	 * Find if bonds need adding - to be used in later processing.
+	 * Adds bonds between groups to the reduced data structure.
+	 * @param full full representation of structure
+	 * @param reduced reduced representation of structure
+	 * @param atomMap maps original atom indices to atom indices in the reduced structures
+	 */
+	private static void addInterGroupBonds(StructureDataInterface full, AdapterToStructureData reduced, Map<Integer, Integer> atomMap) {
+
+		for (int i = 0; i < full.getInterGroupBondOrders().length; i++) {
+			int bondIndOne = full.getInterGroupBondIndices()[i*2];
+			int bondIndTwo = full.getInterGroupBondIndices()[i*2+1];
+			int bondOrder = full.getInterGroupBondOrders()[i];
+			
+			// some atoms may not exist in the reduced structure. 
+			// check the atom map to see if both atoms of a bond still exist.
+			Integer indexOne = atomMap.get(bondIndOne);
+			
+			if (indexOne != null) {
+				Integer indexTwo = atomMap.get(bondIndTwo);
+				if (indexTwo != null) {
+					reduced.setInterGroupBond(indexOne, indexTwo, bondOrder);
+				}
+			}
+		}
+	}
+
+	/**
+	 * Gets the number of intramolecular bonds for a specified group type.
 	 * @param indicesToAdd the indices of the atoms to add
 	 * @param structureDataInterface the {@link StructureDataInterface} of the total structure
 	 * @param groupType the index of the groupType
-	 * @param atomCounter the current atom counter position
 	 * @return the integer number of bonds to add
 	 */
-	private static int findBondsToAdd(List<Integer> indicesToAdd, StructureDataInterface structureDataInterface, int groupType, int atomCounter) {
-		// Add the bonds if we've copied all the elements
-		int interGroupBonds = 0;
-		if(indicesToAdd.size()>1){
-			if (structureDataInterface.getGroupChemCompType(groupType).toUpperCase().contains("SACCHARIDE")){
-				for(int i=0; i<structureDataInterface.getGroupBondOrders(groupType).length; i++) {
-					if(ArrayUtils.contains(structureDataInterface.getInterGroupBondIndices(),atomCounter+i)){
-						interGroupBonds++;
-					}
-				}
-			}
-			if(indicesToAdd.size()==structureDataInterface.getNumAtomsInGroup(groupType)){
-				return structureDataInterface.getGroupBondOrders(groupType).length+interGroupBonds;
-			}
+	private static int getNumIntraGroupBonds(Set<Integer> indicesToAdd, StructureDataInterface structureDataInterface, int groupType, Integer[] centerAtomIndices) {		
+	
+		if (indicesToAdd.size() == 1 && centerAtomIndices[groupType] != null) {
+			// in case there is only 1 atom (c-Alpha or P) and it's in a polymer, there cannot be any bonds
+			return 0;
+		} else if (indicesToAdd.size() == 0) {
+			return 0;
+		} else {
+			return structureDataInterface.getGroupBondOrders(groupType).length;
 		}
-		return 0;
 	}
 
-
-
-
 	/**
-	 * Get the number of bonds, atoms and groups as a map.
+	 * Gets the number of chains, groups, atoms, and bonds in the reduced structure
 	 * @param structureDataInterface the input {@link StructureDataInterface}
 	 * @return the {@link SummaryData} object describing the data
 	 */
-	private static SummaryData getDataSummaryData(StructureDataInterface structureDataInterface) {
+	private static SummaryData getDataSummaryData(StructureDataInterface structureDataInterface, Integer[] centerAtomIndices) {
 		SummaryData summaryData = new SummaryData();
 		summaryData.numChains = 0;
 		summaryData.numGroups = 0;
 		summaryData.numAtoms = 0;
 		summaryData.numBonds = 0;
-		int groupCounter = -1;
-		int chainCounter=-1;
-		int atomCounter = 0;
-		for (int i=0; i<structureDataInterface.getNumModels(); i++){
+	
+		for (int i = 0, groupCount = 0, chainCount = 0; i<structureDataInterface.getNumModels(); i++){
 			int numChains = structureDataInterface.getChainsPerModel()[i];
-			for(int j=0; j<numChains; j++){
-				chainCounter++;
+			
+			for (int j = 0; j < numChains; j++, chainCount++){
 				summaryData.numChains++;
-				String chainType = EncoderUtils.getTypeFromChainId(structureDataInterface, chainCounter);
-				for(int k=0; k<structureDataInterface.getGroupsPerChain()[chainCounter]; k++){
-					groupCounter++;
-					int groupType = structureDataInterface.getGroupTypeIndices()[groupCounter];
-					List<Integer> indicesToAdd = getIndicesToAdd(structureDataInterface, groupType, chainType);
-					// If there's an atom to add in this group - add it
-					if(indicesToAdd.size()>0){
+				String chainType = EncoderUtils.getTypeFromChainId(structureDataInterface, chainCount);
+				
+				for (int k = 0; k < structureDataInterface.getGroupsPerChain()[chainCount]; k++, groupCount++){
+					int groupType = structureDataInterface.getGroupTypeIndices()[groupCount];
+					Set<Integer> indicesToAdd = getIndicesToAdd(structureDataInterface, groupType, chainType, centerAtomIndices);
+	
+					if (indicesToAdd.size() > 0) {
 						summaryData.numGroups++;
 					}
-					for(int l=0; l<structureDataInterface.getNumAtomsInGroup(groupType);l++){
-						if(indicesToAdd.contains(l)){
+					
+					for (int l = 0; l < structureDataInterface.getNumAtomsInGroup(groupType); l++){
+						if (indicesToAdd.contains(l)) {
 							summaryData.numAtoms++;
 						}
-						atomCounter++;
 					}
-					// Add the bonds if we've copied all the elements
-					summaryData.numBonds+=findBondsToAdd(indicesToAdd, structureDataInterface, groupType, atomCounter);
+
+					summaryData.numBonds+=getNumIntraGroupBonds(indicesToAdd, structureDataInterface, groupType, centerAtomIndices);
 				}
 			}
 		}
@@ -175,51 +210,107 @@ public class ReducedEncoder {
 	}
 
 	/**
-	 * Get the indices of atoms to add in this group. This is C-alpha, phosphate (DNA) and ligand atoms
-	 * @param structureDataInterface the input {@link StructureDataInterface}
-	 * @param groupType the index of this group in the groupList
+	 * Gets the indices of atoms to include in the reduced MMTF representation. 
+	 * This is C-alpha, phosphate (DNA/RNA) and all non-polymer atoms, except water.
+	 * @param structure the input {@link StructureDataInterface}
+	 * @param groupIndex the index of this group in the groupList
 	 * @param chainType the type of the chain (polymer, non-polymer, water).
 	 * @return the list of indices (within the group) of atoms to consider
 	 */
-	private static List<Integer> getIndicesToAdd(StructureDataInterface structureDataInterface, int groupType,
-			String chainType) {
-		// The list to return
-		List<Integer> outList = new ArrayList<>();
+	private static Set<Integer> getIndicesToAdd(StructureDataInterface structure, int groupIndex,
+			String chainType, Integer[] centerAtomIndices) {
+
+		Set<Integer> atomIndices = Collections.emptySet();
+
+		Integer atomIndex = centerAtomIndices[groupIndex];
+
 		// Get chain type
-		if(chainType.equals("polymer")){
-			for(int i=0; i<structureDataInterface.getNumAtomsInGroup(groupType); i++){
-				String atomName = structureDataInterface.getGroupAtomNames(groupType)[i];
-				String elementName = structureDataInterface.getGroupElementNames(groupType)[i];
-				// Check if it's a Protein C-alpha
-				if(atomName.equals(CALPHA_NAME) && elementName.equals(CARBON_ELEMENT)){
-					outList.add(i);
-				}
-				// Check if it's a DNA phosphate
-				if(atomName.equals(PHOSPHATE_NAME) && elementName.equals(PHOSPHATE_ELEMENT)){
-					outList.add(i);
-				}
-				// Check if it's a saccharide
-				if(structureDataInterface.getGroupChemCompType(groupType).toUpperCase().contains("SACCHARIDE")) {
-					outList.add(i);
+		if (chainType.equals("polymer")) {
+			if (atomIndex != null){
+				// in this case, the atom index points to either the
+				// C-alpha or P atom in an amino acid or nucleotide
+				atomIndices = Collections.singleton(atomIndex);
+			} else {
+				// for all other non-standard residues, include all atoms
+				atomIndices = new HashSet<>(structure.getNumAtomsInGroup(groupIndex));
+				for(int i = 0; i < structure.getNumAtomsInGroup(groupIndex); i++) {
+					atomIndices.add(i);
 				}
 			}
-		}
-		// Check if it's a non-polymer 
-		else if (chainType.equals("non-polymer")){
-			for(int i=0; i<structureDataInterface.getNumAtomsInGroup(groupType); i++){
-				outList.add(i);
+		} else if (! structure.getGroupName(groupIndex).equals("HOH")
+				|| structure.getGroupName(groupIndex).equals("DOD")) {
+			// Keep all non-polymer atoms, except for water.
+			// Water should be of type "water", however, a few structures (1ZY8, 2G10, 2Q44, 2Q40)
+			// contain waters as non-polymers. These structures have in common that water has
+			// alternative locations. Therefore, we check for "HOH" instead of polymer type water here
+			atomIndices = new HashSet<>(structure.getNumAtomsInGroup(groupIndex));
+			for (int i = 0; i < structure.getNumAtomsInGroup(groupIndex); i++){
+				atomIndices.add(i);
 			}
 		}
-		else if(chainType.equals("water")){
-			// We skip water
-		}
-		else{
-			System.err.println("Unrecoginised entity type: "+chainType);
-		}
-		return outList;
+
+		return atomIndices;
 	}
 
+	/**
+	 * Returns an index to the position to the C-alpha atom in a group with the specified group index.
+	 * @param structureDataInterface
+	 * @param groupIndex index of group
+	 * @return index of C-alpha atom if present, otherwise null
+	 */
+    private static Integer indexOfcAlpha(StructureDataInterface structureDataInterface, int groupIndex) {
+    	for(int i = 0; i<structureDataInterface.getNumAtomsInGroup(groupIndex); i++){
+			String atomName = structureDataInterface.getGroupAtomNames(groupIndex)[i];
+			String elementName = structureDataInterface.getGroupElementNames(groupIndex)[i];
+			
+			if (atomName.equals(CALPHA_NAME) && elementName.equals(CARBON_ELEMENT)) {
+				return i;
+			}
+    	}
+    	return null;
+    	
+    }
+    
+    /**
+     * Returns and index to the position of the P atom in a nucleotide group with the specified group index.
+     * @param structureDataInterface
+     * @param groupIndex index of group
+     * @return index of P atom if present, otherwise null
+     */
+    private static Integer indexOfpAtom(StructureDataInterface structureDataInterface, int groupIndex) {
+    	for(int i=0; i<structureDataInterface.getNumAtomsInGroup(groupIndex); i++){
+			String atomName = structureDataInterface.getGroupAtomNames(groupIndex)[i];
+			String elementName = structureDataInterface.getGroupElementNames(groupIndex)[i];
+			
+			if (atomName.equals(PHOSPHATE_NAME) && elementName.equals(PHOSPHATE_ELEMENT)) {
+				return i;
+			}
+    	}
+    	return null;
+    }
 
+    /**
+     * Returns an array of indices to either the c-alpha or phosphate atom position in a group. 
+     * Returns a null index if the group doesn't contain a c-alpha or phosphate atom.
+     * @param structure
+     */
+    private static Integer[] getCenterAtomGroupIndices(StructureDataInterface structure) {
+    	int maxIndex = 0;
 
+    	for (int i = 0; i < structure.getGroupTypeIndices().length; i++) {
+    		maxIndex = Math.max(maxIndex,  structure.getGroupTypeIndices()[i]);
+    	}
+    	Integer[] centerAtomIndex = new Integer[maxIndex+1];
+    	
+    	for (int i = 0; i < maxIndex+1; i++) {
+    		Integer index = indexOfcAlpha(structure, i);
+    		if (index == null) {
+    			index = indexOfpAtom(structure, i);
+    		} 
+    		// index will be null if it's neither a c-alpha or P atom
+    		centerAtomIndex[i] = index;
+    	}
+    	return centerAtomIndex;
+    }
 
 }

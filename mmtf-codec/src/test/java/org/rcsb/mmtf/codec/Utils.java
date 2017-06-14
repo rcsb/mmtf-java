@@ -79,7 +79,7 @@ public class Utils {
 	}
 	
 	/**
-	 * path = "/mmtf/4cup.mmtf"
+	 * path = "/mmtf/4CUP.mmtf"
 	 */
 	public static Path getResource(String p) throws IOException {			
 		File f = new File(Utils.class.getClass().getResource(p).getFile());

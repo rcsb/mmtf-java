@@ -1,6 +1,9 @@
 package org.rcsb.mmtf.decoder;
 
 import org.rcsb.mmtf.api.StructureDataInterface;
+
+import java.io.Serializable;
+
 import org.rcsb.mmtf.api.StructureAdapterInterface;
 
 /**
@@ -8,7 +11,8 @@ import org.rcsb.mmtf.api.StructureAdapterInterface;
  * @author Anthony Bradley
  *
  */
-public class StructureDataToAdapter {
+public class StructureDataToAdapter implements Serializable {
+	private static final long serialVersionUID = 1304850018382353781L;
 
 	/** The struct inflator. */
 	private StructureAdapterInterface structInflator;

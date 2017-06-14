@@ -66,12 +66,6 @@ public class DecoderUtils {
 	 */
 	public static void addEntityInfo(StructureDataInterface dataApi, StructureAdapterInterface structInflator) {
 		for (int i=0; i<dataApi.getNumEntities(); i++) {
-			String[] chainIdList = new String[dataApi.getEntityChainIndexList(i).length];
-			int counter = 0;
-			for (int chainInd : dataApi.getEntityChainIndexList(i)) {
-				chainIdList[counter] = dataApi.getChainIds()[chainInd];
-				counter++;
-			}
 			structInflator.setEntityInfo(dataApi.getEntityChainIndexList(i), dataApi.getEntitySequence(i), dataApi.getEntityDescription(i), dataApi.getEntityType(i));
 		}			
 	}

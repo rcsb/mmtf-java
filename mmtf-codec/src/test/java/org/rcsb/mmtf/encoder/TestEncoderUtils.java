@@ -159,7 +159,7 @@ public class TestEncoderUtils {
 	 * @return a {@link StructureDataInterface} for the full data.
 	 */
 	private StructureDataInterface getDefaultFullData() throws IOException, ParseException {
-		Path inFile = Utils.getResource("/mmtf/4cup.mmtf");
+		Path inFile = Utils.getResource("/mmtf/4CUP.mmtf");
 		return new GenericDecoder(ReaderUtils.getDataFromFile(inFile));
 	}
 

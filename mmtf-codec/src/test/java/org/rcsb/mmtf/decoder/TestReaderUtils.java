@@ -84,7 +84,7 @@ public class TestReaderUtils {
 	@Test 
 	public void testReadFromFile() throws IOException, ParseException {
 		ClassLoader classLoader = getClass().getClassLoader();
-		MmtfStructure mmtfBean = ReaderUtils.getDataFromFile(Utils.getResource("/mmtf/4cup.mmtf"));
+		MmtfStructure mmtfBean = ReaderUtils.getDataFromFile(Utils.getResource("/mmtf/4CUP.mmtf"));
 		assertNotEquals(mmtfBean, null);
 		assertEquals(mmtfBean.getDepositionDate(), "2014-03-21");
 		assertEquals(mmtfBean.getNumAtoms(), 1107);
@@ -97,7 +97,7 @@ public class TestReaderUtils {
 	 */
 	@Test 
 	public void testReadFromUrl() throws IOException, ParseException {
-		MmtfStructure mmtfBean = ReaderUtils.getDataFromUrl("4cup");
+		MmtfStructure mmtfBean = ReaderUtils.getDataFromUrl("4CUP");
 		assertNotEquals(mmtfBean, null);
 		assertEquals(mmtfBean.getDepositionDate(), "2014-03-21");
 		assertEquals(mmtfBean.getNumAtoms(), 1107);
@@ -110,7 +110,7 @@ public class TestReaderUtils {
 	 */
 	@Test 
 	public void testReadFromHttpsUrl() throws IOException, ParseException {
-		MmtfStructure mmtfBean = ReaderUtils.getDataFromUrl("4cup", true, false);
+		MmtfStructure mmtfBean = ReaderUtils.getDataFromUrl("4CUP", true, false);
 		assertNotEquals(mmtfBean, null);
 		assertEquals(mmtfBean.getDepositionDate(), "2014-03-21");
 		assertEquals(mmtfBean.getNumAtoms(), 1107);
@@ -123,7 +123,7 @@ public class TestReaderUtils {
 	 */
 	@Test 
 	public void testReadFromReducedUrl() throws IOException, ParseException {
-		MmtfStructure mmtfBean = ReaderUtils.getDataFromUrl("4cup", true, true);
+		MmtfStructure mmtfBean = ReaderUtils.getDataFromUrl("4CUP", true, true);
 		assertNotEquals(mmtfBean, null);
 		assertEquals(mmtfBean.getDepositionDate(), "2014-03-21");
 		// Actual number of atoms is 24 ligand atoms + 115 CA = 139 atoms. 
@@ -138,7 +138,7 @@ public class TestReaderUtils {
 	 */
 	@Test 
 	public void testReadFromReducedHttpsUrl() throws IOException, ParseException {
-		MmtfStructure mmtfBean = ReaderUtils.getDataFromUrl("4cup", true, true);
+		MmtfStructure mmtfBean = ReaderUtils.getDataFromUrl("4CUP", true, true);
 		assertNotEquals(mmtfBean, null);
 		assertEquals(mmtfBean.getDepositionDate(), "2014-03-21");
 		assertEquals(mmtfBean.getNumAtoms(), 140); 
