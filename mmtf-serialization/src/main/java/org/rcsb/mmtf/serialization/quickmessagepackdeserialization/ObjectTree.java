@@ -31,7 +31,7 @@ public class ObjectTree {
 	public String getString(String s) {
 		Object o = root.get(s);
 		if (o == null) {
-			return "";
+			return null;
 		} else {
 			return (String) root.get(s);
 		}
