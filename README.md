@@ -1,7 +1,7 @@
 [![Build Status](https://travis-ci.org/rcsb/mmtf-java.svg?branch=master)](https://travis-ci.org/rcsb/mmtf-java)
 [![Coverage Status](https://coveralls.io/repos/github/rcsb/mmtf-java/badge.svg?branch=master)](https://coveralls.io/github/rcsb/mmtf-java?branch=master)
 [![Dependency Status](https://www.versioneye.com/user/projects/56feb8e5fcd19a0039f1553c/badge.svg?style=flat)](https://www.versioneye.com/user/projects/56feb8e5fcd19a0039f1553c)
-[![Version](http://img.shields.io/badge/version-1.0.5-blue.svg?style=flat)](https://github.com/rcsb/mmtf-java/) 
+[![Version](http://img.shields.io/badge/version-1.0.7-blue.svg?style=flat)](https://github.com/rcsb/mmtf-java/) 
 [![Changelog](https://img.shields.io/badge/changelog--lightgrey.svg?style=flat)](https://github.com/rcsb/mmtf-java/blob/master/CHANGELOG.md)
 
 
@@ -16,12 +16,12 @@ Releases are available on Maven central.
 	<dependency>
 	    <groupId>org.rcsb</groupId>
 	    <artifactId>mmtf-codec</artifactId>
-	    <version>1.0.5</version>
+	    <version>1.0.7</version>
 	</dependency>
         <dependency>
             <groupId>org.rcsb</groupId>
             <artifactId>mmtf-api</artifactId>
-            <version>1.0.5</version>
+            <version>1.0.7</version>
         </dependency>
 ```
 
