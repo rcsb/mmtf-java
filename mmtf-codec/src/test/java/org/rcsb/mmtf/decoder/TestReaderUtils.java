@@ -126,9 +126,7 @@ public class TestReaderUtils {
 		MmtfStructure mmtfBean = ReaderUtils.getDataFromUrl("4CUP", true, true);
 		assertNotEquals(mmtfBean, null);
 		assertEquals(mmtfBean.getDepositionDate(), "2014-03-21");
-		// Actual number of atoms is 24 ligand atoms + 115 CA = 139 atoms. 
-		// Problem: residue A1945 has two alternate locations for the side chain, however, there is only 1 CA location. 
-		assertEquals(mmtfBean.getNumAtoms(), 140);
+		assertEquals(mmtfBean.getNumAtoms(), 139);
 		assertEquals(mmtfBean.getNumBonds(), 21);
 	}
 	
@@ -141,7 +139,7 @@ public class TestReaderUtils {
 		MmtfStructure mmtfBean = ReaderUtils.getDataFromUrl("4CUP", true, true);
 		assertNotEquals(mmtfBean, null);
 		assertEquals(mmtfBean.getDepositionDate(), "2014-03-21");
-		assertEquals(mmtfBean.getNumAtoms(), 140); 
+		assertEquals(mmtfBean.getNumAtoms(), 139); 
 		assertEquals(mmtfBean.getNumBonds(), 21);
 	}
 }
