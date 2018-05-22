@@ -5,3 +5,5 @@
 *.swp
 release.*
 mmtf-update/pathname
+.idea
+*.iml
