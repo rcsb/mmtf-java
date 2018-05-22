@@ -66,5 +66,6 @@ Once you have a username and password add this to your `~/.m2/settings.xml` mave
       <username>my_username</username>
       <password>my_password</password>
 </server>
-
 ``` 
+
+Finally edit the release tag in github and update the CHANGELOG.md file.
