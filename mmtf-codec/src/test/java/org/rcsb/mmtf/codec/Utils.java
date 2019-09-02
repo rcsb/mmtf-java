@@ -81,8 +81,9 @@ public class Utils {
 	/**
 	 * path = "/mmtf/4CUP.mmtf"
 	 */
-	public static Path getResource(String p) throws IOException {			
-		File f = new File(Utils.class.getClass().getResource(p).getFile());
+	public static Path getResource(String p) throws IOException {
+		// in java 11+ we need to use a class within the module to locate the resource properly. See https://stackoverflow.com/questions/54021754/why-does-the-getresource-method-return-null-in-jdk-11
+		File f = new File(Utils.class.getResource(p).getFile());
 		return Paths.get(f.getAbsolutePath());
 	}
 }
