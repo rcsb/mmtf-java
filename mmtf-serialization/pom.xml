@@ -59,7 +59,9 @@
                 <artifactId>maven-compiler-plugin</artifactId>
 
                 <configuration>
-                    <debug>true</debug>
+                    <source>${jdk.version}</source>
+                    <target>${jdk.version}</target>
+
                 </configuration>
             </plugin>			
 
@@ -76,7 +78,7 @@
                     <aggregate>true</aggregate>
                     <breakiterator>true</breakiterator>
                     <quiet>true</quiet>
-                    <source>1.8</source>
+                    <source>${jdk.version}</source>
                     <verbose>false</verbose>
                     <linksource>true</linksource>
                 </configuration>
