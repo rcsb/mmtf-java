@@ -1,6 +1,12 @@
 # Change Log
 All notable changes to this project will be documented in this file, following the suggestions of [Keep a CHANGELOG](http://keepachangelog.com/). This project adheres to [Semantic Versioning](http://semver.org/).
 
+## v1.0.9 - 2019-09-03
+### Changed
+- 8x performance improvement in (non gzipped) mmtf reading, #49
+- Msgpack dependency upgraded
+- Builds and works in JRE 11
+
 ## v1.0.8 - 2018-05-22
 ### Changed
 - Bugfix: reduced encoder wasn't handling DOD as solvent
