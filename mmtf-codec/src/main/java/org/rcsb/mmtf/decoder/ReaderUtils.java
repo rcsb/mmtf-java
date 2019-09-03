@@ -1,5 +1,6 @@
 package org.rcsb.mmtf.decoder;
 
+import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -158,6 +159,11 @@ public class ReaderUtils {
 	 */
 	public static MmtfStructure getDataFromInputStream(InputStream inStream)
 		throws IOException {
+		// ensure that InputStream is buffered if needed  (i.e. not externally buffered e.g. via GZIPInputStream)
+		if (!(inStream instanceof BufferedInputStream)) {
+			inStream = new BufferedInputStream(inStream, 65536);
+		}
+
 		MessagePackSerialization mmtfBeanSeDeMessagePackImpl
 			= new MessagePackSerialization();
 		return mmtfBeanSeDeMessagePackImpl.deserialize(inStream);
