@@ -31,7 +31,7 @@
 			<artifactId>commons-lang</artifactId>
 			<version>2.4</version>
 		</dependency>
-		<!-- TEST DEPENEDENCIES -->
+		<!-- TEST DEPENDENCIES -->
 		<dependency>
 			<groupId>commons-beanutils</groupId>
 			<artifactId>commons-beanutils</artifactId>
