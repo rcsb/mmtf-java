@@ -36,7 +36,7 @@ public class ReaderUtils {
 	 * @throws IOException if the data cannot be read from the URL
 	 */
 	public static MmtfStructure getDataFromUrl(String pdbId) throws IOException {
-	    return getDataFromUrl(pdbId, false, false);
+	    return getDataFromUrl(pdbId, true, false);
 	}
 
 	/**
@@ -71,7 +71,7 @@ public class ReaderUtils {
 	 * @throws IOException an error reading the URL
 	 */
 	public static byte[] getByteArrayFromUrl(String pdbId) throws IOException {
-		return getByteArrayFromUrl(pdbId, false, false);
+		return getByteArrayFromUrl(pdbId, true, false);
 	}
 	
 	/**

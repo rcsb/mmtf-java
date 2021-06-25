@@ -72,7 +72,7 @@ public class MessagePackSerializationTest {
 
 	private byte[] fetchMmtf(String code) throws IOException {
 		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-		String url = "http://mmtf.rcsb.org/v1.0/full/" + code + ".mmtf.gz";
+		String url = "https://mmtf.rcsb.org/v1.0/full/" + code + ".mmtf.gz";
 		try (InputStream is = new URL(url).openStream()) {
 			byte[] chunk = new byte[4096];
 			int bytesRead;
