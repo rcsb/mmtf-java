@@ -3,7 +3,7 @@
 	<parent>
 		<groupId>org.rcsb</groupId>
 		<artifactId>mmtf</artifactId>
-		<version>1.0.10</version>
+		<version>1.0.11-SNAPSHOT</version>
 	</parent>
 	<artifactId>mmtf-codec</artifactId>
 	<packaging>jar</packaging>
@@ -19,12 +19,12 @@
 		<dependency>
 			<groupId>org.rcsb</groupId>
 			<artifactId>mmtf-api</artifactId>
-			<version>1.0.10</version>
+			<version>1.0.11-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>org.rcsb</groupId>
 			<artifactId>mmtf-serialization</artifactId>
-			<version>1.0.10</version>
+			<version>1.0.11-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>commons-lang</groupId>
