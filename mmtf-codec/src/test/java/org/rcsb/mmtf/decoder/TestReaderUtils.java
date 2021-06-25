@@ -86,9 +86,9 @@ public class TestReaderUtils {
 		ClassLoader classLoader = getClass().getClassLoader();
 		MmtfStructure mmtfBean = ReaderUtils.getDataFromFile(Utils.getResource("/mmtf/4CUP.mmtf"));
 		assertNotEquals(mmtfBean, null);
-		assertEquals(mmtfBean.getDepositionDate(), "2014-03-21");
-		assertEquals(mmtfBean.getNumAtoms(), 1107);
-		assertEquals(mmtfBean.getNumBonds(), 978);
+		assertEquals("2014-03-21", mmtfBean.getDepositionDate());
+		assertEquals(1107, mmtfBean.getNumAtoms());
+		assertEquals(980, mmtfBean.getNumBonds());
 	}
 	
 	/**
@@ -99,9 +99,9 @@ public class TestReaderUtils {
 	public void testReadFromUrl() throws IOException, ParseException {
 		MmtfStructure mmtfBean = ReaderUtils.getDataFromUrl("4CUP");
 		assertNotEquals(mmtfBean, null);
-		assertEquals(mmtfBean.getDepositionDate(), "2014-03-21");
-		assertEquals(mmtfBean.getNumAtoms(), 1107);
-		assertEquals(mmtfBean.getNumBonds(), 978);
+		assertEquals("2014-03-21", mmtfBean.getDepositionDate());
+		assertEquals(1107, mmtfBean.getNumAtoms());
+		assertEquals(980, mmtfBean.getNumBonds());
 	}
 	
 	/**
@@ -112,9 +112,9 @@ public class TestReaderUtils {
 	public void testReadFromHttpsUrl() throws IOException, ParseException {
 		MmtfStructure mmtfBean = ReaderUtils.getDataFromUrl("4CUP", true, false);
 		assertNotEquals(mmtfBean, null);
-		assertEquals(mmtfBean.getDepositionDate(), "2014-03-21");
-		assertEquals(mmtfBean.getNumAtoms(), 1107);
-		assertEquals(mmtfBean.getNumBonds(), 978);
+		assertEquals("2014-03-21", mmtfBean.getDepositionDate());
+		assertEquals(1107, mmtfBean.getNumAtoms());
+		assertEquals(980, mmtfBean.getNumBonds());
 	}
 	
 	/**
@@ -125,9 +125,9 @@ public class TestReaderUtils {
 	public void testReadFromReducedUrl() throws IOException, ParseException {
 		MmtfStructure mmtfBean = ReaderUtils.getDataFromUrl("4CUP", true, true);
 		assertNotEquals(mmtfBean, null);
-		assertEquals(mmtfBean.getDepositionDate(), "2014-03-21");
-		assertEquals(mmtfBean.getNumAtoms(), 139);
-		assertEquals(mmtfBean.getNumBonds(), 21);
+		assertEquals("2014-03-21", mmtfBean.getDepositionDate());
+		assertEquals(139, mmtfBean.getNumAtoms());
+		assertEquals(21, mmtfBean.getNumBonds());
 	}
 	
 	/**
@@ -138,8 +138,8 @@ public class TestReaderUtils {
 	public void testReadFromReducedHttpsUrl() throws IOException, ParseException {
 		MmtfStructure mmtfBean = ReaderUtils.getDataFromUrl("4CUP", true, true);
 		assertNotEquals(mmtfBean, null);
-		assertEquals(mmtfBean.getDepositionDate(), "2014-03-21");
-		assertEquals(mmtfBean.getNumAtoms(), 139); 
-		assertEquals(mmtfBean.getNumBonds(), 21);
+		assertEquals("2014-03-21", mmtfBean.getDepositionDate());
+		assertEquals(139, mmtfBean.getNumAtoms());
+		assertEquals(21, mmtfBean.getNumBonds());
 	}
 }
