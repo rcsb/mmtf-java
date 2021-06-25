@@ -125,20 +125,20 @@ public class TestEncoderUtils {
 		assertArrayEquals(entities[2].getChainIndexList(), new int[]{2, 3, 4});
 		assertArrayEquals(entities[3].getChainIndexList(), new int[]{5});
 
-		assertEquals(entities[0].getDescription(), "BROMODOMAIN ADJACENT TO ZINC FINGER DOMAIN PROTEIN 2B");
-		assertEquals(entities[1].getDescription(), "4-FLUOROBENZAMIDOXIME");
-		assertEquals(entities[2].getDescription(), "METHANOL");
-		assertEquals(entities[3].getDescription(), "water");
+		assertEquals("BROMODOMAIN ADJACENT TO ZINC FINGER DOMAIN PROTEIN 2B", entities[0].getDescription());
+		assertEquals("4-Fluorobenzamidoxime", entities[1].getDescription());
+		assertEquals("METHANOL", entities[2].getDescription());
+		assertEquals("water", entities[3].getDescription());
 
-		assertEquals(entities[0].getSequence(), "SMSVKKPKRDDSKDLALCSMILTEMETHEDAWPFLLPVNLKLVPGYKKVIKKPMDFSTIREKLSSGQYPNLETFALDVRLVFDNCETFNEDDSDIGRAGHNMRKYFEKKWTDTFKVS");
-		assertEquals(entities[1].getSequence(), "");
-		assertEquals(entities[2].getSequence(), "");
-		assertEquals(entities[3].getSequence(), "");
+		assertEquals("SMSVKKPKRDDSKDLALCSMILTEMETHEDAWPFLLPVNLKLVPGYKKVIKKPMDFSTIREKLSSGQYPNLETFALDVRLVFDNCETFNEDDSDIGRAGHNMRKYFEKKWTDTFKVS", entities[0].getSequence());
+		assertEquals("", entities[1].getSequence());
+		assertEquals("", entities[2].getSequence());
+		assertEquals("", entities[3].getSequence());
 
-		assertEquals(entities[0].getType(), "polymer");
-		assertEquals(entities[1].getType(), "non-polymer");
-		assertEquals(entities[2].getType(), "non-polymer");
-		assertEquals(entities[3].getType(), "water");
+		assertEquals("polymer", entities[0].getType());
+		assertEquals("non-polymer", entities[1].getType());
+		assertEquals("non-polymer", entities[2].getType());
+		assertEquals("water", entities[3].getType());
 
 	}
 
