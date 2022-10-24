@@ -321,7 +321,7 @@
 			<dependency>
 				<groupId>uk.co.jemos.podam</groupId>
 				<artifactId>podam</artifactId>
-				<version>2.3.5.RELEASE</version>
+				<version>2.3.12.RELEASE</version>
 				<scope>test</scope>
 			</dependency>
 			<dependency>
@@ -399,8 +399,8 @@
 	</reporting>
 	<profiles>
 
-		<!-- Note: before you can use this build profile you need to set up an 
-			environment that contains correctly signed keys. Configure the keystore properties 
+		<!-- Note: before you can use this build profile you need to set up an
+			environment that contains correctly signed keys. Configure the keystore properties
 			and the profile in ~/.m2/settings.xml -->
 		<profile>
 			<id>codesigning</id>

@@ -28,7 +28,7 @@
         <dependency>
             <groupId>uk.co.jemos.podam</groupId>
             <artifactId>podam</artifactId>
-        </dependency>        
+        </dependency>
         <dependency>
             <groupId>commons-beanutils</groupId>
             <artifactId>commons-beanutils</artifactId>
@@ -37,12 +37,11 @@
             <groupId>${project.groupId}</groupId>
             <artifactId>mmtf-api</artifactId>
             <version>${project.version}</version>
-        </dependency>        
+        </dependency>
         <dependency>
             <groupId>org.unitils</groupId>
             <artifactId>unitils-core</artifactId>
-            <version>3.4.2</version>
-            <scope>test</scope>
+            <version>3.4.6</version>
         </dependency>
     </dependencies>
     <build>
@@ -63,7 +62,7 @@
                     <target>${jdk.version}</target>
 
                 </configuration>
-            </plugin>			
+            </plugin>
 
             <!-- other plugins -->
         </plugins>
